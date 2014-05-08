@@ -3,7 +3,7 @@ package net.incongru.tichu.model;
 import lombok.Value;
 
 /**
- * @author gjoseph
+ * // TODO constructor currently permits to construct Dragon of Jade. Do we care ? CardDeck takes care of this.
  */
 @Value
 class Card {
@@ -11,7 +11,7 @@ class Card {
     CardSuit suit;
 
     String name() {
-        return val + (val.isSpecial() ? "" : " of " + suit);
+        return val.niceName() + (val.isSpecial() ? "" : " of " + suit);
     }
 
     enum CardSuit {
@@ -19,19 +19,19 @@ class Card {
     }
 
     enum CardNumbers implements CardValue {
-        two(0, 2),
-        three(0, 3),
-        four(0, 4),
-        five(5, 5),
-        six(0, 6),
-        seven(0, 7),
-        height(0, 8),
-        nine(0, 9),
-        ten(10, 10),
-        jack(0, 11),
-        queen(0, 12),
-        kind(10, 13),
-        ace(0, 14);
+        Two(0, 2),
+        Three(0, 3),
+        Four(0, 4),
+        Five(5, 5),
+        Six(0, 6),
+        Seven(0, 7),
+        Eight(0, 8),
+        Nine(0, 9),
+        Ten(10, 10),
+        Jack(0, 11),
+        Queen(0, 12),
+        Kind(10, 13),
+        Ace(0, 14);
 
         final int scoreValue;
         final int playOrder;
@@ -55,14 +55,22 @@ class Card {
         public int playOrder() {
             return playOrder;
         }
+
+        /**
+         * Yes, I capitalized the names/values of the enums above just so I wouldn't have to code or import a capitalize() method for the Card.name() method.
+         */
+        @Override
+        public String niceName() {
+            return (playOrder <= 10 ? String.valueOf(playOrder) : name());
+        }
     }
 
     // I wish enums could extend AbstractCardValue but they can't, hence the copy paste below.
     enum CardSpecials implements CardValue {
-        one(0, 1),
-        dog(0, 1),
-        phoenix(-25, -1),
-        dragon(25, 50);
+        One(0, 1),
+        Dog(0, 1),
+        Phoenix(-25, -1),
+        Dragon(25, 50);
 
         final int scoreValue;
         final int playOrder;
@@ -87,6 +95,14 @@ class Card {
             return playOrder;
         }
 
+        /**
+         * Yes, I capitalized the names/values of the enums above just so I wouldn't have to code or import a capitalize() method for the Card.name() method.
+         */
+        @Override
+        public String niceName() {
+            return name();
+        }
+
     }
 
     interface CardValue {
@@ -98,8 +114,10 @@ class Card {
          * TODO : order is maybe not the right word
          *
          * @return the "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
-         *         Both the {@link CardSpecials#one} and {@link CardSpecials#dog} thus return 1 for this. {@link CardSpecials#phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
+         *         Both the {@link CardSpecials#One} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
          */
         int playOrder();
+
+        String niceName();
     }
 }

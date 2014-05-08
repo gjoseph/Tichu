@@ -3,11 +3,14 @@ package net.incongru.tichu.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Iterables;
+
 /**
  * All cards.
  */
 public class CardDeck {
     private Set<Card> cards;
+
     public CardDeck() {
         cards = new HashSet<>();
         for (Card.CardNumbers cardNumbers : Card.CardNumbers.values()) {
@@ -23,5 +26,13 @@ public class CardDeck {
 
     public Set<Card> getCards() {
         return cards;
+    }
+
+    public Card find(Card.CardSpecials value) {
+        return Iterables.find(cards, c -> c.getVal() == value);
+    }
+
+    public Card find(Card.CardNumbers value, Card.CardSuit suit) {
+        return Iterables.find(cards, c -> c.getVal() == value && c.getSuit() == suit);
     }
 }

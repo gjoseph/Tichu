@@ -19,6 +19,7 @@ import lombok.Value;
  */
 @Data
 public class Game {
+    private final TichuRules rules;
     private Team team1;
     private Team team2;
 
@@ -31,7 +32,8 @@ public class Game {
     private final Deque<Trick.Play> currentPlays;
     private Announce announcePlayer1, announcePlayer2, announcePlayer3, announcePlayer4;
 
-    public Game() {
+    public Game(TichuRules rules) {
+        this.rules = rules;
         this.finishedRounds = new LinkedList<>();
         this.currentPlays = new LinkedList<>();
     }
@@ -54,10 +56,11 @@ public class Game {
         private int scoreTeam1, scoreTeam2;
         private Player finishingPlayer;
     }
+
     static enum Announce {tichu, bigTichu}
 
     static void validate(Team t, int teamPosition) {
-        Preconditions.checkArgument(teamPosition==1||teamPosition==2, "Team position must be 1 or 2 (was "+teamPosition+")");
+        Preconditions.checkArgument(teamPosition == 1 || teamPosition == 2, "Team position must be 1 or 2 (was " + teamPosition + ")");
         Preconditions.checkNotNull(t, "Team %s is not set", teamPosition);
         Preconditions.checkArgument(t.getPlayer1().getPosition() == 0 + teamPosition, "Position of player 1 in team %s is not correct (was %s)", teamPosition, t.getPlayer1().getPosition());
         Preconditions.checkArgument(t.getPlayer2().getPosition() == 1 + teamPosition, "Position of player 2 in team %s is not correct (was %s)", teamPosition, t.getPlayer2().getPosition());
