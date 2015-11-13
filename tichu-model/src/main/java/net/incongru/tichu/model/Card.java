@@ -1,24 +1,32 @@
 package net.incongru.tichu.model;
 
+import static java.util.Comparator.*;
+
+import java.util.Comparator;
+
 import lombok.Value;
 
 /**
  * // TODO constructor currently permits to construct Dragon of Jade. Do we care ? CardDeck takes care of this.
  */
 @Value
-class Card {
+public class Card {
     CardValue val;
     CardSuit suit;
 
-    String name() {
+    public String name() {
         return val.niceName() + (val.isSpecial() ? "" : " of " + suit);
     }
 
-    enum CardSuit {
+    boolean isSpecial() {
+        return val.isSpecial();
+    }
+
+    public enum CardSuit {
         Jade, Sword, Pagoda, Star
     }
 
-    enum CardNumbers implements CardValue {
+    public enum CardNumbers implements CardValue {
         Two(0, 2),
         Three(0, 3),
         Four(0, 4),
@@ -30,7 +38,7 @@ class Card {
         Ten(10, 10),
         Jack(0, 11),
         Queen(0, 12),
-        Kind(10, 13),
+        King(10, 13),
         Ace(0, 14);
 
         final int scoreValue;
@@ -66,8 +74,8 @@ class Card {
     }
 
     // I wish enums could extend AbstractCardValue but they can't, hence the copy paste below.
-    enum CardSpecials implements CardValue {
-        One(0, 1),
+    public enum CardSpecials implements CardValue {
+        MahJong(0, 1),
         Dog(0, 1),
         Phoenix(-25, -1),
         Dragon(25, 50);
@@ -105,7 +113,7 @@ class Card {
 
     }
 
-    interface CardValue {
+    public interface CardValue {
         boolean isSpecial();
 
         int scoreValue();
@@ -114,10 +122,19 @@ class Card {
          * TODO : order is maybe not the right word
          *
          * @return the "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
-         *         Both the {@link CardSpecials#One} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
+         * Both the {@link CardSpecials#MahJong} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
          */
         int playOrder();
 
         String niceName();
     }
+
+    /**
+     * These comparators are probably consistent with equals()...
+     */
+    public static class Comparators {
+        public static final Comparator<Card> BY_PLAY_ORDER = comparing(Card::getVal, comparingInt(CardValue::playOrder).thenComparing(CardValue::niceName)).thenComparing(nullsFirst(comparing(Card::getSuit)));
+        public static final Comparator<CardValue> V_BY_PLAY_ORDER = comparingInt(CardValue::playOrder).thenComparing(CardValue::niceName);
+    }
+
 }

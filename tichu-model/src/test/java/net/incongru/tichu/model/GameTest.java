@@ -4,7 +4,6 @@ import static java.lang.Boolean.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -15,7 +14,6 @@ public class GameTest {
      * Yeaaaah this is kind of an end-to-end test.
      */
     @Test
-    @Ignore
     public void testBaseGameFlow() {
         final Game game = new Game(new TichuRules());
         try {
@@ -39,22 +37,23 @@ public class GameTest {
         game.setTeam2(t2);
 
         assertThat(game, hasProperty("readyToStart", is(TRUE)));
-        game.start();
+        final Round round = game.start();
+
         assertTrue(game.isStarted());
         assertThat(game, allOf(
-//                hasProperty("isStarted", is(TRUE)),
+                hasProperty("isStarted", is(TRUE)),
                 hasProperty("readyToStart", is(FALSE)),
                 hasProperty("finishedRounds", iterableWithSize(0)),
                 hasProperty("currentPlays", iterableWithSize(0))
         ));
 
-//        assertThat(game.getTeam1().getCollectedCards(), empty());
-//        assertThat(game.getTeam2().getCollectedCards(), empty());
-
+        // hands have been dealt
         assertThat(game.getTeam1().getPlayer1().getHand(), hasSize(14));
         assertThat(game.getTeam1().getPlayer2().getHand(), hasSize(14));
         assertThat(game.getTeam2().getPlayer1().getHand(), hasSize(14));
         assertThat(game.getTeam2().getPlayer2().getHand(), hasSize(14));
+
+
     }
 
 }

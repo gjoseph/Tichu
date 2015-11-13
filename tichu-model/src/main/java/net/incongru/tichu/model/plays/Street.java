@@ -1,0 +1,206 @@
+package net.incongru.tichu.model.plays;
+
+import static net.incongru.tichu.model.Card.CardNumbers.*;
+import static net.incongru.tichu.model.Card.CardSpecials.*;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+
+import net.incongru.tichu.model.Card;
+
+/**
+ * @author gjoseph
+ */
+public class Street extends AbstractPlay<Street> {
+    private final Factory.SubstituteCardValue phoenixSubstitute;
+    private final boolean bombyBomb;
+
+    public Street(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
+        super(cards);
+        this.phoenixSubstitute = phoenixSubstitute;
+        this.bombyBomb = bombyBomb;
+    }
+
+    public int size() {
+        return getCards().size();
+    }
+
+    public Card.CardValue getLowerBound() {
+        // TODO handle phoenix - return "fake" card ?
+        final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
+        return Collections.min(values, Card.Comparators.V_BY_PLAY_ORDER);
+        //subPhoenixIfNecessary(Collections.min(getCards(), Card.Comparators.BY_PLAY_ORDER));
+    }
+
+    public Card.CardValue getHigherBound() {
+        // TODO handle phoenix - return "fake" card ?
+        //        return subPhoenixIfNecessary(Collections.max(getCards(), Card.Comparators.BY_PLAY_ORDER));
+        final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
+        return Collections.max(values, Card.Comparators.V_BY_PLAY_ORDER);
+    }
+
+    private Collection<Card.CardValue> getCardValuesWithPhoenix() {
+        final Collection<Card.CardValue> values = Lists.newArrayList(Collections2.transform(getCards(), Card::getVal));
+        values.removeIf(v -> v == Phoenix);
+        if (phoenixSubstitute != null) {
+            values.add(phoenixSubstitute);
+        }
+        return values;
+    }
+
+    private Card subPhoenixIfNecessary(Card c) {
+        if (c.getVal() == Phoenix) {
+            // TODO Meh ?
+            final Card card = new Card(phoenixSubstitute, null);
+            System.out.println("card: " + card);
+            System.out.println("card: " + card.name());
+            System.out.println("card: " + card.getVal().niceName());
+            return card;
+        } else {
+            return c;
+        }
+
+    }
+
+    @Override
+    public boolean canBePlayedAfter(Street other) {
+        return other.size() == this.size() && other.getLowerBound().playOrder() < this.getLowerBound().playOrder();
+    }
+
+    @Override
+    public String describe() {
+        final StringBuilder s = new StringBuilder();
+        s.append(name())
+                .append(" of ")
+                .append(size())
+                .append(", from ")
+                .append(getLowerBound().niceName())
+                .append(" to ")
+                .append(getHigherBound().niceName());
+        if (phoenixSubstitute != null) {
+            s.append(" with a ")
+                    .append(Phoenix.niceName())
+                    .append(" substituting for the ")
+                    .append(phoenixSubstitute.niceName());
+        }
+        return s.toString();
+    }
+
+    @Override
+    public boolean isBomb() {
+        return bombyBomb;
+    }
+
+    public static class Factory implements PlayFactory<Street> {
+        @Override
+        public Street findIn(Set<Card> hand) {
+            throw new IllegalStateException("not implemented yet"); // TODO
+        }
+
+        @Override
+        public List<Street> findAllIn(Set<Card> hand) {
+            throw new IllegalStateException("not implemented yet"); // TODO
+        }
+
+        @Override
+        public Street is(Set<Card> cards) {
+            if (cards.size() < 5) {
+                return null;
+            }
+
+            final List<Card.CardValue> values = Lists.newArrayList(Collections2.transform(cards, Card::getVal));
+            values.sort(Card.Comparators.V_BY_PLAY_ORDER);
+
+            // Those are illegal in a street
+            if (values.contains(Dog) || values.contains(Dragon)) {
+                return null;
+            }
+
+            // Keep track of what the Phoenix is substituted for
+            boolean phoenixIsAvail = values.remove(Phoenix);
+            SubstituteCardValue sub = null;
+
+            // starting at the second card, and compare it to previous... should do, right ?
+            for (int i = 1; i < values.size(); i++) {
+                final Card.CardValue curr = values.get(i);
+                final Card.CardValue prev = values.get(i - 1);
+
+                // Diff between previous and current card should be "1"
+                if (curr.playOrder() - prev.playOrder() == 1) {
+                    continue;
+                }
+                // If we haven't "used" the phoenix yet, we can try to fit it in a gap
+                if (phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2) {
+                    sub = new SubstituteCardValue(null, prev.playOrder() + 1);
+                    phoenixIsAvail = false;
+                    continue;
+                }
+                // If not, we have gaps in our street
+                return null;
+            }
+
+            // If phoenix hasn't been used, we use it for the highest possible position
+            if (phoenixIsAvail) {
+                final Card.CardValue last = values.get(values.size() - 1);
+                final Card.CardValue first = values.get(0);
+                if (last == Ace && first.playOrder() > Two.playOrder()) {
+                    // then we use it "before" the first card
+                    sub = new SubstituteCardValue(null, first.playOrder() - 1);
+                } else if (last.playOrder() < Ace.playOrder()) {
+                    sub = new SubstituteCardValue(null, last.playOrder() + 1);
+                } else {
+                    // we have an unusable phoenix
+                    return null;
+                }
+            }
+
+            // Buuuhhhh... i wish i understood streams and reduce etc but ..
+            //            final Stream<Card.CardValue> stream = values.stream().sorted(Card.Comparators.V_BY_PLAY_ORDER);
+            //            stream.forEachOrdered(System.out::println);
+
+            return new Street(cards, sub, /*TODO*/false);
+
+        }
+
+        private static class SubstituteCardValue implements Card.CardValue {
+
+            private final Card.CardValue substitutedValue;
+            private final int subPlayOrder;
+
+            // TODO need to be able to lookup CardValue by playOrder-or-sthg
+            public SubstituteCardValue(Card.CardValue substitutedValue, int playOrder) {
+                this.substitutedValue = substitutedValue;
+                this.subPlayOrder = playOrder;
+            }
+
+            @Override
+            public boolean isSpecial() {
+                return true;
+            }
+
+            @Override
+            public int scoreValue() {
+                return Phoenix.scoreValue();
+            }
+
+            @Override
+            public int playOrder() {
+                return subPlayOrder;
+            }
+
+            @Override
+            public String niceName() {
+                // TODO we'd need to be able to "look for" card values? hardcoded reverse lookup ?
+                // Ugly: return Phoenix.niceName() +" substituting for a "+ playOrder(); // TODO (playOrder() <= 10 ? String.valueOf(playOrder()) : name());
+                // TODO this'd be better : return substitutedValue.niceName()
+                // but we "copy" it for now... (except we don't know the words for kings and queens)
+                return String.valueOf(playOrder());
+            }
+        }
+    }
+}
