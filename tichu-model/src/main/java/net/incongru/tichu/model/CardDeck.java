@@ -1,5 +1,6 @@
 package net.incongru.tichu.model;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,10 +19,7 @@ public class CardDeck {
                 cards.add(new Card(cardNumbers, color));
             }
         }
-        // Arrays.asList(Card.CardSpecials.values()).forEach(s -> {new Card(s,null);});
-        for (Card.CardSpecials cardSpecials : Card.CardSpecials.values()) {
-            cards.add(new Card(cardSpecials, null));
-        }
+        Arrays.stream(Card.CardSpecials.values()).forEach(s -> cards.add(new Card(s)));
     }
 
     public Set<Card> getCards() {

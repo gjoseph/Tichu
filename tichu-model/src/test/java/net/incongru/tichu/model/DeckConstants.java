@@ -73,9 +73,9 @@ public class DeckConstants {
     public static final Card Sword_Ace = new Card(Card.CardNumbers.Ace, Card.CardSuit.Sword);
     public static final Card Pagoda_Ace = new Card(Card.CardNumbers.Ace, Card.CardSuit.Pagoda);
     public static final Card Star_Ace = new Card(Card.CardNumbers.Ace, Card.CardSuit.Star);
-    public static final Card MahJong = new Card(Card.CardSpecials.MahJong, null);
-    public static final Card Dog = new Card(Card.CardSpecials.Dog, null);
-    public static final Card Phoenix = new Card(Card.CardSpecials.Phoenix, null);
-    public static final Card Dragon = new Card(Card.CardSpecials.Dragon, null);
+    public static final Card MahJong = new Card(Card.CardSpecials.MahJong);
+    public static final Card Dog = new Card(Card.CardSpecials.Dog);
+    public static final Card Phoenix = new Card(Card.CardSpecials.Phoenix);
+    public static final Card Dragon = new Card(Card.CardSpecials.Dragon);
 
 }

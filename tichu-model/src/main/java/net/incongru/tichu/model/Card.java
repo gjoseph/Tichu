@@ -4,16 +4,40 @@ import static java.util.Comparator.*;
 
 import java.util.Arrays;
 import java.util.Comparator;
-
-import lombok.Value;
+import java.util.Objects;
 
 /**
- * // TODO constructor currently permits to construct Dragon of Jade. Do we care ? CardDeck takes care of this.
  */
-@Value
 public class Card {
-    CardValue val;
-    CardSuit suit;
+    private final CardValue val;
+    private final CardSuit suit;
+
+    public Card(CardValue val, CardSuit suit) {
+        Objects.requireNonNull(val, "Card value can't be null");
+        if (val.isSpecial()) {
+            throw new IllegalArgumentException("Special cards don't have a suit");
+        }
+        Objects.requireNonNull(suit, "Suit can't be null");
+        this.val = val;
+        this.suit = suit;
+    }
+
+    public Card(CardValue val) {
+        Objects.requireNonNull(val, "Card value can't be null");
+        if (!val.isSpecial()) {
+            throw new IllegalArgumentException("Numbered/Figure cards require a suit");
+        }
+        this.val = val;
+        this.suit = null;
+    }
+
+    public CardValue getVal() {
+        return val;
+    }
+
+    public CardSuit getSuit() {
+        return suit;
+    }
 
     public String name() {
         return val.niceName() + (val.isSpecial() ? "" : " of " + suit);
