@@ -1,9 +1,9 @@
 package net.incongru.tichu.model;
 
 import static net.incongru.tichu.model.DeckConstants.*;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
-import static org.junit.Assume.assumeThat;
 
 import org.junit.Test;
 
@@ -16,13 +16,13 @@ import net.incongru.tichu.model.plays.Street;
  */
 public class TichuRulesTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void eachCardIsUniqueSoFuckYouIfYoureTryingToPlayTheSameCardTwiceInTheSameHand() {
         final Trick.Play before = newPlay(Pagoda_7);
         // TODO : the below should actually return null, it's not a valid play
         final Trick.Play twoIdenticalCard = newPlay(Pagoda_8, Pagoda_8);
         // Then this should return false or blow
-        new TichuRules().canPlayAfter(before, twoIdenticalCard);
+        assertThatThrownBy(() -> new TichuRules().canPlayAfter(before, twoIdenticalCard)).isInstanceOf(IllegalArgumentException.class);
         // TODO but it doesn't, since we're passing Set<Card>, in fact newPlay(Pagoda_8, Pagoda_8) returns a Single play.
     }
 
@@ -30,8 +30,8 @@ public class TichuRulesTest {
     public void bombIsFour7s() {
         final Trick.Play four7s = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
         final Trick.Play three7s = newPlay(Pagoda_7, Sword_7, Jade_7);
-        assumeThat(four7s.getCards().size(), equalTo(4));
-        assumeThat(three7s.getCards().size(), equalTo(3));
+        assertEquals("pre-flight", four7s.getCards().size(), 4);
+        assertEquals("pre-flight", three7s.getCards().size(), 3);
 
         assertTrue(new TichuRules().isBomb(four7s));
         assertFalse(new TichuRules().isBomb(three7s));
@@ -44,22 +44,21 @@ public class TichuRulesTest {
         Trick.Play diffColor5Street = newPlay(Pagoda_4, Star_5, Pagoda_6, Sword_7, Pagoda_8);
         Trick.Play sameColor7Street = newPlay(Pagoda_4, Pagoda_5, Pagoda_6, Pagoda_7, Pagoda_8, Pagoda_9, Pagoda_10);
         final TichuRules rules = new TichuRules();
-        // assertThat(Arrays.asList(sameColor5Street, diffColor5Street, sameColor7Street), everyItem(instanceOf(Street.class)));
-        assertThat(sameColor5Street, instanceOf(Street.class));
-        assertThat(sameColor7Street, instanceOf(Street.class));
-        assertThat(diffColor5Street, instanceOf(Street.class));
-        assertThat(sameColor4Street, nullValue());
+
+        assertThat(sameColor5Street).isInstanceOf(Street.class);
+        assertThat(sameColor7Street).isInstanceOf(Street.class);
+        assertThat(diffColor5Street).isInstanceOf(Street.class);
+        assertThat(sameColor4Street).isNull(); // This is not a Street
 
         assertTrue(rules.isBomb(sameColor5Street));
         assertTrue(rules.isBomb(sameColor7Street));
-        assertFalse(rules.isBomb(sameColor4Street));
         assertFalse(rules.isBomb(diffColor5Street));
     }
 
     @Test
     public void streetIsNotABombWithPhoenix() {
         final Trick.Play play = newPlay(Pagoda_4, Pagoda_5, Phoenix, Pagoda_7, Pagoda_8);
-        assertThat(play, instanceOf(Street.class));
+        assertThat(play).isInstanceOf(Street.class);
         assertFalse(play.isBomb());
     }
 
@@ -67,25 +66,25 @@ public class TichuRulesTest {
     public void streetProperties() {
         Trick.Play p = newPlay(Sword_7, Star_5, Pagoda_6, Pagoda_4, Pagoda_8, Star_3);
 
-        assertThat(p, instanceOf(Street.class));
+        assertThat(p).isInstanceOf(Street.class);
         Street street = (Street) p;
 
-        // assertThat(street.getHigherBound(), equalTo(Pagoda_8));
-        // assertThat(street.getLowerBound(), equalTo(Star_3));
-        assertThat(street.getHigherBound(), equalTo(Card.CardNumbers.Eight));
-        assertThat(street.getLowerBound(), equalTo(Card.CardNumbers.Three));
-        assertThat(street.size(), equalTo(6));
-        assertThat(street.name(), equalTo("Street"));
-        assertThat(street.describe(), equalTo("Street of 6, from 3 to 8"));
+        // assertThat(street.getHigherBound(), equalTo(Pagoda_8);
+        // assertThat(street.getLowerBound(), equalTo(Star_3);
+        assertThat(street.getHigherBound()).isEqualTo(Card.CardNumbers.Eight);
+        assertThat(street.getLowerBound()).isEqualTo(Card.CardNumbers.Three);
+        assertThat(street.size()).isEqualTo(6);
+        assertThat(street.name()).isEqualTo("Street");
+        assertThat(street.describe()).isEqualTo("Street of 6, from 3 to 8");
     }
 
     @Test
     public void basicValidStreets() {
-        assertThat(newPlay(Star_2, Sword_3, Pagoda_4, Jade_5, Star_6), instanceOf(Street.class));
+        assertThat(newPlay(Star_2, Sword_3, Pagoda_4, Jade_5, Star_6)).isInstanceOf(Street.class);
         // Start with MahJong (1)
-        assertThat(newPlay(MahJong, Star_2, Sword_3, Pagoda_4, Jade_5), instanceOf(Street.class));
+        assertThat(newPlay(MahJong, Star_2, Sword_3, Pagoda_4, Jade_5)).isInstanceOf(Street.class);
         // End with ace
-        assertThat(newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Star_Ace), instanceOf(Street.class));
+        assertThat(newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(Street.class);
     }
 
     // TODO should something log "hints" about why a play isn't match and possibly return it ?
@@ -114,33 +113,25 @@ public class TichuRulesTest {
     @Test
     public void streetStartingWithPhoenixMentionsIt() {
         final Trick.Play s = newPlay(Phoenix, Star_Jack, Sword_Queen, Sword_King, Sword_Ace);
-        assertThat(s, instanceOf(Street.class));
-        assertThat(s.describe(), allOf(
-                containsString("Street of 5, from 10 to Ace"),
-                containsString("Phoenix")
-        ));
+        assertThat(s).isInstanceOf(Street.class);
+        assertThat(s.describe()).contains("Street of 5, from 10 to Ace").contains("Phoenix");
         System.out.println("s.describe(): " + s.describe());
     }
 
     @Test
     public void streetEndingWithPhoenixMentionsIt() {
         final Trick.Play s = newPlay(Star_10, Star_Jack, Sword_Queen, Sword_King, Phoenix);
-        assertThat(s, instanceOf(Street.class));
-        assertThat(s.describe(), allOf(
-                containsString("Street of 5, from 10 to Ace"),
-                containsString("Phoenix")
-        ));
+        assertThat(s).isInstanceOf(Street.class);
+        assertThat(s.describe()).contains("Street of 5, from 10 to Ace").contains("Phoenix");
     }
 
     @Test
     public void streetWithPhoenixMentionsIt() {
         final Trick.Play s = newPlay(Star_10, Star_Jack, Phoenix, Sword_King, Star_Ace);
-        assertThat(s, instanceOf(Street.class));
-        assertThat(s.describe(), allOf(
-                containsString("Street of 5, from 10 to Ace"),
-                containsString("Phoenix"),
-                containsString("for the Queen")
-        ));
+        assertThat(s).isInstanceOf(Street.class);
+        assertThat(s.describe()).contains("Street of 5, from 10 to Ace")
+                .contains("Phoenix")
+                .contains("for the Queen");
     }
 
     @Test
@@ -149,10 +140,10 @@ public class TichuRulesTest {
         final Trick.Play s2 = newPlay(Sword_2, Pagoda_3, Pagoda_4, Pagoda_5, Phoenix);
         final Trick.Play s3 = newPlay(Phoenix, Sword_2, Pagoda_3, Pagoda_4, Pagoda_5);
         final Trick.Play s4 = newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Phoenix);
-        assertThat(s1, instanceOf(Street.class));
-        assertThat(s2, instanceOf(Street.class));
-        assertThat(s3, instanceOf(Street.class));
-        assertThat(s4, instanceOf(Street.class));
+        assertThat(s1).isInstanceOf(Street.class);
+        assertThat(s2).isInstanceOf(Street.class);
+        assertThat(s3).isInstanceOf(Street.class);
+        assertThat(s4).isInstanceOf(Street.class);
     }
 
     @Test
@@ -160,16 +151,18 @@ public class TichuRulesTest {
         // since our nice Street factory will attempt to place the phoenix before, we add alll possible cards
         final Trick.Play s_wrong = newPlay(Star_2, Star_3, Star_4, Star_5, Star_6, Star_7, Star_8, Star_9, Star_10,
                 Star_Jack, Star_Queen, Star_King, Star_Ace, Phoenix);
-        assertThat(s_wrong, allOf(not(instanceOf(Street.class)), nullValue()));
+        assertThat(s_wrong).isNull();
 
     }
 
     @Test
-    public void genericsWithCanPlay() {
-        final Trick.Play pair = newPlay(Star_2, Pagoda_2);
-        final Trick.Play triple = newPlay(Star_3, Pagoda_3, Sword_3);
-        // TODO this is because canPlayAfter relies on generics, doesn't type check
-        assertFalse(new TichuRules().canPlayAfter(pair, triple));
+    public void cantPlayTripleAfterPairEtc() {
+        final Trick.Play single = newPlay(Star_2);
+        final Trick.Play pair = newPlay(Star_3, Pagoda_3);
+        final Trick.Play triple = newPlay(Star_4, Pagoda_4, Sword_4);
+        final TichuRules rules = new TichuRules();
+        assertFalse(rules.canPlayAfter(pair, triple));
+        assertFalse(rules.canPlayAfter(single, pair));
     }
 
     @Test

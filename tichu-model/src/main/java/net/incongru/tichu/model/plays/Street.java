@@ -68,8 +68,8 @@ public class Street extends AbstractPlay<Street> {
     }
 
     @Override
-    public boolean canBePlayedAfter(Street other) {
-        return other.size() == this.size() && other.getLowerBound().playOrder() < this.getLowerBound().playOrder();
+    protected boolean canBePlayedAfterTypeSafe(Street other) {
+        return other.size() == this.size() && this.getLowerBound().playOrder() > other.getLowerBound().playOrder();
     }
 
     @Override
@@ -136,7 +136,7 @@ public class Street extends AbstractPlay<Street> {
                 }
                 // If we haven't "used" the phoenix yet, we can try to fit it in a gap
                 if (phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2) {
-                    sub = new SubstituteCardValue(null, prev.playOrder() + 1);
+                    sub = new SubstituteCardValue(prev.playOrder() + 1);
                     phoenixIsAvail = false;
                     continue;
                 }
@@ -150,21 +150,19 @@ public class Street extends AbstractPlay<Street> {
                 final Card.CardValue first = values.get(0);
                 if (last == Ace && first.playOrder() > Two.playOrder()) {
                     // then we use it "before" the first card
-                    sub = new SubstituteCardValue(null, first.playOrder() - 1);
+                    sub = new SubstituteCardValue(first.playOrder() - 1);
                 } else if (last.playOrder() < Ace.playOrder()) {
-                    sub = new SubstituteCardValue(null, last.playOrder() + 1);
+                    sub = new SubstituteCardValue(last.playOrder() + 1);
                 } else {
                     // we have an unusable phoenix
                     return null;
                 }
             }
 
-            // Buuuhhhh... i wish i understood streams and reduce etc but ..
-            //            final Stream<Card.CardValue> stream = values.stream().sorted(Card.Comparators.V_BY_PLAY_ORDER);
-            //            stream.forEachOrdered(System.out::println);
+            final Card.CardSuit cardSuitTest = cards.iterator().next().getSuit();
+            final boolean isBomb = cards.stream().allMatch(card -> card.getSuit() == cardSuitTest);
 
-            return new Street(cards, sub, /*TODO*/false);
-
+            return new Street(cards, sub, isBomb);
         }
 
         private static class SubstituteCardValue implements Card.CardValue {
@@ -172,10 +170,9 @@ public class Street extends AbstractPlay<Street> {
             private final Card.CardValue substitutedValue;
             private final int subPlayOrder;
 
-            // TODO need to be able to lookup CardValue by playOrder-or-sthg
-            public SubstituteCardValue(Card.CardValue substitutedValue, int playOrder) {
-                this.substitutedValue = substitutedValue;
+            public SubstituteCardValue(int playOrder) {
                 this.subPlayOrder = playOrder;
+                this.substitutedValue = Card.CardNumbers.byPlayOrder(playOrder);
             }
 
             @Override
@@ -195,11 +192,7 @@ public class Street extends AbstractPlay<Street> {
 
             @Override
             public String niceName() {
-                // TODO we'd need to be able to "look for" card values? hardcoded reverse lookup ?
-                // Ugly: return Phoenix.niceName() +" substituting for a "+ playOrder(); // TODO (playOrder() <= 10 ? String.valueOf(playOrder()) : name());
-                // TODO this'd be better : return substitutedValue.niceName()
-                // but we "copy" it for now... (except we don't know the words for kings and queens)
-                return String.valueOf(playOrder());
+                return substitutedValue.niceName();
             }
         }
     }

@@ -31,7 +31,7 @@ public class Single extends AbstractPlay<Single> {
     }
 
     @Override
-    public boolean canBePlayedAfter(Single other) {
+    protected boolean canBePlayedAfterTypeSafe(Single other) {
         if (card.getVal() == Dog || card.getVal() == MahJong) {
             return false;
         }

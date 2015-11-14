@@ -2,6 +2,7 @@ package net.incongru.tichu.model;
 
 import static java.util.Comparator.*;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 import lombok.Value;
@@ -40,6 +41,10 @@ public class Card {
         Queen(0, 12),
         King(10, 13),
         Ace(0, 14);
+
+        public static CardNumbers byPlayOrder(int playOrder) {
+            return Arrays.stream(values()).filter(c -> c.playOrder() == playOrder).findFirst().get();
+        }
 
         final int scoreValue;
         final int playOrder;

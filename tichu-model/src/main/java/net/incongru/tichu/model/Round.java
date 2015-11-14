@@ -9,11 +9,10 @@ public class Round {
 
     public Round(TichuRules rules, CardDeck deck) {
         this.rules = rules;
-        throw new IllegalStateException("not implemented yet"); // TODO
     }
 
     public Trick start() {
-        // shuffle and deal cards
+        // TODO shuffle and deal cards
 
         final Trick trick = new Trick(rules, null);
         return trick;

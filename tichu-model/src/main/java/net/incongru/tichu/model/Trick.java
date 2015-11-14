@@ -58,7 +58,7 @@ public class Trick {
          * This method is not called when opening a trick, since all plays can open a trick,
          * while some plays (MahJong, Dog) can *only* be used to open a trick, so they'll return false.
          */
-        boolean canBePlayedAfter(P other);
+        boolean canBePlayedAfter(Play other);
 
         boolean isBomb();
 
@@ -73,7 +73,7 @@ public class Trick {
         String describe();
 
 
-        static interface PlayFactory<P extends Play<P>> {
+        static interface PlayFactory<P extends Play> {
             /**
              * Returns a play if this type of play is contained in the given cards, null otherwise.
              */

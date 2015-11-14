@@ -39,6 +39,7 @@ public class TichuRules {
             }
         }
         // TODO should we throw ? or return a null object of sorts ? return null;
+        // TODO see InvalidPlay
         return null;//throw new IllegalArgumentException("Not a valid play: " + cards);
 
     }

@@ -1,9 +1,9 @@
 package net.incongru.tichu.model;
 
-import static java.lang.Boolean.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertTrue;
 
+import org.assertj.core.api.Condition;
 import org.junit.Test;
 
 /**
@@ -16,12 +16,7 @@ public class GameTest {
     @Test
     public void testBaseGameFlow() {
         final Game game = new Game(new TichuRules());
-        try {
-            game.start();
-            fail();
-        } catch (IllegalStateException e) {
-            assertThat(e.getMessage(), containsString("Not ready"));
-        }
+        assertThatThrownBy(game::start).hasMessageContaining("Not ready");
 
         final Game.Player p1 = new Game.Player("Greg");
         final Game.Player p2 = new Game.Player("Isa");
@@ -36,24 +31,20 @@ public class GameTest {
         game.setTeam1(t1);
         game.setTeam2(t2);
 
-        assertThat(game, hasProperty("readyToStart", is(TRUE)));
+        assertThat(game).has(new Condition<>(g -> g.isReadyToStart(), "ready to start"));
         final Round round = game.start();
 
         assertTrue(game.isStarted());
-        assertThat(game, allOf(
-                hasProperty("isStarted", is(TRUE)),
-                hasProperty("readyToStart", is(FALSE)),
-                hasProperty("finishedRounds", iterableWithSize(0)),
-                hasProperty("currentPlays", iterableWithSize(0))
-        ));
+        assertThat(game)
+                .has(new Condition<>(g -> g.isStarted(), "isStarted"))
+                .has(new Condition<>(g -> !g.isReadyToStart(), "isReadyToStart should be false"))
+                .has(new Condition<>(g -> g.getFinishedRounds().size() == 0, "finished rounds=0"));
 
         // hands have been dealt
-        assertThat(game.getTeam1().getPlayer1().getHand(), hasSize(14));
-        assertThat(game.getTeam1().getPlayer2().getHand(), hasSize(14));
-        assertThat(game.getTeam2().getPlayer1().getHand(), hasSize(14));
-        assertThat(game.getTeam2().getPlayer2().getHand(), hasSize(14));
-
-
+        assertThat(game.getTeam1().getPlayer1().getHand()).hasSize(14);
+        assertThat(game.getTeam1().getPlayer2().getHand()).hasSize(14);
+        assertThat(game.getTeam2().getPlayer1().getHand()).hasSize(14);
+        assertThat(game.getTeam2().getPlayer2().getHand()).hasSize(14);
     }
 
 }

@@ -22,6 +22,13 @@ public abstract class AbstractPlay<P extends Trick.Play> implements Trick.Play<P
     }
 
     @Override
+    public boolean canBePlayedAfter(Trick.Play other) {
+        return getClass().equals(other.getClass()) && canBePlayedAfterTypeSafe((P) other);
+    }
+
+    protected abstract boolean canBePlayedAfterTypeSafe(P other);
+
+    @Override
     public boolean isBomb() {
         return false;
     }
