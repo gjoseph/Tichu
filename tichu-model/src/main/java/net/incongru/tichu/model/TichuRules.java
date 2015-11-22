@@ -14,15 +14,15 @@ import net.incongru.tichu.model.plays.Triple;
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
  */
 public class TichuRules {
-    private final List<Trick.Play.PlayFactory> factories;
+    private final List<Play.PlayFactory> factories;
 
     public TichuRules() {
         this.factories = makeFactories();
     }
 
     // If rules were to change, one would not only subclass TichuRules, but probably provide different factories too.
-    protected List<Trick.Play.PlayFactory> makeFactories() {
-        return Arrays.<Trick.Play.PlayFactory>asList(
+    protected List<Play.PlayFactory> makeFactories() {
+        return Arrays.asList(
                 new Single.Factory(),
                 new Pair.Factory(),
                 new Triple.Factory(),
@@ -31,9 +31,9 @@ public class TichuRules {
         );
     }
 
-    public Trick.Play validate(Set<Card> cards) {
-        for (Trick.Play.PlayFactory factory : factories) {
-            Trick.Play candidate = factory.is(cards);
+    public Play validate(Set<Card> cards) {
+        for (Play.PlayFactory factory : factories) {
+            Play candidate = factory.is(cards);
             if (candidate != null) {
                 return candidate;
             }
@@ -44,17 +44,17 @@ public class TichuRules {
 
     }
 
-    public boolean isBomb(Trick.Play play) {
+    public boolean isBomb(Play play) {
         return play.isBomb();
     }
 
-    public boolean isValid(Trick.Play play) {
+    public boolean isValid(Play play) {
         // check the play even makes sense (no identical cards)
         // maybe it needs the deck or game to know what cards have already been discarded etc
         return true;
     }
 
-    public boolean canPlayAfter(Trick.Play before, Trick.Play after) {
+    public boolean canPlayAfter(Play before, Play after) {
         if (!isValid(after)) {
             throw new IllegalStateException("Learn the rules. Call isValid() before canPlayAfter().");
         }

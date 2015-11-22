@@ -49,15 +49,6 @@ public class Single extends AbstractPlay<Single> {
     }
 
     public static class Factory implements PlayFactory<Single> {
-        @Override
-        public Single findIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
-
-        @Override
-        public List<Single> findAllIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
 
         @Override
         public Single is(Set<Card> cards) {

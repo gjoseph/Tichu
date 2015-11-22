@@ -1,0 +1,63 @@
+package net.incongru.tichu.model;
+
+import lombok.Value;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * One card or set of cards that a player puts down. An empty set means the player passes.
+ */
+public interface Play<P extends Play> {
+    Set<Card> getCards();
+
+    /**
+     * Validates this play can be played after the previous one.
+     * This method is not called when opening a trick, since all plays can open a trick,
+     * while some plays (MahJong, Dog) can *only* be used to open a trick, so they'll return false.
+     */
+    boolean canBePlayedAfter(Play other);
+
+    boolean isBomb();
+
+    /**
+     * Returns the name of this (kind of) play. (e.g "Pair")
+     */
+    String name();
+
+    /**
+     * Describes this play by the cards it uses. (e.g "Pair of eights")
+     */
+    String describe();
+
+    interface PlayFactory<P extends Play> {
+        /**
+         * Returns a play of this type if it is contained in the given cards, null otherwise.
+         * In other words, this method will return a candidate found in the given cards, and
+         * ignore any additional cards.
+         */
+        default P findIn(Set<Card> hand) {
+            throw new IllegalStateException("not implemented yet"); // TODO
+        }
+
+        /**
+         * Like {@link #findIn(Set)}, but returns all the possible candidates of this type.
+         */
+        default List<P> findAllIn(Set<Card> hand) {
+            throw new IllegalStateException("not implemented yet"); // TODO
+        }
+
+        /**
+         * Returns a Play if the given cards are of that type, null otherwise.
+         */
+        P is(Set<Card> cards);
+    }
+
+    @Value
+    class PlayResult {
+        public enum Result {NEXTGOES, TAKE, TOOWEAK, INVALIDPLAY, INVALIDSTATE}
+
+        Result result;
+        String message;
+    }
+}

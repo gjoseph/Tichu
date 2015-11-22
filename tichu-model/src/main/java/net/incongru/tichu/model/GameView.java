@@ -18,7 +18,7 @@ public class GameView {
      */
     private final Set<Card> hand;
 
-    private final Deque<Trick.Play> plays;
+    private final Deque<Play> plays;
 
     /**
      * Amount of cards collected by the team so far - do we even need this ? Shouldn't be allowed to look at it, but for the sake of showing a small or large pile or cards, maybe ...

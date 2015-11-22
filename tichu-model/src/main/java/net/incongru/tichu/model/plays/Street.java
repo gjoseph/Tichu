@@ -97,15 +97,6 @@ public class Street extends AbstractPlay<Street> {
     }
 
     public static class Factory implements PlayFactory<Street> {
-        @Override
-        public Street findIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
-
-        @Override
-        public List<Street> findAllIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
 
         @Override
         public Street is(Set<Card> cards) {

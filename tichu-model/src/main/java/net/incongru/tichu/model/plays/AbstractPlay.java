@@ -1,15 +1,15 @@
 package net.incongru.tichu.model.plays;
 
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
+
 import java.util.Collections;
 import java.util.Set;
-
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.Trick;
 
 /**
  * @author gjoseph
  */
-public abstract class AbstractPlay<P extends Trick.Play> implements Trick.Play<P> {
+public abstract class AbstractPlay<P extends Play> implements Play<P> {
     private final Set<Card> cards;
 
     public AbstractPlay(Set<Card> cards) {
@@ -22,7 +22,7 @@ public abstract class AbstractPlay<P extends Trick.Play> implements Trick.Play<P
     }
 
     @Override
-    public boolean canBePlayedAfter(Trick.Play other) {
+    public boolean canBePlayedAfter(Play other) {
         return getClass().equals(other.getClass()) && canBePlayedAfterTypeSafe((P) other);
     }
 
