@@ -1,10 +1,11 @@
 package net.incongru.tichu.model;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.Assert.assertTrue;
-
 import org.assertj.core.api.Condition;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author gjoseph
@@ -15,25 +16,11 @@ public class GameTest {
      */
     @Test
     public void testBaseGameFlow() {
-        final Game game = new Game(new TichuRules());
-        assertThatThrownBy(game::start).hasMessageContaining("Not ready");
-
-        final Game.Player p1 = new Game.Player("Greg");
-        final Game.Player p2 = new Game.Player("Isa");
-        final Game.Player p3 = new Game.Player("Rufus");
-        final Game.Player p4 = new Game.Player("Catherine");
-        Game.Team t1 = new Game.Team("G-R");
-        Game.Team t2 = new Game.Team("I-C");
-        t1.setPlayer1(p1);
-        t1.setPlayer2(p2);
-        t2.setPlayer1(p3);
-        t2.setPlayer2(p4);
-        game.setTeam1(t1);
-        game.setTeam2(t2);
-
+        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Game game = new Game(players, new TichuRules());
         assertThat(game).has(new Condition<>(g -> g.isReadyToStart(), "ready to start"));
         final Round round = game.start();
-
+        final Trick trick = round.start();
         assertTrue(game.isStarted());
         assertThat(game)
                 .has(new Condition<>(g -> g.isStarted(), "isStarted"))
@@ -41,10 +28,21 @@ public class GameTest {
                 .has(new Condition<>(g -> g.getFinishedRounds().size() == 0, "finished rounds=0"));
 
         // hands have been dealt
-        assertThat(game.getTeam1().getPlayer1().getHand()).hasSize(14);
-        assertThat(game.getTeam1().getPlayer2().getHand()).hasSize(14);
-        assertThat(game.getTeam2().getPlayer1().getHand()).hasSize(14);
-        assertThat(game.getTeam2().getPlayer2().getHand()).hasSize(14);
+        assertThat(game.players().getPlayer(1).getHand()).hasSize(14);
+        assertThat(game.players().getPlayer(2).getHand()).hasSize(14);
+        assertThat(game.players().getPlayer(3).getHand()).hasSize(14);
+        assertThat(game.players().getPlayer(4).getHand()).hasSize(14);
+    }
+
+    @Test
+    public void totalScoreCount() {
+        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Game game = new Game(players, new TichuRules());
+        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(20, 80), null)); // TODO This is not gonna fly, finishedRounds should be immutable
+        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(50, 50), null)); // TODO This is not gonna fly, finishedRounds should be immutable
+        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(30, 70), null)); // TODO This is not gonna fly, finishedRounds should be immutable
+
+        assertThat(game.globalScore()).isEqualTo(new Round.Score(100, 200));
     }
 
 }

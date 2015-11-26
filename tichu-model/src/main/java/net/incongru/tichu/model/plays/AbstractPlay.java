@@ -23,7 +23,8 @@ public abstract class AbstractPlay<P extends Play> implements Play<P> {
 
     @Override
     public boolean canBePlayedAfter(Play other) {
-        return getClass().equals(other.getClass()) && canBePlayedAfterTypeSafe((P) other);
+        // Anything goes as first play
+        return other == Initial.INSTANCE || (getClass().equals(other.getClass()) && canBePlayedAfterTypeSafe((P) other));
     }
 
     protected abstract boolean canBePlayedAfterTypeSafe(P other);

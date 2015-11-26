@@ -43,12 +43,49 @@ public class Card {
         return val.niceName() + (val.isSpecial() ? "" : " of " + suit);
     }
 
+    public String shortName() {
+        return String.valueOf(val.isSpecial() ? '*' : suit.shortName()) + val.shortName();
+    }
+
     boolean isSpecial() {
         return val.isSpecial();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Card card = (Card) o;
+        return Objects.equals(val, card.val) &&
+                Objects.equals(suit, card.suit);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(val, suit);
+    }
+
+    @Override
+    public String toString() {
+        return shortName();
+    }
+
     public enum CardSuit {
-        Jade, Sword, Pagoda, Star
+        // TODO Check actual colors. K is BlacK (Blue exists), which conflicts with King :/
+        Jade('G'), Sword('K'), Pagoda('R'), Star('B');
+        final char shortName;
+
+        CardSuit(char shortName) {
+            this.shortName = shortName;
+        }
+
+        public char shortName() {
+            return shortName;
+        }
     }
 
     public enum CardNumbers implements CardValue {
@@ -100,21 +137,29 @@ public class Card {
         public String niceName() {
             return (playOrder <= 10 ? String.valueOf(playOrder) : name());
         }
+
+        @Override
+        public char shortName() {
+            return (playOrder < 10 ? (char) (playOrder + '0') : playOrder == 10 ? '0' : name().charAt(0));
+        }
     }
 
     // I wish enums could extend AbstractCardValue but they can't, hence the copy paste below.
     public enum CardSpecials implements CardValue {
-        MahJong(0, 1),
-        Dog(0, 1),
-        Phoenix(-25, -1),
-        Dragon(25, 50);
+
+        MahJong(0, 1, '1'),
+        Dog(0, 1, 'H'), // Hund in German, D is for Dragon
+        Phoenix(-25, -1, 'P'),
+        Dragon(25, 50, 'D');
 
         final int scoreValue;
         final int playOrder;
+        final char shortName;
 
-        CardSpecials(int scoreValue, int playOrder) {
+        CardSpecials(int scoreValue, int playOrder, char shortName) {
             this.scoreValue = scoreValue;
             this.playOrder = playOrder;
+            this.shortName = shortName;
         }
 
         @Override
@@ -140,6 +185,11 @@ public class Card {
             return name();
         }
 
+        @Override
+        public char shortName() {
+            return shortName;
+        }
+
     }
 
     public interface CardValue {
@@ -148,22 +198,28 @@ public class Card {
         int scoreValue();
 
         /**
-         * TODO : order is maybe not the right word
-         *
-         * @return the "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
+         * @return the order or "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
          * Both the {@link CardSpecials#MahJong} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
          */
         int playOrder();
 
         String niceName();
+
+        char shortName();
     }
 
     /**
      * These comparators are probably consistent with equals()...
      */
     public static class Comparators {
-        public static final Comparator<Card> BY_PLAY_ORDER = comparing(Card::getVal, comparingInt(CardValue::playOrder).thenComparing(CardValue::niceName)).thenComparing(nullsFirst(comparing(Card::getSuit)));
-        public static final Comparator<CardValue> V_BY_PLAY_ORDER = comparingInt(CardValue::playOrder).thenComparing(CardValue::niceName);
+        private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(CardValue::playOrder).thenComparing(CardValue::shortName);
+        private static final Comparator<Card> PLAY_ORDER = comparing(Card::getVal, V_PLAY_ORDER);
+        private static final Comparator<Card> SUIT = comparing(Card::getSuit, nullsFirst(comparing(CardSuit::shortName)));
+
+        public static final Comparator<Card> BY_PLAY_ORDER = PLAY_ORDER.thenComparing(SUIT);
+        public static final Comparator<Card> BY_SUIT = SUIT.thenComparing(PLAY_ORDER);
+        public static final Comparator<CardValue> V_BY_PLAY_ORDER = V_PLAY_ORDER;
     }
+
 
 }

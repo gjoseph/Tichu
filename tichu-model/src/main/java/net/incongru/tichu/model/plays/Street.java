@@ -1,17 +1,19 @@
 package net.incongru.tichu.model.plays;
 
-import static net.incongru.tichu.model.Card.CardNumbers.*;
-import static net.incongru.tichu.model.Card.CardSpecials.*;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import net.incongru.tichu.model.Card;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-
-import net.incongru.tichu.model.Card;
+import static net.incongru.tichu.model.Card.CardNumbers.Ace;
+import static net.incongru.tichu.model.Card.CardNumbers.Two;
+import static net.incongru.tichu.model.Card.CardSpecials.Dog;
+import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
+import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
 /**
  * @author gjoseph
@@ -184,6 +186,11 @@ public class Street extends AbstractPlay<Street> {
             @Override
             public String niceName() {
                 return substitutedValue.niceName();
+            }
+
+            @Override
+            public char shortName() {
+                return (char) ('0' + subPlayOrder);
             }
         }
     }

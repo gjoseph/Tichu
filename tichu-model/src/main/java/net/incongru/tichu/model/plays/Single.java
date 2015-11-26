@@ -1,12 +1,15 @@
 package net.incongru.tichu.model.plays;
 
-import static net.incongru.tichu.model.Card.CardSpecials.*;
+import net.incongru.tichu.model.Card;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import net.incongru.tichu.model.Card;
+import static net.incongru.tichu.model.Card.CardSpecials.Dog;
+import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
+import static net.incongru.tichu.model.Card.CardSpecials.MahJong;
+import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
 /**
  * @author gjoseph

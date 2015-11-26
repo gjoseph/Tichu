@@ -3,21 +3,21 @@ package net.incongru.tichu.model.plays;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
- * Null-pattern implementation for plays that are not valid.
+ * Null-pattern implementation of {@link Play} which is used as the "first" element of a {@link net.incongru.tichu.model.Trick}.
  */
-public final class InvalidPlay implements Play {
-    private final Set<Card> cards;
+public final class Initial implements Play {
+    public static Initial INSTANCE = new Initial();
 
-    public InvalidPlay(Set<Card> cards) {
-        this.cards = cards;
+    private Initial() {
     }
 
     @Override
     public Set<Card> getCards() {
-        return cards;
+        return Collections.emptySet();
     }
 
     @Override
@@ -32,11 +32,11 @@ public final class InvalidPlay implements Play {
 
     @Override
     public String name() {
-        return "Illegal";
+        return "(start)";
     }
 
     @Override
     public String describe() {
-        return "This does not correspond to any known trick: " + cards;
+        return "(Nothing has been played yet)";
     }
 }

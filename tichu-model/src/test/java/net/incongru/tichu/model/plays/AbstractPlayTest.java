@@ -1,16 +1,22 @@
 package net.incongru.tichu.model.plays;
 
-import static net.incongru.tichu.model.DeckConstants.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.CardDeck;
+import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.CardDeck;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_10;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_4;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_5;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_6;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_7;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_8;
+import static net.incongru.tichu.model.DeckConstants.Pagoda_9;
+import static net.incongru.tichu.model.DeckConstants.Sword_4;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractPlayTest {
     @Test

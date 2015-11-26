@@ -1,12 +1,18 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.Sets;
+import net.incongru.tichu.model.plays.ConsecutivePairs;
+import net.incongru.tichu.model.plays.FullHouse;
 import net.incongru.tichu.model.plays.InvalidPlay;
+import net.incongru.tichu.model.plays.Pair;
+import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Street;
+import net.incongru.tichu.model.plays.Triple;
 import org.junit.Test;
 
 import static net.incongru.tichu.model.DeckConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
 /**
@@ -36,7 +42,7 @@ public class TichuRulesTest {
         assertThat(sameColor5Street).isInstanceOf(Street.class);
         assertThat(sameColor7Street).isInstanceOf(Street.class);
         assertThat(diffColor5Street).isInstanceOf(Street.class);
-        assertThat(sameColor4Street).isNull(); // This is not a Street
+        assertThat(sameColor4Street).isInstanceOf(InvalidPlay.class); // This is not a Street
 
         assertTrue(rules.isBomb(sameColor5Street));
         assertTrue(rules.isBomb(sameColor7Street));
@@ -78,23 +84,23 @@ public class TichuRulesTest {
     // TODO should something log "hints" about why a play isn't match and possibly return it ?
     @Test
     public void invalidStreets() {
-        assertNull("Not long enough (only 4 cards)", newPlay(Sword_2, Sword_3, Sword_4, Sword_5));
-        assertNull("Can't have same cards (Sword3 and Jade3)", newPlay(Sword_2, Sword_3, Jade_3, Sword_4, Sword_5, Jade_6));
-        assertNull("Can't skip (*5 is missing)", newPlay(Sword_2, Sword_3, Sword_4, Star_6, Sword_7));
+        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Sword_5)).isInstanceOf(InvalidPlay.class).withFailMessage("Not long enough (only 4 cards)");
+        assertThat(newPlay(Sword_2, Sword_3, Jade_3, Sword_4, Sword_5, Jade_6)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't have same cards (Sword3 and Jade3)");
+        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Star_6, Sword_7)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't skip (*5 is missing)");
     }
 
     @Test
     public void canNotSubPhoenixForMahjongInStreet() {
         // since our nice Street factory will attempt to place the phoenix as high as possible, we add alll possible cards
-        assertNull("Can't sub Phoenix for mahjong", newPlay(Phoenix, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
-                Star_Jack, Star_Queen, Star_King, Star_Ace));
+        assertThat(newPlay(Phoenix, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
+                Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't sub Phoenix for mahjong");
     }
 
     @Test
     public void canNotUsePhoenixBeforeMahjongInStreet() {
         // since our nice Street factory will attempt to place the phoenix as high as possible, we add alll possible cards
-        assertNull("Can't sub Phoenix for before mahjong", newPlay(Phoenix, MahJong, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
-                Star_Jack, Star_Queen, Star_King, Star_Ace));
+        assertThat(newPlay(Phoenix, MahJong, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
+                Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't sub Phoenix for before mahjong");
     }
 
     @Test
@@ -173,6 +179,35 @@ public class TichuRulesTest {
         assertThat(play).isInstanceOf(InvalidPlay.class);
         assertFalse(new TichuRules().isValid(play));
         assertFalse(new TichuRules().isBomb(play));
+    }
+
+    @Test
+    public void findBasicTricks() {
+        assertThat(newPlay(K2)).isInstanceOf(Single.class);
+        assertThat(newPlay(K2, B2)).isInstanceOf(Pair.class);
+        assertThat(newPlay(K2, B2, R2)).isInstanceOf(Triple.class);
+    }
+
+    @Test
+    public void findFullHouse() {
+        assertThat(newPlay(K2, B2, R2, R3, B3)).isInstanceOf(FullHouse.class);
+    }
+
+    @Test
+    public void consecutivePairs() {
+        assertThat(newPlay(K2, B2, R3, B3)).isInstanceOf(ConsecutivePairs.class);
+        assertThat(newPlay(K2, B2, R4, B4)).isNotInstanceOf(ConsecutivePairs.class);
+        assertThat(newPlay(K2, B2, G3, R3, R4, B4)).isInstanceOf(ConsecutivePairs.class);
+    }
+
+    @Test
+    public void attemptingToUseTheSameCardTwiceInOnePlayIsWorseThanInvalid() {
+        final Play before = newPlay(Pagoda_7);
+        // TODO : the below should actually return null, it's not a valid play
+        final Play twoIdenticalCard = newPlay(Pagoda_8, Pagoda_8);
+        // Then this should return false or blow
+        assertThatThrownBy(() -> new TichuRules().canPlayAfter(before, twoIdenticalCard)).isInstanceOf(Cheating.class);
+        // TODO but it doesn't, since we're passing Set<Card>, in fact newPlay(Pagoda_8, Pagoda_8) returns a Single play.
     }
 
     private Play newPlay(Card... cards) {

@@ -1,41 +1,35 @@
 package net.incongru.tichu.model;
 
-import java.util.LinkedHashSet;
+import lombok.Getter;
+import lombok.Value;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
-import com.google.common.base.Preconditions;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-import lombok.Value;
 
 /**
  * A Game is a series of {@link Round}s leading to one team winning by scoring 1000 points or more
  * (TODO: the winning condition should be configurable per game)
  */
-@Data
 public class Game {
     private final TichuRules rules;
-    private Team team1;
-    private Team team2;
+    private final Players players;
 
-    @Setter(AccessLevel.NONE) // No setter here, handled manually
-    private boolean started;
-
+    @Getter
     private final List<FinishedRound> finishedRounds;
+
+    @Getter
+    private boolean started;
 
     private Round currentRound;
 
-    public Game(TichuRules rules) {
+    public Game(Players players, TichuRules rules) {
+        this.players = players;
         this.rules = rules;
         this.finishedRounds = new LinkedList<>();
     }
 
     public boolean isReadyToStart() {
-        return !started && team1 != null && team2 != null && currentRound == null && finishedRounds.isEmpty();
+        return !started && currentRound == null && finishedRounds.isEmpty();
     }
 
     public Round start() {
@@ -43,38 +37,37 @@ public class Game {
             throw new IllegalStateException("Not ready to start");
         }
         started = true;
-        final CardDeck deck = new CardDeck();
-        currentRound = new Round(rules, deck);
+
+        return next();
+    }
+
+    public Round next() {
+        if (!started) {
+            throw new IllegalStateException("Not started");
+        }
+
+        currentRound = new Round(this);
         return currentRound;
+    }
+
+    public TichuRules rules() {
+        return rules;
+    }
+
+    public Players players() {
+        return players;
+    }
+
+    public Round.Score globalScore() {
+        return finishedRounds.stream().map(FinishedRound::getScore).reduce((score1, score2) -> new Round.Score(score1.getTeam1() + score2.getTeam1(), score1.getTeam2() + score2.getTeam2())).get();
     }
 
     @Value
     static public class FinishedRound {
         private Announce announcePlayer1, announcePlayer2, announcePlayer3, announcePlayer4;
         private Boolean announceMetPlayer1, announceMetPlayer2, announceMetPlayer3, announceMetPlayer4;
-        private int scoreTeam1, scoreTeam2;
-        private Player finishingPlayer;
+        private Round.Score score;
+        private Players.Player finishingPlayer;
     }
 
-    static void validate(Team t, int teamPosition) {
-        Preconditions.checkArgument(teamPosition == 1 || teamPosition == 2, "Team position must be 1 or 2 (was " + teamPosition + ")");
-        Preconditions.checkNotNull(t, "Team %s is not set", teamPosition);
-        Preconditions.checkArgument(t.getPlayer1().getPosition() == 0 + teamPosition, "Position of player 1 in team %s is not correct (was %s)", teamPosition, t.getPlayer1().getPosition());
-        Preconditions.checkArgument(t.getPlayer2().getPosition() == 1 + teamPosition, "Position of player 2 in team %s is not correct (was %s)", teamPosition, t.getPlayer2().getPosition());
-    }
-
-    @Data
-    static public class Team {
-        private final String name;
-        private Player player1;
-        private Player player2;
-    }
-
-    @Data
-    static public class Player {
-        private final Set<Card> hand = new LinkedHashSet<>();
-        private final String name;
-        /* 1 to 4 */ // TODO or should we assume this ?
-        int position;
-    }
 }

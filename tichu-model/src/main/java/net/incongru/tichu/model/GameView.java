@@ -1,18 +1,18 @@
 package net.incongru.tichu.model;
 
+import lombok.Value;
+
 import java.util.Deque;
 import java.util.Set;
-
-import lombok.Value;
 
 /**
  * A view on a current game from a given player's perspective.
  */
 @Value
 public class GameView {
-    private final Game.Player you;
-    private final Game.Player teamMate;
-    private final Game.Team opponents;
+    private final Players.Player you;
+    private final Players.Player teamMate;
+    private final Players.Team opponents;
     /**
      * The cards in your hand.
      */

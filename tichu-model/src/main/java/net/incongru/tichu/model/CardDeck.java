@@ -1,38 +1,53 @@
 package net.incongru.tichu.model;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import com.google.common.collect.ImmutableSet;
 
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * All cards.
  */
 public class CardDeck {
-    private Set<Card> cards;
+    private final List<Card> cards;
 
     public CardDeck() {
-        cards = new LinkedHashSet<>();
+        final Set<Card> cards = new LinkedHashSet<>();
+        // Add CardNumbers
         for (Card.CardNumbers cardNumbers : Card.CardNumbers.values()) {
             for (Card.CardSuit color : Card.CardSuit.values()) {
                 cards.add(new Card(cardNumbers, color));
             }
         }
+        // Add CardSpecials
         Arrays.stream(Card.CardSpecials.values()).forEach(s -> cards.add(new Card(s)));
+
+        this.cards = shuffle(cards);
     }
 
-    public Set<Card> getCards() {
-        return cards;
+    protected List<Card> shuffle(Set<Card> cards) {
+        final ArrayList<Card> list = new ArrayList<>(cards);
+        Collections.shuffle(list);
+        return list;
     }
 
-    // TODO are the find methods useful outside tests ? Should they remove card from deck ?
-    public Card find(Card.CardSpecials value) {
-        return Iterables.find(cards, c -> c.getVal() == value);
+    public Card take() {
+        return cards.remove(0);
     }
 
-    // TODO are the find methods useful outside tests ? Should they remove card from deck ?
-    public Card find(Card.CardNumbers value, Card.CardSuit suit) {
-        return Iterables.find(cards, c -> c.getVal() == value && c.getSuit() == suit);
+    public Card peek() {
+        return cards.get(0);
+    }
+
+    public Set<Card> allRemaining() {
+        return ImmutableSet.copyOf(cards);
+    }
+
+    public boolean isComplete() {
+        return cards.size() == 56;
     }
 }
