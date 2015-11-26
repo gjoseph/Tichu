@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.*;
 
 /**
- * @author gjoseph
  */
 public class TichuRulesTest {
 

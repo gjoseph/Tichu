@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * @author gjoseph
  */
 public class DeckConstants {
     // Generates code for this class

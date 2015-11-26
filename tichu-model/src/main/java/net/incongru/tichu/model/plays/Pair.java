@@ -5,7 +5,6 @@ import net.incongru.tichu.model.Card;
 import java.util.Set;
 
 /**
- * @author gjoseph
  */
 public class Pair extends NSameValue<Pair> {
 

@@ -8,7 +8,6 @@ import java.util.Set;
 import static net.incongru.tichu.model.Card.CardSpecials.*;
 
 /**
- * @author gjoseph
  */
 public class Single extends AbstractPlay<Single> {
     private final Card card;

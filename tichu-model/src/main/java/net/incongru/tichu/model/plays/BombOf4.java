@@ -5,7 +5,6 @@ import net.incongru.tichu.model.Card;
 import java.util.Set;
 
 /**
- * @author gjoseph
  */
 public class BombOf4 extends NSameValue<BombOf4> {
     public BombOf4(Set<Card> cards, Card.CardValue value) {
