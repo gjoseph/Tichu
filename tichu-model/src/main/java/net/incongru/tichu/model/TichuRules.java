@@ -5,7 +5,7 @@ import net.incongru.tichu.model.plays.InvalidPlay;
 import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Pass;
 import net.incongru.tichu.model.plays.Single;
-import net.incongru.tichu.model.plays.Street;
+import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class TichuRules {
                 new Pair.Factory(),
                 new Triple.Factory(),
                 new BombOf4.Factory(),
-                new Street.Factory()
+                new Straight.Factory()
         );
     }
 

@@ -18,11 +18,11 @@ import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 /**
  * @author gjoseph
  */
-public class Street extends AbstractPlay<Street> {
+public class Straight extends AbstractPlay<Straight> {
     private final Factory.SubstituteCardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
-    public Street(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
+    public Straight(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
         super(cards);
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;
@@ -70,7 +70,7 @@ public class Street extends AbstractPlay<Street> {
     }
 
     @Override
-    protected boolean canBePlayedAfterTypeSafe(Street other) {
+    protected boolean canBePlayedAfterTypeSafe(Straight other) {
         return other.size() == this.size() && this.getLowerBound().playOrder() > other.getLowerBound().playOrder();
     }
 
@@ -98,10 +98,10 @@ public class Street extends AbstractPlay<Street> {
         return bombyBomb;
     }
 
-    public static class Factory implements PlayFactory<Street> {
+    public static class Factory implements PlayFactory<Straight> {
 
         @Override
-        public Street is(Set<Card> cards) {
+        public Straight is(Set<Card> cards) {
             if (cards.size() < 5) {
                 return null;
             }
@@ -155,7 +155,7 @@ public class Street extends AbstractPlay<Street> {
             final Card.CardSuit cardSuitTest = cards.iterator().next().getSuit();
             final boolean isBomb = cards.stream().allMatch(card -> card.getSuit() == cardSuitTest);
 
-            return new Street(cards, sub, isBomb);
+            return new Straight(cards, sub, isBomb);
         }
 
         private static class SubstituteCardValue implements Card.CardValue {
