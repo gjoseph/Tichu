@@ -3,13 +3,9 @@ package net.incongru.tichu.model.plays;
 import net.incongru.tichu.model.Card;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
-import static net.incongru.tichu.model.Card.CardSpecials.Dog;
-import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
-import static net.incongru.tichu.model.Card.CardSpecials.MahJong;
-import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
+import static net.incongru.tichu.model.Card.CardSpecials.*;
 
 /**
  * @author gjoseph

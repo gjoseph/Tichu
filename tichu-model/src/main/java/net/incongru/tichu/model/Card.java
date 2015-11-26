@@ -1,10 +1,10 @@
 package net.incongru.tichu.model;
 
-import static java.util.Comparator.*;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
+
+import static java.util.Comparator.*;
 
 /**
  */

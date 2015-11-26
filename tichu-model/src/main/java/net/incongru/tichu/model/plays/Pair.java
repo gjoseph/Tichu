@@ -1,8 +1,8 @@
 package net.incongru.tichu.model.plays;
 
-import java.util.Set;
-
 import net.incongru.tichu.model.Card;
+
+import java.util.Set;
 
 /**
  * @author gjoseph
