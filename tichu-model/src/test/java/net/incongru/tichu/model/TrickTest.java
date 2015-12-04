@@ -16,11 +16,11 @@ public class TrickTest {
     public void isNotDoneIfNotEveryBodyPassed() {
         final Players players = newPlayers();
         final Trick trick = newTrick(players);
-        trick.play(players.getPlayer(1), newPlay(DeckConstants.B2));
-        trick.play(players.getPlayer(2), newPlay());
-        trick.play(players.getPlayer(3), newPlay());
+        trick.play(players.getPlayer(1), Sets.newHashSet(DeckConstants.B2));
+        trick.play(players.getPlayer(2), Sets.newHashSet());
+        trick.play(players.getPlayer(3), Sets.newHashSet());
         assertFalse(trick.isDone());
-        trick.play(players.getPlayer(4), newPlay());
+        trick.play(players.getPlayer(4), Sets.newHashSet());
         assertTrue(trick.isDone());
     }
 
@@ -28,13 +28,13 @@ public class TrickTest {
     public void allPassIsNotDone() {
         final Players players = newPlayers();
         final Trick trick = newTrick(players);
-        trick.play(players.getPlayer(1), newPlay());
+        trick.play(players.getPlayer(1), Sets.newHashSet());
         assertFalse(trick.isDone());
-        trick.play(players.getPlayer(2), newPlay());
+        trick.play(players.getPlayer(2), Sets.newHashSet());
         assertFalse(trick.isDone());
-        trick.play(players.getPlayer(3), newPlay());
+        trick.play(players.getPlayer(3), Sets.newHashSet());
         assertFalse(trick.isDone());
-        trick.play(players.getPlayer(4), newPlay());
+        trick.play(players.getPlayer(4), Sets.newHashSet());
         assertFalse(trick.isDone());
     }
 

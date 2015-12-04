@@ -2,15 +2,20 @@ package net.incongru.tichu.model;
 
 import lombok.Value;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A round is a series of {@link Trick}s leading to the playing of all cards and scoring.
  */
 public class Round {
     private final Game game;
+    private final List<Game.Announced> announces;
     private Trick currentTrick;
 
     public Round(Game game) {
         this.game = game;
+        this.announces = new ArrayList<>(4);
     }
 
     public Trick start() { // TODO why return Trick ?
@@ -31,12 +36,36 @@ public class Round {
         if (!canAnnounce) {
             throw new IllegalStateException("Can't announce!?");
         }
-        player.announce(announce);
+        // TODO check if this player already announced
+        announces.add(new Game.Announced(player, announce));
+    }
+
+    public Trick currentTrick() {
+        return currentTrick;
+    }
+
+    public boolean isDone() {
+        // If more than a player still have hand cards, the round isn't done
+        return game.players().stream().filter(Functions.EMPTY_HANDED).count() <= 1;
     }
 
     public Score score() {
-        // TODO not sure yet how to determine the round is done. 4th player will have cards left.
-        return new Score(0, 0);
+        // We could count score before round is done, but isn't that cheating ?
+        if (!isDone()) {
+            throw new IllegalStateException("Can't count score before the round is done");
+        }
+//        final Map<Players.Player, Integer> scoresByPlayer = game.players().stream().collect(
+//                Collectors.groupingBy(
+//                        Function.identity(),
+//                        ));
+        throw new IllegalStateException("not impl yet");
+    }
+
+    public List<Game.AnnounceMade> announces() {
+        if (!isDone()) {
+            throw new IllegalStateException("Can't count announces made before the round is done");
+        }
+        throw new IllegalStateException("not impl yet");
     }
 
     protected void shuffleAndDeal() {

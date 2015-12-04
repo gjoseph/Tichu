@@ -8,16 +8,10 @@ import java.util.Set;
 /**
  * Null-pattern implementation for plays that are not valid.
  */
-public final class InvalidPlay implements Play {
-    private final Set<Card> cards;
+public final class InvalidPlay extends AbstractPlay {
 
     public InvalidPlay(Set<Card> cards) {
-        this.cards = cards;
-    }
-
-    @Override
-    public Set<Card> getCards() {
-        return cards;
+        super(cards);
     }
 
     @Override
@@ -26,17 +20,18 @@ public final class InvalidPlay implements Play {
     }
 
     @Override
+    protected boolean canBePlayedAfterTypeSafe(Play other) {
+        // This is called by super.canBePlayedAfter(), which we overrode above
+        throw new IllegalStateException("Should not be called");
+    }
+
+    @Override
     public boolean isBomb() {
         return false;
     }
 
     @Override
-    public String name() {
-        return "Illegal";
-    }
-
-    @Override
     public String describe() {
-        return "This does not correspond to any known trick: " + cards;
+        return "This does not correspond to any known trick: " + getCards();
     }
 }

@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import lombok.Value;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -57,6 +58,7 @@ public interface Play<P extends Play> {
     class PlayResult {
         public enum Result {NEXTGOES, TAKE, TOOWEAK, INVALIDPLAY, INVALIDSTATE}
 
+        Optional<Play> play;
         Result result;
         String message;
     }

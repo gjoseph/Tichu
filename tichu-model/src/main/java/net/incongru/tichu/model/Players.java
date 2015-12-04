@@ -7,11 +7,17 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.*;
 
 /**
  * Represents the players and teams
@@ -28,6 +34,20 @@ public class Players {
         players.add(3, new Player(player4Name));
         teams[0] = new Team(team13Name, players.get(0), players.get(2));
         teams[1] = new Team(team24Name, players.get(1), players.get(3));
+
+        // Ensure names are unique
+        final List<String> dupes = players.stream() // Meh....
+                .map(Player::name)
+                .map(String::toLowerCase)
+                .collect(groupingBy(identity(), counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(toList());
+        if (!dupes.isEmpty()) {
+            throw new IllegalArgumentException("There can only be one " + dupes);
+        }
+
     }
 
     public Stream<Player> stream() {
@@ -48,6 +68,12 @@ public class Players {
     public Player getPlayer(int i) {
         Preconditions.checkArgument(1 <= i && i <= 4);
         return players.get(i - 1);
+    }
+
+    public Optional<Player> getPlayerByName(String name) {
+        return stream()
+                .filter(player -> player.name().equalsIgnoreCase(name))
+                .findAny();
     }
 
     /**
@@ -75,23 +101,28 @@ public class Players {
         }
     }
 
-    @Getter
     @ToString
     static public class Player {
         private final String name;
         private final Set<Card> hand = new LinkedHashSet<>();
         private final Set<Card> wonCards = new LinkedHashSet<>();
-        private Announce announce;
 
         public Player(String name) {
             Preconditions.checkNotNull(name, "Player name can't be null");
             this.name = name;
         }
 
+        public String name() {
+            return name;
+        }
+
         public void reclaimCards() {
             hand.clear();
             wonCards.clear();
-            announce = null;
+        }
+
+        public Set<Card> hand() {
+            return Collections.unmodifiableSet(hand);
         }
 
         /**
@@ -110,8 +141,20 @@ public class Players {
             wonCards.addAll(cards);
         }
 
-        protected void announce(Announce announce) {
-            this.announce = announce;
+        public Set<Card> wonCards() {
+            return Collections.unmodifiableSet(wonCards);
+        }
+
+        /**
+         * The player has succesfully played these, we remove them from her hand.
+         */
+        void discard(Set<Card> cards) {
+            if (!hand.containsAll(cards)) {
+                throw new IllegalStateException("Could not remove cards " + cards + " from player hand " + hand);
+            }
+            // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
+            // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
+            hand.removeAll(cards);
         }
     }
 }

@@ -23,24 +23,45 @@ public class GameTest {
         assertThat(game)
                 .has(new Condition<>(g -> g.isStarted(), "isStarted"))
                 .has(new Condition<>(g -> !g.isReadyToStart(), "isReadyToStart should be false"))
-                .has(new Condition<>(g -> g.getFinishedRounds().size() == 0, "finished rounds=0"));
+                .has(new Condition<>(g -> g.finishedRounds().size() == 0, "finished rounds=0"));
 
         // hands have been dealt
-        assertThat(game.players().getPlayer(1).getHand()).hasSize(14);
-        assertThat(game.players().getPlayer(2).getHand()).hasSize(14);
-        assertThat(game.players().getPlayer(3).getHand()).hasSize(14);
-        assertThat(game.players().getPlayer(4).getHand()).hasSize(14);
+        assertThat(game.players().getPlayer(1).hand()).hasSize(14);
+        assertThat(game.players().getPlayer(2).hand()).hasSize(14);
+        assertThat(game.players().getPlayer(3).hand()).hasSize(14);
+        assertThat(game.players().getPlayer(4).hand()).hasSize(14);
     }
 
     @Test
     public void totalScoreCount() {
         final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
         final Game game = new Game(players, new TichuRules());
-        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(20, 80), null)); // TODO This is not gonna fly, finishedRounds should be immutable
-        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(50, 50), null)); // TODO This is not gonna fly, finishedRounds should be immutable
-        game.getFinishedRounds().add(new Game.FinishedRound(null, null, null, null, null, null, null, null, new Round.Score(30, 70), null)); // TODO This is not gonna fly, finishedRounds should be immutable
+        // TODO this test won't pass, finishedRounds is returned as immutable
+        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(20, 80))));
+        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(50, 50))));
+        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(30, 70))));
 
         assertThat(game.globalScore()).isEqualTo(new Round.Score(100, 200));
     }
 
+    @Test
+    public void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
+        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Game game = new Game(players, new TichuRules());
+        assertThat(game.globalScore()).isEqualTo(new Round.Score(0, 0));
+    }
+
+    private static class FakeRound extends Round {
+        private final Score fixedScore;
+
+        public FakeRound(Game game, Score score) {
+            super(game);
+            this.fixedScore = score;
+        }
+
+        @Override
+        public Score score() {
+            return fixedScore;
+        }
+    }
 }

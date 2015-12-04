@@ -47,4 +47,7 @@ public class Functions {
     public static <T> boolean lastNMatches(List<T> list, int n, java.util.function.Predicate<T> test) {
         return list.subList(list.size() - 3, list.size()).stream().allMatch(test);
     }
+
+    public static final java.util.function.Predicate<Players.Player> EMPTY_HANDED = player -> !player.hand().isEmpty();
+
 }

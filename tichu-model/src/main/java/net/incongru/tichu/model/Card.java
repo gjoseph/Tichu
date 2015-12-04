@@ -75,8 +75,8 @@ public class Card {
     }
 
     public enum CardSuit {
-        // TODO Check actual colors. K is BlacK (Blue exists), which conflicts with King :/
-        Jade('G'), Sword('K'), Pagoda('R'), Star('B');
+        // K is BlacK (Blue exists), which conflicts with King :/
+        Jade('G'), Sword('K'), Pagoda('B'), Star('R');
         final char shortName;
 
         CardSuit(char shortName) {

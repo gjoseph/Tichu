@@ -41,7 +41,7 @@ public class TichuRules {
     }
 
     public Players.Player whoStarts(Players players) {
-        return players.stream().filter(player -> find(player.getHand(), Card.CardSpecials.MahJong).isPresent()).findFirst().get();
+        return players.stream().filter(player -> find(player.hand(), Card.CardSpecials.MahJong).isPresent()).findFirst().get();
     }
 
     public Play validate(Set<Card> cards) {
@@ -75,7 +75,7 @@ public class TichuRules {
     public boolean canAnnounce(Players.Player player, Announce announce) {
         switch (announce) {
             case tichu:
-                return player.getHand().size() == 14;
+                return player.hand().size() == 14;
             case bigTichu:
                 throw new UnsupportedOperationException("Big Tichu not supported yet");
 
