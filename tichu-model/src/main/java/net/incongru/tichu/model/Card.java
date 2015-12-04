@@ -88,6 +88,22 @@ public class Card {
         }
     }
 
+    public interface CardValue {
+        boolean isSpecial();
+
+        int scoreValue();
+
+        /**
+         * @return the order or "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
+         * Both the {@link CardSpecials#MahJong} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
+         */
+        int playOrder();
+
+        String niceName();
+
+        char shortName();
+    }
+
     public enum CardNumbers implements CardValue {
         Two(0, 2),
         Three(0, 3),
@@ -190,22 +206,6 @@ public class Card {
             return shortName;
         }
 
-    }
-
-    public interface CardValue {
-        boolean isSpecial();
-
-        int scoreValue();
-
-        /**
-         * @return the order or "position" in which this card can be played (e.g a card can be played only if the previously played card has a lower playOrder), starting at 1 index.
-         * Both the {@link CardSpecials#MahJong} and {@link CardSpecials#Dog} thus return 1 for this. {@link CardSpecials#Phoenix} returns -1 because it is dependent on the previously played card (prev+0.5).
-         */
-        int playOrder();
-
-        String niceName();
-
-        char shortName();
     }
 
     /**
