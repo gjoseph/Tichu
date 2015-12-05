@@ -1,0 +1,42 @@
+help
+//        player 1 plays Dog // works
+//        player 'greg' plays dog  // works
+//        greg
+//        greg.plays(DraGon) // works
+//        greg['plays'](r2) // works
+//        greg['plays'] r3 // works
+//        greg plays(r5)  // works
+//        player 3 plays mahjong,r2,r3,r4,r5
+//        greg plays r4  // TODO does not work
+//        isa plays mahjong,r2,r3,r4,r5 // TODO does not work
+//        player 3 passes
+//        player 'isa' passes
+//        isa passes
+
+deal
+cheat greg ,_1,r2,b3,k4,g5,r6,b7,k8,g9,g0,bk,kk,gk,ra
+cheat isa  ,_d,g2,r3,b4,k5,g6,r7,b8,k9,gq,_h,ba,ka,ga
+cheat rufus,_p,k2,g3,r4,b5,k6,g7,r8,b9,b0,k0,kq,rq,bq
+cheat kade ,rk,b2,k3,g4,r5,b6,k7,g8,r9,r0,rj,bj,kj,gj
+start
+
+greg  plays(_1,r2,b3,k4,g5,r6,b7,k8)
+rufus plays(g3,r4,b5,k6,g7,r8,b9) // not your turn
+isa   plays(g2,r3,b4,k5,g6,r7,b8,k9)
+rufus plays(g3,r4,b5,k6,g7,r8,b9) // too weak
+rufus passes
+kade  plays(k3,g4,r5,b6,k7,g8,r9,r0) // wins trick
+greg passes // TODO not sure we should have to pass explicitly
+isa passes // TODO not sure we should have to pass explicitly
+rufus passes // TODO not sure we should have to pass explicitly
+
+kade  plays(r9) // not in hand anymore
+kade  plays(rk) // TODO should be her turn, on a new trick
+greg  plays(ra)
+isa   plays(_d)
+isa   hand
+isa   plays(_h)
+
+kade  plays(rj,bj,kj,gj) // bomb & win
+
+score
