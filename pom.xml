@@ -15,6 +15,7 @@
 
     <modules>
         <module>tichu-model</module>
+        <module>tichu-grammar</module>
         <module>tichu-cli</module>
     </modules>
 
