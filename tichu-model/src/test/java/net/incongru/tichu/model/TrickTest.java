@@ -16,10 +16,17 @@ public class TrickTest {
     public void isNotDoneIfNotEveryBodyPassed() {
         final Players players = newPlayers();
         final Trick trick = newTrick(players);
+        players.getPlayer(1).deal(DeckConstants.B2);
+
+        // 1st player plays
         trick.play(players.getPlayer(1), Sets.newHashSet(DeckConstants.B2));
+
+        // players 2 and 3 pass, we're not done yet
         trick.play(players.getPlayer(2), Sets.newHashSet());
         trick.play(players.getPlayer(3), Sets.newHashSet());
         assertFalse(trick.isDone());
+
+        // 4th player passes, we're done
         trick.play(players.getPlayer(4), Sets.newHashSet());
         assertTrue(trick.isDone());
     }
@@ -47,7 +54,4 @@ public class TrickTest {
         return new Players("p1", "p3", "t13", "p2", "p4", "t24");
     }
 
-    private Play newPlay(Card... cards) {
-        return tichuRules.validate(Sets.newHashSet(cards));
-    }
 }

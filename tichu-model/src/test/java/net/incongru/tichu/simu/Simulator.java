@@ -5,14 +5,17 @@ import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.DeckConstants;
 import net.incongru.tichu.model.Game;
+import net.incongru.tichu.model.ImmutableScore;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Round;
+import net.incongru.tichu.model.Score;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.model.Trick;
 import org.immutables.value.Value;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,7 +115,7 @@ public class Simulator {
 
         final List<SimulatedPlay> simulatedPlays = split(allPlaysStr, "\n").map(playStr -> {
             final String[] objects = split(playStr, "(- |:|->)").toArray(String[]::new);
-            return ImmutableSimulatedPlay.of(
+            return ModifiableSimulatedPlay.create(
                     playerByName.get(objects[0]),
                     parseCardSet(objects[1]),
                     Play.PlayResult.Result.valueOf(objects[2])
@@ -125,7 +128,7 @@ public class Simulator {
 
         final Integer[] scores = split(expectedScoreStr, "[/,-]").map(Integer::parseInt).limit(2).toArray(Integer[]::new);
 
-        return ImmutableSimulation.of(sortedDraft, simulatedPlays, new Round.Score(scores[0], scores[1]), expectedError);
+        return ModifiableSimulation.create(sortedDraft, simulatedPlays, ImmutableScore.of(scores[0], scores[1]), expectedError);
     }
 
     private static Stream<String> split(String src, String regex) {
@@ -143,29 +146,31 @@ public class Simulator {
         }
     }
 
-    @Value.Immutable
+    @Value.Modifiable
     @Tuple
-    public static interface Simulation {
+    interface Simulation {
         List<Card> fakeDraft(); // all cards of player1, followed by all cards of player2, etc.
 
         List<SimulatedPlay> plays();
 
-        Round.Score expectedScore();
+        @Nullable
+        Score expectedScore();
 
+        @Nullable
         String expectedError();
     }
 
-    @Value.Immutable
+    @Value.Modifiable
     @Tuple
-    public static interface Draft {
+    interface Draft {
         Players.Player player();
 
         Set<Card> initialHand();
     }
 
-    @Value.Immutable
+    @Value.Modifiable
     @Tuple
-    public static interface SimulatedPlay {
+    interface SimulatedPlay {
         Players.Player player();
 
         Set<Card> cardsPlayed();
@@ -180,7 +185,7 @@ public class Simulator {
             // typeImmutable = "*Tuple",
             // We may also disable builder
             defaults = @Value.Immutable(builder = false))
-    public @interface Tuple {
+    @interface Tuple {
     }
 
 }

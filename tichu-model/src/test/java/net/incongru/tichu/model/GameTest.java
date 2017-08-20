@@ -36,19 +36,18 @@ public class GameTest {
     public void totalScoreCount() {
         final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
         final Game game = new Game(players, new TichuRules());
-        // TODO this test won't pass, finishedRounds is returned as immutable
-        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(20, 80))));
-        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(50, 50))));
-        game.finishedRounds().add(new Game.FinishedRound(new FakeRound(game, new Round.Score(30, 70))));
+        game.finishRound(new FakeRound(game, ImmutableScore.of(20, 80)));
+        game.finishRound(new FakeRound(game, ImmutableScore.of(50, 50)));
+        game.finishRound(new FakeRound(game, ImmutableScore.of(30, 70)));
 
-        assertThat(game.globalScore()).isEqualTo(new Round.Score(100, 200));
+        assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(100, 200));
     }
 
     @Test
     public void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
         final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
         final Game game = new Game(players, new TichuRules());
-        assertThat(game.globalScore()).isEqualTo(new Round.Score(0, 0));
+        assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(0, 0));
     }
 
     private static class FakeRound extends Round {

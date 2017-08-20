@@ -2,13 +2,14 @@ package net.incongru.tichu.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A round is a series of {@link Trick}s leading to the playing of all cards and scoring.
  */
 public class Round {
     private final Game game;
-    private final List<Game.Announced> announces;
+    private final List<Announced> announces;
     private Trick currentTrick;
 
     public Round(Game game) {
@@ -35,7 +36,7 @@ public class Round {
             throw new IllegalStateException("Can't announce!?");
         }
         // TODO check if this player already announced
-        announces.add(new Game.Announced(player, announce));
+        announces.add(ImmutableAnnounced.of(player, announce));
     }
 
     public Trick currentTrick() {
@@ -59,11 +60,13 @@ public class Round {
         throw new IllegalStateException("not impl yet");
     }
 
-    public List<Game.AnnounceMade> announces() {
+    List<AnnounceResult> announces() {
         if (!isDone()) {
             throw new IllegalStateException("Can't count announces made before the round is done");
         }
-        throw new IllegalStateException("not impl yet");
+        return announces.stream().map(announced -> {
+            return ImmutableAnnounceResult.of(announced.player(), announced.announce(), true /*TODO everybody wins*/);
+        }).collect(Collectors.toList());
     }
 
     protected void shuffleAndDeal() {
@@ -83,28 +86,4 @@ public class Round {
         }
     }
 
-    public static class Score {
-        private final int team1, team2;
-
-        public Score(int team1, int team2) {
-            this.team1 = team1;
-            this.team2 = team2;
-        }
-
-        public int getTeam1() {
-            return team1;
-        }
-
-        public int getTeam2() {
-            return team2;
-        }
-
-        @Override
-        public String toString() {
-            return "Score{" +
-                    "team1=" + team1 +
-                    ", team2=" + team2 +
-                    '}';
-        }
-    }
 }

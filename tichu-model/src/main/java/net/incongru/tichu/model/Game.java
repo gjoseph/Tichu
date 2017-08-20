@@ -48,9 +48,14 @@ public class Game {
         if (!started) {
             throw new IllegalStateException("Not started");
         }
-        finishedRounds.add(new FinishedRound(currentRound));
+        finishRound(currentRound);
         currentRound = new Round(this);
         return currentRound;
+    }
+
+    @VisibleForTesting
+    protected void finishRound(Round currentRound) {
+        finishedRounds.add(new FinishedRound(currentRound));
     }
 
     public TichuRules rules() {
@@ -73,12 +78,12 @@ public class Game {
     public Round.Score globalScore() {
         return finishedRounds.stream()
                 .map(FinishedRound::getScore)
-                .reduce((score1, score2) -> new Round.Score(score1.getTeam1() + score2.getTeam1(), score1.getTeam2() + score2.getTeam2()))
-                .orElse(new Round.Score(0, 0));
+                .reduce((score1, score2) -> ImmutableScore.of(score1.getTeam1() + score2.getTeam1(), score1.getTeam2() + score2.getTeam2()))
+                .orElse(ImmutableScore.of(0, 0));
     }
 
     static public class FinishedRound {
-        private final List<AnnounceMade> announces;
+        private final List<AnnounceResult> announces;
         private final Round.Score score;
         private final Players.Player finishingPlayer;
 
@@ -87,7 +92,7 @@ public class Game {
         }
 
         @VisibleForTesting
-        FinishedRound(List<AnnounceMade> announces, Round.Score score, Players.Player finishingPlayer) {
+        FinishedRound(List<AnnounceResult> announces, Round.Score score, Players.Player finishingPlayer) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;
@@ -95,34 +100,6 @@ public class Game {
 
         public Round.Score getScore() {
             return score;
-        }
-    }
-
-    /**
-     * During play, the announce is made and pending.
-     */
-    static public class Announced {
-        private final Players.Player player;
-        private final Announce announce;
-
-        public Announced(Players.Player player, Announce announce) {
-            this.player = player;
-            this.announce = announce;
-        }
-    }
-
-    /**
-     * After play, the announce was met or failed.
-     */
-    static public class AnnounceMade {
-        private final Players.Player player;
-        private final Announce announce;
-        private final Boolean result;
-
-        public AnnounceMade(Players.Player player, Announce announce, Boolean result) {
-            this.player = player;
-            this.announce = announce;
-            this.result = result;
         }
     }
 
