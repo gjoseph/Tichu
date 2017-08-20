@@ -34,10 +34,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.14.8</version>
-                <!-- compile-time only -->
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>2.5.5</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>

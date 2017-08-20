@@ -1,7 +1,5 @@
 package net.incongru.tichu.model;
 
-import lombok.Value;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,8 +83,28 @@ public class Round {
         }
     }
 
-    @Value
     public static class Score {
         private final int team1, team2;
+
+        public Score(int team1, int team2) {
+            this.team1 = team1;
+            this.team2 = team2;
+        }
+
+        public int getTeam1() {
+            return team1;
+        }
+
+        public int getTeam2() {
+            return team2;
+        }
+
+        @Override
+        public String toString() {
+            return "Score{" +
+                    "team1=" + team1 +
+                    ", team2=" + team2 +
+                    '}';
+        }
     }
 }

@@ -1,7 +1,6 @@
 package net.incongru.tichu.simu;
 
 import com.google.common.collect.Sets;
-import lombok.Value;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.DeckConstants;
@@ -11,6 +10,7 @@ import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Round;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.model.Trick;
+import org.immutables.value.Value;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
@@ -55,7 +55,7 @@ public class Simulator {
                     @Override
                     protected List<Card> shuffle(Set<Card> cards) {
                         // We don't shuffle, since we want to control the draft
-                        return simu.getFakeDraft();
+                        return simu.fakeDraft();
                     }
                 };
             }
@@ -65,9 +65,9 @@ public class Simulator {
         final Round round = game.start();
         final Trick trick = round.start();
 
-        for (SimulatedPlay play : simu.getPlays()) {
-            final Players.Player p = play.getPlayer();
-            final Set<Card> cardsToPlay = play.getCardsPlayed();
+        for (SimulatedPlay play : simu.plays()) {
+            final Players.Player p = play.player();
+            final Set<Card> cardsToPlay = play.cardsPlayed();
             log.info("{} plays {}", p.name(), cardsToPlay);
             final Play validatedPlay = rules.validate(cardsToPlay);
             // TODO validatedPlay is maybe null if the set of played cards was invalid
@@ -76,14 +76,14 @@ public class Simulator {
 
             //TODO if (playResult.getResult() != Trick.PlayResult.Result.NEXTGOES) {
             //TODO simu should somehow mark when we expect a trick to be finished
-            assertThat(playResult.getResult()).isEqualTo(play.expectedResult);
+            assertThat(playResult.result()).isEqualTo(play.expectedResult());
         }
 
         assertThat(trick).matches(Trick::isDone, "Trick should be done");
 
         // Do we need to simulate more than 1 round ?
-        if (simu.getExpectedScore() != null) {
-            assertThat(round.score()).isEqualTo(simu.expectedScore);
+        if (simu.expectedScore() != null) {
+            assertThat(round.score()).isEqualTo(simu.expectedScore());
         }
 
         // TODO: assert error
@@ -113,7 +113,7 @@ public class Simulator {
 
         final List<SimulatedPlay> simulatedPlays = split(allPlaysStr, "\n").map(playStr -> {
             final String[] objects = split(playStr, "(- |:|->)").toArray(String[]::new);
-            return new SimulatedPlay(
+            return ImmutableSimulatedPlay.of(
                     playerByName.get(objects[0]),
                     parseCardSet(objects[1]),
                     Play.PlayResult.Result.valueOf(objects[2])
@@ -126,7 +126,7 @@ public class Simulator {
 
         final Integer[] scores = split(expectedScoreStr, "[/,-]").map(Integer::parseInt).limit(2).toArray(Integer[]::new);
 
-        return new Simulation(sortedDraft, simulatedPlays, new Round.Score(scores[0], scores[1]), expectedError);
+        return ImmutableSimulation.of(sortedDraft, simulatedPlays, new Round.Score(scores[0], scores[1]), expectedError);
     }
 
     private static Stream<String> split(String src, String regex) {
@@ -144,25 +144,38 @@ public class Simulator {
         }
     }
 
-    @Value
-    public static class Simulation {
-        private final List<Card> fakeDraft; // all cards of player1, followed by all cards of player2, etc.
-        private final List<SimulatedPlay> plays;
-        private final Round.Score expectedScore;
-        private final String expectedError;
+    @Value.Immutable
+    @Tuple
+    public static interface Simulation {
+        List<Card> fakeDraft(); // all cards of player1, followed by all cards of player2, etc.
+        List<SimulatedPlay> plays();
+        Round.Score expectedScore();
+        String expectedError();
     }
 
-    @Value
-    public static class Draft {
-        private final Players.Player player;
-        private final Set<Card> initialHand;
+    @Value.Immutable
+    @Tuple
+    public static interface Draft {
+        Players.Player player();
+        Set<Card> initialHand();
     }
 
-    @Value
-    public static class SimulatedPlay {
-        private final Players.Player player;
-        private final Set<Card> cardsPlayed;
-        private final Play.PlayResult.Result expectedResult;
+    @Value.Immutable
+    @Tuple
+    public static interface SimulatedPlay {
+        Players.Player player();
+        Set<Card> cardsPlayed();
+        Play.PlayResult.Result expectedResult();
+    }
+
+    @Value.Style(
+            // Generate construction method using all attributes as parameters
+            allParameters = true,
+            // Changing generated name just for fun
+            // typeImmutable = "*Tuple",
+            // We may also disable builder
+            defaults = @Value.Immutable(builder = false))
+    public @interface Tuple {
     }
 
 }

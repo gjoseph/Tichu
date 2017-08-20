@@ -1,9 +1,6 @@
 package net.incongru.tichu.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -17,8 +14,6 @@ public class Game {
     private final TichuRules rules;
     private final Players players;
     private final List<FinishedRound> finishedRounds;
-
-    @Getter
     private boolean started;
 
     private Round currentRound;
@@ -70,6 +65,11 @@ public class Game {
         return Collections.unmodifiableList(finishedRounds);
     }
 
+    @VisibleForTesting
+    boolean isStarted() {
+        return started;
+    }
+
     public Round.Score globalScore() {
         return finishedRounds.stream()
                 .map(FinishedRound::getScore)
@@ -77,35 +77,53 @@ public class Game {
                 .orElse(new Round.Score(0, 0));
     }
 
-    @Value
-    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     static public class FinishedRound {
         private final List<AnnounceMade> announces;
         private final Round.Score score;
         private final Players.Player finishingPlayer;
 
-        public FinishedRound(Round round) {
+        FinishedRound(Round round) {
             this(round.announces(), round.score(), null);//TODO
+        }
+
+        @VisibleForTesting
+        FinishedRound(List<AnnounceMade> announces, Round.Score score, Players.Player finishingPlayer) {
+            this.announces = announces;
+            this.score = score;
+            this.finishingPlayer = finishingPlayer;
+        }
+
+        public Round.Score getScore() {
+            return score;
         }
     }
 
     /**
      * During play, the announce is made and pending.
      */
-    @Value
     static public class Announced {
         private final Players.Player player;
         private final Announce announce;
+
+        public Announced(Players.Player player, Announce announce) {
+            this.player = player;
+            this.announce = announce;
+        }
     }
 
     /**
      * After play, the announce was met or failed.
      */
-    @Value
     static public class AnnounceMade {
         private final Players.Player player;
         private final Announce announce;
         private final Boolean result;
+
+        public AnnounceMade(Players.Player player, Announce announce, Boolean result) {
+            this.player = player;
+            this.announce = announce;
+            this.result = result;
+        }
     }
 
 }

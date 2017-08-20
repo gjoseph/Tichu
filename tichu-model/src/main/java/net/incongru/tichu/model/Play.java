@@ -1,7 +1,5 @@
 package net.incongru.tichu.model;
 
-import lombok.Value;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -54,12 +52,21 @@ public interface Play<P extends Play> {
         P is(Set<Card> cards);
     }
 
-    @Value
     class PlayResult {
         public enum Result {NEXTGOES, TAKE, TOOWEAK, INVALIDPLAY, INVALIDSTATE}
 
-        Optional<Play> play;
-        Result result;
-        String message;
+        private final Optional<Play> play;
+        private final Result result;
+        private final String message;
+
+        public PlayResult(Optional<Play> play, Result result, String message) {
+            this.play = play;
+            this.result = result;
+            this.message = message;
+        }
+
+        public Result result() {
+            return result;
+        }
     }
 }

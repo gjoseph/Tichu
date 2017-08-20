@@ -3,8 +3,6 @@ package net.incongru.tichu.model;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
-import lombok.Getter;
-import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,8 +82,6 @@ public class Players {
         return teams[i - 1];
     }
 
-    @Getter
-    @ToString
     static public class Team {
         private final String name;
         private final Player player1;
@@ -99,9 +95,21 @@ public class Players {
             this.player1 = player1;
             this.player2 = player2;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String toString() {
+            return "Team{" +
+                    "name='" + name + '\'' +
+                    ", player1=" + player1 +
+                    ", player2=" + player2 +
+                    '}';
+        }
     }
 
-    @ToString
     static public class Player {
         private final String name;
         private final Set<Card> hand = new LinkedHashSet<>();
@@ -155,6 +163,15 @@ public class Players {
             // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
             // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
             hand.removeAll(cards);
+        }
+
+        @Override
+        public String toString() {
+            return "Player{" +
+                    "name='" + name + '\'' +
+                    ", hand=" + hand +
+                    ", wonCards=" + wonCards +
+                    '}';
         }
     }
 }
