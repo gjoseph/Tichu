@@ -1,6 +1,5 @@
 package net.incongru.tichu.cli;
 
-import groovy.lang.GString;
 import jline.DefaultTerminal2;
 import jline.Terminal;
 import jline.Terminal2;

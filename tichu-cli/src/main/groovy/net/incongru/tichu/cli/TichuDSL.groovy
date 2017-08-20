@@ -158,10 +158,10 @@ abstract class TichuDSL extends Script {
         Optional<Object> card = DeckConstants.byName(property)
 //        return card.orElseGet({ super.getProperty(property) })
         Optional<Object> player = getBinding().hasVariable("game") ?
-         game().players().getPlayerByName(property).map { p ->
-            //println("Found player $property, return actions: ${playerActions(p)}")
-            playerActions(p)
-        } : Optional.empty()
+                game().players().getPlayerByName(property).map { p ->
+                    //println("Found player $property, return actions: ${playerActions(p)}")
+                    playerActions(p)
+                } : Optional.empty()
 
         return card.orElseGet({ player.orElseGet({ super.getProperty(property) }) })
     }

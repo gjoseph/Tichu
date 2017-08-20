@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static java.util.Comparator.*;
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.nullsFirst;
 
 /**
  */

@@ -1,6 +1,5 @@
 package net.incongru.tichu.cli;
 
-import com.google.common.base.Throwables;
 import groovy.lang.Binding;
 import groovy.lang.Closure;
 import groovy.lang.GroovyShell;
@@ -8,11 +7,7 @@ import jline.TerminalFactory;
 import jline.UnixTerminal;
 import jline.UnsupportedTerminal;
 import jline.WindowsTerminal;
-import net.incongru.tichu.model.Game;
-import net.incongru.tichu.model.Players;
-import net.incongru.tichu.model.TichuRules;
 import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.runtime.ExceptionUtils;
 import org.codehaus.groovy.tools.shell.AnsiDetector;
 import org.fusesource.jansi.Ansi;
 
@@ -52,7 +47,7 @@ public class TichuCLI {
         final UI ui = new UI();
 
         final Binding binding = new Binding();
-       // binding.setVariable("game", game);
+        // binding.setVariable("game", game);
         binding.setVariable("ui", ui);
 
         final GroovyShell shell = new GroovyShell(this.getClass().getClassLoader(), binding, config);

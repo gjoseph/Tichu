@@ -11,7 +11,9 @@ import java.util.Set;
 
 import static net.incongru.tichu.model.Card.CardNumbers.Ace;
 import static net.incongru.tichu.model.Card.CardNumbers.Two;
-import static net.incongru.tichu.model.Card.CardSpecials.*;
+import static net.incongru.tichu.model.Card.CardSpecials.Dog;
+import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
+import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
 /**
  */

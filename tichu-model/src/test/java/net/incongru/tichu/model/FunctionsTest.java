@@ -7,7 +7,15 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import static net.incongru.tichu.model.DeckConstants.*;
+import static net.incongru.tichu.model.DeckConstants.B0;
+import static net.incongru.tichu.model.DeckConstants.B2;
+import static net.incongru.tichu.model.DeckConstants.B5;
+import static net.incongru.tichu.model.DeckConstants.B9;
+import static net.incongru.tichu.model.DeckConstants.BK;
+import static net.incongru.tichu.model.DeckConstants.G5;
+import static net.incongru.tichu.model.DeckConstants.R5;
+import static net.incongru.tichu.model.DeckConstants._D;
+import static net.incongru.tichu.model.DeckConstants._P;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 

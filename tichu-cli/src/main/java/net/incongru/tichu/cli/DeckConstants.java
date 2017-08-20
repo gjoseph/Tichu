@@ -1,13 +1,11 @@
 package net.incongru.tichu.cli;
 
 import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.CardDeck;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
 
 /**

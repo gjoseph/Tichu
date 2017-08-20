@@ -6,7 +6,7 @@ import java.util.Scanner;
  */
 public class Game {
     private String name;
-    private Map<String,Integer> points;
+    private Map<String, Integer> points;
     private String[][] grid;
     private int score = 0;
 
@@ -19,7 +19,7 @@ public class Game {
     public void play() {
         Scanner in = new Scanner(System.in);
 
-        System.out.println("You're playing " + name + ".") ;
+        System.out.println("You're playing " + name + ".");
 
         while (true) {
             System.out.println("Where do you want to dig (enter x then y)?");

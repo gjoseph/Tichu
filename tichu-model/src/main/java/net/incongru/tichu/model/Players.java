@@ -15,7 +15,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the players and teams

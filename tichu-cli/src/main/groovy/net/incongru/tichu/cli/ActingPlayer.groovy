@@ -2,7 +2,6 @@ package net.incongru.tichu.cli
 
 import net.incongru.tichu.model.Card
 import net.incongru.tichu.model.Players
-import org.fusesource.jansi.Ansi
 
 public class ActingPlayer {
     private final TichuDSL ctx

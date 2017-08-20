@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Loads up a game round described in a yaml file (to give it _some_ structure and parse easily cause i'm lazy)
  * and simulates it. See {@link SimulatorTest} which verifies simulation results.
- *
  */
 public class Simulator {
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(Simulator.class);
@@ -148,8 +147,11 @@ public class Simulator {
     @Tuple
     public static interface Simulation {
         List<Card> fakeDraft(); // all cards of player1, followed by all cards of player2, etc.
+
         List<SimulatedPlay> plays();
+
         Round.Score expectedScore();
+
         String expectedError();
     }
 
@@ -157,6 +159,7 @@ public class Simulator {
     @Tuple
     public static interface Draft {
         Players.Player player();
+
         Set<Card> initialHand();
     }
 
@@ -164,7 +167,9 @@ public class Simulator {
     @Tuple
     public static interface SimulatedPlay {
         Players.Player player();
+
         Set<Card> cardsPlayed();
+
         Play.PlayResult.Result expectedResult();
     }
 

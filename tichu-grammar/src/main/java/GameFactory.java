@@ -57,6 +57,7 @@ public class GameFactory {
 
         return new Game(name.get(), points, grid);
     }
+
     public static void main(String[] args) throws Exception {
 
         Game game = new GameFactory().createGame(GameFactory.class.getResourceAsStream("/example.field"));
