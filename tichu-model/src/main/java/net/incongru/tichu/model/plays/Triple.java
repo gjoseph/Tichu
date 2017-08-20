@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  */
 public class Triple extends NSameValue<Triple> {
-    public Triple(Set<Card> cards, Card.CardValue value) {
+    private Triple(Set<Card> cards, Card.CardValue value) {
         super(cards, value);
     }
 

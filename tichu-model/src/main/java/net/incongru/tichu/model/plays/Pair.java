@@ -8,7 +8,7 @@ import java.util.Set;
  */
 public class Pair extends NSameValue<Pair> {
 
-    public Pair(Set<Card> cards, Card.CardValue value) {
+    private Pair(Set<Card> cards, Card.CardValue value) {
         super(cards, value);
     }
 

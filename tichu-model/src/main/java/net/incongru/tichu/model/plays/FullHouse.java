@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  */
 public class FullHouse extends AbstractPlay<FullHouse> {
-    public FullHouse(Set<Card> set) {
+    private FullHouse(Set<Card> set) {
         super(set);
     }
 

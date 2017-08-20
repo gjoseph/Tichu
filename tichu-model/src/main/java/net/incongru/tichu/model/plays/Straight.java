@@ -21,7 +21,7 @@ public class Straight extends AbstractPlay<Straight> {
     private final Factory.SubstituteCardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
-    public Straight(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
+    private Straight(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
         super(cards);
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;

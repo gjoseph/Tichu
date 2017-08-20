@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
     protected final Card.CardValue value;
 
-    public NSameValue(Set<Card> cards, Card.CardValue value) {
+    protected NSameValue(Set<Card> cards, Card.CardValue value) {
         super(cards);
         this.value = value;
     }

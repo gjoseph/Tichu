@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  */
 public class BombOf4 extends NSameValue<BombOf4> {
-    public BombOf4(Set<Card> cards, Card.CardValue value) {
+    private BombOf4(Set<Card> cards, Card.CardValue value) {
         super(cards, value);
     }
 

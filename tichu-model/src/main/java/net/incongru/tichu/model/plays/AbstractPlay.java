@@ -11,7 +11,7 @@ import java.util.Set;
 public abstract class AbstractPlay<P extends Play> implements Play<P> {
     private final Set<Card> cards;
 
-    public AbstractPlay(Set<Card> cards) {
+    protected AbstractPlay(Set<Card> cards) {
         this.cards = cards;
     }
 

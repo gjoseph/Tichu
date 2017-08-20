@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  */
 public class ConsecutivePairs extends AbstractPlay<ConsecutivePairs> {
-    public ConsecutivePairs(Set<Card> cards) {
+    private ConsecutivePairs(Set<Card> cards) {
         super(cards);
     }
 

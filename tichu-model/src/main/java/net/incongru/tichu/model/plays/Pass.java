@@ -10,7 +10,7 @@ import java.util.Set;
  * Pass _is_ a {@link Play}
  */
 public class Pass extends AbstractPlay<Pass> {
-    public Pass() {
+    private Pass() {
         super(Collections.emptySet());
     }
 
