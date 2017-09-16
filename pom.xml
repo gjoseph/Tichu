@@ -18,6 +18,7 @@
         <module>tichu-model</module>
         <module>tichu-grammar</module>
         <module>tichu-cli</module>
+        <module>tichu-server</module>
     </modules>
 
     <dependencyManagement>
@@ -30,7 +31,17 @@
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-grammar</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-cli</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-server</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
 
