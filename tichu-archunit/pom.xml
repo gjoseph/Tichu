@@ -41,6 +41,15 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-rest</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-websocket-endpoint</artifactId>
         </dependency>
         <dependency>
