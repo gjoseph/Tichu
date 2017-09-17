@@ -9,7 +9,7 @@ import org.immutables.value.Value.Immutable;
 @Immutable
 @Tuple
 interface AnnounceResult {
-    Players.Player player();
+    Player player();
 
     Announce announce();
 

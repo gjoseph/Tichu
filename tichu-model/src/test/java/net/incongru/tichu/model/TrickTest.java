@@ -48,7 +48,7 @@ public class TrickTest {
     }
 
     protected Trick newTrick(Players players) {
-        final Players.Player p1 = players.getPlayer(1);
+        final Player p1 = players.getPlayer(1);
         return new Trick(tichuRules, players.cycleFrom(p1), p1);
     }
 

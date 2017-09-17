@@ -20,17 +20,17 @@ public class Round {
     public Trick start() { // TODO why return Trick ?
         shuffleAndDeal();
 
-        Players.Player firstPlayer = game.rules().whoStarts(game.players());
+        Player firstPlayer = game.rules().whoStarts(game.players());
         return next(firstPlayer);
     }
 
-    public Trick next(Players.Player whoStarts) {
+    public Trick next(Player whoStarts) {
         // TODO
         currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts), whoStarts);
         return currentTrick;
     }
 
-    public void announce(Players.Player player, Announce announce) {
+    public void announce(Player player, Announce announce) {
         final boolean canAnnounce = game.rules().canAnnounce(player, announce);
         if (!canAnnounce) {
             throw new IllegalStateException("Can't announce!?");

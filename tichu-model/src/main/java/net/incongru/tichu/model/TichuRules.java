@@ -40,7 +40,7 @@ public class TichuRules {
         return new CardDeck();
     }
 
-    public Players.Player whoStarts(Players players) {
+    public Player whoStarts(Players players) {
         return players.stream().filter(player -> find(player.hand(), Card.CardSpecials.MahJong).isPresent()).findFirst().get();
     }
 
@@ -72,7 +72,7 @@ public class TichuRules {
         return after.canBePlayedAfter(before);
     }
 
-    public boolean canAnnounce(Players.Player player, Announce announce) {
+    public boolean canAnnounce(Player player, Announce announce) {
         switch (announce) {
             case tichu:
                 return player.hand().size() == 14;

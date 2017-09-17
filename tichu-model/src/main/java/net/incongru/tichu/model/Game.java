@@ -85,14 +85,14 @@ public class Game {
     static public class FinishedRound {
         private final List<AnnounceResult> announces;
         private final Score score;
-        private final Players.Player finishingPlayer;
+        private final Player finishingPlayer;
 
         FinishedRound(Round round) {
             this(round.announces(), round.score(), null);//TODO
         }
 
         @VisibleForTesting
-        FinishedRound(List<AnnounceResult> announces, Score score, Players.Player finishingPlayer) {
+        FinishedRound(List<AnnounceResult> announces, Score score, Player finishingPlayer) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;

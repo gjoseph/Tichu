@@ -1,7 +1,7 @@
 package net.incongru.tichu.cli.oldstuff;
 
 import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.Players;
+import net.incongru.tichu.model.Player;
 
 import java.util.function.Function;
 
@@ -12,14 +12,14 @@ import java.util.function.Function;
 class ActingPlayer {
 
     private final TichuDSL ctx;
-    private final Players.Player p;
+    private final Player p;
 
-    ActingPlayer(TichuDSL ctx, Players.Player p) {
+    ActingPlayer(TichuDSL ctx, Player p) {
         this.ctx = ctx;
         this.p = p;
     }
 
-    public Function<Players.Player, Void> plays(Card... cards) {
+    public Function<Player, Void> plays(Card... cards) {
         return ctx.playerPlayCards(cards);
     }
 

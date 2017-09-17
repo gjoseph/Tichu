@@ -18,11 +18,11 @@ import java.util.function.Predicate;
 public class Trick {
     private final TichuRules rules;
     private final Deque<Play> plays;
-    private final Iterator<Players.Player> playersCycle;
-    private Players.Player nextPlayer;
+    private final Iterator<Player> playersCycle;
+    private Player nextPlayer;
 
     // TODO take only one of cycle or whostarts (but cycle.peek shows next, not current)
-    public Trick(TichuRules rules, Iterator<Players.Player> playersCycle, Players.Player whoStarts) {
+    public Trick(TichuRules rules, Iterator<Player> playersCycle, Player whoStarts) {
         this.rules = rules;
         this.playersCycle = playersCycle;
         this.nextPlayer = whoStarts;
@@ -31,7 +31,7 @@ public class Trick {
     }
 
     // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
-    public Play.PlayResult play(Players.Player player, Set<Card> cards) {
+    public Play.PlayResult play(Player player, Set<Card> cards) {
         // Does the player have these cards?
         if (!player.hand().containsAll(cards)) {
             // TODO cheat ?
@@ -67,7 +67,7 @@ public class Trick {
     }
 
     // TODO dubious method name, might imply we're _going_ to next player
-    public Players.Player nextPlayer() {
+    public Player nextPlayer() {
         return nextPlayer;
     }
 

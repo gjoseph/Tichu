@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.model.Trick;
@@ -75,27 +76,27 @@ public class TichuDSL {
 
     public Supplier<ActingPlayer> player(int i) {
         return () -> {
-            Players.Player player = game().players().getPlayer(i);
+            Player player = game().players().getPlayer(i);
             return playerActions(player);
         };
     }
 
     public Supplier<ActingPlayer> player(final String name) {
         return () -> {
-            Players.Player player = game().players().getPlayerByName(name).orElseThrow(() -> new IllegalArgumentException());
+            Player player = game().players().getPlayerByName(name).orElseThrow(() -> new IllegalArgumentException());
             return playerActions(player);
         };
     }
 
-    private ActingPlayer playerActions(Players.Player p) {
+    private ActingPlayer playerActions(Player p) {
         return new ActingPlayer(this, p);
     }
 
-    // public Closure<Closure<Object>> plays( Players.Player p) {
+    // public Closure<Closure<Object>> plays( Player p) {
     // public Closure<Closure<Object>> plays( Card... cards) {
 
-    public Function<Players.Player, Void> playerPlayCards(final Card... cards) {
-        return (Players.Player p) -> {
+    public Function<Player, Void> playerPlayCards(final Card... cards) {
+        return (Player p) -> {
 //            if (!p.hand.containsAll(cards)) {
 //                    a.fg(Ansi.Color.BLUE).a("> ${p.name()} tried to be a smart ass and played cards he/she doesn't have: ${cards-p.hand}")
 //            }
@@ -108,14 +109,14 @@ public class TichuDSL {
         };
     }
 
-    public Function<Players.Player, ActingPlayer> plays() {
-        return (Players.Player p) -> {
+    public Function<Player, ActingPlayer> plays() {
+        return (Player p) -> {
             return new ActingPlayer(TichuDSL.this, p);
         };
     }
 
-    private Function<Players.Player, Void> passes() {
-        return (Players.Player p) -> {
+    private Function<Player, Void> passes() {
+        return (Player p) -> {
 
             //TODO is it even their turn ?
             // this.ui.println("> " + p.name() + " passes.");
@@ -123,8 +124,8 @@ public class TichuDSL {
         };
     }
 
-    public Function<Players.Player, Void> showHand() {
-        return (Players.Player p) -> {
+    public Function<Player, Void> showHand() {
+        return (Player p) -> {
             // ui.printAnsi(a -> a.fg(Ansi.Color.CYAN).a(p.name() + "'s hand: " + String.valueOf(p.hand())));
             return null;
         };

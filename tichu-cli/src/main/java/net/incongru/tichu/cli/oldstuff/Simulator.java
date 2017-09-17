@@ -6,6 +6,7 @@ import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.ImmutableScore;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Round;
 import net.incongru.tichu.model.Score;
@@ -67,7 +68,7 @@ public class Simulator {
         final Trick trick = round.start();
 
         for (SimulatedPlay play : simu.plays()) {
-            final Players.Player p = play.player();
+            final Player p = play.player();
             final Set<Card> cardsToPlay = play.cardsPlayed();
             log.info("{} plays {}", p.name(), cardsToPlay);
             final Play validatedPlay = rules.validate(cardsToPlay);
@@ -97,7 +98,7 @@ public class Simulator {
     }
 
     private static Simulation loadAndParse(Players players, InputStream in) {
-        final Map<String, Players.Player> playerByName = players.stream().collect(Collectors.toMap(Players.Player::name, Function.identity()));
+        final Map<String, Player> playerByName = players.stream().collect(Collectors.toMap(Player::name, Function.identity()));
 
         final Map map = new Yaml().loadAs(in, Map.class);
         final Map<String, String> draftStr = (Map<String, String>) map.get("draft");
@@ -168,7 +169,7 @@ public class Simulator {
     @Value.Modifiable
     @Tuple
     interface Draft {
-        Players.Player player();
+        Player player();
 
         Set<Card> initialHand();
     }
@@ -176,7 +177,7 @@ public class Simulator {
     @Value.Modifiable
     @Tuple
     interface SimulatedPlay {
-        Players.Player player();
+        Player player();
 
         Set<Card> cardsPlayed();
 
