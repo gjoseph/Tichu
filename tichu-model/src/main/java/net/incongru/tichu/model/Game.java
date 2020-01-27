@@ -75,7 +75,7 @@ public class Game {
         return started;
     }
 
-    public Round.Score globalScore() {
+    public Score globalScore() {
         return finishedRounds.stream()
                 .map(FinishedRound::getScore)
                 .reduce((score1, score2) -> ImmutableScore.of(score1.getTeam1() + score2.getTeam1(), score1.getTeam2() + score2.getTeam2()))
@@ -84,7 +84,7 @@ public class Game {
 
     static public class FinishedRound {
         private final List<AnnounceResult> announces;
-        private final Round.Score score;
+        private final Score score;
         private final Players.Player finishingPlayer;
 
         FinishedRound(Round round) {
@@ -92,13 +92,13 @@ public class Game {
         }
 
         @VisibleForTesting
-        FinishedRound(List<AnnounceResult> announces, Round.Score score, Players.Player finishingPlayer) {
+        FinishedRound(List<AnnounceResult> announces, Score score, Players.Player finishingPlayer) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;
         }
 
-        public Round.Score getScore() {
+        public Score getScore() {
             return score;
         }
     }
