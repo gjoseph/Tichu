@@ -55,9 +55,9 @@ public interface Play<P extends Play> {
     class PlayResult {
         public enum Result {NEXTGOES, TAKE, TOOWEAK, INVALIDPLAY, INVALIDSTATE}
 
-        private final Optional<Play> play;
+        private final Optional<Play> play; // TODO ditch optioanl
         private final Result result;
-        private final String message;
+        private final String message; // TODO ditch message from here. Result is enough info for client/ui to generate a message.
 
         public PlayResult(Optional<Play> play, Result result, String message) {
             this.play = play;
@@ -65,8 +65,16 @@ public interface Play<P extends Play> {
             this.message = message;
         }
 
+        public Play play() {
+            return play.get();
+        }
+
         public Result result() {
             return result;
+        }
+
+        public String message() {
+            return message;
         }
     }
 }

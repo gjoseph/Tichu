@@ -14,6 +14,7 @@ import org.fusesource.jansi.Ansi;
 import java.io.IOException;
 
 /**
+ * Some of this stuff is copied from groovysh and it's really terrible.
  */
 public class TichuCLI {
     public static void main(String[] args) throws IOException {
