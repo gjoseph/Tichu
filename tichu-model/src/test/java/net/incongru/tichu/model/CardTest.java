@@ -32,8 +32,8 @@ public class CardTest {
     public void suitComparatorDoesNotMessUpSpecialCards() {
         final Card[] array = {Dog, Dragon, MahJong, Phoenix};
         // We don't really care about the order that much, we just want to make sure the comparator is consistent with equals, i.e does not equal two cards which are not the same
-        assertThat(FluentIterable.of(array).toSortedList(BY_SUIT)).containsOnly(array);
-        assertThat(FluentIterable.of(array).toSortedSet(BY_SUIT)).containsOnly(array);
+        assertThat(FluentIterable.from(array).toSortedList(BY_SUIT)).containsOnly(array);
+        assertThat(FluentIterable.from(array).toSortedSet(BY_SUIT)).containsOnly(array);
         assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedList(BY_SUIT)).hasSize(56);
         assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedSet(BY_SUIT)).hasSize(56);
     }
