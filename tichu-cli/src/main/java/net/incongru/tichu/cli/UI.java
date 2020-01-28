@@ -71,17 +71,21 @@ public class UI {
         Ansi doIt(Ansi a);
     }
 
-    void printAnsi(WithAnsi a) throws IOException {
+    void printAnsi(WithAnsi a) {
         final Ansi ansi = a.doIt(ansi()).reset();
         println(ansi);
     }
 
-    void println(Ansi ansi) throws IOException {
+    void println(Ansi ansi) {
         println(ansi.toString());
     }
 
-    void println(String s) throws IOException {
-        console.getOutput().append(s).append("\n");
+    void println(String s) {
+        try {
+            console.getOutput().append(s).append("\n");
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 
 }
