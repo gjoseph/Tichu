@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
+ *
  */
 public abstract class AbstractPlay<P extends Play> implements Play<P> {
     private final Set<Card> cards;

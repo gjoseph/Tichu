@@ -2,10 +2,10 @@ package net.incongru.tichu.model.plays;
 
 import net.incongru.tichu.model.Card;
 
-import java.util.List;
 import java.util.Set;
 
 /**
+ *
  */
 public class ConsecutivePairs extends AbstractPlay<ConsecutivePairs> {
     private ConsecutivePairs(Set<Card> cards) {

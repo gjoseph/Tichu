@@ -58,12 +58,12 @@ import static net.incongru.tichu.model.DeckConstants.Sword_Ace;
 import static net.incongru.tichu.model.DeckConstants.Sword_King;
 import static net.incongru.tichu.model.DeckConstants.Sword_Queen;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
+ *
  */
 public class TichuRulesTest {
 
