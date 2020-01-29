@@ -1,4 +1,4 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.cli.simu;
 
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.Card;

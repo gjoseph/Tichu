@@ -1,4 +1,4 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.cli.simu;
 
 
 import org.junit.Ignore;
