@@ -1,7 +1,12 @@
 package net.incongru.tichu.cli;
 
 import com.google.common.collect.Sets;
-import net.incongru.tichu.model.*;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Game;
+import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Players;
+import net.incongru.tichu.model.TichuRules;
+import net.incongru.tichu.model.Trick;
 import org.fusesource.jansi.Ansi;
 
 import java.util.function.Function;

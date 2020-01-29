@@ -16,6 +16,7 @@ import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
 /**
+ *
  */
 public class Straight extends AbstractPlay<Straight> {
     private final Factory.SubstituteCardValue phoenixSubstitute;

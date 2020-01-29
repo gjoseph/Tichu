@@ -5,6 +5,7 @@ import net.incongru.tichu.model.Card;
 import java.util.Set;
 
 /**
+ *
  */
 public class FullHouse extends AbstractPlay<FullHouse> {
     private FullHouse(Set<Card> set) {

@@ -5,6 +5,7 @@ import net.incongru.tichu.model.Card;
 import java.util.Set;
 
 /**
+ *
  */
 public class Triple extends NSameValue<Triple> {
     private Triple(Set<Card> cards, Card.CardValue value) {
