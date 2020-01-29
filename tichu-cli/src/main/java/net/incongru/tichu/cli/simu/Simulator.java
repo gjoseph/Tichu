@@ -3,7 +3,6 @@ package net.incongru.tichu.cli.simu;
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
-import net.incongru.tichu.model.DeckConstants;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.ImmutableScore;
 import net.incongru.tichu.model.Play;
@@ -12,6 +11,7 @@ import net.incongru.tichu.model.Round;
 import net.incongru.tichu.model.Score;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.model.Trick;
+import net.incongru.tichu.model.util.DeckConstants;
 import org.immutables.value.Value;
 import org.yaml.snakeyaml.Yaml;
 

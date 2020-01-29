@@ -1,13 +1,14 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.FluentIterable;
+import net.incongru.tichu.model.util.DeckConstants;
 import org.junit.Test;
 
 import static net.incongru.tichu.model.Card.Comparators.BY_SUIT;
-import static net.incongru.tichu.model.DeckConstants.Dog;
-import static net.incongru.tichu.model.DeckConstants.Dragon;
-import static net.incongru.tichu.model.DeckConstants.MahJong;
-import static net.incongru.tichu.model.DeckConstants.Phoenix;
+import static net.incongru.tichu.model.util.DeckConstants.Dog;
+import static net.incongru.tichu.model.util.DeckConstants.Dragon;
+import static net.incongru.tichu.model.util.DeckConstants.MahJong;
+import static net.incongru.tichu.model.util.DeckConstants.Phoenix;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 

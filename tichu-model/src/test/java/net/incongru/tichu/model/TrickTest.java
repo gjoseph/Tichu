@@ -1,6 +1,7 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.Sets;
+import net.incongru.tichu.model.util.DeckConstants;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

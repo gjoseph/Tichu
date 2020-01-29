@@ -8,14 +8,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static net.incongru.tichu.model.DeckConstants.Pagoda_10;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_4;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_5;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_6;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_7;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_8;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_9;
-import static net.incongru.tichu.model.DeckConstants.Sword_4;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_10;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_4;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_5;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_6;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_7;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_8;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_9;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_4;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class AbstractPlayTest {

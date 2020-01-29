@@ -50,10 +50,6 @@ public class Card {
         return String.valueOf(val.isSpecial() ? '*' : suit.shortName()) + val.shortName();
     }
 
-    boolean isSpecial() {
-        return val.isSpecial();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {

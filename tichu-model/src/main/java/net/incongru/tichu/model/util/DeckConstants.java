@@ -1,19 +1,40 @@
-package net.incongru.tichu.cli;
+package net.incongru.tichu.model.util;
 
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.CardDeck;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Map;
-import java.util.Optional;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  *
  */
 public class DeckConstants {
     // Generates code for this class
-
+    public static void main(String[] args) {
+        // CardDeck shuffles, so we force order the cards here.
+        final Set<Card> cards = new TreeSet<>(Card.Comparators.BY_SUIT);
+        final CardDeck deck = new CardDeck();
+        cards.addAll(deck.allRemaining());
+        for (Card card : cards) {
+            final String prefix = "public static final Card ";
+            final String constName;
+            final String constVal;
+            if (card.getVal().isSpecial()) {
+                constName = card.getVal().niceName();
+                constVal = " = new Card(Card.CardSpecials." + card.getVal() + ");";
+            } else {
+                constName = card.getSuit() + "_" + card.getVal().niceName();
+                constVal = " = new Card(Card.CardNumbers." + card.getVal() + ", Card.CardSuit." + card.getSuit() + ");";
+            }
+            System.out.println(prefix + constName + constVal);
+            System.out.println(prefix + card.shortName().replace('*', '_') + " = " + constName + ";");
+        }
+    }
 
     /**
      * Gets a card by name, where the name is a constant defined in this class. This method
@@ -22,9 +43,12 @@ public class DeckConstants {
      * @param n
      * @return
      */
-    public static Optional<Card> byName(String n) {
+    public static Card byName(String n) {
         final Card card = namedCards.get(n);
-        return Optional.ofNullable(card);
+        if (card == null) {
+            throw new IllegalArgumentException(n + " is not a valid card name");
+        }
+        return card;
     }
 
     public static final Card Phoenix = new Card(Card.CardSpecials.Phoenix);
@@ -32,6 +56,7 @@ public class DeckConstants {
     public static final Card MahJong = new Card(Card.CardSpecials.MahJong);
     public static final Card _1 = MahJong;
     public static final Card Dog = new Card(Card.CardSpecials.Dog);
+    public static final Card Hound = Dog;
     public static final Card _H = Dog;
     public static final Card Dragon = new Card(Card.CardSpecials.Dragon);
     public static final Card _D = Dragon;
