@@ -2,10 +2,10 @@ package net.incongru.tichu.model;
 
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.util.DeckConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *

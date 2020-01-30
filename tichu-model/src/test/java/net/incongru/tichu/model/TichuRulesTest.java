@@ -8,8 +8,8 @@ import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.B3;
@@ -58,9 +58,9 @@ import static net.incongru.tichu.model.util.DeckConstants.Sword_Ace;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_King;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_Queen;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -71,8 +71,8 @@ public class TichuRulesTest {
     public void bombIsFour7s() {
         final Play four7s = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
         final Play three7s = newPlay(Pagoda_7, Sword_7, Jade_7);
-        assertEquals("pre-flight", four7s.getCards().size(), 4);
-        assertEquals("pre-flight", three7s.getCards().size(), 3);
+        assertEquals(four7s.getCards().size(), 4, "pre-flight");
+        assertEquals(three7s.getCards().size(), 3, "pre-flight");
 
         assertTrue(new TichuRules().isBomb(four7s));
         assertFalse(new TichuRules().isBomb(three7s));
@@ -209,7 +209,7 @@ public class TichuRulesTest {
         final TichuRules rules = new TichuRules();
         assertTrue(rules.canPlayAfter(newPlay(Pagoda_2), newPlay(Star_7)));
         assertFalse(rules.canPlayAfter(newPlay(Star_3), newPlay(Pagoda_2)));
-        assertFalse("next play must be strictly higher", rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)));
+        assertFalse(rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)), "next play must be strictly higher");
     }
 
     @Test
@@ -217,7 +217,7 @@ public class TichuRulesTest {
         final TichuRules rules = new TichuRules();
         assertTrue(rules.canPlayAfter(newPlay(Pagoda_2, Star_2), newPlay(Sword_7, Star_7)));
         assertFalse(rules.canPlayAfter(newPlay(Star_3, Sword_3), newPlay(Pagoda_2, Star_2)));
-        assertFalse("next pair must be strictly higher", rules.canPlayAfter(newPlay(Star_2, Sword_2), newPlay(Pagoda_2, Jade_2)));
+        assertFalse(rules.canPlayAfter(newPlay(Star_2, Sword_2), newPlay(Pagoda_2, Jade_2)), "next pair must be strictly higher");
     }
 
     @Test
@@ -238,13 +238,13 @@ public class TichuRulesTest {
     }
 
     @Test
-    @Ignore("We don't have a factory yet")
+    @Disabled("We don't have a factory yet")
     public void findFullHouse() {
         assertThat(newPlay(K2, B2, R2, R3, B3)).isInstanceOf(FullHouse.class);
     }
 
     @Test
-    @Ignore("We don't have a factory yet")
+    @Disabled("We don't have a factory yet")
     public void consecutivePairs() {
         assertThat(newPlay(K2, B2, R3, B3)).isInstanceOf(ConsecutivePairs.class);
         assertThat(newPlay(K2, B2, R4, B4)).isNotInstanceOf(ConsecutivePairs.class);

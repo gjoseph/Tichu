@@ -2,7 +2,7 @@ package net.incongru.tichu.model.plays;
 
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
