@@ -1,18 +1,26 @@
 # General format:
 # Comments are allowed
-# Action or statement is on one line
+# Action is on one line
 # Recognised by certain keywords
-# Game expects certain events in ordercreate table, join team, ...
-# Expectations and debug output are "special" statements that are "attached" to the previous one? Or maybe they just
+# Game - expects certain events in order: create table, join team, ...
+# These actions might well be the same action objects used by clients
+# - expectations and debug output are "special" actions that are "attached" to the previous one? Or maybe they just
 # look at the previous result no matter what.
-# Expectations, debugs and certain statement are only available in "test" or "cheat" mode, such that this text interface is actually
+# - expectations, debugs and certain actions are only available in "test" or "cheat" mode, such that this text interface is actually
 # usable in real clients.
+# If no expectation is specified, we expect the action to be successful
 
-start
+init game of 4 # at some point we might support different rules
+
 alex joins team 1
 charlie joins team 1
 jules joins team 2
 quinn joins team 2
+
+quinn is ready
+charlie is ready
+alex is ready
+jules is ready
 
 # deal
 # let's cheat instead:
@@ -38,27 +46,27 @@ cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r0,rj,bj,kj,gj
 
 alex plays _1,r2,b3,k4,g5,r6,b7,k8
 jules plays g3,r4,b5,k6,g7,r8,b9
-expect error "not your turn"
+- expect error "not your turn"
 charlie plays g2,r3,b4,k5,g6,r7,b8,k9
 jules plays g3,r4,b5,k6,g7,r8,b9
-expect invalid-play "too weak"
+- expect invalid-play "too weak"
 jules passes
 quinn plays k3,g4,r5,b6,k7,g8,r9,r0
-expect win-trick
+- expect win-trick
 alex passes # TODO not sure we should have to pass explicitly
 charlie passes # TODO not sure we should have to pass explicitly
 jules passes # TODO not sure we should have to pass explicitly
 
 quinn plays r9
-expect error "not in hand"
+- expect error "not in hand"
 quinn plays rk # TODO should be his turn, on a new trick
 alex plays ra
 charlie plays _d
-charlie hand
+charlie hand??
 charlie plays _h
 
 quinn plays rj,bj,kj,gj
-expect is-a bomb
-expect win
-expect score team1 80
-expect score team2 20
+- expect is-a bomb
+- expect win
+- expect score team1 80
+- expect score team2 20
