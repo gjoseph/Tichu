@@ -1,4 +1,4 @@
-package net.incongru.tichu.cli;
+package net.incongru.tichu.simu;
 
 import org.junit.jupiter.api.Test;
 
