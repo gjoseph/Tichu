@@ -3,6 +3,8 @@ package net.incongru.tichu.simu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 public class TokenisedLine {
     private final List<String> originalTokens;
@@ -32,11 +34,15 @@ public class TokenisedLine {
      * @return whether the token is equal to the given String
      */
     boolean test(int i, String expectedValue) {
-        boolean peek = peek(i).equals(expectedValue);
-        if (peek) {
-            pop(i);
-        }
-        return peek;
+        return test(i, s -> s.equals(expectedValue)).isPresent();
+    }
+
+    /**
+     * Tests the token at index i with the given Predicate, and pops it if it matches.
+     * @return the popped value, if any, or an empty Optional otherwise
+     */
+    Optional<String> test(int i, Predicate<String> predicate) {
+        return predicate.test(peek(i)) ? Optional.of(pop(i)) : Optional.empty();
     }
 
     /**

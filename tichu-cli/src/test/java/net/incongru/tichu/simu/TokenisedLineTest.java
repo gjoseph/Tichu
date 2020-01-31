@@ -28,11 +28,20 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void testMatchesStringToken() {
+    public void testMatchesExactString() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertThat(t.test(1, "not-bar")).isFalse();
         assertEquals("foo bar qux zoom", t.remainder());
         assertThat(t.test(1, "bar")).isTrue();
+        assertEquals("foo qux zoom", t.remainder());
+    }
+
+    @Test
+    public void testMatchesWithPredicate() {
+        TokenisedLine t = new TokenisedLine("foo bar qux zoom");
+        assertThat(t.test(1, s -> s.matches("[a-z]{7}"))).isEmpty();
+        assertEquals("foo bar qux zoom", t.remainder());
+        assertThat(t.test(1, s -> s.matches("[abr]{3}"))).contains("bar");
         assertEquals("foo qux zoom", t.remainder());
     }
 }
