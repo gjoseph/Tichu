@@ -1,4 +1,4 @@
-package net.incongru.tichu.cli;
+package net.incongru.tichu.cli.oldstuff;
 
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Players;

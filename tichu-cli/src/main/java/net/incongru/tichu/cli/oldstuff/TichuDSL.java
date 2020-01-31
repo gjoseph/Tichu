@@ -1,4 +1,4 @@
-package net.incongru.tichu.cli;
+package net.incongru.tichu.cli.oldstuff;
 
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.Card;
@@ -7,7 +7,6 @@ import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.model.Trick;
-import org.fusesource.jansi.Ansi;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -22,11 +21,9 @@ import java.util.function.Supplier;
  * and exposed them as bean properties (i.e 'getHelp()' is invoked with 'help')
  */
 public class TichuDSL {
-    private final UI ui;
     private Game game;
 
-    public TichuDSL(UI ui) {
-        this.ui = ui;
+    public TichuDSL() {
     }
 
     private Game game() {
@@ -38,7 +35,7 @@ public class TichuDSL {
 
     public Supplier<Void> getHelp() {
         return () -> {
-            ui.println("Help text here");
+            // ui.println("Help text here");
             return null;
         };
     }
@@ -52,21 +49,21 @@ public class TichuDSL {
 
     public Supplier<Void> getScore() {
         return () -> {
-            ui.println("> Current score: " + String.valueOf(game().globalScore()));
+            // ui.println("> Current score: " + String.valueOf(game().globalScore()));
             return null;
         };
     }
 
     public Supplier<Void> getStart() {
         return () -> {
-            ui.println("> New game ...");
+            // ui.println("> New game ...");
             final Players players = new Players("Greg", "Rufus", "Team Gruf", "Isa", "Kade", "Team Kasa");
             final Game game = new Game(players, new TichuRules());
 
             // TODO create game when players join/identify themselves, start it on demand too
 
             final Trick firstTrick = game.start().start();
-            ui.println("> " + firstTrick.nextPlayer().name() + " goes ...");
+            // ui.println("> " + firstTrick.nextPlayer().name() + " goes ...");
             this.game = game;
             return null;
         };
@@ -103,10 +100,10 @@ public class TichuDSL {
 //                    a.fg(Ansi.Color.BLUE).a("> ${p.name()} tried to be a smart ass and played cards he/she doesn't have: ${cards-p.hand}")
 //            }
             final Play.PlayResult res = game().currentRound().currentTrick().play(p, Sets.newHashSet(cards));
-            ui.println("> " + p.name() + " played " + String.valueOf(res.play()) + ": " + String.valueOf(res.result()) + " : " + res.message());
-            ui.printAnsi(a -> {
-                return a.fg(Ansi.Color.WHITE).a(":: cards left in " + p.name() + "\'s hand: " + String.valueOf(p.hand()));
-            });
+            // ui.println("> " + p.name() + " played " + String.valueOf(res.play()) + ": " + String.valueOf(res.result()) + " : " + res.message());
+            // ui.printAnsi(a -> {
+            //   return a.fg(Ansi.Color.WHITE).a(":: cards left in " + p.name() + "\'s hand: " + String.valueOf(p.hand()));
+            // });
             return null;
         };
     }
@@ -121,14 +118,14 @@ public class TichuDSL {
         return (Players.Player p) -> {
 
             //TODO is it even their turn ?
-            this.ui.println("> " + p.name() + " passes.");
+            // this.ui.println("> " + p.name() + " passes.");
             return playerPlayCards(new Card[0]).apply(p);
         };
     }
 
     public Function<Players.Player, Void> showHand() {
         return (Players.Player p) -> {
-            ui.printAnsi(a -> a.fg(Ansi.Color.CYAN).a(p.name() + "'s hand: " + String.valueOf(p.hand())));
+            // ui.printAnsi(a -> a.fg(Ansi.Color.CYAN).a(p.name() + "'s hand: " + String.valueOf(p.hand())));
             return null;
         };
     }
