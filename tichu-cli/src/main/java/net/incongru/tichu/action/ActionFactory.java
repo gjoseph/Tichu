@@ -17,4 +17,6 @@ public interface ActionFactory {
     Action isReady(String playerName);
 
     Action cheatDeal(String playerName, List<Card> cards);
+
+    Action plays(String playerName, List<Card> cards);
 }

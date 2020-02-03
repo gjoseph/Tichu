@@ -39,12 +39,16 @@ class ActionLineParsers {
                         t -> t.test(0, "cheat-deal"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final String cardsStr = t.remainder();
-                            final List<Card> cards = Arrays.stream(cardsStr.split("\\s*,\\s*"))
-                                    .map(DeckConstants::byName)
-                                    .collect(Collectors.toList());
+                            final List<Card> cards = remainderAsCards(t);
                             return actionFactory.cheatDeal(playerName, cards);
-
+                        }
+                ),
+                simpleParser(
+                        t -> t.test(1, "plays"),
+                        t -> {
+                            final String playerName = t.pop(0);
+                            final List<Card> cards = remainderAsCards(t);
+                            return actionFactory.plays(playerName, cards);
                         }
                 )
 
@@ -66,6 +70,13 @@ class ActionLineParsers {
         } catch (NumberFormatException e) {
             throw new LineParserException(t, e.getMessage());
         }
+    }
+
+    private List<Card> remainderAsCards(TokenisedLine t) {
+        final String cardsStr = t.remainder();
+        return Arrays.stream(cardsStr.split("\\s*,\\s*"))
+                .map(DeckConstants::byName)
+                .collect(Collectors.toList());
     }
 
     private ActionLineParser simpleParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, Action> function) {

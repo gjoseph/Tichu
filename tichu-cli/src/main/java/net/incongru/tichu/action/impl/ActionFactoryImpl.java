@@ -29,4 +29,9 @@ public class ActionFactoryImpl implements ActionFactory {
         // TODO check we're in cheat/simu mode
         return new CheatDeal(playerName, cards);
     }
+
+    @Override
+    public Action plays(String playerName, List<Card> cards) {
+        return new PlayerPlays(playerName, cards);
+    }
 }

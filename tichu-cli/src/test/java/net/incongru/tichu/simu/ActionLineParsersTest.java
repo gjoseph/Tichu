@@ -95,4 +95,10 @@ public class ActionLineParsersTest {
         verify(actionFactory).cheatDeal("quinn", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
     }
 
+    @Test
+    public void recognisesPlayerPlays() {
+        assertThat(parsers.parse("alex plays _1,r2,b3,k4,g5,r6,b7,k8")).isNotNull();
+        verify(actionFactory).plays("alex", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8));
+    }
+
 }
