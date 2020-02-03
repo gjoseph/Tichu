@@ -15,7 +15,16 @@ class ActionLineParsers {
         this.parsers = Arrays.asList(
                 simpleParser(
                         t -> t.test(0, "init"),
-                        t -> actionFactory.init())
+                        t -> actionFactory.init()),
+                simpleParser(
+                        t -> t.test(1, "joins") &&
+                                t.test(1, "team"),
+                        t -> {
+                            final String playerName = t.pop(0);
+                            final int team = popInt(t, 0) - 1;
+                            return actionFactory.joinTeam(playerName, team);
+                        }
+                )
 
         );
     }
@@ -26,7 +35,15 @@ class ActionLineParsers {
                 .filter(p -> p.accept(tokens))
                 .findFirst()
                 .map(p -> p.parse(tokens))
-                .orElseThrow(() -> new LineParserException(tokens));
+                .orElseThrow(() -> new LineParserException(tokens, "unrecognised action"));
+    }
+
+    private int popInt(TokenisedLine t, int i) {
+        try {
+            return Integer.parseInt(t.pop(i));
+        } catch (NumberFormatException e) {
+            throw new LineParserException(t, e.getMessage());
+        }
     }
 
     private ActionLineParser simpleParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, Action> function) {
@@ -59,8 +76,8 @@ class ActionLineParsers {
     }
 
     static class LineParserException extends RuntimeException {
-        private LineParserException(TokenisedLine line) {
-            super("Can't parse line [" + line.whole() + "], unrecognised action."); // TODO add possible actions, location and filename
+        private LineParserException(TokenisedLine line, String message) {
+            super("Can't parse line [" + line.whole() + "], " + message + "."); // TODO add possible actions, location and filename
         }
     }
 }

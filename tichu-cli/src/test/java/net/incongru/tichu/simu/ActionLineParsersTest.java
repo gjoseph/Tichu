@@ -4,13 +4,19 @@ import net.incongru.tichu.action.ActionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -46,5 +52,19 @@ public class ActionLineParsersTest {
     public void recognisesInitAction() {
         assertThat(parsers.parse("init")).isNotNull();
         verify(actionFactory).init();
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    public void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
+        assertThat(parsers.parse(txt)).isNotNull();
+        verify(actionFactory).joinTeam(expectedPlayerName, expectedTeamIndex);
+    }
+
+    static Stream<Arguments> joinTeamActionIs0Indexed() {
+        return Stream.of(
+                arguments("alex joins team 1", "alex", 0),
+                arguments("charlie joins team 2", "charlie", 1)
+        );
     }
 }

@@ -11,4 +11,9 @@ public class ActionFactoryImpl implements ActionFactory {
         return new InitialiseGame();
     }
 
+    @Override
+    public Action joinTeam(String playerName, int team) {
+        return new JoinTable(playerName, team);
+    }
+
 }
