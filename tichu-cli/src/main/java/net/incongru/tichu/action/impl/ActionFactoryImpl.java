@@ -2,6 +2,9 @@ package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
+import net.incongru.tichu.model.Card;
+
+import java.util.List;
 
 public class ActionFactoryImpl implements ActionFactory {
     // TODO the actions will probably be injected with _stuff_, e.g. some sort of GameContext
@@ -21,4 +24,9 @@ public class ActionFactoryImpl implements ActionFactory {
         return new PlayerIsReady(playerName);
     }
 
+    @Override
+    public Action cheatDeal(String playerName, List<Card> cards) {
+        // TODO check we're in cheat/simu mode
+        return new CheatDeal(playerName, cards);
+    }
 }

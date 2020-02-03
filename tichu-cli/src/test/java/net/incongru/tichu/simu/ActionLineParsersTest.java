@@ -12,8 +12,23 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
+import static net.incongru.tichu.model.util.DeckConstants.B3;
+import static net.incongru.tichu.model.util.DeckConstants.B7;
+import static net.incongru.tichu.model.util.DeckConstants.BK;
+import static net.incongru.tichu.model.util.DeckConstants.G10;
+import static net.incongru.tichu.model.util.DeckConstants.G5;
+import static net.incongru.tichu.model.util.DeckConstants.G9;
+import static net.incongru.tichu.model.util.DeckConstants.GK;
+import static net.incongru.tichu.model.util.DeckConstants.K4;
+import static net.incongru.tichu.model.util.DeckConstants.K8;
+import static net.incongru.tichu.model.util.DeckConstants.KK;
+import static net.incongru.tichu.model.util.DeckConstants.MahJong;
+import static net.incongru.tichu.model.util.DeckConstants.R2;
+import static net.incongru.tichu.model.util.DeckConstants.R6;
+import static net.incongru.tichu.model.util.DeckConstants.RA;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -72,6 +87,12 @@ public class ActionLineParsersTest {
     public void recognisesPlayerIsReady() {
         assertThat(parsers.parse("jules is ready")).isNotNull();
         verify(actionFactory).isReady("jules");
+    }
+
+    @Test
+    public void recognisesCheatDeal() {
+        assertThat(parsers.parse("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra")).isNotNull();
+        verify(actionFactory).cheatDeal("quinn", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
     }
 
 }

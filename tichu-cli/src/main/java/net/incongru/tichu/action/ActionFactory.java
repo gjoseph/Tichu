@@ -1,5 +1,9 @@
 package net.incongru.tichu.action;
 
+import net.incongru.tichu.model.Card;
+
+import java.util.List;
+
 /**
  * Creates Action instances.
  * Currently mostly exists so we can mock out this interface in tests.
@@ -11,4 +15,6 @@ public interface ActionFactory {
     Action joinTeam(String playerName, int team);
 
     Action isReady(String playerName);
+
+    Action cheatDeal(String playerName, List<Card> cards);
 }

@@ -2,11 +2,14 @@ package net.incongru.tichu.simu;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.util.DeckConstants;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 class ActionLineParsers {
     private final List<ActionLineParser> parsers;
@@ -30,6 +33,18 @@ class ActionLineParsers {
                         t -> {
                             final String playerName = t.pop(0);
                             return actionFactory.isReady(playerName);
+                        }
+                ),
+                simpleParser(
+                        t -> t.test(0, "cheat-deal"),
+                        t -> {
+                            final String playerName = t.pop(0);
+                            final String cardsStr = t.remainder();
+                            final List<Card> cards = Arrays.stream(cardsStr.split("\\s*,\\s*"))
+                                    .map(DeckConstants::byName)
+                                    .collect(Collectors.toList());
+                            return actionFactory.cheatDeal(playerName, cards);
+
                         }
                 )
 
