@@ -9,4 +9,6 @@ public interface ActionFactory {
     Action init();
 
     Action joinTeam(String playerName, int team);
+
+    Action isReady(String playerName);
 }

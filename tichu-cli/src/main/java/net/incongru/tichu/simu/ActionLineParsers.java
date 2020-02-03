@@ -24,6 +24,13 @@ class ActionLineParsers {
                             final int team = popInt(t, 0) - 1;
                             return actionFactory.joinTeam(playerName, team);
                         }
+                ),
+                simpleParser(
+                        t -> t.test(1, "is") && t.test(1, "ready"), // TODO test for known player names?
+                        t -> {
+                            final String playerName = t.pop(0);
+                            return actionFactory.isReady(playerName);
+                        }
                 )
 
         );

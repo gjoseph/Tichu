@@ -67,4 +67,11 @@ public class ActionLineParsersTest {
                 arguments("charlie joins team 2", "charlie", 1)
         );
     }
+
+    @Test
+    public void recognisesPlayerIsReady() {
+        assertThat(parsers.parse("jules is ready")).isNotNull();
+        verify(actionFactory).isReady("jules");
+    }
+
 }
