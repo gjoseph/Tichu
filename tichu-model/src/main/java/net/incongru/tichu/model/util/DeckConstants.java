@@ -33,6 +33,9 @@ public class DeckConstants {
             }
             System.out.println(prefix + constName + constVal);
             System.out.println(prefix + card.shortName().replace('*', '_') + " = " + constName + ";");
+            if (card.getVal().shortName() == '0') {
+                System.out.println(prefix + card.shortName().replace("0", "10") + " = " + constName + ";");
+            }
         }
     }
 
@@ -78,6 +81,7 @@ public class DeckConstants {
     public static final Card B9 = Pagoda_9;
     public static final Card Pagoda_10 = new Card(Card.CardNumbers.Ten, Card.CardSuit.Pagoda);
     public static final Card B0 = Pagoda_10;
+    public static final Card B10 = Pagoda_10;
     public static final Card Pagoda_Jack = new Card(Card.CardNumbers.Jack, Card.CardSuit.Pagoda);
     public static final Card BJ = Pagoda_Jack;
     public static final Card Pagoda_Queen = new Card(Card.CardNumbers.Queen, Card.CardSuit.Pagoda);
@@ -104,6 +108,7 @@ public class DeckConstants {
     public static final Card G9 = Jade_9;
     public static final Card Jade_10 = new Card(Card.CardNumbers.Ten, Card.CardSuit.Jade);
     public static final Card G0 = Jade_10;
+    public static final Card G10 = Jade_10;
     public static final Card Jade_Jack = new Card(Card.CardNumbers.Jack, Card.CardSuit.Jade);
     public static final Card GJ = Jade_Jack;
     public static final Card Jade_Queen = new Card(Card.CardNumbers.Queen, Card.CardSuit.Jade);
@@ -130,6 +135,7 @@ public class DeckConstants {
     public static final Card K9 = Sword_9;
     public static final Card Sword_10 = new Card(Card.CardNumbers.Ten, Card.CardSuit.Sword);
     public static final Card K0 = Sword_10;
+    public static final Card K10 = Sword_10;
     public static final Card Sword_Jack = new Card(Card.CardNumbers.Jack, Card.CardSuit.Sword);
     public static final Card KJ = Sword_Jack;
     public static final Card Sword_Queen = new Card(Card.CardNumbers.Queen, Card.CardSuit.Sword);
@@ -156,6 +162,7 @@ public class DeckConstants {
     public static final Card R9 = Star_9;
     public static final Card Star_10 = new Card(Card.CardNumbers.Ten, Card.CardSuit.Star);
     public static final Card R0 = Star_10;
+    public static final Card R10 = Star_10;
     public static final Card Star_Jack = new Card(Card.CardNumbers.Jack, Card.CardSuit.Star);
     public static final Card RJ = Star_Jack;
     public static final Card Star_Queen = new Card(Card.CardNumbers.Queen, Card.CardSuit.Star);

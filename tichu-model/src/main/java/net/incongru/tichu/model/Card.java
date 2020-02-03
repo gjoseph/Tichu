@@ -75,6 +75,7 @@ public class Card {
 
     public enum CardSuit {
         // K is BlacK (Blue exists), which conflicts with King :/
+        // shortNames are the initials of colors rather than the actual name of the suit
         Jade('G'), Sword('K'), Pagoda('B'), Star('R');
         final char shortName;
 

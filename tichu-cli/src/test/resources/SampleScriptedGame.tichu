@@ -24,10 +24,10 @@ jules is ready
 
 # deal
 # let's cheat instead:
-cheat-deal alex _1,r2,b3,k4,g5,r6,b7,k8,g9,g0,bk,kk,gk,ra
+cheat-deal alex _1,r2,b3,k4,g5,r6,b7,k8,g9,g10,bk,kk,gk,ra
 cheat-deal charlie _d,g2,r3,b4,k5,g6,r7,b8,k9,gq,_h,ba,ka,ga
-cheat-deal jules _p,k2,g3,r4,b5,k6,g7,r8,b9,b0,k0,kq,rq,bq
-cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r0,rj,bj,kj,gj
+cheat-deal jules _p,k2,g3,r4,b5,k6,g7,r8,b9,b10,k10,kq,rq,bq
+cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r10,rj,bj,kj,gj
 
 # TODO test support for other card naming
 # player 1 plays Dog // works
@@ -43,6 +43,12 @@ cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r0,rj,bj,kj,gj
 # player 3 passes
 # player 'charlie' passes
 # charlie passes
+
+# Cards can be named by color-initial+number, e.g B9
+# Cards can also be named by suit-name_number, e.g Pagoda_9
+# Number for Ten can be 0 or 10
+# Special cards can be named by their full name ("Dragon", "Dog", "Phoenix", "MahJong") or initial prefixed by underscore:
+# _d (Dragon), _h (Dog, Hund), _p (Phoenix), _1 (MahJong)
 
 alex plays _1,r2,b3,k4,g5,r6,b7,k8
 jules plays g3,r4,b5,k6,g7,r8,b9
