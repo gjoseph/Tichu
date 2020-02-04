@@ -24,6 +24,7 @@ public class SimulationFileParser {
 
         final List<String> lines = SimulationFileLoader.from(p);
         lines.stream()
+                .map(TokenisedLine::new)
                 .map(actionLineParsers::parse)
                 .map((Function<Action, Simulation.ActionAndCommands>) action -> {
                     return ImmutableActionAndCommands.builder()

@@ -11,12 +11,11 @@ class AbstractLineParsers<T> {
         this.parsers = parsers;
     }
 
-    T parse(String line) {
-        final TokenisedLine tokens = new TokenisedLine(line);
+    T parse(TokenisedLine line) {
         return parsers.stream()
-                .filter(p -> p.accept(tokens)) // this does not reset the state of the line, so we expect parsers to be careful
+                .filter(p -> p.accept(line)) // this does not reset the state of the line, so we expect parsers to be careful
                 .findFirst()
-                .map(p -> p.parse(tokens))
-                .orElseThrow(() -> new LineParserException(tokens, "unrecognised " + lineType));
+                .map(p -> p.parse(line))
+                .orElseThrow(() -> new LineParserException(line, "unrecognised " + lineType));
     }
 }

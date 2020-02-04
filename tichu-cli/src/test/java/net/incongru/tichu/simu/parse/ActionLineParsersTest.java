@@ -58,21 +58,21 @@ public class ActionLineParsersTest {
     @Test
     public void throwsOnUnknownAction() {
         Exception exception = assertThrows(LineParserException.class, () -> {
-            parsers.parse("ice cream");
+            parsers.parse(t("ice cream"));
         });
         assertThat(exception).extracting(Throwable::getMessage).matches(s -> s.contains("[ice cream]"));
     }
 
     @Test
     public void recognisesInitAction() {
-        assertThat(parsers.parse("init")).isNotNull();
+        assertThat(parsers.parse(t("init"))).isNotNull();
         verify(actionFactory).init();
     }
 
     @ParameterizedTest
     @MethodSource
     public void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
-        assertThat(parsers.parse(txt)).isNotNull();
+        assertThat(parsers.parse(t(txt))).isNotNull();
         verify(actionFactory).joinTeam(expectedPlayerName, expectedTeamIndex);
     }
 
@@ -85,20 +85,24 @@ public class ActionLineParsersTest {
 
     @Test
     public void recognisesPlayerIsReady() {
-        assertThat(parsers.parse("jules is ready")).isNotNull();
+        assertThat(parsers.parse(t("jules is ready"))).isNotNull();
         verify(actionFactory).isReady("jules");
     }
 
     @Test
     public void recognisesCheatDeal() {
-        assertThat(parsers.parse("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra")).isNotNull();
+        assertThat(parsers.parse(t("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra"))).isNotNull();
         verify(actionFactory).cheatDeal("quinn", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
     }
 
     @Test
     public void recognisesPlayerPlays() {
-        assertThat(parsers.parse("alex plays _1,r2,b3,k4,g5,r6,b7,k8")).isNotNull();
+        assertThat(parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8"))).isNotNull();
         verify(actionFactory).plays("alex", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8));
+    }
+
+    private TokenisedLine t(String line) {
+        return new TokenisedLine(line);
     }
 
 }
