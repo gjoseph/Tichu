@@ -9,11 +9,10 @@ import java.util.List;
 
 import static net.incongru.tichu.simu.parse.FunctionsBasedLineParser.simpleParser;
 
-class ActionLineParsers {
-    private final List<LineParser<Action>> actionParsers;
+class ActionLineParsers extends AbstractLineParsers<Action> {
 
-    public ActionLineParsers(ActionFactory actionFactory) {
-        this.actionParsers = Arrays.asList(
+    ActionLineParsers(ActionFactory actionFactory) {
+        super("action", Arrays.asList(
                 simpleParser(
                         t -> t.test(0, "init"),
                         t -> actionFactory.init()),
@@ -56,16 +55,7 @@ class ActionLineParsers {
                             return actionFactory.passes(playerName);
                         }
                 )
-        );
-    }
-
-    Action parse(String line) {
-        final TokenisedLine tokens = new TokenisedLine(line);
-        return actionParsers.stream()
-                .filter(p -> p.accept(tokens))
-                .findFirst()
-                .map(p -> p.parse(tokens))
-                .orElseThrow(() -> new LineParserException(tokens, "unrecognised action"));
+        ));
     }
 
 }
