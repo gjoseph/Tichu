@@ -1,4 +1,4 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.simu.parse;
 
 import java.util.ArrayList;
 import java.util.Arrays;

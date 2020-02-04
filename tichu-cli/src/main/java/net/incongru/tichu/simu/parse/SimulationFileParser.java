@@ -1,7 +1,10 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.simu.parse;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.impl.ActionFactoryImpl;
+import net.incongru.tichu.simu.ImmutableActionAndExpectations;
+import net.incongru.tichu.simu.ImmutableSimulation;
+import net.incongru.tichu.simu.Simulation;
 
 import java.io.IOException;
 import java.nio.file.Path;

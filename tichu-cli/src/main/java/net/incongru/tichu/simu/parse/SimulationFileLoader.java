@@ -1,4 +1,4 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.simu.parse;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimulationFileLoader {
+class SimulationFileLoader {
 
     static List<String> from(Path p) throws IOException {
         return Files.lines(p)

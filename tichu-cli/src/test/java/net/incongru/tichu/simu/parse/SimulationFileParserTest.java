@@ -1,5 +1,7 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.simu.parse;
 
+import net.incongru.tichu.simu.PathUtil;
+import net.incongru.tichu.simu.Simulation;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

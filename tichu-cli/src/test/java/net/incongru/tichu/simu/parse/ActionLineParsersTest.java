@@ -1,4 +1,4 @@
-package net.incongru.tichu.simu;
+package net.incongru.tichu.simu.parse;
 
 import net.incongru.tichu.action.ActionFactory;
 import org.junit.jupiter.api.AfterEach;
