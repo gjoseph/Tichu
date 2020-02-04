@@ -10,6 +10,6 @@ line1
 
 line3 has multiple words and trailing space
 # ideally i'd want to strip suffix comments line
-# line4 # this comment should be stripped
+ line4   # this comment should be stripped
 #
 
