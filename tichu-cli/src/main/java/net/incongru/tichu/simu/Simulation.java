@@ -10,15 +10,15 @@ import java.util.List;
  */
 @Value.Immutable
 public interface Simulation {
-    List<ActionAndExpectations> actionAndExpectations();
+    List<ActionAndCommands> actionAndCommands();
 
     @Value.Immutable
-    interface ActionAndExpectations {
+    interface ActionAndCommands {
         Action action();
 
-        List<Expectation> expectations();
+        List<Command> commands();
     }
 
-    interface Expectation {
+    interface Command {
     }
 }

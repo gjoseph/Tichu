@@ -4,9 +4,9 @@
 # Recognised by certain keywords
 # Game - expects certain events in order: create table, join team, ...
 # These actions might well be the same action objects used by clients
-# - expectations and debug output are "special" actions that are "attached" to the previous one? Or maybe they just
-# look at the previous result no matter what.
-# - expectations, debugs and certain actions are only available in "test" or "cheat" mode, such that this text interface is actually
+# - commands are directives that are "attached" to the previous actions
+# - commands can be expectations or debug output
+# Certain actions are only available in "test" or "cheat" mode, such that this text interface is actually
 # usable in real clients.
 # If no expectation is specified, we expect the action to be successful
 
