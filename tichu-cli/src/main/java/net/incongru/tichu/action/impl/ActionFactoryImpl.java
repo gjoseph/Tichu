@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ActionFactoryImpl implements ActionFactory {
     // TODO the actions will probably be injected with _stuff_, e.g. some sort of GameContext
+    // which will allow them to e.g check for playerName validity
+    // Maybe Actions will have a validate() method before they get executed.
 
     @Override
     public Action init() {
