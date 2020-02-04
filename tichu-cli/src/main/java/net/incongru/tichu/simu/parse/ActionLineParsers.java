@@ -3,13 +3,11 @@ package net.incongru.tichu.simu.parse;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.util.DeckConstants;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+import static net.incongru.tichu.simu.parse.FunctionsBasedActionLineParser.simpleParser;
 
 class ActionLineParsers {
     private final List<ActionLineParser> parsers;
@@ -24,7 +22,7 @@ class ActionLineParsers {
                                 t.test(1, "team"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final int team = popInt(t, 0) - 1;
+                            final int team = t.popInt(0) - 1;
                             return actionFactory.joinTeam(playerName, team);
                         }
                 ),
@@ -39,7 +37,7 @@ class ActionLineParsers {
                         t -> t.test(0, "cheat-deal"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final List<Card> cards = remainderAsCards(t);
+                            final List<Card> cards = t.remainderAsCards();
                             return actionFactory.cheatDeal(playerName, cards);
                         }
                 ),
@@ -47,7 +45,7 @@ class ActionLineParsers {
                         t -> t.test(1, "plays"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final List<Card> cards = remainderAsCards(t);
+                            final List<Card> cards = t.remainderAsCards();
                             return actionFactory.plays(playerName, cards);
                         }
                 )
@@ -64,53 +62,4 @@ class ActionLineParsers {
                 .orElseThrow(() -> new LineParserException(tokens, "unrecognised action"));
     }
 
-    private int popInt(TokenisedLine t, int i) {
-        try {
-            return Integer.parseInt(t.pop(i));
-        } catch (NumberFormatException e) {
-            throw new LineParserException(t, e.getMessage());
-        }
-    }
-
-    private List<Card> remainderAsCards(TokenisedLine t) {
-        final String cardsStr = t.remainder();
-        return Arrays.stream(cardsStr.split("\\s*,\\s*"))
-                .map(DeckConstants::byName)
-                .collect(Collectors.toList());
-    }
-
-    private ActionLineParser simpleParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, Action> function) {
-        return new FunctionsBasedActionLineParser(predicate, function);
-    }
-
-    interface ActionLineParser {
-        boolean accept(TokenisedLine t);
-
-        Action parse(TokenisedLine t);
-    }
-
-    private static class FunctionsBasedActionLineParser implements ActionLineParser {
-        private final Predicate<TokenisedLine> predicate;
-        private final Function<TokenisedLine, Action> function;
-
-        private FunctionsBasedActionLineParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, Action> function) {
-            this.predicate = predicate;
-            this.function = function;
-        }
-
-        public boolean accept(TokenisedLine t) {
-            return predicate.test(t);
-        }
-
-        public Action parse(TokenisedLine t) {
-            return function.apply(t);
-        }
-
-    }
-
-    static class LineParserException extends RuntimeException {
-        private LineParserException(TokenisedLine line, String message) {
-            super("Can't parse line [" + line.whole() + "], " + message + "."); // TODO add possible actions, location and filename
-        }
-    }
 }

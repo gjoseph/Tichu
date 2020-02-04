@@ -1,10 +1,14 @@
 package net.incongru.tichu.simu.parse;
 
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.util.DeckConstants;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class TokenisedLine {
     private final List<String> originalTokens;
@@ -29,6 +33,14 @@ public class TokenisedLine {
         return consumedTokens.remove(i);
     }
 
+    int popInt(int i) {
+        try {
+            return Integer.parseInt(pop(i));
+        } catch (NumberFormatException e) {
+            throw new LineParserException(this, e.getMessage());
+        }
+    }
+
     /**
      * Compares the token at index i with the given String, and pops it if equals.
      * @return whether the token is equal to the given String
@@ -46,10 +58,24 @@ public class TokenisedLine {
     }
 
     /**
+     * Returns count of unpopped tokens.
+     */
+    int count() {
+        return consumedTokens.size();
+    }
+
+    /**
      * Returns all unpopped tokens as a String.
      */
     String remainder() {
         return String.join(" ", consumedTokens);
+    }
+
+    List<Card> remainderAsCards() {
+        final String cardsStr = remainder();
+        return Arrays.stream(cardsStr.split("\\s*,\\s*"))
+                .map(DeckConstants::byName)
+                .collect(Collectors.toList());
     }
 
     /**
