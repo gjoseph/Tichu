@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Loads up a game round described in a yaml file (to give it _some_ structure and parse easily cause i'm lazy)
@@ -78,14 +77,20 @@ public class Simulator {
 
             //TODO if (playResult.getResult() != Trick.PlayResult.Result.NEXTGOES) {
             //TODO simu should somehow mark when we expect a trick to be finished
-            assertThat(playResult.result()).isEqualTo(play.expectedResult());
+            if (!playResult.result().equals(play.expectedResult())) {
+                throw new IllegalStateException("stuff failed");
+            }
         }
 
-        assertThat(trick).matches(Trick::isDone, "Trick should be done");
+        if (!trick.isDone()) {
+            throw new IllegalStateException("Trick should be done");
+        }
 
         // Do we need to simulate more than 1 round ?
         if (simu.expectedScore() != null) {
-            assertThat(round.score()).isEqualTo(simu.expectedScore());
+            if (!round.score().equals(simu.expectedScore())) {
+                throw new IllegalStateException("Unexpected scores");
+            }
         }
 
         // TODO: assert error
