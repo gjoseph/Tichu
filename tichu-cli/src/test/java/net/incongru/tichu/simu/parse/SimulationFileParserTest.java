@@ -5,6 +5,9 @@ import net.incongru.tichu.simu.Simulation;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class SimulationFileParserTest {
@@ -14,6 +17,10 @@ class SimulationFileParserTest {
         final Simulation simu = assertDoesNotThrow(
                 () -> new SimulationFileParser().parse(PathUtil.resource("/SampleScriptedGame.tichu"))
         );
-        System.out.println("simu = " + simu);
+        final List<Simulation.ActionAndCommands> actionAndExpectations = simu.actionAndCommands();
+        assertThat(actionAndExpectations).hasSize(28);
+        assertThat(actionAndExpectations.get(0).action().getClass().getSimpleName()).isEqualTo("InitialiseGame");
+        assertThat(actionAndExpectations.get(27).action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
+        assertThat(actionAndExpectations.get(27).commands()).hasSize(4);
     }
 }
