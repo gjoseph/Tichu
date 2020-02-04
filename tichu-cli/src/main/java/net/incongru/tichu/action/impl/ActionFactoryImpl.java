@@ -34,4 +34,9 @@ public class ActionFactoryImpl implements ActionFactory {
     public Action plays(String playerName, List<Card> cards) {
         return new PlayerPlays(playerName, cards);
     }
+
+    @Override
+    public Action passes(String playerName) {
+        return new PlayerPasses(playerName);
+    }
 }

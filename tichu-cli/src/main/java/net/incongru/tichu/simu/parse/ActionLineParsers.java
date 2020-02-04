@@ -48,8 +48,14 @@ class ActionLineParsers {
                             final List<Card> cards = t.remainderAsCards();
                             return actionFactory.plays(playerName, cards);
                         }
+                ),
+                simpleParser(
+                        t -> t.test(1, "passes"),
+                        t -> {
+                            final String playerName = t.pop(0);
+                            return actionFactory.passes(playerName);
+                        }
                 )
-
         );
     }
 
