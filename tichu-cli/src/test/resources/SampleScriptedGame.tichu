@@ -10,7 +10,7 @@
 # usable in real clients.
 # If no expectation is specified, we expect the action to be successful
 
-init game of 4 # at some point we might support different rules
+init game of 4 # at some point we might support different rules (nr of players, target score, ...)
 
 alex joins team 1
 charlie joins team 1
@@ -68,11 +68,13 @@ quinn plays r9
 quinn plays rk # TODO should be his turn, on a new trick
 alex plays ra
 charlie plays _d
-charlie hand??
+- debug charlie hand
 charlie plays _h
 
 quinn plays rj,bj,kj,gj
 - expect is-a bomb
-- expect win
+- expect end round
 - expect score team1 80
 - expect score team2 20
+# expect round score vs expect game score
+# expect end round vs expect end game
