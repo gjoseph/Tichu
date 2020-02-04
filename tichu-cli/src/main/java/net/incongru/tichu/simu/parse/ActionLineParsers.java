@@ -7,13 +7,13 @@ import net.incongru.tichu.model.Card;
 import java.util.Arrays;
 import java.util.List;
 
-import static net.incongru.tichu.simu.parse.FunctionsBasedActionLineParser.simpleParser;
+import static net.incongru.tichu.simu.parse.FunctionsBasedLineParser.simpleParser;
 
 class ActionLineParsers {
-    private final List<ActionLineParser> parsers;
+    private final List<LineParser<Action>> actionParsers;
 
     public ActionLineParsers(ActionFactory actionFactory) {
-        this.parsers = Arrays.asList(
+        this.actionParsers = Arrays.asList(
                 simpleParser(
                         t -> t.test(0, "init"),
                         t -> actionFactory.init()),
@@ -55,7 +55,7 @@ class ActionLineParsers {
 
     Action parse(String line) {
         final TokenisedLine tokens = new TokenisedLine(line);
-        return parsers.stream()
+        return actionParsers.stream()
                 .filter(p -> p.accept(tokens))
                 .findFirst()
                 .map(p -> p.parse(tokens))
