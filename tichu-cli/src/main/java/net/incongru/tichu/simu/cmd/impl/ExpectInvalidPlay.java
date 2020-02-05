@@ -1,12 +1,12 @@
-package net.incongru.tichu.simu.cmd;
+package net.incongru.tichu.simu.cmd.impl;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.simu.Simulation;
 
-public class ExpectError implements Simulation.PostActionCommand {
+class ExpectInvalidPlay implements Simulation.PostActionCommand {
     private final String expectedError;
 
-    public ExpectError(String expectedError) {
+    ExpectInvalidPlay(String expectedError) {
         this.expectedError = expectedError;
     }
 
@@ -15,8 +15,4 @@ public class ExpectError implements Simulation.PostActionCommand {
         throw new IllegalStateException("Not implemented yet");
     }
 
-    @Override
-    public String toString() {
-        return "expect:error:" + expectedError;
-    }
 }

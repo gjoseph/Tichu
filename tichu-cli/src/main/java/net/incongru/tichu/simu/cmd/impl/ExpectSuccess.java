@@ -1,9 +1,13 @@
-package net.incongru.tichu.simu.cmd;
+package net.incongru.tichu.simu.cmd.impl;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.simu.Simulation;
 
-public class ExpectSuccess implements Simulation.PostActionCommand {
+class ExpectSuccess implements Simulation.PostActionCommand {
+    ExpectSuccess() {
+        super();
+    }
+
     @Override
     public void exec(Action.Result result) {
         if (!(result instanceof Action.Success)) {

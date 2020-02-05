@@ -5,6 +5,7 @@ import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.ImmutableActionAndCommands;
 import net.incongru.tichu.simu.ImmutableSimulation;
 import net.incongru.tichu.simu.Simulation;
+import net.incongru.tichu.simu.cmd.impl.PostActionCommandFactoryImpl;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -17,7 +18,7 @@ public class SimulationFileParser {
 
     public SimulationFileParser() {
         actionLineParsers = new ActionLineParsers(new ActionFactoryImpl());
-        pacLineParsers = new PACLineParsers();
+        pacLineParsers = new PACLineParsers(new PostActionCommandFactoryImpl());
     }
 
     public Simulation parse(Path p) throws IOException {
