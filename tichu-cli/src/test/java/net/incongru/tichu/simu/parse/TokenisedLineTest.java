@@ -44,4 +44,22 @@ public class TokenisedLineTest {
         assertThat(t.test(1, s -> s.matches("[abr]{3}"))).contains("bar");
         assertEquals("foo qux zoom", t.remainder());
     }
+
+    @Test
+    public void peekMatchesExactString() {
+        TokenisedLine t = new TokenisedLine("foo bar qux zoom");
+        assertThat(t.peek(1, "not-bar")).isFalse();
+        assertEquals("foo bar qux zoom", t.remainder());
+        assertThat(t.peek(1, "bar")).isTrue();
+        assertEquals("foo bar qux zoom", t.remainder());
+    }
+
+    @Test
+    public void peekMatchesWithPredicate() {
+        TokenisedLine t = new TokenisedLine("foo bar qux zoom");
+        assertThat(t.peek(1, s -> s.matches("[a-z]{7}"))).isEmpty();
+        assertEquals("foo bar qux zoom", t.remainder());
+        assertThat(t.peek(1, s -> s.matches("[abr]{3}"))).contains("bar");
+        assertEquals("foo bar qux zoom", t.remainder());
+    }
 }

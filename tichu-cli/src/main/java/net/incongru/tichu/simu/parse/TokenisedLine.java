@@ -27,6 +27,21 @@ public class TokenisedLine {
     }
 
     /**
+     * Compares the token at index i with the given String, and returns true if it is equals, without popping it.
+     */
+    boolean peek(int i, String expectedValue) {
+        return peek(i, s -> s.equals(expectedValue)).isPresent();
+    }
+
+    /**
+     * Tests the token at index i with the given Predicate, and returns it if it matches, without popping it.
+     * @return the matched value value, if any, or an empty Optional otherwise
+     */
+    Optional<String> peek(int i, Predicate<String> predicate) {
+        return predicate.test(peek(i)) ? Optional.of(peek(i)) : Optional.empty();
+    }
+
+    /**
      * Removes and returns the token at index i.
      */
     String pop(int i) {
