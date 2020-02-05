@@ -16,9 +16,19 @@ public interface Simulation {
     interface ActionAndCommands {
         Action action();
 
-        List<Command> commands();
+        List<PostActionCommand> commands();
     }
 
-    interface Command {
+    interface PostActionCommand {
+        /**
+         * @throws PostActionCommandException
+         */
+        void exec(Action.Result result);
+    }
+
+    class PostActionCommandException extends RuntimeException {
+        public PostActionCommandException(String message) {
+            super(message);
+        }
     }
 }

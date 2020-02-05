@@ -13,14 +13,14 @@ import java.util.List;
 public class SimulationFileParser {
 
     private final ActionLineParsers actionLineParsers;
-    private final CommandLineParsers commandLineParsers;
+    private final PACLineParsers pacLineParsers;
 
     public SimulationFileParser() {
         actionLineParsers = new ActionLineParsers(new ActionFactoryImpl());
-        commandLineParsers = new CommandLineParsers();
+        pacLineParsers = new PACLineParsers();
     }
 
-    Simulation parse(Path p) throws IOException {
+    public Simulation parse(Path p) throws IOException {
         final ImmutableSimulation.Builder builder = ImmutableSimulation.builder();
         final List<String> lines = SimulationFileLoader.from(p);
         int i = 0;
@@ -32,7 +32,7 @@ public class SimulationFileParser {
                 i++;
                 final TokenisedLine cmdTokens = new TokenisedLine(lines.get(i));
                 cmdTokens.pop(0); // strip leading dash -- TODO this whole loop could be improved, but needs test before refactor
-                final Simulation.Command cmd = commandLineParsers.parse(cmdTokens);
+                final Simulation.PostActionCommand cmd = pacLineParsers.parse(cmdTokens);
                 ae.addCommands(cmd);
             }
             final ImmutableActionAndCommands build = ae.build();
