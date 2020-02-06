@@ -13,6 +13,7 @@
         <module>tichu-model</module>
         <module>tichu-cli</module>
         <module>tichu-server</module>
+        <module>tichu-archunit</module>
     </modules>
 
     <dependencyManagement>
@@ -31,6 +32,11 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-server</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-archunit</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
 
@@ -81,7 +87,12 @@
                 <version>3.2.4</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>com.tngtech.archunit</groupId>
+                <artifactId>archunit-junit5</artifactId>
+                <version>0.13.0</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
