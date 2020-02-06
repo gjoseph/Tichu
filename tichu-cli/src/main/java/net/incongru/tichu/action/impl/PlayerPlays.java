@@ -2,6 +2,7 @@ package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.simu.GameContext;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ class PlayerPlays implements Action {
     }
 
     @Override
-    public Result exec() {
+    public Result exec(GameContext ctx) {
         throw new IllegalStateException("Not implemented yet");
     }
 }

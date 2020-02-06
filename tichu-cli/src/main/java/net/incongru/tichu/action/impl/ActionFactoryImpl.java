@@ -6,9 +6,10 @@ import net.incongru.tichu.model.Card;
 
 import java.util.List;
 
+// TODO this factory is for simulated/fake games. We probably need a different impl for real games.
+
 public class ActionFactoryImpl implements ActionFactory {
-    // TODO the actions will probably be injected with _stuff_, e.g. some sort of GameContext
-    // which will allow them to e.g check for playerName validity
+    // GameContext should allow actions to e.g check for playerName validity
     // Maybe Actions will have a validate() method before they get executed.
 
     @Override

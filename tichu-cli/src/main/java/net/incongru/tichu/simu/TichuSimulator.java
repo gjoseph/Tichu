@@ -11,16 +11,25 @@ import java.nio.file.Path;
  * Executes a game's actions and tests, represented in a text file.
  */
 public class TichuSimulator {
+
+    private final GameContextFactory gameContextFactory;
+
     public TichuSimulator() {
+        this.gameContextFactory = GameContext::new;
     }
 
     void executeSimulation(Path p) throws IOException {
         final Simulation simu = new SimulationFileParser().parse(p);
+        final GameContext ctx = gameContextFactory.newContext();
+
         for (Simulation.ActionAndCommands actionAndCommands : simu.actionAndCommands()) {
-            final Action.Result res = actionAndCommands.action().exec();
+            System.out.println("Executing action: " + actionAndCommands.action());
+            final Action.Result res = actionAndCommands.action().exec(ctx);
+            System.out.println("Result: " + res);
             for (Simulation.PostActionCommand postActionCommand : actionAndCommands.commands()) {
                 postActionCommand.exec(res);
             }
+            System.out.println();
         }
     }
 
