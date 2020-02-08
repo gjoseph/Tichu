@@ -47,7 +47,7 @@ public class Simulator {
 
     public static void simulateFrom(InputStream in) {
 
-        final Players players = new Players("p1", "p3", "t13", "p2", "p4", "t24");
+        final Players players = new Players();
         final Simulation simu = loadAndParse(players, in);
 
         final TichuRules rules = new TichuRules() {

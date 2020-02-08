@@ -2,33 +2,46 @@ package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
 
+import java.util.Objects;
+
 /**
  *
  */
 public class Team {
     private final String name;
-    private final Player player1;
-    private final Player player2;
+    private final Player[] players = new Player[2];
 
-    public Team(String name, Player player1, Player player2) {
+    public Team(String name) {
         Preconditions.checkNotNull(name, "Team name can't be null");
-        Preconditions.checkNotNull(player1, "Player 1 for team %s can't be null", name);
-        Preconditions.checkNotNull(player2, "Player 2 for team %s can't be null", name);
         this.name = name;
-        this.player1 = player1;
-        this.player2 = player2;
     }
 
     public String getName() {
         return name;
     }
 
+    void join(Player p) {
+        Objects.requireNonNull(name, "Player can't be null");
+
+        if (players[0] == null) {
+            players[0] = p;
+        } else if (players[1] == null) {
+            players[1] = p;
+        } else {
+            throw new IllegalStateException("Team is complete");
+        }
+    }
+
+    public boolean isComplete() {
+        return players[0] != null && players[1] != null;
+    }
+
     @Override
     public String toString() {
         return "Team{" +
                 "name='" + name + '\'' +
-                ", player1=" + player1 +
-                ", player2=" + player2 +
+                ", player1=" + players[0] +
+                ", player2=" + players[1] +
                 '}';
     }
 }

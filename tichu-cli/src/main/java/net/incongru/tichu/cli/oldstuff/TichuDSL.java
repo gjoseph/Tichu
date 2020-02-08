@@ -58,7 +58,7 @@ public class TichuDSL {
     public Supplier<Void> getStart() {
         return () -> {
             // ui.println("> New game ...");
-            final Players players = new Players("Greg", "Rufus", "Team Gruf", "Isa", "Kade", "Team Kasa");
+            final Players players = new Players();
             final Game game = new Game(players, new TichuRules());
 
             // TODO create game when players join/identify themselves, start it on demand too

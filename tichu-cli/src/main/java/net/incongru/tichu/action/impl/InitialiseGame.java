@@ -5,6 +5,7 @@ import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Players;
+import net.incongru.tichu.model.Team;
 import net.incongru.tichu.model.TichuRules;
 import net.incongru.tichu.simu.GameContext;
 
@@ -20,9 +21,10 @@ class InitialiseGame implements Action {
 
     @Override
     public Action.Result exec(GameContext ctx) {
-        final Players players = new Players(
-                "p1", "p3", "t13",
-                "p2", "p4", "t24");
+        final Players players = new Players();
+        players.add(new Team("Team 1"));
+        players.add(new Team("Team 2"));
+
         final TichuRules rules = new SimulatedTichuRules();
 
         final Game game = new Game(players, rules);

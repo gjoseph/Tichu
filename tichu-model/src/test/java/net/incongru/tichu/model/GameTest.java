@@ -3,19 +3,17 @@ package net.incongru.tichu.model;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 
+import static net.incongru.tichu.model.TestUtil.samplePlayers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- *
- */
 public class GameTest {
     /**
      * Yeaaaah this is kind of an end-to-end test.
      */
     @Test
     public void testBaseGameFlow() {
-        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         assertThat(game).has(new Condition<>(g -> g.isReadyToStart(), "ready to start"));
         final Round round = game.start();
@@ -35,7 +33,7 @@ public class GameTest {
 
     @Test
     public void totalScoreCount() {
-        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         game.finishRound(new FakeRound(game, ImmutableScore.of(20, 80)));
         game.finishRound(new FakeRound(game, ImmutableScore.of(50, 50)));
@@ -46,7 +44,7 @@ public class GameTest {
 
     @Test
     public void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
-        final Players players = new Players("Greg", "Rufus", "G-R", "Isa", "Catherine", "I-C");
+        final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(0, 0));
     }

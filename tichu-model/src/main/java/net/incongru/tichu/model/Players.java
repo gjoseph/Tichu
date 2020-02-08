@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -23,16 +24,10 @@ public class Players {
     private final List<Player> players = new ArrayList<>(4);
     private final Team[] teams = new Team[2];
 
-    // TODO this API is shit
-    public Players(String player1Name, String player3Name, String team13Name, String player2Name, String player4Name, String team24Name) {
-        players.add(0, new Player(player1Name));
-        players.add(1, new Player(player2Name));
-        players.add(2, new Player(player3Name));
-        players.add(3, new Player(player4Name));
-        teams[0] = new Team(team13Name, players.get(0), players.get(2));
-        teams[1] = new Team(team24Name, players.get(1), players.get(3));
+    public Players() {
+    }
 
-        // Ensure names are unique
+    private void ensureNoDuplicateNames() {
         final List<String> dupes = players.stream() // Meh....
                 .map(Player::name)
                 .map(String::toLowerCase)
@@ -44,9 +39,45 @@ public class Players {
         if (!dupes.isEmpty()) {
             throw new IllegalArgumentException("There can only be one " + dupes);
         }
-
     }
 
+    public void add(Team t) {
+        Objects.requireNonNull(t, "Team can't be null");
+        if (teams[0] == null) {
+            teams[0] = t;
+        } else if (teams[1] == null) {
+            teams[1] = t;
+        } else {
+            throw new IllegalStateException("Enough teams have joined");
+        }
+    }
+
+    public void join(Player p, Team t) {
+        if (isComplete()) {
+            throw new IllegalStateException("All players have joined");
+        }
+//        if (Arrays.binarySearch(teams, t) < 0) { TODO
+//            throw new IllegalArgumentException("Team " + t + " is not at this table");
+//        }
+        t.join(p);
+        players.add(p);
+    }
+
+    public boolean isComplete() {
+        // Ensure names are unique
+        ensureNoDuplicateNames();
+        if (teams.length != 2) {
+            return false;
+        }
+        for (Team team : teams) {
+            if (team == null || !team.isComplete()) {
+                return false;
+            }
+        }
+        return players.size() == 4;
+    }
+
+    // TODO i don't like this method
     public Stream<Player> stream() {
         return players.stream();
     }

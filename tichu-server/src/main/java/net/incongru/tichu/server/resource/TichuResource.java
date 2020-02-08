@@ -32,7 +32,7 @@ public class TichuResource {
     @GET
     @Path("/start")
     public Game newGame() {
-        return new Game(new Players("G", "T", "G-T", "I", "C", "I-C"), new TichuRules());
+        return new Game(new Players(), new TichuRules());
     }
 
     public GameView view(String gameId) {

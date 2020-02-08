@@ -25,7 +25,10 @@ public class Game {
     }
 
     public boolean isReadyToStart() {
-        return !started && currentRound == null && finishedRounds.isEmpty();
+        return !started &&
+                currentRound == null &&
+                finishedRounds.isEmpty() &&
+                players().isComplete();
     }
 
     public Round start() {
