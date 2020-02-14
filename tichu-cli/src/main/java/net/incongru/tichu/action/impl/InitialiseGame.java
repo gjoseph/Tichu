@@ -30,15 +30,7 @@ class InitialiseGame implements Action {
         final Game game = new Game(players, rules);
         ctx.newGame(game);
         return new Success() {
-            @Override
-            public String publicLog() {
-                return "Game initialised";
-            }
-
-            @Override
-            public String actorLog() {
-                return "Game initialised";
-            }
+//                return "Game initialised";
         };
     }
 
