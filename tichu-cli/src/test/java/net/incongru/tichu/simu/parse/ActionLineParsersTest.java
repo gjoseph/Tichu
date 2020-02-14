@@ -1,5 +1,6 @@
 package net.incongru.tichu.simu.parse;
 
+import com.google.common.collect.Sets;
 import net.incongru.tichu.action.ActionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static net.incongru.tichu.model.util.DeckConstants.B3;
@@ -91,13 +91,13 @@ public class ActionLineParsersTest {
     @Test
     public void recognisesCheatDeal() {
         assertThat(parsers.parse(t("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra"))).isNotNull();
-        verify(actionFactory).cheatDeal("quinn", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
+        verify(actionFactory).cheatDeal("quinn", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
     }
 
     @Test
     public void recognisesPlayerPlays() {
         assertThat(parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8"))).isNotNull();
-        verify(actionFactory).plays("alex", Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8));
+        verify(actionFactory).plays("alex", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8));
     }
 
     private TokenisedLine t(String line) {

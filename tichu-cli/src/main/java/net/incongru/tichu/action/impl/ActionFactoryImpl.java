@@ -4,7 +4,7 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.model.Card;
 
-import java.util.List;
+import java.util.Set;
 
 // TODO this factory is for simulated/fake games. We probably need a different impl for real games.
 
@@ -28,13 +28,13 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
-    public Action cheatDeal(String playerName, List<Card> cards) {
+    public Action cheatDeal(String playerName, Set<Card> cards) {
         // TODO check we're in cheat/simu mode
         return new CheatDeal(playerName, cards);
     }
 
     @Override
-    public Action plays(String playerName, List<Card> cards) {
+    public Action plays(String playerName, Set<Card> cards) {
         return new PlayerPlays(playerName, cards);
     }
 

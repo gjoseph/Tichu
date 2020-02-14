@@ -4,13 +4,13 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
-import java.util.List;
+import java.util.Set;
 
 class CheatDeal implements Action {
     private final String playerName;
-    private final List<Card> cards;
+    private final Set<Card> cards;
 
-    CheatDeal(String playerName, List<Card> cards) {
+    CheatDeal(String playerName, Set<Card> cards) {
         // TODO check we're in cheat/simu mode
         this.playerName = playerName;
         this.cards = cards;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -86,11 +87,11 @@ public class TokenisedLine {
         return String.join(" ", consumedTokens);
     }
 
-    List<Card> remainderAsCards() {
+    Set<Card> remainderAsCards() {
         final String cardsStr = remainder();
         return Arrays.stream(cardsStr.split("\\s*,\\s*"))
                 .map(DeckConstants::byName)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**

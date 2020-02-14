@@ -5,7 +5,7 @@ import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.model.Card;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import static net.incongru.tichu.simu.parse.FunctionsBasedLineParser.simpleParser;
 
@@ -36,7 +36,7 @@ class ActionLineParsers extends AbstractLineParsers<Action> {
                         t -> t.test(0, "cheat-deal"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final List<Card> cards = t.remainderAsCards();
+                            final Set<Card> cards = t.remainderAsCards();
                             return actionFactory.cheatDeal(playerName, cards);
                         }
                 ),
@@ -44,7 +44,7 @@ class ActionLineParsers extends AbstractLineParsers<Action> {
                         t -> t.test(1, "plays"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final List<Card> cards = t.remainderAsCards();
+                            final Set<Card> cards = t.remainderAsCards();
                             return actionFactory.plays(playerName, cards);
                         }
                 ),

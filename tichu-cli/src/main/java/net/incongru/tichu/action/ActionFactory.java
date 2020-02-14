@@ -2,7 +2,7 @@ package net.incongru.tichu.action;
 
 import net.incongru.tichu.model.Card;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Creates Action instances.
@@ -16,9 +16,9 @@ public interface ActionFactory {
 
     Action isReady(String playerName);
 
-    Action cheatDeal(String playerName, List<Card> cards);
+    Action cheatDeal(String playerName, Set<Card> cards);
 
-    Action plays(String playerName, List<Card> cards);
+    Action plays(String playerName, Set<Card> cards);
 
     Action passes(String playerName);
 }
