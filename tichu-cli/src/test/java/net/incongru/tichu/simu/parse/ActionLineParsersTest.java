@@ -30,7 +30,7 @@ import static net.incongru.tichu.model.util.DeckConstants.R2;
 import static net.incongru.tichu.model.util.DeckConstants.R6;
 import static net.incongru.tichu.model.util.DeckConstants.RA;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -57,9 +57,10 @@ public class ActionLineParsersTest {
 
     @Test
     public void throwsOnUnknownAction() {
-        Exception exception = assertThrows(LineParserException.class, () -> parsers.parse(t("ice cream")));
-        assertThat(exception.getMessage()).contains("[ice cream]");
-        assertThat(exception.getMessage()).contains("unrecognised action");
+        assertThatThrownBy(() -> parsers.parse(t("ice cream")))
+                .isExactlyInstanceOf(LineParserException.class)
+                .hasMessageContaining("[ice cream]")
+                .hasMessageContaining("unrecognised action");
     }
 
     @Test

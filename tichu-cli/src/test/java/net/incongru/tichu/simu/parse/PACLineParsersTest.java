@@ -15,7 +15,7 @@ import org.mockito.quality.Strictness;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -42,10 +42,10 @@ public class PACLineParsersTest {
 
     @Test
     public void throwsOnUnknownPostActionCommand() {
-        Exception exception = assertThrows(LineParserException.class, () -> parsers.parse(t("ice cream")));
-        assertThat(exception).extracting(Throwable::getMessage).matches(s -> s.contains("[ice cream]"));
-        assertThat(exception.getMessage()).contains("[ice cream]");
-        assertThat(exception.getMessage()).contains("unrecognised post-action-command");
+        assertThatThrownBy(() -> parsers.parse(t("ice cream")))
+                .isInstanceOf(LineParserException.class)
+                .hasMessageContaining("[ice cream]")
+                .hasMessageContaining("unrecognised post-action-command");
     }
 
     @Test
