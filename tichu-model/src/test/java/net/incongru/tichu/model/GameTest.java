@@ -3,8 +3,12 @@ package net.incongru.tichu.model;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.function.Function;
+
 import static net.incongru.tichu.model.TestUtil.samplePlayers;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.not;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
@@ -15,14 +19,15 @@ public class GameTest {
     public void testBaseGameFlow() {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
-        assertThat(game).has(new Condition<>(g -> g.isReadyToStart(), "ready to start"));
+        assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
         final Round round = game.start();
         final Trick trick = round.start();
         assertTrue(game.isStarted());
         assertThat(game)
-                .has(new Condition<>(g -> g.isStarted(), "isStarted"))
-                .has(new Condition<>(g -> !g.isReadyToStart(), "isReadyToStart should be false"))
-                .has(new Condition<>(g -> g.finishedRounds().size() == 0, "finished rounds=0"));
+                .is(new Condition<>(Game::isStarted, "isStarted"))
+                .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
+                // those <> should not be necessary -- assertJ bug?
+                .<List>extracting((Function<Game, List<Game.FinishedRound>>) Game::finishedRounds).hasSize(0);
 
         // hands have been dealt
         assertThat(game.players().getPlayer(1).hand()).hasSize(14);
