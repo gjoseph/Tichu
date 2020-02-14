@@ -11,6 +11,7 @@ public class TestUtil {
         players.join(new Player("Charlie"), t1);
         players.join(new Player("Jules"), t2);
         players.join(new Player("Quinn"), t2);
+        players.stream().forEach(Player::setReady);
         return players;
     }
 }

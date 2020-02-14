@@ -77,6 +77,10 @@ public class Players {
         return players.size() == 4;
     }
 
+    public boolean areAllReady() {
+        return isComplete() && stream().allMatch(Player::isReady);
+    }
+
     // TODO i don't like this method
     public Stream<Player> stream() {
         return players.stream();

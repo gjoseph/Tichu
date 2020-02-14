@@ -28,12 +28,16 @@ public class Game {
         return !started &&
                 currentRound == null &&
                 finishedRounds.isEmpty() &&
-                players().isComplete();
+                players().isComplete() &&
+                players().areAllReady();
     }
 
     public Round start() {
         if (!isReadyToStart()) {
             throw new IllegalStateException("Not ready to start");
+        }
+        if (this.started) {
+            throw new IllegalStateException("Game is already started");
         }
         started = true;
         currentRound = new Round(this);
@@ -44,16 +48,21 @@ public class Game {
     // Originally, we intended for clients to only access current round via start() or next() but that doesn't seem to be convenient
     // they would need to keep the ref to round themselves, and make sure to update it when calling next()
     public Round currentRound() {
+        ensureStarted();
         return currentRound;
     }
 
     public Round next() {
-        if (!started) {
-            throw new IllegalStateException("Not started");
-        }
+        ensureStarted();
         finishRound(currentRound);
         currentRound = new Round(this);
         return currentRound;
+    }
+
+    private void ensureStarted() {
+        if (!started) {
+            throw new IllegalStateException("Game is not started");
+        }
     }
 
     @VisibleForTesting
@@ -74,7 +83,7 @@ public class Game {
     }
 
     @VisibleForTesting
-    boolean isStarted() {
+    public boolean isStarted() {
         return started;
     }
 

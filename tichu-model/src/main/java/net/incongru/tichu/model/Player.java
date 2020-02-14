@@ -11,16 +11,29 @@ import java.util.Set;
  */
 public class Player {
     private final String name;
+    private boolean ready = false;
     private final Set<Card> hand = new LinkedHashSet<>();
     private final Set<Card> wonCards = new LinkedHashSet<>();
 
     public Player(String name) {
         Preconditions.checkNotNull(name, "Player name can't be null");
         this.name = name;
+        this.ready = false;
     }
 
     public String name() {
         return name;
+    }
+
+    public void setReady() {
+        if (this.ready) {
+            throw new IllegalStateException(name() + " is already ready");
+        }
+        this.ready = true;
+    }
+
+    public boolean isReady() {
+        return this.ready;
     }
 
     public void reclaimCards() {
