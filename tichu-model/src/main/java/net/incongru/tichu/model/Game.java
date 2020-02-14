@@ -40,9 +40,13 @@ public class Game {
             throw new IllegalStateException("Game is already started");
         }
         started = true;
-        currentRound = new Round(this);
+        currentRound = newRound();
 
         return currentRound;
+    }
+
+    protected Round newRound() {
+        return new Round(this);
     }
 
     // Originally, we intended for clients to only access current round via start() or next() but that doesn't seem to be convenient
@@ -55,7 +59,7 @@ public class Game {
     public Round next() {
         ensureStarted();
         finishRound(currentRound);
-        currentRound = new Round(this);
+        currentRound = newRound();
         return currentRound;
     }
 

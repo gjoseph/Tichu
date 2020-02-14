@@ -1,10 +1,13 @@
 package net.incongru.tichu.action.impl;
 
+import com.google.common.collect.Sets;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import org.junit.jupiter.api.Test;
 
 import static net.incongru.tichu.assertj.Conditions.notReadyNorStarted;
 import static net.incongru.tichu.assertj.Conditions.started;
+import static net.incongru.tichu.model.util.DeckConstants.B2;
+import static net.incongru.tichu.model.util.DeckConstants.MahJong;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -42,6 +45,8 @@ class PlayerIsReadyTest {
         new JoinTable("jules", 1).exec(ctx);
         new JoinTable("quinn", 1).exec(ctx);
 
+        new CheatDeal("jules", Sets.newHashSet(MahJong, B2)).exec(ctx);
+
         assertThat(ctx.game()).describedAs("Nobody is ready").is(notReadyNorStarted);
         new PlayerIsReady("alex").exec(ctx);
         assertThat(ctx.game()).describedAs("Should still not be ready with just 1 ready player").is(notReadyNorStarted);
@@ -51,5 +56,7 @@ class PlayerIsReadyTest {
         new PlayerIsReady("quinn").exec(ctx);
         assertThat(ctx.game()).describedAs("Should now be ready with all 4 ready players")
                 .is(started);
+        // yikes
+        assertThat(ctx.game().currentRound().currentTrick().nextPlayer().name()).isEqualTo("jules");
     }
 }

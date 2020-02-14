@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.model.Game;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
 class PlayerIsReady implements Action {
@@ -13,8 +14,10 @@ class PlayerIsReady implements Action {
     @Override
     public Result exec(SimulatedGameContext ctx) {
         ctx.player(playerName).setReady();
-        if (ctx.game().players().areAllReady()) {
-            ctx.game().start(); // TODO do we want to check isReadyToStart?
+        final Game game = ctx.game();
+        if (game.players().areAllReady()) {
+            game.start(); // TODO do we want to check isReadyToStart?
+            game.currentRound().start(); // TODO see net.incongru.tichu.model.Round.start
             return new Success() {
                 // game started
             };
