@@ -1,11 +1,11 @@
 package net.incongru.tichu.action;
 
-import net.incongru.tichu.simu.GameContext;
+import net.incongru.tichu.simu.SimulatedGameContext;
 
 public interface Action {
     // type ?
     // description? (would be useful for a log in the client/ui for example)
-    Result exec(GameContext ctx);
+    Result exec(SimulatedGameContext ctx);
 
     enum ActionType {
         init, join, isReady, cheatDeal,

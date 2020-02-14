@@ -2,7 +2,7 @@ package net.incongru.tichu.simu;
 
 import net.incongru.tichu.model.Game;
 
-public class GameContext {
+public class SimulatedGameContext {
     private final Object lock = new Object();
     //    private List<Card> controlledDeck;
     private Game game;

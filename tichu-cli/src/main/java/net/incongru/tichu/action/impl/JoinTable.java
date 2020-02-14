@@ -1,7 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
-import net.incongru.tichu.simu.GameContext;
+import net.incongru.tichu.simu.SimulatedGameContext;
 
 class JoinTable implements Action {
     private final String playerName;
@@ -13,7 +13,7 @@ class JoinTable implements Action {
     }
 
     @Override
-    public Result exec(GameContext ctx) {
+    public Result exec(SimulatedGameContext ctx) {
         // TODO validating team number should be role of action/rules, but where does error bubble up if invalid ?
         throw new IllegalStateException("Not implemented yet");
     }

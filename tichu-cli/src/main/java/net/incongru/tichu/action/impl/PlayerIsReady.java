@@ -1,7 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
-import net.incongru.tichu.simu.GameContext;
+import net.incongru.tichu.simu.SimulatedGameContext;
 
 class PlayerIsReady implements Action {
     private final String playerName;
@@ -11,7 +11,7 @@ class PlayerIsReady implements Action {
     }
 
     @Override
-    public Result exec(GameContext ctx) {
+    public Result exec(SimulatedGameContext ctx) {
         throw new IllegalStateException("Not implemented yet");
     }
 }

@@ -23,7 +23,7 @@ public interface Simulation {
         /**
          * @throws PostActionCommandException
          */
-        void exec(Action.Result result);
+        void exec(SimulatedGameContext ctx, Action.Result result);
     }
 
     class PostActionCommandException extends RuntimeException {

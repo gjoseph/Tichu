@@ -1,6 +1,7 @@
 package net.incongru.tichu.simu.cmd.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
@@ -12,7 +13,7 @@ class ExpectPlay implements Simulation.PostActionCommand {
     }
 
     @Override
-    public void exec(Action.Result result) {
+    public void exec(SimulatedGameContext ctx, Action.Result result) {
         throw new IllegalStateException("Not implemented yet");
     }
 }
