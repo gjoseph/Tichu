@@ -72,15 +72,15 @@ public class Round {
     protected void shuffleAndDeal() {
         final Players players = game.players();
 
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 0; i < 4; i++) {
             players.getPlayer(i).reclaimCards();
         }
 
         final CardDeck cardDeck = game.rules().newShuffledDeck();
 
         // In reality, these loops would be inverted (per card, per player), but this helps controlling draft for simulations
-        for (int p = 1; p <= 4; p++) {
-            for (int c = 1; c <= 14; c++) {
+        for (int p = 0; p < 4; p++) {
+            for (int c = 0; c < 14; c++) {
                 players.getPlayer(p).deal(cardDeck.take());
             }
         }

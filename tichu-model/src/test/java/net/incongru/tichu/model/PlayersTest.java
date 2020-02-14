@@ -33,7 +33,7 @@ public class PlayersTest {
         final Players players = TestUtil.samplePlayers();
 
         assertThat(players.getPlayerByName("Salami")).isEmpty();
-        assertThat(players.getPlayerByName("Charlie")).hasValue(players.getPlayer(2));
+        assertThat(players.getPlayerByName("Charlie")).hasValue(players.getPlayer(1));
         assertThat(players.getPlayerByName("charlie")).hasValue(players.getPlayerByName("Charlie").get());
     }
 

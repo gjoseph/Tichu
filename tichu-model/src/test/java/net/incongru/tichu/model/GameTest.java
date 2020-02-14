@@ -1,39 +1,40 @@
 package net.incongru.tichu.model;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.InstanceOfAssertFactories;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.function.Function;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static net.incongru.tichu.model.TestUtil.samplePlayers;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(SoftAssertionsExtension.class)
 public class GameTest {
     /**
      * Yeaaaah this is kind of an end-to-end test.
      */
     @Test
-    public void testBaseGameFlow() {
+    public void testBaseGameFlow(SoftAssertions softly) {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
         final Round round = game.start();
         final Trick trick = round.start();
-        assertTrue(game.isStarted());
         assertThat(game)
                 .is(new Condition<>(Game::isStarted, "isStarted"))
                 .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
-                // those <> should not be necessary -- assertJ bug?
-                .<List>extracting((Function<Game, List<Game.FinishedRound>>) Game::finishedRounds).hasSize(0);
+                .extracting(Game::finishedRounds, as(InstanceOfAssertFactories.list(Game.FinishedRound.class)))
+                .hasSize(0);
 
         // hands have been dealt
-        assertThat(game.players().getPlayer(1).hand()).hasSize(14);
-        assertThat(game.players().getPlayer(2).hand()).hasSize(14);
-        assertThat(game.players().getPlayer(3).hand()).hasSize(14);
-        assertThat(game.players().getPlayer(4).hand()).hasSize(14);
+        softly.assertThat(game.players().getPlayer(0).hand()).hasSize(14);
+        softly.assertThat(game.players().getPlayer(1).hand()).hasSize(14);
+        softly.assertThat(game.players().getPlayer(2).hand()).hasSize(14);
+        softly.assertThat(game.players().getPlayer(3).hand()).hasSize(14);
     }
 
     @Test

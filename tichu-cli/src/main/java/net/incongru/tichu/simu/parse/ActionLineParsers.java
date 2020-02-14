@@ -21,7 +21,7 @@ class ActionLineParsers extends AbstractLineParsers<Action> {
                                 t.test(1, "team"),
                         t -> {
                             final String playerName = t.pop(0);
-                            final int team = t.popInt(0) - 1;
+                            final int team = t.popInt(0) - 1; // team is 0-indexed, but we expect the text interface to be 1-indexed
                             return actionFactory.joinTeam(playerName, team);
                         }
                 ),

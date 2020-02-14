@@ -95,11 +95,11 @@ public class Players {
     }
 
     /**
-     * Index starts at 1 ?
+     * 0-indexed.
      */
     public Player getPlayer(int i) {
-        Preconditions.checkArgument(1 <= i && i <= 4);
-        return players.get(i - 1);
+        Preconditions.checkArgument(0 <= i && i < 4);
+        return players.get(i);
     }
 
     public Optional<Player> getPlayerByName(String name) {
@@ -109,11 +109,11 @@ public class Players {
     }
 
     /**
-     * Index starts at 1 ?
+     * 0-indexed.
      */
     public Team getTeam(int i) {
-        Preconditions.checkArgument(1 <= i && i >= 2);
-        return teams[i - 1];
+        Preconditions.checkArgument(0 <= i && i < 2);
+        return teams[i];
     }
 
 }
