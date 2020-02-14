@@ -2,6 +2,7 @@ package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Player;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
 import java.util.Set;
@@ -18,6 +19,11 @@ class CheatDeal implements Action {
 
     @Override
     public Result exec(SimulatedGameContext ctx) {
-        throw new IllegalStateException("Not implemented yet");
+        final Player player = ctx.player(playerName);
+        cards.forEach(c -> player.deal(c));
+
+        return new Success() {
+        };
     }
+
 }

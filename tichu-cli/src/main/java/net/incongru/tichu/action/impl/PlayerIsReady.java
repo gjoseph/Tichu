@@ -12,6 +12,16 @@ class PlayerIsReady implements Action {
 
     @Override
     public Result exec(SimulatedGameContext ctx) {
-        throw new IllegalStateException("Not implemented yet");
+        ctx.player(playerName).setReady();
+        if (ctx.game().players().areAllReady()) {
+            ctx.game().start(); // TODO do we want to check isReadyToStart?
+            return new Success() {
+                // game started
+            };
+        } else {
+            return new Success() {
+                // played marked ready but game not started
+            };
+        }
     }
 }
