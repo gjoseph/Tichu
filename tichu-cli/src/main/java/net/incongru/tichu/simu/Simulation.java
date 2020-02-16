@@ -27,8 +27,8 @@ public interface Simulation {
     }
 
     class PostActionCommandException extends RuntimeException {
-        public PostActionCommandException(String message) {
-            super(message);
+        public PostActionCommandException(String format, Object... args) {
+            super(String.format(format, args));
         }
     }
 }

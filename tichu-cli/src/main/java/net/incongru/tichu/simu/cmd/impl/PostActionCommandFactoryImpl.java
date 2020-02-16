@@ -20,6 +20,11 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
+    public Simulation.PostActionCommand expectGameState(ExpectableGameState expectedGameState) {
+        return new ExpectGameState(expectedGameState);
+    }
+
+    @Override
     public Simulation.PostActionCommand expectPlay(TemporaryPlayNamesEnum play) {
         return new ExpectPlay(play);
     }

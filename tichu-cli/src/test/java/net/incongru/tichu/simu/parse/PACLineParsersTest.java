@@ -92,6 +92,25 @@ public class PACLineParsersTest {
 
     @ParameterizedTest
     @MethodSource
+    public void recognisesExpectGameStatus(String txt, PostActionCommandFactory.ExpectableGameState expectedGameState) {
+        // game expectations
+        // not negates the following (peek)
+        // last word is a boolean predicate
+        assertThat(parsers.parse(t(txt))).isNotNull();
+        verify(pacFactory).expectGameState(expectedGameState);
+    }
+
+    static Stream<Arguments> recognisesExpectGameStatus() {
+        return Stream.of(
+                arguments("expect game ready", PostActionCommandFactory.ExpectableGameState.ReadyToStart),
+                arguments("expect game not ready", PostActionCommandFactory.ExpectableGameState.NotReadyToStart),
+                arguments("expect game started", PostActionCommandFactory.ExpectableGameState.Started),
+                arguments("expect game not started", PostActionCommandFactory.ExpectableGameState.NotStarted)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
     public void recognisesExpectRoundTeamScores(String txt, String expectedTeamName, int expectedScore) {
         assertThat(parsers.parse(t(txt))).isNotNull();
         verify(pacFactory).expectRoundScore(expectedTeamName, expectedScore);

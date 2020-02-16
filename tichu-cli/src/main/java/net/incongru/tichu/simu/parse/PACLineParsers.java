@@ -27,9 +27,16 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                         t -> pacFactory.expectInvalidPlay(t.remainder())
                 ),
                 simpleParser(
+                        t -> expect(t, "game"),
+                        t -> {
+                            final PostActionCommandFactory.ExpectableGameState expectedGameState = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.ExpectableGameState.class, t.remainder());
+                            return pacFactory.expectGameState(expectedGameState);
+                        }
+                ),
+                simpleParser(
                         t -> expect(t, "played"),
                         t -> {
-                            final PostActionCommandFactory.TemporaryPlayNamesEnum play = PostActionCommandFactory.TemporaryPlayNamesEnum.byName(t.remainder());
+                            final PostActionCommandFactory.TemporaryPlayNamesEnum play = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.TemporaryPlayNamesEnum.class, t.remainder());
                             return pacFactory.expectPlay(play);
                         }
                 ),

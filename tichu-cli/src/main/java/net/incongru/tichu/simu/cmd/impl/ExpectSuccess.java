@@ -11,7 +11,7 @@ class ExpectSuccess implements Simulation.PostActionCommand {
     @Override
     public void exec(SimulatedGameContext ctx, Action.Result result) {
         if (!(result instanceof Action.Success)) {
-            throw new Simulation.PostActionCommandException("Action expected to succeed but failed: " + result);
+            throw new Simulation.PostActionCommandException("Action expected to succeed but failed: %s", result);
         }
     }
 }
