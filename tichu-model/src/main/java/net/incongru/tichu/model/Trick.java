@@ -55,7 +55,7 @@ public class Trick {
         }
 
         // Validate cards against last play
-        final Play prevPlay = plays.peekLast();
+        final Play prevPlay = previousNonPass();
         if (!rules.canPlayAfter(prevPlay, play)) {
             return new Play.PlayResult(play1, Play.PlayResult.Result.TOOWEAK, "can't play this after " + prevPlay.toString());
         }
@@ -71,16 +71,29 @@ public class Trick {
         return nextPlayer;
     }
 
+    protected Play previousNonPass() {
+        final Iterator<Play> it = plays.descendingIterator();
+        while (it.hasNext()) {
+            final Play last = it.next();
+            if (NO_PASS.test(last)) {
+                return last;
+            }
+        }
+        // At a minimum, we'll have the Initial play
+        throw new IllegalStateException("There has to be at least one non-pass play in the trick");
+    }
+
     // TODO move this to Rules?
     public boolean isDone() {
         // Could probably be optimized. For now, we'll just check the last three plays were passes, so we can assume nothing can happen anymore
-        final boolean hasAnyNonPassPlay = plays.stream().anyMatch(NOPASS);
+        final boolean hasAnyNonPassPlay = plays.stream().anyMatch(NO_PASS_NOR_INITIAL);
         return hasAnyNonPassPlay && Functions.lastNMatches(plays, 3, Pass.class::isInstance);
     }
 
     /**
      * A predicate that checks a play is neither a Pass or an "Initial".
      */
-    private static final Predicate<Play> NOPASS = ((Predicate<Play>) Pass.class::isInstance).or(Initial.class::isInstance).negate();
+    private static final Predicate<Play> NO_PASS_NOR_INITIAL = ((Predicate<Play>) Pass.class::isInstance).or(Initial.class::isInstance).negate();
+    private static final Predicate<Play> NO_PASS = ((Predicate<Play>) Pass.class::isInstance).negate();
 
 }
