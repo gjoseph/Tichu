@@ -10,8 +10,8 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectInvalidPlay(String expectedError) {
-        return new ExpectInvalidPlay(expectedError);
+    public Simulation.PostActionCommand expectPlayResult(PostActionCommandFactory.ExpectablePlayResult expectedPlayResult) {
+        return new ExpectPlayResult(expectedPlayResult);
     }
 
     @Override

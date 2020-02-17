@@ -21,18 +21,8 @@ class PlayerPlays implements Action {
     public Result exec(SimulatedGameContext ctx) {
         final Player player = ctx.player(playerName);
         final Play.PlayResult res = ctx.game().currentRound().currentTrick().play(player, cards);
-        return new PlaySuccess(res);
+
+        return new PlayResult(res);
     }
 
-    private static class PlaySuccess implements Success {
-        private Play.PlayResult playResult;
-
-        public PlaySuccess(Play.PlayResult playResult) {
-            this.playResult = playResult;
-        }
-
-        public Play.PlayResult playResult() {
-            return playResult;
-        }
-    }
 }

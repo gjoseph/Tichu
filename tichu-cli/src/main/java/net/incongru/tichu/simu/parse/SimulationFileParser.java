@@ -5,6 +5,7 @@ import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.ImmutableActionAndCommands;
 import net.incongru.tichu.simu.ImmutableSimulation;
 import net.incongru.tichu.simu.Simulation;
+import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 import net.incongru.tichu.simu.cmd.impl.PostActionCommandFactoryImpl;
 
 import java.io.IOException;
@@ -15,10 +16,12 @@ public class SimulationFileParser {
 
     private final ActionLineParsers actionLineParsers;
     private final PACLineParsers pacLineParsers;
+    private final PostActionCommandFactoryImpl pacFactory;
 
     public SimulationFileParser() {
         actionLineParsers = new ActionLineParsers(new ActionFactoryImpl());
-        pacLineParsers = new PACLineParsers(new PostActionCommandFactoryImpl());
+        pacFactory = new PostActionCommandFactoryImpl();
+        pacLineParsers = new PACLineParsers(pacFactory);
     }
 
     public Simulation parse(Path p) throws IOException {
@@ -28,19 +31,40 @@ public class SimulationFileParser {
         while (i < lines.size()) {
             final TokenisedLine tokens = new TokenisedLine(lines.get(i));
             final Action action = actionLineParsers.parse(tokens);
-            final ImmutableActionAndCommands.Builder ae = ImmutableActionAndCommands.builder().action(action);
+            final ImmutableActionAndCommands.Builder actionAndCommandsBuilder = ImmutableActionAndCommands.builder().action(action);
             while (nextLineIsExpectation(lines, i)) {
                 i++;
                 final TokenisedLine cmdTokens = new TokenisedLine(lines.get(i));
                 cmdTokens.pop(0); // strip leading dash -- TODO this whole loop could be improved, but needs test before refactor
                 final Simulation.PostActionCommand cmd = pacLineParsers.parse(cmdTokens);
-                ae.addCommands(cmd);
+                actionAndCommandsBuilder.addCommands(cmd);
             }
-            final ImmutableActionAndCommands build = ae.build();
-            builder.addActionAndCommands(build);
+
+            final ImmutableActionAndCommands actionAndCommands = actionAndCommandsBuilder.build();
+            if (actionAndCommands.commands().isEmpty()) {
+                final Simulation.PostActionCommand defaultPAC = defaultAfter(actionAndCommands.action());
+                builder.addActionAndCommands(actionAndCommands.withCommands(defaultPAC));
+            } else {
+                builder.addActionAndCommands(actionAndCommands);
+            }
             i++;
         }
         return builder.build();
+    }
+
+
+    /**
+     * When no post-action command is specifically specified by the simulation, execute the default one,
+     * which can depend on the type of action.
+     * TODO not sure this belongs here
+     */
+    private Simulation.PostActionCommand defaultAfter(Action action) {
+        if (action.getClass().getSimpleName().equals("PlayerPlays")) { // ugh.. the class is package-visible so we can't check this here
+            return pacFactory.expectPlayResult(PostActionCommandFactory.ExpectablePlayResult.NextGoes);
+        } else {
+            return pacFactory.expectSuccess();
+        }
+
     }
 
     private boolean nextLineIsExpectation(List<String> lines, int i) {

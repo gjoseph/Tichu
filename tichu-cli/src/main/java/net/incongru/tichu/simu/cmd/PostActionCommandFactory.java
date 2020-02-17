@@ -1,6 +1,7 @@
 package net.incongru.tichu.simu.cmd;
 
 import net.incongru.tichu.model.Game;
+import net.incongru.tichu.model.Play;
 import net.incongru.tichu.simu.Simulation;
 
 import java.util.Arrays;
@@ -13,7 +14,7 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand expectSuccess();
 
-    Simulation.PostActionCommand expectInvalidPlay(String expectedError); // TODO is there an enum of these?
+    Simulation.PostActionCommand expectPlayResult(PostActionCommandFactory.ExpectablePlayResult expectedPlayResult);
 
     Simulation.PostActionCommand expectError(String expectedError);
 
@@ -39,7 +40,8 @@ public interface PostActionCommandFactory {
                     return p;
                 }
             }
-            return null;
+            // throw new LineParserException
+            throw new IllegalArgumentException(name + " is not a valid " + enumClass.getSimpleName());
         }
 
         List<String> altNames();
@@ -64,7 +66,31 @@ public interface PostActionCommandFactory {
         public List<String> altNames() {
             return altNames;
         }
+    }
 
+    enum ExpectablePlayResult implements NameableEnum {
+        NextGoes(Play.PlayResult.Result.NEXTGOES, "next goes", "next"),
+        Take(Play.PlayResult.Result.TAKE, "take pile", "win trick"), // TODO is this really win-trick?
+        TooWeak(Play.PlayResult.Result.TOOWEAK, "too weak"),
+        InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, "invalid play", "invalid combo", "wtf is this even"),
+        NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, "not your turn");
+
+        private final Play.PlayResult.Result modelEquivalent;
+        private final List<String> altNames;
+
+        ExpectablePlayResult(Play.PlayResult.Result modelEquivalent, String... altNames) {
+            this.modelEquivalent = modelEquivalent;
+            this.altNames = Arrays.asList(altNames);
+        }
+
+        public boolean test(Play.PlayResult.Result modelResult) {
+            return modelEquivalent == modelResult;
+        }
+
+        @Override
+        public List<String> altNames() {
+            return altNames;
+        }
     }
 
     enum ExpectableGameState implements NameableEnum, Predicate<Game> {

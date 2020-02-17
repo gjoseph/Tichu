@@ -19,12 +19,15 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                         t -> pacFactory.expectSuccess()
                 ),
                 simpleParser(
-                        t -> expect(t, "error"),
+                        t -> expect(t, "error"), // TODO exactly what are our scenarios, if not invalid plays
                         t -> pacFactory.expectError(t.remainder())
                 ),
                 simpleParser(
-                        t -> expect(t, "invalid-play"),
-                        t -> pacFactory.expectInvalidPlay(t.remainder())
+                        t -> expect(t, "invalid-play"), // TODO other keywords?
+                        t -> {
+                            final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.ExpectablePlayResult.class, t.remainder());
+                            return pacFactory.expectPlayResult(expectedPlayResult);
+                        }
                 ),
                 simpleParser(
                         t -> expect(t, "game"),

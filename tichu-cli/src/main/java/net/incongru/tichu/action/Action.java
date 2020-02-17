@@ -1,5 +1,6 @@
 package net.incongru.tichu.action;
 
+import net.incongru.tichu.model.Play;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
 public interface Action {
@@ -24,10 +25,21 @@ public interface Action {
         // maybe return some form of GameView (updated after action)
     }
 
-    interface InvalidPlay extends Result {
+    interface Error extends Result {
+        String error();// TODO message, i18n, etc
     }
 
-    interface Error extends Result {
+    // Should the PlayerPlays action really be a special case with its own Result? Or do all actions have their own success result?
+    static class PlayResult implements Result {
+        private Play.PlayResult playResult;
+
+        public PlayResult(Play.PlayResult playResult) {
+            this.playResult = playResult;
+        }
+
+        public Play.PlayResult playResult() {
+            return playResult;
+        }
     }
 
 }

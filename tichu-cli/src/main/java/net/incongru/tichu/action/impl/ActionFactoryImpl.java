@@ -4,6 +4,7 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.model.Card;
 
+import java.util.Collections;
 import java.util.Set;
 
 // TODO this factory is for simulated/fake games. We probably need a different impl for real games.
@@ -40,6 +41,6 @@ public class ActionFactoryImpl implements ActionFactory {
 
     @Override
     public Action passes(String playerName) {
-        return new PlayerPasses(playerName);
+        return new PlayerPlays(playerName, Collections.emptySet());
     }
 }

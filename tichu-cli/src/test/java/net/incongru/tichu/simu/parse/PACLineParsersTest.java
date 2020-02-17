@@ -62,8 +62,15 @@ public class PACLineParsersTest {
 
     @Test
     public void recognisesExpectInvalidPlay() {
-        assertThat(parsers.parse(t("expect invalid-play foo"))).isNotNull();
-        verify(pacFactory).expectInvalidPlay("foo");
+        assertThat(parsers.parse(t("expect invalid-play too weak"))).isNotNull();
+        verify(pacFactory).expectPlayResult(PostActionCommandFactory.ExpectablePlayResult.TooWeak);
+    }
+
+    @Test
+    public void failsOnInvalidExpectedPlay() {
+        assertThatThrownBy(() -> parsers.parse(t("expect invalid-play foo")))
+                .isInstanceOf(IllegalArgumentException.class) // TODO LineParserException ?
+                .hasMessageContaining("foo is not a valid ExpectablePlayResult");
     }
 
     @Test
