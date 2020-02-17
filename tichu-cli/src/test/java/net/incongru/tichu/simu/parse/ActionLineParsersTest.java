@@ -101,6 +101,19 @@ public class ActionLineParsersTest {
         verify(actionFactory).plays("alex", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8));
     }
 
+    @Test
+    public void recognisesPlayerPasses() {
+        assertThat(parsers.parse(t("alex passes"))).isNotNull();
+        verify(actionFactory).passes("alex");
+    }
+
+    @Test
+    public void shouldNotAcceptPlayerPlaysWithNoCard() {
+        assertThatThrownBy(() -> parsers.parse(t("alex plays   ")))
+                .isInstanceOf(LineParserException.class)
+                .hasMessageContaining("use the '<player> passes' action instead");
+    }
+
     private TokenisedLine t(String line) {
         return new TokenisedLine(line);
     }

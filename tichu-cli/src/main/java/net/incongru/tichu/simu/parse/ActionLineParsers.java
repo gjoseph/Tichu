@@ -44,6 +44,9 @@ class ActionLineParsers extends AbstractLineParsers<Action> {
                         t -> t.test(1, "plays"),
                         t -> {
                             final String playerName = t.pop(0);
+                            if (t.count() < 1) {
+                                throw new LineParserException(t, "No cards played, use the '<player> passes' action instead.");
+                            }
                             final Set<Card> cards = t.remainderAsCards();
                             return actionFactory.plays(playerName, cards);
                         }
