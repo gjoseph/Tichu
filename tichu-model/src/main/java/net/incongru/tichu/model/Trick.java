@@ -19,13 +19,13 @@ public class Trick {
     private final TichuRules rules;
     private final Deque<Play> plays;
     private final Iterator<Player> playersCycle;
-    private Player nextPlayer;
+    private Player currentPlayer;
 
     // TODO take only one of cycle or whostarts (but cycle.peek shows next, not current)
     public Trick(TichuRules rules, Iterator<Player> playersCycle, Player whoStarts) {
         this.rules = rules;
         this.playersCycle = playersCycle;
-        this.nextPlayer = whoStarts;
+        this.currentPlayer = whoStarts;
         this.plays = new LinkedList<>();
         plays.add(Initial.INSTANCE);
     }
@@ -49,8 +49,8 @@ public class Trick {
         }
 
         // TODO this needs to be moved to TichuRules ?
-        // Validate this player can play now - only nextPlayer can play, unless its a bomb
-        if (!rules.isBomb(play) && !player.equals(nextPlayer)) {
+        // Validate this player can play now - only currentPlayer can play, unless its a bomb
+        if (!rules.isBomb(play) && !player.equals(currentPlayer)) {
             return new Play.PlayResult(play1, Play.PlayResult.Result.INVALIDSTATE, "not your turn");
         }
 
@@ -62,13 +62,12 @@ public class Trick {
 
         plays.add(play);
         player.discard(cards);
-        nextPlayer = playersCycle.next();
+        currentPlayer = playersCycle.next();
         return new Play.PlayResult(play1, Play.PlayResult.Result.NEXTGOES, "next player pls");
     }
 
-    // TODO dubious method name, might imply we're _going_ to next player
-    public Player nextPlayer() {
-        return nextPlayer;
+    public Player currentPlayer() {
+        return currentPlayer;
     }
 
     protected Play previousNonPass() {

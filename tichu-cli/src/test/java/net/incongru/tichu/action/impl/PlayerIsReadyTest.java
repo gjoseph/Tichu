@@ -56,7 +56,8 @@ class PlayerIsReadyTest {
         new PlayerIsReady("quinn").exec(ctx);
         assertThat(ctx.game()).describedAs("Should now be ready with all 4 ready players")
                 .is(started);
-        // yikes
-        assertThat(ctx.game().currentRound().currentTrick().nextPlayer().name()).isEqualTo("jules");
+
+        // We've given Mahjong to Jules, so we just check the trick is setup correctly. What a long method chain ...
+        assertThat(ctx.game().currentRound().currentTrick().currentPlayer().name()).isEqualTo("jules");
     }
 }
