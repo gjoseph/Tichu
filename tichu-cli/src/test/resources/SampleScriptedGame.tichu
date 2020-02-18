@@ -63,10 +63,10 @@ jules plays g3,r4,b5,k6,g7,r8,b9
 - expect invalid-play too weak
 jules passes
 quinn plays k3,g4,r5,b6,k7,g8,r9,r0
-- expect win-trick
 alex passes # TODO not sure we should have to pass explicitly
 charlie passes # TODO not sure we should have to pass explicitly
 jules passes # TODO not sure we should have to pass explicitly
+- expect quinn wins trick
 
 quinn plays r9
 - expect invalid-play not in hand

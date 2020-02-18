@@ -75,8 +75,8 @@ public class PACLineParsersTest {
 
     @Test
     public void recognisesExpectWinTrick() {
-        assertThat(parsers.parse(t("expect win-trick"))).isNotNull();
-        verify(pacFactory).expectWinTrick();
+        assertThat(parsers.parse(t("expect quinn wins trick"))).isNotNull();
+        verify(pacFactory).expectWinTrick("quinn");
     }
 
     @Test

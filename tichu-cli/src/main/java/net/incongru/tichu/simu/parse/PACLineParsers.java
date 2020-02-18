@@ -45,8 +45,11 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                         }
                 ),
                 simpleParser(
-                        t -> expect(t, "win-trick"),
-                        t -> pacFactory.expectWinTrick()
+                        t -> {// <player> wins trick
+                            return t.test(2, "wins") && t.test(2, "trick")
+                                    && t.test(0, "expect");
+                        },
+                        t -> pacFactory.expectWinTrick(t.pop(0))
                 ),
                 simpleParser(
                         t -> t.test(2, "round") && expect(t, "end"),
