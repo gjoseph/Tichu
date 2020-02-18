@@ -54,7 +54,8 @@ public interface PostActionCommandFactory {
 
     enum ExpectablePlayResult implements NameableEnum {
         NextGoes(Play.PlayResult.Result.NEXTGOES, "next goes", "next"),
-        Take(Play.PlayResult.Result.TAKE, "take pile", "win trick"), // TODO is this really win-trick?
+        TrickEnd(Play.PlayResult.Result.TRICK_END, "trick end", "take pile", "win trick"), // TODO is this really win-trick?
+        NotInHand(Play.PlayResult.Result.NOTINHAND, "not in hand", "cheat", "stop stealing cards you dingo"),
         TooWeak(Play.PlayResult.Result.TOOWEAK, "too weak"),
         InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, "invalid play", "invalid combo", "wtf is this even"),
         NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, "not your turn");
