@@ -27,6 +27,7 @@ public class TichuSimulator {
             final Action.Result res = actionAndCommands.action().exec(ctx);
             System.out.println("Result: " + res);
             for (Simulation.PostActionCommand postActionCommand : actionAndCommands.commands()) {
+                System.out.println("PostActionCommand: " + postActionCommand);
                 postActionCommand.exec(ctx, res);
             }
             System.out.println();

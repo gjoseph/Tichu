@@ -17,6 +17,6 @@ class DebugPlayerHand implements Simulation.PostActionCommand {
     @Override
     public void exec(SimulatedGameContext ctx, Action.Result result) {
         final String hand = ctx.player(playerName).hand().stream().map(Card::name).collect(Collectors.joining(", "));
-        ctx.log("%s's cards: %s", playerName, hand);
+        ctx.log("Debug: %s's cards: %s", playerName, hand);
     }
 }
