@@ -1,12 +1,13 @@
-package net.incongru.tichu.simu.cmd;
+package net.incongru.tichu.simu.util;
 
+import net.incongru.tichu.simu.util.NameableEnum;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static net.incongru.tichu.simu.cmd.PostActionCommandFactory.NameableEnum.allNamesOf;
-import static net.incongru.tichu.simu.cmd.PostActionCommandFactory.NameableEnum.byName;
+import static net.incongru.tichu.simu.util.NameableEnum.allNamesOf;
+import static net.incongru.tichu.simu.util.NameableEnum.byName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,7 +40,7 @@ class NameableEnumTest {
                 );
     }
 
-    static enum SampleEnum implements PostActionCommandFactory.NameableEnum {
+    enum SampleEnum implements NameableEnum {
         a, b, c,
         foo("Fu"),
         BAR("tavern", "Pub");

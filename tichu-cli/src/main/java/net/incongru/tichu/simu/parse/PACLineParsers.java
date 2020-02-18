@@ -2,6 +2,7 @@ package net.incongru.tichu.simu.parse;
 
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
+import net.incongru.tichu.simu.util.NameableEnum;
 
 import java.util.Arrays;
 
@@ -25,21 +26,21 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                 simpleParser(
                         t -> expect(t, "invalid-play"), // TODO other keywords?
                         t -> {
-                            final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.ExpectablePlayResult.class, t.remainder());
+                            final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult = NameableEnum.byName(PostActionCommandFactory.ExpectablePlayResult.class, t.remainder());
                             return pacFactory.expectPlayResult(expectedPlayResult);
                         }
                 ),
                 simpleParser(
                         t -> expect(t, "game"),
                         t -> {
-                            final PostActionCommandFactory.ExpectableGameState expectedGameState = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.ExpectableGameState.class, t.remainder());
+                            final PostActionCommandFactory.ExpectableGameState expectedGameState = NameableEnum.byName(PostActionCommandFactory.ExpectableGameState.class, t.remainder());
                             return pacFactory.expectGameState(expectedGameState);
                         }
                 ),
                 simpleParser(
                         t -> expect(t, "played"),
                         t -> {
-                            final PostActionCommandFactory.TemporaryPlayNamesEnum play = PostActionCommandFactory.NameableEnum.byName(PostActionCommandFactory.TemporaryPlayNamesEnum.class, t.remainder());
+                            final PostActionCommandFactory.TemporaryPlayNamesEnum play = NameableEnum.byName(PostActionCommandFactory.TemporaryPlayNamesEnum.class, t.remainder());
                             return pacFactory.expectPlay(play);
                         }
                 ),
