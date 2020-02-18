@@ -1,5 +1,7 @@
 package net.incongru.tichu.model;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicates;
 import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.Pass;
 
@@ -17,7 +19,7 @@ import java.util.function.Predicate;
  */
 public class Trick {
     private final TichuRules rules;
-    private final Deque<Play> plays;
+    private final Deque<Played> plays;
     private final Iterator<Player> playersCycle;
     private Player currentPlayer;
 
@@ -27,7 +29,7 @@ public class Trick {
         this.playersCycle = playersCycle;
         this.currentPlayer = whoStarts;
         this.plays = new LinkedList<>();
-        plays.add(Initial.INSTANCE);
+        plays.add(ImmutablePlayed.of(null, Initial.INSTANCE));
     }
 
     // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
@@ -55,26 +57,34 @@ public class Trick {
         }
 
         // Validate cards against last play
-        final Play prevPlay = previousNonPass();
+        final Play prevPlay = previousNonPass().play();
         if (!rules.canPlayAfter(prevPlay, play)) {
             return new Play.PlayResult(play1, Play.PlayResult.Result.TOOWEAK, "can't play this after " + prevPlay.toString());
         }
 
-        plays.add(play);
+        plays.add(ImmutablePlayed.of(currentPlayer, play));
         player.discard(cards);
-        currentPlayer = playersCycle.next();
-        return new Play.PlayResult(play1, Play.PlayResult.Result.NEXTGOES, "next player pls");
+        if (isDone()) {
+            currentPlayer = null; // TODO is this what we want ??
+            return new Play.PlayResult(play1, Play.PlayResult.Result.TRICK_END, "congrats");
+        } else {
+            currentPlayer = playersCycle.next();
+            return new Play.PlayResult(play1, Play.PlayResult.Result.NEXTGOES, "next player pls");
+        }
     }
 
     public Player currentPlayer() {
+        Preconditions.checkState(!isDone(), "Trick is done, there is no current player");
+        Preconditions.checkState(currentPlayer != null, "Trick is not done, but there is no current player, this should never happen");
         return currentPlayer;
     }
 
-    protected Play previousNonPass() {
-        final Iterator<Play> it = plays.descendingIterator();
+    // TODO not public
+    public Played previousNonPass() {
+        final Iterator<Played> it = plays.descendingIterator();
         while (it.hasNext()) {
-            final Play last = it.next();
-            if (NO_PASS.test(last)) {
+            final Played last = it.next();
+            if (NO_PASS.test(last.play())) {
                 return last;
             }
         }
@@ -85,8 +95,8 @@ public class Trick {
     // TODO move this to Rules?
     public boolean isDone() {
         // Could probably be optimized. For now, we'll just check the last three plays were passes, so we can assume nothing can happen anymore
-        final boolean hasAnyNonPassPlay = plays.stream().anyMatch(NO_PASS_NOR_INITIAL);
-        return hasAnyNonPassPlay && Functions.lastNMatches(plays, 3, Pass.class::isInstance);
+        final boolean hasAnyNonPassPlay = plays.stream().map(Played::play).anyMatch(NO_PASS_NOR_INITIAL);
+        return hasAnyNonPassPlay && Functions.lastNMatches(plays, 3, Predicates.compose(Pass.class::isInstance, Played::play));
     }
 
     /**

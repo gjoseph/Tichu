@@ -16,7 +16,7 @@ public class TrickTest {
     private final TichuRules tichuRules = new TichuRules();
 
     @Test
-    public void isNotDoneIfNotEveryBodyPassed() {
+    public void isDoneOnceEveryBodyPassed() {
         final Players players = samplePlayers();
         final Trick trick = newTrick(players);
         players.getPlayer(0).deal(DeckConstants.B2);
@@ -38,7 +38,7 @@ public class TrickTest {
         // 4th player passes, we're done
         assertThat(
                 trick.play(players.getPlayer(3), Sets.newHashSet()).result()
-        ).isEqualTo(Play.PlayResult.Result.NEXTGOES);
+        ).isEqualTo(Play.PlayResult.Result.TRICK_END);
         assertTrue(trick.isDone());
     }
 
@@ -78,7 +78,7 @@ public class TrickTest {
         assertFalse(trick.isDone());
 
         // previous non-pass play is player 1's single
-        assertThat(trick.previousNonPass().getCards()).isEqualTo(Collections.singleton(DeckConstants.B2));
+        assertThat(trick.previousNonPass().play().getCards()).isEqualTo(Collections.singleton(DeckConstants.B2));
         // player 4 plays another single, that's valid
         assertThat(
                 trick.play(players.getPlayer(3), Sets.newHashSet(DeckConstants.G5)).result()
