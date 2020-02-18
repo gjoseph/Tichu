@@ -5,7 +5,6 @@ import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.ImmutableActionAndCommands;
 import net.incongru.tichu.simu.ImmutableSimulation;
 import net.incongru.tichu.simu.Simulation;
-import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 import net.incongru.tichu.simu.cmd.impl.PostActionCommandFactoryImpl;
 
 import java.io.IOException;
@@ -42,8 +41,7 @@ public class SimulationFileParser {
 
             final ImmutableActionAndCommands actionAndCommands = actionAndCommandsBuilder.build();
             if (actionAndCommands.commands().isEmpty()) {
-                final Simulation.PostActionCommand defaultPAC = defaultAfter(actionAndCommands.action());
-                builder.addActionAndCommands(actionAndCommands.withCommands(defaultPAC));
+                builder.addActionAndCommands(actionAndCommands.withCommands(defaultPostActionCommand()));
             } else {
                 builder.addActionAndCommands(actionAndCommands);
             }
@@ -54,16 +52,10 @@ public class SimulationFileParser {
 
 
     /**
-     * When no post-action command is specifically specified by the simulation, execute the default one,
-     * which can depend on the type of action.
-     * TODO not sure this belongs here
+     * When no post-action command is specifically specified by the simulation, execute the default one.
      */
-    private Simulation.PostActionCommand defaultAfter(Action action) {
-        if (action.getClass().getSimpleName().equals("PlayerPlays")) { // ugh.. the class is package-visible so we can't check this here
-            return pacFactory.expectPlayResult(PostActionCommandFactory.ExpectablePlayResult.NextGoes);
-        } else {
-            return pacFactory.expectSuccess();
-        }
+    private Simulation.PostActionCommand defaultPostActionCommand() {
+        return pacFactory.expectSuccess();
 
     }
 

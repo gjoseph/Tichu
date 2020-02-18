@@ -30,8 +30,8 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectWinTrick() {
-        return new ExpectWinTrick();
+    public Simulation.PostActionCommand expectWinTrick(String expectedPlayerName) {
+        return new ExpectWinTrick(expectedPlayerName);
     }
 
     @Override

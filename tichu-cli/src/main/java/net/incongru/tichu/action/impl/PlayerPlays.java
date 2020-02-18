@@ -22,7 +22,18 @@ class PlayerPlays implements Action {
         final Player player = ctx.player(playerName);
         final Play.PlayResult res = ctx.game().currentRound().currentTrick().play(player, cards);
 
-        return new PlayResult(res);
+        switch (res.result()) {
+            case TRICK_END:
+            case NEXTGOES:
+                return new SuccessPlayResult(res);
+            case TOOWEAK:
+            case INVALIDPLAY:
+            case INVALIDSTATE:
+            case NOTINHAND:
+                return new ErrorPlayResult(res);
+            default:
+                throw new IllegalStateException("Unknown result type :" + res.result());
+        }
     }
 
 }

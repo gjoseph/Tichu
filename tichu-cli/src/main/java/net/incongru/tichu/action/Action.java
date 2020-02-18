@@ -29,16 +29,39 @@ public interface Action {
         String error();// TODO message, i18n, etc
     }
 
-    // Should the PlayerPlays action really be a special case with its own Result? Or do all actions have their own success result?
-    static class PlayResult implements Result {
-        private Play.PlayResult playResult;
+    class AbstractPlayResult implements Result {
+        protected Play.PlayResult playResult;
 
-        public PlayResult(Play.PlayResult playResult) {
+        AbstractPlayResult(Play.PlayResult playResult) {
             this.playResult = playResult;
         }
 
         public Play.PlayResult playResult() {
             return playResult;
+        }
+
+        @Override
+        public String toString() {
+            return getClass().getSimpleName() + "{" +
+                    "playResult=" + playResult +
+                    '}';
+        }
+    }
+
+    static class SuccessPlayResult extends AbstractPlayResult implements Success {
+        public SuccessPlayResult(Play.PlayResult playResult) {
+            super(playResult);
+        }
+    }
+
+    static class ErrorPlayResult extends AbstractPlayResult implements Error {
+        public ErrorPlayResult(Play.PlayResult playResult) {
+            super(playResult);
+        }
+
+        @Override
+        public String error() {
+            return playResult().message();
         }
     }
 

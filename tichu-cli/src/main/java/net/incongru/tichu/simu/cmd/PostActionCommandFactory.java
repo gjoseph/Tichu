@@ -23,7 +23,7 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand expectPlay(TemporaryPlayNamesEnum play);
 
-    Simulation.PostActionCommand expectWinTrick(); // TODO playerName ?
+    Simulation.PostActionCommand expectWinTrick(String expectedPlayerName);
 
     Simulation.PostActionCommand expectEndOfRound();
 
