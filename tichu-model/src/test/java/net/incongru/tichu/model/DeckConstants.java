@@ -53,6 +53,7 @@ public class DeckConstants {
     public static final Card MahJong = new Card(Card.CardSpecials.MahJong);
     public static final Card _1 = MahJong;
     public static final Card Dog = new Card(Card.CardSpecials.Dog);
+    public static final Card Hound = Dog;
     public static final Card _H = Dog;
     public static final Card Dragon = new Card(Card.CardSpecials.Dragon);
     public static final Card _D = Dragon;
