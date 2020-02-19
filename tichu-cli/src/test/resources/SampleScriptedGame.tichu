@@ -72,7 +72,7 @@ charlie plays _d
 charlie plays _h
 
 quinn plays rj,bj,kj,gj
-- expect is-a bomb
+- expect played bomb of four
 - expect end round
 - expect score team1 80
 - expect score team2 20

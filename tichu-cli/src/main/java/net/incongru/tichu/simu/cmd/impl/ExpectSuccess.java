@@ -5,7 +5,6 @@ import net.incongru.tichu.simu.Simulation;
 
 class ExpectSuccess implements Simulation.PostActionCommand {
     ExpectSuccess() {
-        super();
     }
 
     @Override

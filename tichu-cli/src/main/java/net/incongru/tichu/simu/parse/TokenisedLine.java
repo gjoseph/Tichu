@@ -38,7 +38,7 @@ public class TokenisedLine {
      * @return the matched value value, if any, or an empty Optional otherwise
      */
     Optional<String> peek(int i, Predicate<String> predicate) {
-        return predicate.test(peek(i)) ? Optional.of(peek(i)) : Optional.empty();
+        return i < count() && predicate.test(peek(i)) ? Optional.of(peek(i)) : Optional.empty();
     }
 
     /**
@@ -69,7 +69,7 @@ public class TokenisedLine {
      * @return the popped value, if any, or an empty Optional otherwise
      */
     Optional<String> test(int i, Predicate<String> predicate) {
-        return predicate.test(peek(i)) ? Optional.of(pop(i)) : Optional.empty();
+        return i < count() && predicate.test(peek(i)) ? Optional.of(pop(i)) : Optional.empty();
     }
 
     /**

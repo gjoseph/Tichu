@@ -57,10 +57,9 @@ public class ActionLineParsersTest {
 
     @Test
     public void throwsOnUnknownAction() {
-        Exception exception = assertThrows(LineParserException.class, () -> {
-            parsers.parse(t("ice cream"));
-        });
-        assertThat(exception).extracting(Throwable::getMessage).matches(s -> s.contains("[ice cream]"));
+        Exception exception = assertThrows(LineParserException.class, () -> parsers.parse(t("ice cream")));
+        assertThat(exception.getMessage()).contains("[ice cream]");
+        assertThat(exception.getMessage()).contains("unrecognised action");
     }
 
     @Test
