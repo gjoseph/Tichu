@@ -21,13 +21,25 @@ public class Round {
         shuffleAndDeal();
 
         Player firstPlayer = game.rules().whoStarts(game.players());
-        return next(firstPlayer);
+        return newTrick(firstPlayer);
     }
 
-    public Trick next(Player whoStarts) {
-        // TODO
+    private Trick newTrick(Player whoStarts) {
+        if (currentTrick != null && !currentTrick.isDone()) {
+            throw new IllegalStateException("Trick in progress");
+        }
+        // TODO test!!
         currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts), whoStarts);
         return currentTrick;
+    }
+
+    public Trick newTrick() {
+        if (currentTrick == null) {
+            throw new IllegalStateException("Game not started");
+        }
+        // TODO test!!
+        final Player winnerOfLast = currentTrick.previousNonPass().player();
+        return newTrick(winnerOfLast);
     }
 
     public void announce(Player player, Announce announce) {
