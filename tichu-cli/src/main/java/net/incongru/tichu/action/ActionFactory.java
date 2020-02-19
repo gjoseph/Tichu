@@ -21,4 +21,7 @@ public interface ActionFactory {
     Action plays(String playerName, Set<Card> cards);
 
     Action passes(String playerName);
+
+    // TODO unclear if we want this, or if it should be automated when a trick ends - see
+    Action newTrick();
 }

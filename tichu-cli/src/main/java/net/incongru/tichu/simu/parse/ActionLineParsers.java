@@ -57,6 +57,10 @@ class ActionLineParsers extends AbstractLineParsers<Action> {
                             final String playerName = t.pop(0);
                             return actionFactory.passes(playerName);
                         }
+                ),
+                simpleParser(
+                        t -> t.test(0, "new") && t.test(0, "trick"),
+                        t -> actionFactory.newTrick()
                 )
         ));
     }

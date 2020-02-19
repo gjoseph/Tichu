@@ -68,6 +68,7 @@ charlie passes # TODO not sure we should have to pass explicitly
 jules passes # TODO not sure we should have to pass explicitly
 - expect quinn wins trick
 
+new trick
 quinn plays r9
 - expect invalid-play not in hand
 quinn plays rk # TODO should be his turn, on a new trick

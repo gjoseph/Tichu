@@ -43,4 +43,9 @@ public class ActionFactoryImpl implements ActionFactory {
     public Action passes(String playerName) {
         return new PlayerPlays(playerName, Collections.emptySet());
     }
+
+    @Override
+    public Action newTrick() {
+        return new NewTrick();
+    }
 }
