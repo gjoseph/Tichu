@@ -35,6 +35,11 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
+    public Simulation.PostActionCommand expectNextPlayerToBe(String expectedPlayerName) {
+        return new ExpectNextPlayerToBe(expectedPlayerName);
+    }
+
+    @Override
     public Simulation.PostActionCommand expectEndOfRound() {
         return new ExpectEndOfRound();
     }

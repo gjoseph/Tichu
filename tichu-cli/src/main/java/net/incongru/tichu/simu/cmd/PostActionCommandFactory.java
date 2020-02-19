@@ -25,6 +25,8 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand expectWinTrick(String expectedPlayerName);
 
+    Simulation.PostActionCommand expectNextPlayerToBe(String expectedPlayerName);
+
     Simulation.PostActionCommand expectEndOfRound();
 
     Simulation.PostActionCommand expectRoundScore(String teamName, int expectedScore);

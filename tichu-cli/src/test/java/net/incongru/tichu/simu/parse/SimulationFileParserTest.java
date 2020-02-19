@@ -16,11 +16,11 @@ class SimulationFileParserTest {
                 () -> new SimulationFileParser().parse(PathUtil.resource("/SampleScriptedGame.tichu"))
         );
         final List<Simulation.ActionAndCommands> actionAndExpectations = simu.actionAndCommands();
-        assertThat(actionAndExpectations).hasSize(29);
+        assertThat(actionAndExpectations).hasSize(31);
         assertThat(actionAndExpectations.get(0).action().getClass().getSimpleName()).isEqualTo("InitialiseGame");
-        assertThat(actionAndExpectations.get(28).action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
-        assertThat(actionAndExpectations.get(28).commands()).hasSize(4);
-        assertThat(actionAndExpectations.get(28).commands())
+        assertThat(actionAndExpectations.get(30).action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
+        assertThat(actionAndExpectations.get(30).commands()).hasSize(4);
+        assertThat(actionAndExpectations.get(30).commands())
                 .extracting(pac -> pac.getClass().getSimpleName())
                 .containsExactly("ExpectPlay", "ExpectEndOfRound", "ExpectRoundScore", "ExpectRoundScore");
     }

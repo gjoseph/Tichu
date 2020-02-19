@@ -92,6 +92,12 @@ public class PACLineParsersTest {
     }
 
     @Test
+    public void recognisesExpectNextPlayer() {
+        assertThat(parsers.parse(t("expect next player is jules"))).isNotNull();
+        verify(pacFactory).expectNextPlayerToBe("jules");
+    }
+
+    @Test
     public void recognisesExpectEndRound() {
         assertThat(parsers.parse(t("expect end round"))).isNotNull();
         verify(pacFactory).expectEndOfRound();
