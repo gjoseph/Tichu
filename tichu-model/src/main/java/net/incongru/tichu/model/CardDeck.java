@@ -39,10 +39,6 @@ public class CardDeck {
         return cards.remove(0);
     }
 
-    public Card peek() {
-        return cards.get(0);
-    }
-
     public Set<Card> allRemaining() {
         return ImmutableSet.copyOf(cards);
     }
