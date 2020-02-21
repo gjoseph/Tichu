@@ -34,6 +34,10 @@ public class Trick {
 
     // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
     public Play.PlayResult play(Player player, Set<Card> cards) {
+        if (isDone()) {
+            return new Play.PlayResult(Optional.empty(), Play.PlayResult.Result.INVALIDSTATE, "trick is over");
+        }
+
         // Does the player have these cards?
         if (!player.hand().containsAll(cards)) {
             // TODO cheat ?
@@ -53,7 +57,7 @@ public class Trick {
         // TODO this needs to be moved to TichuRules ?
         // Validate this player can play now - only currentPlayer can play, unless its a bomb
         if (!rules.isBomb(play) && !player.equals(currentPlayer)) {
-            return new Play.PlayResult(play1, Play.PlayResult.Result.INVALIDSTATE, "not your turn");
+            return new Play.PlayResult(play1, Play.PlayResult.Result.INVALIDSTATE, "not your turn, it's " + currentPlayer.name() + "'s turn");
         }
 
         // Validate cards against last play
