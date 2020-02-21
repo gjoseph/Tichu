@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.util.DeckConstants;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -111,6 +112,49 @@ public class TrickTest {
                 trick.play(quinn, Sets.newHashSet(DeckConstants.G5)).result()
         ).isEqualTo(Play.PlayResult.Result.NEXTGOES);
         assertFalse(trick.isDone());
+    }
+
+    @Test
+    public void cantPlayDogAfterOtherCard() {
+        alex.deal(DeckConstants.Star_2);
+        charlie.deal(DeckConstants.Dog);
+        final Trick trick = newTrickFromPlayer1(players);
+
+        final Play.PlayResult play1 = trick.play(alex, Collections.singleton(DeckConstants.Star_2));
+        assertThat(play1.result()).isEqualTo(Play.PlayResult.Result.NEXTGOES);
+        assertThat(trick.currentPlayer()).isEqualTo(charlie);
+
+        final Play.PlayResult play2 = trick.play(charlie, Collections.singleton(DeckConstants.Dog));
+        assertThat(play2.result()).isEqualTo(Play.PlayResult.Result.TOOWEAK); // TODO should it be invalid?
+        assertThat(trick.currentPlayer()).isEqualTo(charlie);
+    }
+
+    @Test
+    public void playingDogSkipsToTeamPartner() {
+        final Trick trick = newTrickFromPlayer1(players);
+        alex.deal(DeckConstants.Dog);
+
+        final Play.PlayResult play = trick.play(alex, Collections.singleton(DeckConstants.Dog));
+        assertThat(play.result()).isEqualTo(Play.PlayResult.Result.TRICK_END);
+        assertThat(trick.currentPlayer()).isEqualTo(jules);
+    }
+
+    @Test
+    @Disabled("Currently assuming empty-handed players will 'pass', which is probably not correct ...")
+    public void playingDogSkipsToNextPlayerTeamPartnerIsDone() {
+        final Trick trick = newTrickFromPlayer1(players);
+        alex.deal(DeckConstants.Dog);
+        // jules has no cards, so we'd expect the lead to go to quinn
+        quinn.deal(DeckConstants.Star_2);
+
+        final Play.PlayResult play = trick.play(alex, Collections.singleton(DeckConstants.Dog));
+        assertThat(play.result()).isEqualTo(Play.PlayResult.Result.TRICK_END);
+        assertThat(trick.currentPlayer()).isEqualTo(quinn);
+    }
+
+    @Test
+    @Disabled("Currently assuming empty-handed players will 'pass', which is probably not correct ...")
+    public void playingDogSkipsBackToPlayerIfOthersDone() {
     }
 
     private Trick newTrickFromPlayer1(Players players) {

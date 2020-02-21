@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.Pass;
+import net.incongru.tichu.model.util.DeckConstants;
 
 import java.util.Deque;
 import java.util.Iterator;
@@ -64,12 +65,21 @@ public class Trick {
         plays.add(ImmutablePlayed.of(currentPlayer, play));
         player.discard(cards);
         if (isDone()) {
-            currentPlayer = null; // TODO is this what we want ??
+            currentPlayer = null;
             return new Play.PlayResult(play1, Play.PlayResult.Result.TRICK_END, "congrats");
+        } else if (isDog(play)) {
+            currentPlayer = teamMateOrNextPlayer();
+            return new Play.PlayResult(play1, Play.PlayResult.Result.TRICK_END, "woof");
         } else {
             currentPlayer = playersCycle.next();
             return new Play.PlayResult(play1, Play.PlayResult.Result.NEXTGOES, "next player pls");
         }
+    }
+
+    private Player teamMateOrNextPlayer() {
+        // Of course this will be buggy
+        playersCycle.next();
+        return playersCycle.next();
     }
 
     public Player currentPlayer() {
@@ -93,9 +103,14 @@ public class Trick {
 
     // TODO move this to Rules?
     public boolean isDone() {
-        // Could probably be optimized. For now, we'll just check the last three plays were passes, so we can assume nothing can happen anymore
+        // Has anything been played at all ?
         final boolean hasAnyNonPassPlay = plays.stream().map(Played::play).anyMatch(NO_PASS_NOR_INITIAL);
+        // Could probably be optimized. For now, we'll just check the last three plays were passes, so we can assume nothing can happen anymore
         return hasAnyNonPassPlay && Functions.lastNMatches(plays, 3, Predicates.compose(Pass.class::isInstance, Played::play));
+    }
+
+    private boolean isDog(Play play) {
+        return play.getCards().equals(Set.of(DeckConstants.Dog));
     }
 
     /**

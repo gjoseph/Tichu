@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.plays.ConsecutivePairs;
 import net.incongru.tichu.model.plays.FullHouse;
+import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.InvalidPlay;
 import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Single;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.B3;
 import static net.incongru.tichu.model.util.DeckConstants.B4;
+import static net.incongru.tichu.model.util.DeckConstants.Dog;
 import static net.incongru.tichu.model.util.DeckConstants.G3;
 import static net.incongru.tichu.model.util.DeckConstants.Jade_2;
 import static net.incongru.tichu.model.util.DeckConstants.Jade_3;
@@ -192,6 +194,30 @@ public class TichuRulesTest {
         final Play s_wrong = newPlay(Star_2, Star_3, Star_4, Star_5, Star_6, Star_7, Star_8, Star_9, Star_10,
                 Star_Jack, Star_Queen, Star_King, Star_Ace, Phoenix);
         assertThat(s_wrong).isInstanceOf(InvalidPlay.class);
+    }
+
+    @Test
+    public void dogOnlyValidAsSingleCard() {
+        // there is a vague possibility that dog and mahjong could be paired since they share some "value"
+        assertThat(newPlay(Dog, MahJong)).isInstanceOf(InvalidPlay.class);
+    }
+
+    @Test
+    public void dogCanOnlyBePlayedFirst() {
+        final Play singleDog = newPlay(Dog);
+        final Play singleMahJong = newPlay(MahJong);
+        final TichuRules rules = new TichuRules();
+        assertFalse(rules.canPlayAfter(singleMahJong, singleDog));
+        assertFalse(rules.canPlayAfter(singleDog, singleMahJong));
+        assertTrue(rules.canPlayAfter(Initial.INSTANCE, singleDog));
+    }
+
+    @Test
+    public void dogCanNotBeBombed() {
+        final Play singleDog = newPlay(Dog);
+        final Play bomb = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
+        final TichuRules rules = new TichuRules();
+        assertFalse(rules.canPlayAfter(singleDog, bomb));
     }
 
     @Test

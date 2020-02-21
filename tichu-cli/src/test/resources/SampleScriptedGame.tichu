@@ -75,11 +75,14 @@ quinn plays rk # TODO should be his turn, on a new trick
 alex plays ra
 charlie plays _d
 - debug charlie hand
-charlie plays _h
+jules passes # should not need to pass explicitly... although that gives them a chance to bomb
+quinn passes
+alex passes
+- expect charlie wins trick
 
 new trick
-charlie plays _h # hound
-- expect next player is alex
+charlie plays dog # Charlie is in team 2
+- expect next player is quinn # Quinn is in team 2 with Charlie
 quinn plays rj,bj,kj,gj
 - expect played bomb of four
 - expect end round
