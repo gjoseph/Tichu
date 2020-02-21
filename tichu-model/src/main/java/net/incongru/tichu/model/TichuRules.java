@@ -8,14 +8,17 @@ import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import static net.incongru.tichu.model.Functions.find;
 
 /**
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
+ * TODO a lot of the "rules" are actually encoded in the Trick class. Move them over here?
  */
 public class TichuRules {
     private final List<Play.PlayFactory> factories;
@@ -41,9 +44,13 @@ public class TichuRules {
     }
 
     public Player whoStarts(Players players) {
-        return players.stream().filter(player -> find(player.hand(), Card.CardSpecials.MahJong).isPresent()).findFirst().get();
+        return players.stream().filter(hasMahjong).findFirst().orElseThrow(() -> new IllegalStateException("No player has the Mahjong!?"));
     }
 
+    private static final Predicate<Player> hasMahjong =
+            player -> find(player.hand(), Card.CardSpecials.MahJong).isPresent();
+
+    @Nonnull
     public Play validate(Set<Card> cards) {
         for (Play.PlayFactory factory : factories) {
             Play candidate = factory.is(cards);
@@ -61,7 +68,7 @@ public class TichuRules {
     public boolean isValid(Play play) {
         // check the play even makes sense (no identical cards)
         // maybe it needs the deck or game to know what cards have already been discarded etc
-        // TODO is this needed? dont we trust the Play.Factories? SHould Play have a isValid() method?
+        // TODO is this needed? dont we trust the Play.Factories? Should Play have a isValid() method?
         return !(play instanceof InvalidPlay);
     }
 
