@@ -87,19 +87,22 @@ public class Players {
     }
 
     public Iterator<Player> cycleFrom(Player whoStarts) {
-        final PeekingIterator<Player> cycle = Iterators.peekingIterator(Iterators.cycle(players));
-        while (cycle.next() != whoStarts) {
-            //
+        if (!players.contains(whoStarts)) {
+            throw new IllegalStateException(whoStarts + " is not at this table");
+        }
+        final List<Player> playersOrder = new ArrayList<>();
+        // ... well this works, sure, but player order will never change across the whole game so this feels silly. And won't work with alternative rules.
+        playersOrder.add(teams[0].player(0));
+        playersOrder.add(teams[1].player(0));
+        playersOrder.add(teams[0].player(1));
+        playersOrder.add(teams[1].player(1));
+
+        final PeekingIterator<Player> cycle = Iterators.peekingIterator(Iterators.cycle(playersOrder));
+        // Skip until we find the right player
+        while (cycle.peek() != whoStarts) {
+            cycle.next();
         }
         return cycle;
-    }
-
-    /**
-     * 0-indexed.
-     */
-    public Player getPlayer(int i) {
-        Preconditions.checkArgument(0 <= i && i < 4);
-        return players.get(i);
     }
 
     public Optional<Player> getPlayerByName(String name) {

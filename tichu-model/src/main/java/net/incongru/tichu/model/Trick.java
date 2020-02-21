@@ -23,11 +23,10 @@ public class Trick {
     private final Iterator<Player> playersCycle;
     private Player currentPlayer;
 
-    // TODO take only one of cycle or whostarts (but cycle.peek shows next, not current)
-    public Trick(TichuRules rules, Iterator<Player> playersCycle, Player whoStarts) {
+    public Trick(TichuRules rules, Iterator<Player> playersCycle) {
         this.rules = rules;
         this.playersCycle = playersCycle;
-        this.currentPlayer = whoStarts;
+        this.currentPlayer = playersCycle.next(); // we could probably get rid of `currentPlayer` and just use playersCycle.peek() ?
         this.plays = new LinkedList<>();
         plays.add(ImmutablePlayed.of(null, Initial.INSTANCE));
     }

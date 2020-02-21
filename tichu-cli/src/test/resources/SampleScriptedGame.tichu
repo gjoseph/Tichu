@@ -13,8 +13,8 @@
 init game of 4 # at some point we might support different rules (nr of players, target score, ...)
 
 alex joins team 1
-charlie joins team 1
-jules joins team 2
+jules joins team 1
+charlie joins team 2
 quinn joins team 2
 
 # Let's "cheat"-deal the cards

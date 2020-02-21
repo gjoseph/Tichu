@@ -4,6 +4,7 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -14,12 +15,24 @@ import static org.assertj.core.api.Assertions.not;
 
 @ExtendWith(SoftAssertionsExtension.class)
 public class GameTest {
+
+    private Players players;
+    private Player alex, charlie, jules, quinn;
+
+    @BeforeEach
+    void setUp() {
+        players = samplePlayers();
+        alex = players.getPlayerByName("Alex").orElseThrow();
+        charlie = players.getPlayerByName("Charlie").orElseThrow();
+        jules = players.getPlayerByName("Jules").orElseThrow();
+        quinn = players.getPlayerByName("Quinn").orElseThrow();
+    }
+
     /**
      * Yeaaaah this is kind of an end-to-end test.
      */
     @Test
     public void testBaseGameFlow(SoftAssertions softly) {
-        final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
         final Round round = game.start();
@@ -31,10 +44,10 @@ public class GameTest {
                 .hasSize(0);
 
         // hands have been dealt
-        softly.assertThat(game.players().getPlayer(0).hand()).hasSize(14);
-        softly.assertThat(game.players().getPlayer(1).hand()).hasSize(14);
-        softly.assertThat(game.players().getPlayer(2).hand()).hasSize(14);
-        softly.assertThat(game.players().getPlayer(3).hand()).hasSize(14);
+        softly.assertThat(alex.hand()).hasSize(14);
+        softly.assertThat(charlie.hand()).hasSize(14);
+        softly.assertThat(jules.hand()).hasSize(14);
+        softly.assertThat(quinn.hand()).hasSize(14);
     }
 
     @Test

@@ -29,7 +29,7 @@ public class Round {
             throw new IllegalStateException("Trick in progress");
         }
         // TODO test!!
-        currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts), whoStarts);
+        currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts));
         return currentTrick;
     }
 
@@ -84,18 +84,17 @@ public class Round {
     protected void shuffleAndDeal() {
         final Players players = game.players();
 
-        for (int i = 0; i < 4; i++) {
-            players.getPlayer(i).reclaimCards();
-        }
+        players.stream().forEach(p -> p.reclaimCards());
 
         final CardDeck cardDeck = game.rules().newShuffledDeck();
 
         // In reality, these loops would be inverted (per card, per player), but this helps controlling draft for simulations
-        for (int p = 0; p < 4; p++) {
+        // Also, TODO this is drafting in join-order (see Players#players), so not 100% correct wrt rules
+        players.stream().forEach(player -> {
             for (int c = 0; c < 14; c++) {
-                players.getPlayer(p).deal(cardDeck.take());
+                player.deal(cardDeck.take());
             }
-        }
+        });
     }
 
 }

@@ -32,6 +32,13 @@ public class Team {
         }
     }
 
+    /**
+     * 0-based.
+     */
+    Player player(int index) {
+        return players[index];
+    }
+
     public boolean isComplete() {
         return players[0] != null && players[1] != null;
     }
