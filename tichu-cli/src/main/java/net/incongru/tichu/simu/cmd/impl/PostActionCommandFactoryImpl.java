@@ -25,7 +25,7 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectPlay(TemporaryPlayNamesEnum play) {
+    public Simulation.PostActionCommand expectPlay(ExpectablePlay play) {
         return new ExpectPlay(play);
     }
 

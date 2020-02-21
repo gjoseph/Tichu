@@ -27,7 +27,7 @@ class ExpectPlayResult extends AbstractExpectResult<Action.AbstractPlayResult> {
 
     @Override
     protected String expectedVerb() {
-        return "play";
+        return "result";
     }
 
     @Override

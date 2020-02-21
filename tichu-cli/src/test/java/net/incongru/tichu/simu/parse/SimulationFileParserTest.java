@@ -1,5 +1,6 @@
 package net.incongru.tichu.simu.parse;
 
+import com.google.common.collect.Lists;
 import net.incongru.tichu.simu.PathUtil;
 import net.incongru.tichu.simu.Simulation;
 import org.junit.jupiter.api.Test;
@@ -16,11 +17,12 @@ class SimulationFileParserTest {
                 () -> new SimulationFileParser().parse(PathUtil.resource("/SampleScriptedGame.tichu"))
         );
         final List<Simulation.ActionAndCommands> actionAndExpectations = simu.actionAndCommands();
-        assertThat(actionAndExpectations).hasSize(31);
+        assertThat(actionAndExpectations).hasSize(33);
         assertThat(actionAndExpectations.get(0).action().getClass().getSimpleName()).isEqualTo("InitialiseGame");
-        assertThat(actionAndExpectations.get(30).action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
-        assertThat(actionAndExpectations.get(30).commands()).hasSize(4);
-        assertThat(actionAndExpectations.get(30).commands())
+        final Simulation.ActionAndCommands last = Lists.reverse(actionAndExpectations).get(0);
+        assertThat(last.action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
+        assertThat(last.commands()).hasSize(4);
+        assertThat(last.commands())
                 .extracting(pac -> pac.getClass().getSimpleName())
                 .containsExactly("ExpectPlay", "ExpectEndOfRound", "ExpectRoundScore", "ExpectRoundScore");
     }

@@ -56,6 +56,7 @@ jules is ready
 # _d (Dragon), _h (Dog, Hund), _p (Phoenix), _1 (MahJong)
 
 alex plays _1,r2,b3,k4,g5,r6,b7,k8
+- expect played straight
 jules plays g3,r4,b5,k6,g7,r8,b9
 - expect invalid-play not your turn
 charlie plays g2,r3,b4,k5,g6,r7,b8,k9
@@ -73,7 +74,8 @@ quinn plays r9
 - expect invalid-play not in hand
 quinn plays rk # TODO should be his turn, on a new trick
 alex plays ra
-charlie plays _d
+- expect played single
+charlie plays _d # dragon
 - debug charlie hand
 jules passes # should not need to pass explicitly... although that gives them a chance to bomb
 quinn passes

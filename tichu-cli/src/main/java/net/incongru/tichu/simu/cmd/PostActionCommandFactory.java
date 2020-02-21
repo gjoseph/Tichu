@@ -2,6 +2,7 @@ package net.incongru.tichu.simu.cmd;
 
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.util.NameableEnum;
 
@@ -21,7 +22,7 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand expectGameState(ExpectableGameState expectedGameState);
 
-    Simulation.PostActionCommand expectPlay(TemporaryPlayNamesEnum play);
+    Simulation.PostActionCommand expectPlay(ExpectablePlay play);
 
     Simulation.PostActionCommand expectWinTrick(String expectedPlayerName);
 
@@ -33,24 +34,54 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand debugPlayerHand(String playerName);
 
-    // TODO this should go elsewhere
-    enum TemporaryPlayNamesEnum implements NameableEnum {
-        Single, Pair, Triplet,
+    enum ExpectablePlay implements NameableEnum {
+        Single, Pair, Triple("triplet"),
         FullHouse("full house"),
         Straight("street"),
         ConsecutivePairs("consecutive pairs"),
         BombOf4("bomb of 4", "bomb of four"),
-        StraightBomb("straight bomb", "street bomb");
+        StraightBomb(play -> play instanceof Straight && play.isBomb(), "straight bomb", "street bomb");
 
+        private Predicate<Play> predicate;
         private final List<String> altNames;
 
-        TemporaryPlayNamesEnum(String... altNames) {
+        ExpectablePlay(String... altNames) {
+            this(null, altNames);
+        }
+
+        ExpectablePlay(Predicate<Play> predicate, String... altNames) {
+            final String name = name();
+            this.predicate = predicate != null ? predicate : new ClassNamePredicate();
             this.altNames = Arrays.asList(altNames);
+        }
+
+        public boolean test(Play modelPlay) {
+            System.out.println("predicate = " + predicate);
+            return predicate.test(modelPlay);
         }
 
         @Override
         public List<String> altNames() {
             return altNames;
+        }
+
+        // I'm writing all this stuff purely because I don't want to copy class names into the constructors of the enum lol
+        private class ClassNamePredicate implements Predicate<Play> {
+            private Class clazz;
+
+            public ClassNamePredicate() {
+                final String className = "net.incongru.tichu.model.plays." + ExpectablePlay.this.name();
+                try {
+                    this.clazz = Class.forName(className);
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalStateException(e);
+                }
+            }
+
+            @Override
+            public boolean test(Play play) {
+                return clazz.isInstance(play);
+            }
         }
     }
 

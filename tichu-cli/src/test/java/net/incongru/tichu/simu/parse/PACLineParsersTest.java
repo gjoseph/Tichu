@@ -82,13 +82,13 @@ public class PACLineParsersTest {
     @Test
     public void recognisesExpectPlayOfType() {
         assertThat(parsers.parse(t("expect played BombOf4"))).isNotNull();
-        verify(pacFactory).expectPlay(PostActionCommandFactory.TemporaryPlayNamesEnum.BombOf4);
+        verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test
     public void recognisesExpectPlayOfTypeWithSpacesAndCaseInsensitive() {
         assertThat(parsers.parse(t("expect played bomb OF 4"))).isNotNull();
-        verify(pacFactory).expectPlay(PostActionCommandFactory.TemporaryPlayNamesEnum.BombOf4);
+        verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test

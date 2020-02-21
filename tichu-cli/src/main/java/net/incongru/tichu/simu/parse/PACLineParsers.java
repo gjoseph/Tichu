@@ -40,7 +40,7 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                 simpleParser(
                         t -> expect(t, "played"),
                         t -> {
-                            final PostActionCommandFactory.TemporaryPlayNamesEnum play = NameableEnum.byName(PostActionCommandFactory.TemporaryPlayNamesEnum.class, t.remainder());
+                            final PostActionCommandFactory.ExpectablePlay play = NameableEnum.byName(PostActionCommandFactory.ExpectablePlay.class, t.remainder());
                             return pacFactory.expectPlay(play);
                         }
                 ),
