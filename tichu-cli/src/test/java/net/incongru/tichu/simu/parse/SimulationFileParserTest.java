@@ -24,6 +24,6 @@ class SimulationFileParserTest {
         assertThat(last.commands()).hasSize(4);
         assertThat(last.commands())
                 .extracting(pac -> pac.getClass().getSimpleName())
-                .containsExactly("ExpectPlay", "ExpectEndOfRound", "ExpectRoundScore", "ExpectRoundScore");
+                .containsExactly("ExpectPlay", "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore");
     }
 }

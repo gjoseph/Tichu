@@ -2,6 +2,7 @@ package net.incongru.tichu.simu.cmd;
 
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Score;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.util.NameableEnum;
@@ -30,7 +31,9 @@ public interface PostActionCommandFactory {
 
     Simulation.PostActionCommand expectEndOfRound();
 
-    Simulation.PostActionCommand expectRoundScore(String teamName, int expectedScore);
+    Simulation.PostActionCommand expectRoundScore(Score expectedScore);
+
+    Simulation.PostActionCommand expectTotalScore(Score expectedScore);
 
     Simulation.PostActionCommand debugPlayerHand(String playerName);
 

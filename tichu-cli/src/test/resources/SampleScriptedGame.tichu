@@ -87,8 +87,7 @@ charlie plays dog # Charlie is in team 2
 - expect next player is quinn # Quinn is in team 2 with Charlie
 quinn plays rj,bj,kj,gj
 - expect played bomb of four
-- expect end round
-- expect score team1 80
-- expect score team2 20
-# expect round score vs expect game score
-# expect end round vs expect end game
+#- expect end round
+- expect round score 80:20
+- expect total score 80:20
+# - expect end game

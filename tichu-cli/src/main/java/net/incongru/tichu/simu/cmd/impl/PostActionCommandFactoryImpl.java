@@ -1,5 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
+import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
@@ -45,8 +46,13 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectRoundScore(String teamName, int expectedScore) {
-        return new ExpectRoundScore(teamName, expectedScore);
+    public Simulation.PostActionCommand expectRoundScore(Score expectedScore) {
+        return new ExpectRoundScore(expectedScore);
+    }
+
+    @Override
+    public Simulation.PostActionCommand expectTotalScore(Score expectedScore) {
+        return new ExpectTotalScore(expectedScore);
     }
 
     @Override

@@ -1,10 +1,14 @@
 package net.incongru.tichu.simu.parse;
 
+import net.incongru.tichu.model.ImmutableScore;
+import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 import net.incongru.tichu.simu.util.NameableEnum;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static net.incongru.tichu.simu.parse.FunctionsBasedLineParser.simpleParser;
 
@@ -60,8 +64,15 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                         t -> pacFactory.expectEndOfRound()
                 ),
                 simpleParser(
-                        t -> expect(t, "score"),
-                        t -> pacFactory.expectRoundScore(t.pop(0), t.popInt(0))
+                        // expect round score [to be] 80:20
+                        // peek because the next parser will test for "score" as well
+                        t -> t.peek(2, "score") && expect(t, "round"),
+                        t -> pacFactory.expectRoundScore(score(t))
+
+                ),
+                simpleParser(
+                        t -> t.peek(2, "score") && expect(t, "total"),
+                        t -> pacFactory.expectTotalScore(score(t))
                 ),
                 simpleParser(
                         t -> t.peek(0, "debug") && t.test(2, "hand"),
@@ -74,4 +85,19 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
         return t.test(1, s) && t.test(0, "expect");
     }
 
+    private static final Pattern SCORE_PATTERN = Pattern.compile("(-?\\d+):(-?\\d+)");
+
+    private static Score score(TokenisedLine t) {
+        t.test(0, "score"); // "score" was "peeked" in the predicate, let's pop it here
+        t.test(0, "to"); // optional
+        t.test(0, "be");
+        final String remainder = t.remainder();
+        final Matcher matcher = SCORE_PATTERN.matcher(remainder);
+        if (!matcher.matches()) {
+            throw new LineParserException(t, "Score can't be parsed from " + remainder);
+        }
+        int score1 = Integer.parseInt(matcher.group(1));
+        int score2 = Integer.parseInt(matcher.group(2));
+        return ImmutableScore.of(score1, score2);
+    }
 }

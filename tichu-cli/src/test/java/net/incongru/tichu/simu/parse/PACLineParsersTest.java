@@ -1,5 +1,7 @@
 package net.incongru.tichu.simu.parse;
 
+import net.incongru.tichu.model.ImmutableScore;
+import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -124,15 +126,29 @@ public class PACLineParsersTest {
 
     @ParameterizedTest
     @MethodSource
-    public void recognisesExpectRoundTeamScores(String txt, String expectedTeamName, int expectedScore) {
+    public void recognisesExpectRoundTeamScores(String txt, Score expectedScore) {
         assertThat(parsers.parse(t(txt))).isNotNull();
-        verify(pacFactory).expectRoundScore(expectedTeamName, expectedScore);
+        verify(pacFactory).expectRoundScore(expectedScore);
     }
 
     static Stream<Arguments> recognisesExpectRoundTeamScores() {
         return Stream.of(
-                arguments("expect score team1 80", "team1", 80),
-                arguments("expect score team2 20", "team2", 20)
+                arguments("expect round score to be 80:20", ImmutableScore.of(80, 20)),
+                arguments("expect round score 20:80", ImmutableScore.of(20, 80))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    public void recognisesExpectTotalTeamScores(String txt, Score expectedScore) {
+        assertThat(parsers.parse(t(txt))).isNotNull();
+        verify(pacFactory).expectTotalScore(expectedScore);
+    }
+
+    static Stream<Arguments> recognisesExpectTotalTeamScores() {
+        return Stream.of(
+                arguments("expect total score to be 100:200", ImmutableScore.of(100, 200)),
+                arguments("expect total score 450:300", ImmutableScore.of(450, 300))
         );
     }
 
