@@ -21,9 +21,12 @@ class SimulationFileParserTest {
         assertThat(actionAndExpectations.get(0).action().getClass().getSimpleName()).isEqualTo("InitialiseGame");
         final Simulation.ActionAndCommands last = Lists.reverse(actionAndExpectations).get(0);
         assertThat(last.action().getClass().getSimpleName()).isEqualTo("PlayerPlays");
-        assertThat(last.commands()).hasSize(4);
         assertThat(last.commands())
                 .extracting(pac -> pac.getClass().getSimpleName())
-                .containsExactly("ExpectPlay", "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore");
+                .containsExactly(
+                        "ExpectPlay",
+                        "DebugPlayerHand", "DebugPlayerHand", "DebugPlayerHand", "DebugPlayerHand"
+                        // "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore"
+                );
     }
 }

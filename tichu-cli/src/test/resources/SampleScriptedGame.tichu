@@ -28,7 +28,10 @@ cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r10,rj,bj,kj,gj
 quinn is ready
 charlie is ready
 alex is ready
+- expect game not ready
 jules is ready
+# All players are ready, therefore the game should be started
+- expect game started
 
 
 # TODO support "announces" actions
@@ -64,15 +67,17 @@ jules plays g3,r4,b5,k6,g7,r8,b9
 - expect invalid-play too weak
 jules passes
 quinn plays k3,g4,r5,b6,k7,g8,r9,r0
-alex passes # TODO not sure we should have to pass explicitly
-charlie passes # TODO not sure we should have to pass explicitly
-jules passes # TODO not sure we should have to pass explicitly
+alex passes
+charlie passes
+jules passes
 - expect quinn wins trick
 
 new trick
+- expect next player is quinn
 quinn plays r9
 - expect invalid-play not in hand
-quinn plays rk # TODO should be his turn, on a new trick
+- expect next player is quinn
+quinn plays rk
 alex plays ra
 - expect played single
 charlie plays _d # dragon
@@ -87,7 +92,11 @@ charlie plays dog # Charlie is in team 2
 - expect next player is quinn # Quinn is in team 2 with Charlie
 quinn plays rj,bj,kj,gj
 - expect played bomb of four
-#- expect end round
-- expect round score 80:20
-- expect total score 80:20
+- debug alex hand
+- debug charlie hand
+- debug jules hand
+- debug quinn hand
+# - expect end round
+# - expect round score 80:20
+# - expect total score 80:20
 # - expect end game
