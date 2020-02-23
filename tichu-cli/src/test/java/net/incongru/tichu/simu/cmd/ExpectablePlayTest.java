@@ -19,8 +19,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ExpectablePlayTest {
+
     @Test
-    public void enumPredicateOnStraightBomb() {
+    void enumPredicateOnStraightBomb() {
         final PostActionCommandFactory.ExpectablePlay straightBomb = PostActionCommandFactory.ExpectablePlay.StraightBomb;
         assertTrue(straightBomb.test(getPlay(R2, R3, R4, R5, R6)));
         assertFalse(straightBomb.test(getPlay(R2, R3, R4, G5, R6)));
@@ -28,12 +29,11 @@ class ExpectablePlayTest {
     }
 
     @Test
-    public void classNameBasedEnumPredicate() {
+    void classNameBasedEnumPredicate() {
         final PostActionCommandFactory.ExpectablePlay pair = PostActionCommandFactory.ExpectablePlay.Pair;
         assertTrue(pair.test(getPlay(R2, G2)));
         assertFalse(pair.test(getPlay(R2, G2, K2)));
         assertFalse(pair.test(getPlay(R2, R3)));
-
     }
 
     private Play getPlay(Card... cards) {

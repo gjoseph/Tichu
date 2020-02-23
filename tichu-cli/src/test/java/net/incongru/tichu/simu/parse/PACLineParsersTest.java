@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
-public class PACLineParsersTest {
+class PACLineParsersTest {
 
     // We return mocks for everything, all we want to check is that the correct factory method is called
     // so we just call verify() which is slightly less verbose
@@ -43,7 +43,7 @@ public class PACLineParsersTest {
     }
 
     @Test
-    public void throwsOnUnknownPostActionCommand() {
+    void throwsOnUnknownPostActionCommand() {
         assertThatThrownBy(() -> parsers.parse(t("ice cream")))
                 .isInstanceOf(LineParserException.class)
                 .hasMessageContaining("[ice cream]")
@@ -51,63 +51,63 @@ public class PACLineParsersTest {
     }
 
     @Test
-    public void recognisesExpectSuccess() {
+    void recognisesExpectSuccess() {
         assertThat(parsers.parse(t("expect success"))).isNotNull();
         verify(pacFactory).expectSuccess();
     }
 
     @Test
-    public void recognisesExpectError() {
+    void recognisesExpectError() {
         assertThat(parsers.parse(t("expect error foo"))).isNotNull();
         verify(pacFactory).expectError("foo");
     }
 
     @Test
-    public void recognisesExpectInvalidPlay() {
+    void recognisesExpectInvalidPlay() {
         assertThat(parsers.parse(t("expect invalid-play too weak"))).isNotNull();
         verify(pacFactory).expectPlayResult(PostActionCommandFactory.ExpectablePlayResult.TooWeak);
     }
 
     @Test
-    public void failsOnInvalidExpectedPlay() {
+    void failsOnInvalidExpectedPlay() {
         assertThatThrownBy(() -> parsers.parse(t("expect invalid-play foo")))
                 .isInstanceOf(IllegalArgumentException.class) // TODO LineParserException ?
                 .hasMessageContaining("foo is not a valid ExpectablePlayResult");
     }
 
     @Test
-    public void recognisesExpectWinTrick() {
+    void recognisesExpectWinTrick() {
         assertThat(parsers.parse(t("expect quinn wins trick"))).isNotNull();
         verify(pacFactory).expectWinTrick("quinn");
     }
 
     @Test
-    public void recognisesExpectPlayOfType() {
+    void recognisesExpectPlayOfType() {
         assertThat(parsers.parse(t("expect played BombOf4"))).isNotNull();
         verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test
-    public void recognisesExpectPlayOfTypeWithSpacesAndCaseInsensitive() {
+    void recognisesExpectPlayOfTypeWithSpacesAndCaseInsensitive() {
         assertThat(parsers.parse(t("expect played bomb OF 4"))).isNotNull();
         verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test
-    public void recognisesExpectNextPlayer() {
+    void recognisesExpectNextPlayer() {
         assertThat(parsers.parse(t("expect next player is jules"))).isNotNull();
         verify(pacFactory).expectNextPlayerToBe("jules");
     }
 
     @Test
-    public void recognisesExpectEndRound() {
+    void recognisesExpectEndRound() {
         assertThat(parsers.parse(t("expect end round"))).isNotNull();
         verify(pacFactory).expectEndOfRound();
     }
 
     @ParameterizedTest
     @MethodSource
-    public void recognisesExpectGameStatus(String txt, PostActionCommandFactory.ExpectableGameState expectedGameState) {
+    void recognisesExpectGameStatus(String txt, PostActionCommandFactory.ExpectableGameState expectedGameState) {
         // game expectations
         // not negates the following (peek)
         // last word is a boolean predicate
@@ -128,7 +128,7 @@ public class PACLineParsersTest {
 
     @ParameterizedTest
     @MethodSource
-    public void recognisesExpectRoundTeamScores(String txt, Score expectedScore) {
+    void recognisesExpectRoundTeamScores(String txt, Score expectedScore) {
         assertThat(parsers.parse(t(txt))).isNotNull();
         verify(pacFactory).expectRoundScore(expectedScore);
     }
@@ -142,7 +142,7 @@ public class PACLineParsersTest {
 
     @ParameterizedTest
     @MethodSource
-    public void recognisesExpectTotalTeamScores(String txt, Score expectedScore) {
+    void recognisesExpectTotalTeamScores(String txt, Score expectedScore) {
         assertThat(parsers.parse(t(txt))).isNotNull();
         verify(pacFactory).expectTotalScore(expectedScore);
     }
@@ -155,7 +155,7 @@ public class PACLineParsersTest {
     }
 
     @Test
-    public void recognisesDebugPlayerHand() {
+    void recognisesDebugPlayerHand() {
         assertThat(parsers.parse(t("debug quinn hand"))).isNotNull();
         verify(pacFactory).debugPlayerHand("quinn");
     }

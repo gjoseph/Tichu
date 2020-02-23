@@ -4,7 +4,7 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
-public class NewTrick implements Action {
+class NewTrick implements Action {
     @Override
     public Result exec(SimulatedGameContext ctx) {
         final Trick trick = ctx.game().currentRound().newTrick();

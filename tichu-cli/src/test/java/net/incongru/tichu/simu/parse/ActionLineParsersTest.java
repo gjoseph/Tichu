@@ -36,7 +36,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
-public class ActionLineParsersTest {
+class ActionLineParsersTest {
 
     // We return mocks for everything, all we want to check is that the correct factory method is called
     // so we just call verify() which is slightly less verbose
@@ -56,7 +56,7 @@ public class ActionLineParsersTest {
     }
 
     @Test
-    public void throwsOnUnknownAction() {
+    void throwsOnUnknownAction() {
         assertThatThrownBy(() -> parsers.parse(t("ice cream")))
                 .isExactlyInstanceOf(LineParserException.class)
                 .hasMessageContaining("[ice cream]")
@@ -64,14 +64,14 @@ public class ActionLineParsersTest {
     }
 
     @Test
-    public void recognisesInitAction() {
+    void recognisesInitAction() {
         assertThat(parsers.parse(t("init"))).isNotNull();
         verify(actionFactory).init();
     }
 
     @ParameterizedTest
     @MethodSource
-    public void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
+    void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
         assertThat(parsers.parse(t(txt))).isNotNull();
         verify(actionFactory).joinTeam(expectedPlayerName, expectedTeamIndex);
     }
@@ -84,31 +84,31 @@ public class ActionLineParsersTest {
     }
 
     @Test
-    public void recognisesPlayerIsReady() {
+    void recognisesPlayerIsReady() {
         assertThat(parsers.parse(t("jules is ready"))).isNotNull();
         verify(actionFactory).isReady("jules");
     }
 
     @Test
-    public void recognisesCheatDeal() {
+    void recognisesCheatDeal() {
         assertThat(parsers.parse(t("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra"))).isNotNull();
         verify(actionFactory).cheatDeal("quinn", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA));
     }
 
     @Test
-    public void recognisesPlayerPlays() {
+    void recognisesPlayerPlays() {
         assertThat(parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8"))).isNotNull();
         verify(actionFactory).plays("alex", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8));
     }
 
     @Test
-    public void recognisesPlayerPasses() {
+    void recognisesPlayerPasses() {
         assertThat(parsers.parse(t("alex passes"))).isNotNull();
         verify(actionFactory).passes("alex");
     }
 
     @Test
-    public void shouldNotAcceptPlayerPlaysWithNoCard() {
+    void shouldNotAcceptPlayerPlaysWithNoCard() {
         assertThatThrownBy(() -> parsers.parse(t("alex plays   ")))
                 .isInstanceOf(LineParserException.class)
                 .hasMessageContaining("use the '<player> passes' action instead");

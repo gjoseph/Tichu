@@ -8,7 +8,7 @@ import net.incongru.tichu.simu.Simulation;
 abstract class AbstractExpectScore implements Simulation.PostActionCommand {
     protected final Score expectedScore;
 
-    public AbstractExpectScore(Score expectedScore) {
+    AbstractExpectScore(Score expectedScore) {
         this.expectedScore = expectedScore;
     }
 

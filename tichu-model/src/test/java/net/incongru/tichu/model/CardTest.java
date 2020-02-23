@@ -15,10 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  *
  */
-public class CardTest {
+class CardTest {
 
     @Test
-    public void cardNamesAreOkay() {
+    void cardNamesAreOkay() {
         assertEquals("Ace of Sword", new Card(Card.CardNumbers.Ace, Card.CardSuit.Sword).name());
         assertEquals("Queen of Star", new Card(Card.CardNumbers.Queen, Card.CardSuit.Star).name());
         assertEquals("7 of Pagoda", new Card(Card.CardNumbers.Seven, Card.CardSuit.Pagoda).name());
@@ -26,12 +26,12 @@ public class CardTest {
     }
 
     @Test
-    public void suitComparatorPutsDogBeforeNumberedCards() {
+    void suitComparatorPutsDogBeforeNumberedCards() {
         assertThat(BY_SUIT.compare(Dog, DeckConstants.B2)).isLessThan(0);
     }
 
     @Test
-    public void suitComparatorDoesNotMessUpSpecialCards() {
+    void suitComparatorDoesNotMessUpSpecialCards() {
         final Card[] array = {Dog, Dragon, MahJong, Phoenix};
         // We don't really care about the order that much, we just want to make sure the comparator is consistent with equals, i.e does not equal two cards which are not the same
         assertThat(FluentIterable.from(array).toSortedList(BY_SUIT)).containsOnly(array);

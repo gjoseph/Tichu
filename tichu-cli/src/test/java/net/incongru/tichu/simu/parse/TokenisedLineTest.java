@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TokenisedLineTest {
+class TokenisedLineTest {
     @Test
-    public void peekPopAndRemainder() {
+    void peekPopAndRemainder() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertEquals("bar", t.peek(1));
         assertEquals("qux", t.peek(2));
@@ -19,7 +19,7 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void popAndReset() {
+    void popAndReset() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertEquals("bar", t.pop(1));
         assertEquals("foo bar qux zoom", t.whole());
@@ -28,7 +28,7 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void testMatchesExactString() {
+    void testMatchesExactString() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertThat(t.test(1, "not-bar")).isFalse();
         assertEquals("foo bar qux zoom", t.remainder());
@@ -37,7 +37,7 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void testMatchesWithPredicate() {
+    void testMatchesWithPredicate() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertThat(t.test(1, s -> s.matches("[a-z]{7}"))).isEmpty();
         assertEquals("foo bar qux zoom", t.remainder());
@@ -46,7 +46,7 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void peekMatchesExactString() {
+    void peekMatchesExactString() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertThat(t.peek(1, "not-bar")).isFalse();
         assertEquals("foo bar qux zoom", t.remainder());
@@ -55,7 +55,7 @@ public class TokenisedLineTest {
     }
 
     @Test
-    public void peekMatchesWithPredicate() {
+    void peekMatchesWithPredicate() {
         TokenisedLine t = new TokenisedLine("foo bar qux zoom");
         assertThat(t.peek(1, s -> s.matches("[a-z]{7}"))).isEmpty();
         assertEquals("foo bar qux zoom", t.remainder());

@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
 
 @ExtendWith(SoftAssertionsExtension.class)
-public class GameTest {
+class GameTest {
 
     private Players players;
     private Player alex, charlie, jules, quinn;
@@ -32,7 +32,7 @@ public class GameTest {
      * Yeaaaah this is kind of an end-to-end test.
      */
     @Test
-    public void testBaseGameFlow(SoftAssertions softly) {
+    void testBaseGameFlow(SoftAssertions softly) {
         final Game game = new Game(players, new TichuRules());
         assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
         final Round round = game.start();
@@ -51,7 +51,7 @@ public class GameTest {
     }
 
     @Test
-    public void totalScoreCount() {
+    void totalScoreCount() {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         game.finishRound(new FakeRound(game, ImmutableScore.of(20, 80)));
@@ -62,7 +62,7 @@ public class GameTest {
     }
 
     @Test
-    public void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
+    void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
         assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(0, 0));

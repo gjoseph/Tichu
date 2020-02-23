@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>net.incongru.tichu</groupId>
+        <artifactId>tichu-parent</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>tichu-archunit</artifactId>
+    <packaging>jar</packaging>
+    <name>Tichu :: archunit tests</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-model</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-model</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-cli</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-server</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- Makes ArchUnit very verbose - so we replace this with slf4j-nop below -->
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-server</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

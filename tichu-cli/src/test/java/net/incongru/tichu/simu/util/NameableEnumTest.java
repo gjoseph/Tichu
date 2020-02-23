@@ -1,6 +1,5 @@
 package net.incongru.tichu.simu.util;
 
-import net.incongru.tichu.simu.util.NameableEnum;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
