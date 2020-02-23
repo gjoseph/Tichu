@@ -1,23 +1,23 @@
 package net.incongru.tichu.model;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import static net.incongru.tichu.model.DeckConstants.B0;
-import static net.incongru.tichu.model.DeckConstants.B2;
-import static net.incongru.tichu.model.DeckConstants.B5;
-import static net.incongru.tichu.model.DeckConstants.B9;
-import static net.incongru.tichu.model.DeckConstants.BK;
-import static net.incongru.tichu.model.DeckConstants.G5;
-import static net.incongru.tichu.model.DeckConstants.R5;
-import static net.incongru.tichu.model.DeckConstants._D;
-import static net.incongru.tichu.model.DeckConstants._P;
+import static net.incongru.tichu.model.util.DeckConstants.B0;
+import static net.incongru.tichu.model.util.DeckConstants.B2;
+import static net.incongru.tichu.model.util.DeckConstants.B5;
+import static net.incongru.tichu.model.util.DeckConstants.B9;
+import static net.incongru.tichu.model.util.DeckConstants.BK;
+import static net.incongru.tichu.model.util.DeckConstants.G5;
+import static net.incongru.tichu.model.util.DeckConstants.R5;
+import static net.incongru.tichu.model.util.DeckConstants._D;
+import static net.incongru.tichu.model.util.DeckConstants._P;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *

@@ -7,9 +7,9 @@ import java.util.Set;
  * A view on a current game from a given player's perspective.
  */
 public class GameView {
-    private final Players.Player you;
-    private final Players.Player teamMate;
-    private final Players.Team opponents;
+    private final Player you;
+    private final Player teamMate;
+    private final Team opponents;
     /**
      * The cards in your hand.
      */
@@ -22,7 +22,7 @@ public class GameView {
      */
     private final int collectedCards;
 
-    public GameView(Players.Player you, Players.Player teamMate, Players.Team opponents, Set<Card> hand, Deque<Play> plays, int collectedCards) {
+    public GameView(Player you, Player teamMate, Team opponents, Set<Card> hand, Deque<Play> plays, int collectedCards) {
         this.you = you;
         this.teamMate = teamMate;
         this.opponents = opponents;

@@ -1,0 +1,102 @@
+# General format:
+# Comments are allowed
+# Action is on one line
+# Recognised by certain keywords
+# Game - expects certain events in order: create table, join team, ...
+# These actions might well be the same action objects used by clients
+# - postActionCommands are directives that are "attached" to the previous actions
+# - postActionCommands can be expectations or debug output
+# Certain actions are only available in "test" or "cheat" mode, such that this text interface is actually
+# usable in real clients.
+# If no expectation is specified, we expect the action to be successful
+
+init game of 4 # at some point we might support different rules (nr of players, target score, ...)
+
+alex joins team 1
+jules joins team 1
+charlie joins team 2
+quinn joins team 2
+
+# Let's "cheat"-deal the cards
+# In a non-simulated game, dealing cards would happen _after_ players indicate readiness and game starts
+cheat-deal alex _1,r2,b3,k4,g5,r6,b7,k8,g9,g10,bk,kk,gk,ra
+cheat-deal charlie _d,g2,r3,b4,k5,g6,r7,b8,k9,gq,_h,ba,ka,ga
+cheat-deal jules _p,k2,g3,r4,b5,k6,g7,r8,b9,b10,k10,kq,rq,bq
+cheat-deal quinn rk,b2,k3,g4,r5,b6,k7,g8,r9,r10,rj,bj,kj,gj
+- debug alex hand
+
+quinn is ready
+charlie is ready
+alex is ready
+- expect game not ready
+jules is ready
+# All players are ready, therefore the game should be started
+- expect game started
+
+
+# TODO support "announces" actions
+# TODO support "give card" actions
+
+# TODO test support for other card naming
+# player 1 plays Dog // works
+# player 'alex' plays dog// works
+# alex
+# alex.plays DraGon // works
+# alex['plays'] r2 // works
+# alex['plays'] r3 // works
+# alex plays r5// works
+# player 3 plays mahjong,r2,r3,r4,r5
+# alex plays r4// TODO does not work
+# charlie plays mahjong,r2,r3,r4,r5 // TODO does not work
+# player 3 passes
+# player 'charlie' passes
+# charlie passes
+
+# Cards can be named by color-initial+number, e.g B9
+# Cards can also be named by suit-name_number, e.g Pagoda_9
+# Number for Ten can be 0 or 10
+# Special cards can be named by their full name ("Dragon", "Dog", "Phoenix", "MahJong") or initial prefixed by underscore:
+# _d (Dragon), _h (Dog, Hund), _p (Phoenix), _1 (MahJong)
+
+alex plays _1,r2,b3,k4,g5,r6,b7,k8
+- expect played straight
+jules plays g3,r4,b5,k6,g7,r8,b9
+- expect invalid-play not your turn
+charlie plays g2,r3,b4,k5,g6,r7,b8,k9
+jules plays g3,r4,b5,k6,g7,r8,b9
+- expect invalid-play too weak
+jules passes
+quinn plays k3,g4,r5,b6,k7,g8,r9,r0
+alex passes
+charlie passes
+jules passes
+- expect quinn wins trick
+
+new trick
+- expect next player is quinn
+quinn plays r9
+- expect invalid-play not in hand
+- expect next player is quinn
+quinn plays rk
+alex plays ra
+- expect played single
+charlie plays _d # dragon
+- debug charlie hand
+jules passes # should not need to pass explicitly... although that gives them a chance to bomb
+quinn passes
+alex passes
+- expect charlie wins trick
+
+new trick
+charlie plays dog # Charlie is in team 2
+- expect next player is quinn # Quinn is in team 2 with Charlie
+quinn plays rj,bj,kj,gj
+- expect played bomb of four
+- debug alex hand
+- debug charlie hand
+- debug jules hand
+- debug quinn hand
+# - expect end round
+# - expect round score 80:20
+# - expect total score 80:20
+# - expect game end

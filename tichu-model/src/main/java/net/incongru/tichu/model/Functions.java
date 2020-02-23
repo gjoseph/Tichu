@@ -49,6 +49,6 @@ public class Functions {
         return list.subList(list.size() - 3, list.size()).stream().allMatch(test);
     }
 
-    public static final java.util.function.Predicate<Players.Player> EMPTY_HANDED = player -> !player.hand().isEmpty();
+    public static final java.util.function.Predicate<Player> EMPTY_HANDED = player -> !player.hand().isEmpty();
 
 }

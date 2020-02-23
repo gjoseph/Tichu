@@ -1,0 +1,15 @@
+# Comments should be stripped
+line1
+  # even if indented
+  # non-comment lines' surrounding whitespace should also be stripped
+  line2
+
+  # blank lines also stripped
+
+
+
+line3 has multiple words and trailing space
+# ideally i'd want to strip suffix comments line
+ line4   # this comment should be stripped
+#
+

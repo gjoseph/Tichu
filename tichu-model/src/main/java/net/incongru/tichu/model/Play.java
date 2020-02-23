@@ -53,7 +53,7 @@ public interface Play<P extends Play> {
     }
 
     class PlayResult {
-        public enum Result {NEXTGOES, TAKE, TOOWEAK, INVALIDPLAY, INVALIDSTATE}
+        public enum Result {NEXTGOES, TRICK_END, TOOWEAK, NOTINHAND, INVALIDPLAY, INVALIDSTATE}
 
         private final Optional<Play> play; // TODO ditch optioanl
         private final Result result;

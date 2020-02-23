@@ -3,64 +3,66 @@ package net.incongru.tichu.model;
 import com.google.common.collect.Sets;
 import net.incongru.tichu.model.plays.ConsecutivePairs;
 import net.incongru.tichu.model.plays.FullHouse;
+import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.InvalidPlay;
 import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-import static net.incongru.tichu.model.DeckConstants.B2;
-import static net.incongru.tichu.model.DeckConstants.B3;
-import static net.incongru.tichu.model.DeckConstants.B4;
-import static net.incongru.tichu.model.DeckConstants.G3;
-import static net.incongru.tichu.model.DeckConstants.Jade_2;
-import static net.incongru.tichu.model.DeckConstants.Jade_3;
-import static net.incongru.tichu.model.DeckConstants.Jade_5;
-import static net.incongru.tichu.model.DeckConstants.Jade_6;
-import static net.incongru.tichu.model.DeckConstants.Jade_7;
-import static net.incongru.tichu.model.DeckConstants.K2;
-import static net.incongru.tichu.model.DeckConstants.MahJong;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_10;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_2;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_3;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_4;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_5;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_6;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_7;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_8;
-import static net.incongru.tichu.model.DeckConstants.Pagoda_9;
-import static net.incongru.tichu.model.DeckConstants.Phoenix;
-import static net.incongru.tichu.model.DeckConstants.R2;
-import static net.incongru.tichu.model.DeckConstants.R3;
-import static net.incongru.tichu.model.DeckConstants.R4;
-import static net.incongru.tichu.model.DeckConstants.R6;
-import static net.incongru.tichu.model.DeckConstants.Star_10;
-import static net.incongru.tichu.model.DeckConstants.Star_2;
-import static net.incongru.tichu.model.DeckConstants.Star_3;
-import static net.incongru.tichu.model.DeckConstants.Star_4;
-import static net.incongru.tichu.model.DeckConstants.Star_5;
-import static net.incongru.tichu.model.DeckConstants.Star_6;
-import static net.incongru.tichu.model.DeckConstants.Star_7;
-import static net.incongru.tichu.model.DeckConstants.Star_8;
-import static net.incongru.tichu.model.DeckConstants.Star_9;
-import static net.incongru.tichu.model.DeckConstants.Star_Ace;
-import static net.incongru.tichu.model.DeckConstants.Star_Jack;
-import static net.incongru.tichu.model.DeckConstants.Star_King;
-import static net.incongru.tichu.model.DeckConstants.Star_Queen;
-import static net.incongru.tichu.model.DeckConstants.Sword_2;
-import static net.incongru.tichu.model.DeckConstants.Sword_3;
-import static net.incongru.tichu.model.DeckConstants.Sword_4;
-import static net.incongru.tichu.model.DeckConstants.Sword_5;
-import static net.incongru.tichu.model.DeckConstants.Sword_7;
-import static net.incongru.tichu.model.DeckConstants.Sword_Ace;
-import static net.incongru.tichu.model.DeckConstants.Sword_King;
-import static net.incongru.tichu.model.DeckConstants.Sword_Queen;
+import static net.incongru.tichu.model.util.DeckConstants.B2;
+import static net.incongru.tichu.model.util.DeckConstants.B3;
+import static net.incongru.tichu.model.util.DeckConstants.B4;
+import static net.incongru.tichu.model.util.DeckConstants.Dog;
+import static net.incongru.tichu.model.util.DeckConstants.G3;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_2;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_3;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_5;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_6;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_7;
+import static net.incongru.tichu.model.util.DeckConstants.K2;
+import static net.incongru.tichu.model.util.DeckConstants.MahJong;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_10;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_2;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_3;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_4;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_5;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_6;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_7;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_8;
+import static net.incongru.tichu.model.util.DeckConstants.Pagoda_9;
+import static net.incongru.tichu.model.util.DeckConstants.Phoenix;
+import static net.incongru.tichu.model.util.DeckConstants.R2;
+import static net.incongru.tichu.model.util.DeckConstants.R3;
+import static net.incongru.tichu.model.util.DeckConstants.R4;
+import static net.incongru.tichu.model.util.DeckConstants.R6;
+import static net.incongru.tichu.model.util.DeckConstants.Star_10;
+import static net.incongru.tichu.model.util.DeckConstants.Star_2;
+import static net.incongru.tichu.model.util.DeckConstants.Star_3;
+import static net.incongru.tichu.model.util.DeckConstants.Star_4;
+import static net.incongru.tichu.model.util.DeckConstants.Star_5;
+import static net.incongru.tichu.model.util.DeckConstants.Star_6;
+import static net.incongru.tichu.model.util.DeckConstants.Star_7;
+import static net.incongru.tichu.model.util.DeckConstants.Star_8;
+import static net.incongru.tichu.model.util.DeckConstants.Star_9;
+import static net.incongru.tichu.model.util.DeckConstants.Star_Ace;
+import static net.incongru.tichu.model.util.DeckConstants.Star_Jack;
+import static net.incongru.tichu.model.util.DeckConstants.Star_King;
+import static net.incongru.tichu.model.util.DeckConstants.Star_Queen;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_2;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_3;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_4;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_5;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_7;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_Ace;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_King;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_Queen;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  *
@@ -71,8 +73,8 @@ public class TichuRulesTest {
     public void bombIsFour7s() {
         final Play four7s = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
         final Play three7s = newPlay(Pagoda_7, Sword_7, Jade_7);
-        assertEquals("pre-flight", four7s.getCards().size(), 4);
-        assertEquals("pre-flight", three7s.getCards().size(), 3);
+        assertEquals(four7s.getCards().size(), 4, "pre-flight");
+        assertEquals(three7s.getCards().size(), 3, "pre-flight");
 
         assertTrue(new TichuRules().isBomb(four7s));
         assertFalse(new TichuRules().isBomb(three7s));
@@ -195,6 +197,30 @@ public class TichuRulesTest {
     }
 
     @Test
+    public void dogOnlyValidAsSingleCard() {
+        // there is a vague possibility that dog and mahjong could be paired since they share some "value"
+        assertThat(newPlay(Dog, MahJong)).isInstanceOf(InvalidPlay.class);
+    }
+
+    @Test
+    public void dogCanOnlyBePlayedFirst() {
+        final Play singleDog = newPlay(Dog);
+        final Play singleMahJong = newPlay(MahJong);
+        final TichuRules rules = new TichuRules();
+        assertFalse(rules.canPlayAfter(singleMahJong, singleDog));
+        assertFalse(rules.canPlayAfter(singleDog, singleMahJong));
+        assertTrue(rules.canPlayAfter(Initial.INSTANCE, singleDog));
+    }
+
+    @Test
+    public void dogCanNotBeBombed() {
+        final Play singleDog = newPlay(Dog);
+        final Play bomb = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
+        final TichuRules rules = new TichuRules();
+        assertFalse(rules.canPlayAfter(singleDog, bomb));
+    }
+
+    @Test
     public void cantPlayTripleAfterPairEtc() {
         final Play single = newPlay(Star_2);
         final Play pair = newPlay(Star_3, Pagoda_3);
@@ -209,7 +235,7 @@ public class TichuRulesTest {
         final TichuRules rules = new TichuRules();
         assertTrue(rules.canPlayAfter(newPlay(Pagoda_2), newPlay(Star_7)));
         assertFalse(rules.canPlayAfter(newPlay(Star_3), newPlay(Pagoda_2)));
-        assertFalse("next play must be strictly higher", rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)));
+        assertFalse(rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)), "next play must be strictly higher");
     }
 
     @Test
@@ -217,7 +243,7 @@ public class TichuRulesTest {
         final TichuRules rules = new TichuRules();
         assertTrue(rules.canPlayAfter(newPlay(Pagoda_2, Star_2), newPlay(Sword_7, Star_7)));
         assertFalse(rules.canPlayAfter(newPlay(Star_3, Sword_3), newPlay(Pagoda_2, Star_2)));
-        assertFalse("next pair must be strictly higher", rules.canPlayAfter(newPlay(Star_2, Sword_2), newPlay(Pagoda_2, Jade_2)));
+        assertFalse(rules.canPlayAfter(newPlay(Star_2, Sword_2), newPlay(Pagoda_2, Jade_2)), "next pair must be strictly higher");
     }
 
     @Test
@@ -238,13 +264,13 @@ public class TichuRulesTest {
     }
 
     @Test
-    @Ignore("We don't have a factory yet")
+    @Disabled("We don't have a factory yet")
     public void findFullHouse() {
         assertThat(newPlay(K2, B2, R2, R3, B3)).isInstanceOf(FullHouse.class);
     }
 
     @Test
-    @Ignore("We don't have a factory yet")
+    @Disabled("We don't have a factory yet")
     public void consecutivePairs() {
         assertThat(newPlay(K2, B2, R3, B3)).isInstanceOf(ConsecutivePairs.class);
         assertThat(newPlay(K2, B2, R4, B4)).isNotInstanceOf(ConsecutivePairs.class);

@@ -50,10 +50,6 @@ public class Card {
         return String.valueOf(val.isSpecial() ? '*' : suit.shortName()) + val.shortName();
     }
 
-    boolean isSpecial() {
-        return val.isSpecial();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -79,6 +75,7 @@ public class Card {
 
     public enum CardSuit {
         // K is BlacK (Blue exists), which conflicts with King :/
+        // shortNames are the initials of colors rather than the actual name of the suit
         Jade('G'), Sword('K'), Pagoda('B'), Star('R');
         final char shortName;
 

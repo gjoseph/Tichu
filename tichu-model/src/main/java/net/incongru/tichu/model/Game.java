@@ -25,32 +25,48 @@ public class Game {
     }
 
     public boolean isReadyToStart() {
-        return !started && currentRound == null && finishedRounds.isEmpty();
+        return !started &&
+                currentRound == null &&
+                finishedRounds.isEmpty() &&
+                players().isComplete() &&
+                players().areAllReady();
     }
 
     public Round start() {
         if (!isReadyToStart()) {
             throw new IllegalStateException("Not ready to start");
         }
+        if (this.started) {
+            throw new IllegalStateException("Game is already started");
+        }
         started = true;
-        currentRound = new Round(this);
+        currentRound = newRound();
 
         return currentRound;
+    }
+
+    protected Round newRound() {
+        return new Round(this);
     }
 
     // Originally, we intended for clients to only access current round via start() or next() but that doesn't seem to be convenient
     // they would need to keep the ref to round themselves, and make sure to update it when calling next()
     public Round currentRound() {
+        ensureStarted();
         return currentRound;
     }
 
     public Round next() {
-        if (!started) {
-            throw new IllegalStateException("Not started");
-        }
+        ensureStarted();
         finishRound(currentRound);
-        currentRound = new Round(this);
+        currentRound = newRound();
         return currentRound;
+    }
+
+    private void ensureStarted() {
+        if (!started) {
+            throw new IllegalStateException("Game is not started");
+        }
     }
 
     @VisibleForTesting
@@ -71,7 +87,7 @@ public class Game {
     }
 
     @VisibleForTesting
-    boolean isStarted() {
+    public boolean isStarted() {
         return started;
     }
 
@@ -85,14 +101,14 @@ public class Game {
     static public class FinishedRound {
         private final List<AnnounceResult> announces;
         private final Score score;
-        private final Players.Player finishingPlayer;
+        private final Player finishingPlayer;
 
         FinishedRound(Round round) {
             this(round.announces(), round.score(), null);//TODO
         }
 
         @VisibleForTesting
-        FinishedRound(List<AnnounceResult> announces, Score score, Players.Player finishingPlayer) {
+        FinishedRound(List<AnnounceResult> announces, Score score, Player finishingPlayer) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;

@@ -20,17 +20,29 @@ public class Round {
     public Trick start() { // TODO why return Trick ?
         shuffleAndDeal();
 
-        Players.Player firstPlayer = game.rules().whoStarts(game.players());
-        return next(firstPlayer);
+        Player firstPlayer = game.rules().whoStarts(game.players());
+        return newTrick(firstPlayer);
     }
 
-    public Trick next(Players.Player whoStarts) {
-        // TODO
-        currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts), whoStarts);
+    private Trick newTrick(Player whoStarts) {
+        if (currentTrick != null && !currentTrick.isDone()) {
+            throw new IllegalStateException("Trick in progress");
+        }
+        // TODO test!!
+        currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts));
         return currentTrick;
     }
 
-    public void announce(Players.Player player, Announce announce) {
+    public Trick newTrick() {
+        if (currentTrick == null) {
+            throw new IllegalStateException("Game not started");
+        }
+        // TODO test!!
+        final Player winnerOfLast = currentTrick.previousNonPass().player();
+        return newTrick(winnerOfLast);
+    }
+
+    public void announce(Player player, Announce announce) {
         final boolean canAnnounce = game.rules().canAnnounce(player, announce);
         if (!canAnnounce) {
             throw new IllegalStateException("Can't announce!?");
@@ -72,18 +84,17 @@ public class Round {
     protected void shuffleAndDeal() {
         final Players players = game.players();
 
-        for (int i = 1; i <= 4; i++) {
-            players.getPlayer(i).reclaimCards();
-        }
+        players.stream().forEach(p -> p.reclaimCards());
 
         final CardDeck cardDeck = game.rules().newShuffledDeck();
 
         // In reality, these loops would be inverted (per card, per player), but this helps controlling draft for simulations
-        for (int p = 1; p <= 4; p++) {
-            for (int c = 1; c <= 14; c++) {
-                players.getPlayer(p).deal(cardDeck.take());
+        // Also, TODO this is drafting in join-order (see Players#players), so not 100% correct wrt rules
+        players.stream().forEach(player -> {
+            for (int c = 0; c < 14; c++) {
+                player.deal(cardDeck.take());
             }
-        }
+        });
     }
 
 }

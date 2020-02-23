@@ -8,8 +8,13 @@ import org.immutables.value.Value;
  */
 @Tuple
 @Value.Immutable
-public interface Score {
-    int getTeam1();
+public abstract class Score {
+    abstract int getTeam1();
 
-    int getTeam2();
+    abstract int getTeam2();
+
+    @Override
+    public String toString() {
+        return String.format("%d:%d", getTeam1(), getTeam2());
+    }
 }
