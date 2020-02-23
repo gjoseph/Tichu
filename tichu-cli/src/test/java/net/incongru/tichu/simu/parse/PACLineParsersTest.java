@@ -120,7 +120,9 @@ public class PACLineParsersTest {
                 arguments("expect game ready", PostActionCommandFactory.ExpectableGameState.ReadyToStart),
                 arguments("expect game not ready", PostActionCommandFactory.ExpectableGameState.NotReadyToStart),
                 arguments("expect game started", PostActionCommandFactory.ExpectableGameState.Started),
-                arguments("expect game not started", PostActionCommandFactory.ExpectableGameState.NotStarted)
+                arguments("expect game not started", PostActionCommandFactory.ExpectableGameState.NotStarted),
+                arguments("expect game done", PostActionCommandFactory.ExpectableGameState.Done),
+                arguments("expect game not ended", PostActionCommandFactory.ExpectableGameState.NotDone)
         );
     }
 

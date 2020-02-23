@@ -26,7 +26,7 @@ class SimulationFileParserTest {
                 .containsExactly(
                         "ExpectPlay",
                         "DebugPlayerHand", "DebugPlayerHand", "DebugPlayerHand", "DebugPlayerHand"
-                        // "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore"
+                        // "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore", "ExpectGameState"
                 );
     }
 }

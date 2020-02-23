@@ -118,7 +118,11 @@ public interface PostActionCommandFactory {
         Started(Game::isStarted),
         NotStarted(not(Started.predicate), "not started"),
         ReadyToStart(Game::isReadyToStart, "ready", "ready to start"),
-        NotReadyToStart(not(ReadyToStart.predicate), "not ready", "not ready to start");
+        NotReadyToStart(not(ReadyToStart.predicate), "not ready", "not ready to start"),
+        Done(game -> {
+            throw new IllegalStateException("Not implemented yet");
+        }, "done", "over", "end", "ended"),
+        NotDone(not(ReadyToStart.predicate), "not done", "not over", "not end", "not ended");
 
         private final Predicate<Game> predicate;
         private final List<String> altNames;

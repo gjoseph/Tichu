@@ -99,4 +99,4 @@ quinn plays rj,bj,kj,gj
 # - expect end round
 # - expect round score 80:20
 # - expect total score 80:20
-# - expect end game
+# - expect game end
