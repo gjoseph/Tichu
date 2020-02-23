@@ -5,10 +5,10 @@ import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
-public class ExpectNextPlayerToBe implements Simulation.PostActionCommand {
+class ExpectNextPlayerToBe implements Simulation.PostActionCommand {
     private final String expectedPlayerName;
 
-    public ExpectNextPlayerToBe(String expectedPlayerName) {
+    ExpectNextPlayerToBe(String expectedPlayerName) {
         this.expectedPlayerName = expectedPlayerName;
     }
 

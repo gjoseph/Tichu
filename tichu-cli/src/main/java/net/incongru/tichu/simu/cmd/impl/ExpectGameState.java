@@ -5,10 +5,10 @@ import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
-public class ExpectGameState implements Simulation.PostActionCommand {
+class ExpectGameState implements Simulation.PostActionCommand {
     private final PostActionCommandFactory.ExpectableGameState expectedGameState;
 
-    public ExpectGameState(PostActionCommandFactory.ExpectableGameState expectedGameState) {
+    ExpectGameState(PostActionCommandFactory.ExpectableGameState expectedGameState) {
         this.expectedGameState = expectedGameState;
     }
 

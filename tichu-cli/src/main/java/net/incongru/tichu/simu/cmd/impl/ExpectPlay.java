@@ -6,7 +6,7 @@ import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
-class ExpectPlay  extends AbstractExpectResult<Action.AbstractPlayResult> {
+class ExpectPlay extends AbstractExpectResult<Action.AbstractPlayResult> {
     private final PostActionCommandFactory.ExpectablePlay expectedPlay;
 
     ExpectPlay(PostActionCommandFactory.ExpectablePlay expectedPlay) {
