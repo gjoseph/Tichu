@@ -9,7 +9,6 @@ import net.incongru.tichu.model.util.DeckConstants;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -35,48 +34,47 @@ public class Trick {
     // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
     public Play.PlayResult play(Player player, Set<Card> cards) {
         if (isDone()) {
-            return new Play.PlayResult(Optional.empty(), Play.PlayResult.Result.INVALIDSTATE, "trick is over");
+            return new Play.PlayResult(Play.PlayResult.Result.INVALIDSTATE, "trick is over");
         }
 
         // Does the player have these cards?
         if (!player.hand().containsAll(cards)) {
             // TODO cheat ?
-            return new Play.PlayResult(Optional.empty(), Play.PlayResult.Result.NOTINHAND, "You don't have those cards!");
+            return new Play.PlayResult(Play.PlayResult.Result.NOTINHAND, "You don't have those cards!");
         }
 
         // Is this a correct combination ?
-        // TODO rules.validate should pbly be returning the Optional<Play>
         final Play play = rules.validate(cards);
-        final Optional<Play> play1 = Optional.of(play);
 
         // Is this a valid play ?
         if (!rules.isValid(play)) {
-            return new Play.PlayResult(play1, Play.PlayResult.Result.INVALIDPLAY, "This is not a valid combination");
+            return new Play.PlayResult(play, Play.PlayResult.Result.INVALIDPLAY, "This is not a valid combination");
         }
 
         // TODO this needs to be moved to TichuRules ?
         // Validate this player can play now - only currentPlayer can play, unless its a bomb
         if (!rules.isBomb(play) && !player.equals(currentPlayer)) {
-            return new Play.PlayResult(play1, Play.PlayResult.Result.INVALIDSTATE, "not your turn, it's " + currentPlayer.name() + "'s turn");
+            // TODO return different PlayResult.Result
+            return new Play.PlayResult(play, Play.PlayResult.Result.INVALIDSTATE, "not your turn, it's " + currentPlayer.name() + "'s turn");
         }
 
         // Validate cards against last play
         final Play prevPlay = previousNonPass().play();
         if (!rules.canPlayAfter(prevPlay, play)) {
-            return new Play.PlayResult(play1, Play.PlayResult.Result.TOOWEAK, "can't play this after " + prevPlay.toString());
+            return new Play.PlayResult(play, Play.PlayResult.Result.TOOWEAK, "can't play this after " + prevPlay.toString());
         }
 
         plays.add(ImmutablePlayed.of(currentPlayer, play));
         player.discard(cards);
         if (isDone()) {
             currentPlayer = null;
-            return new Play.PlayResult(play1, Play.PlayResult.Result.TRICK_END, "congrats");
+            return new Play.PlayResult(play, Play.PlayResult.Result.TRICK_END, "congrats");
         } else if (isDog(play)) {
             currentPlayer = teamMateOrNextPlayer();
-            return new Play.PlayResult(play1, Play.PlayResult.Result.TRICK_END, "woof");
+            return new Play.PlayResult(play, Play.PlayResult.Result.TRICK_END, "woof");
         } else {
             currentPlayer = playersCycle.next();
-            return new Play.PlayResult(play1, Play.PlayResult.Result.NEXTGOES, "next player pls");
+            return new Play.PlayResult(play, Play.PlayResult.Result.NEXTGOES, "next player pls");
         }
     }
 
