@@ -16,9 +16,10 @@ import static net.incongru.tichu.model.util.DeckConstants.Pagoda_9;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_4;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AbstractPlayTest {
+class AbstractPlayTest {
+
     @Test
-    public void correctlyFindLowestCard() {
+    void correctlyFindLowestCard() {
         final Set<Card> cards = Sets.newHashSet(Pagoda_9, Pagoda_7, Sword_4, Pagoda_5, Pagoda_6, Pagoda_4, Pagoda_8, Pagoda_10);
         final AbstractPlay<AbstractPlay> play = new AbstractPlay<>(cards) {
             @Override

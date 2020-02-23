@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class SimulationFileParserTest {
     @Test
-    public void sampleIsLoadable() {
+    void sampleIsLoadable() {
         final Simulation simu = assertDoesNotThrow(
                 () -> new SimulationFileParser().parse(PathUtil.resource("/SampleScriptedGame.tichu"))
         );

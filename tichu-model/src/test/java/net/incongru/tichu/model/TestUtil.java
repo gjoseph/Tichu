@@ -1,6 +1,6 @@
 package net.incongru.tichu.model;
 
-public class TestUtil {
+class TestUtil {
     static Players samplePlayers() {
         final Players players = new Players();
         final Team t1 = new Team("t1");

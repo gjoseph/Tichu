@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TrickTest {
+class TrickTest {
 
     private final TichuRules tichuRules = new TichuRules();
     private Players players;
@@ -30,7 +30,7 @@ public class TrickTest {
     }
 
     @Test
-    public void isDoneOnceEveryBodyPassed() {
+    void isDoneOnceEveryBodyPassed() {
         final Trick trick = newTrickFromPlayer1(players);
         alex.deal(DeckConstants.B2);
 
@@ -56,7 +56,7 @@ public class TrickTest {
     }
 
     @Test
-    public void allPassIsNotDone() {
+    void allPassIsNotDone() {
         final Trick trick = newTrickFromPlayer1(players);
         assertThat(
                 trick.play(alex, emptySet()).result()
@@ -86,7 +86,7 @@ public class TrickTest {
     }
 
     @Test
-    public void prevPlayReturnsPreviousNonPassPlay() {
+    void prevPlayReturnsPreviousNonPassPlay() {
         final Trick trick = newTrickFromPlayer1(players);
         alex.deal(DeckConstants.B2);
         quinn.deal(DeckConstants.G5);
@@ -115,7 +115,7 @@ public class TrickTest {
     }
 
     @Test
-    public void cantPlayDogAfterOtherCard() {
+    void cantPlayDogAfterOtherCard() {
         alex.deal(DeckConstants.Star_2);
         charlie.deal(DeckConstants.Dog);
         final Trick trick = newTrickFromPlayer1(players);
@@ -130,7 +130,7 @@ public class TrickTest {
     }
 
     @Test
-    public void playingDogSkipsToTeamPartner() {
+    void playingDogSkipsToTeamPartner() {
         final Trick trick = newTrickFromPlayer1(players);
         alex.deal(DeckConstants.Dog);
 
@@ -141,7 +141,7 @@ public class TrickTest {
 
     @Test
     @Disabled("Currently assuming empty-handed players will 'pass', which is probably not correct ...")
-    public void playingDogSkipsToNextPlayerTeamPartnerIsDone() {
+    void playingDogSkipsToNextPlayerTeamPartnerIsDone() {
         final Trick trick = newTrickFromPlayer1(players);
         alex.deal(DeckConstants.Dog);
         // jules has no cards, so we'd expect the lead to go to quinn
@@ -154,7 +154,7 @@ public class TrickTest {
 
     @Test
     @Disabled("Currently assuming empty-handed players will 'pass', which is probably not correct ...")
-    public void playingDogSkipsBackToPlayerIfOthersDone() {
+    void playingDogSkipsBackToPlayerIfOthersDone() {
     }
 
     private Trick newTrickFromPlayer1(Players players) {

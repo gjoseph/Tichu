@@ -22,9 +22,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  *
  */
-public class FunctionsTest {
+class FunctionsTest {
     @Test
-    public void canFindSpecials() {
+    void canFindSpecials() {
         Card dog = Functions.find(new CardDeck().allRemaining(), Card.CardSpecials.Dog).get();
         assertEquals(dog.getVal(), Card.CardSpecials.Dog);
         assertEquals(dog.getVal().isSpecial(), true);
@@ -35,7 +35,7 @@ public class FunctionsTest {
     }
 
     @Test
-    public void canFindNumberCard() {
+    void canFindNumberCard() {
         Card card = Functions.find(new CardDeck().allRemaining(), Card.CardNumbers.Eight, Card.CardSuit.Jade).get();
         assertEquals(false, card.getVal().isSpecial());
         assertEquals(8, card.getVal().playOrder());
@@ -45,18 +45,18 @@ public class FunctionsTest {
     }
 
     @Test
-    public void scoringDoesNotRelyOnOrder() {
+    void scoringDoesNotRelyOnOrder() {
         assertEquals(25, Functions.score(Arrays.asList(B2, B0, B5, B9, BK)));
     }
 
     @Test
-    public void scoreCanDealWithNegatives() {
+    void scoreCanDealWithNegatives() {
         assertEquals(-5, Functions.score(Arrays.asList(_P, B0, G5, R5)));
         assertEquals(5, Functions.score(Arrays.asList(_D, _P, R5)));
     }
 
     @Test
-    public void lastNMatchWithDeque() {
+    void lastNMatchWithDeque() {
         Deque<Integer> dq = new LinkedList<>();
         dq.add(1);
         dq.add(2);

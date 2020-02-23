@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PlayersTest {
+class PlayersTest {
     @Test
     @Disabled("Currently doesn't work, but also not convinced by add/join impl")
-    public void playerNamesMustBeUniqueCaseInsensitively() {
+    void playerNamesMustBeUniqueCaseInsensitively() {
         assertThrows(IllegalArgumentException.class, () -> {
             final Players players = new Players();
             players.join(new Player("Quinn"), new Team("t1"));
@@ -28,7 +28,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void playerByNameIsCaseInsensitive() {
+    void playerByNameIsCaseInsensitive() {
         final Players players = TestUtil.samplePlayers();
 
         assertThat(players.getPlayerByName("Salami")).isEmpty();
@@ -37,7 +37,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void cycleFromOrdersPlayersByTeam() {
+    void cycleFromOrdersPlayersByTeam() {
         final Players players = new Players();
         final Team t1 = new Team("t1");
         final Team t2 = new Team("t2");
@@ -71,7 +71,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void cycleFromFirstCallToNextGivesGivenPlayer() {
+    void cycleFromFirstCallToNextGivesGivenPlayer() {
         final Players players = TestUtil.samplePlayers();
         final Player charlie = players.getPlayerByName("Charlie").orElseThrow();
         // If we ask to "cycle from Charlie",
@@ -81,7 +81,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void needs4PlayersToBeComplete() {
+    void needs4PlayersToBeComplete() {
         final Players players = new Players();
         final Team t1 = new Team("Team 1");
         final Team t2 = new Team("Team 2");

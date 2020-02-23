@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DeckConstantsTest {
 
     @Test
-    public void cardNamesAreCaseInsensitive() {
+    void cardNamesAreCaseInsensitive() {
         assertThat(DeckConstants.byName("B2")).isEqualTo(DeckConstants.Pagoda_2);
         assertThat(DeckConstants.byName("b2")).isEqualTo(DeckConstants.Pagoda_2);
         assertThat(DeckConstants.byName("paGODA_2")).isEqualTo(DeckConstants.Pagoda_2);
@@ -16,7 +16,7 @@ class DeckConstantsTest {
     }
 
     @Test
-    public void specialCards() {
+    void specialCards() {
         assertThat(DeckConstants.byName("_1")).isEqualTo(DeckConstants.MahJong);
         assertThat(DeckConstants.byName("MahJong")).isEqualTo(DeckConstants.MahJong);
 

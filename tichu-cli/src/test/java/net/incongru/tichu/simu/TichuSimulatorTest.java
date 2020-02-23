@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 class TichuSimulatorTest {
 
     @Test
-    public void sampleIsExecutable() throws IOException {
+    void sampleIsExecutable() throws IOException {
         try {
             new TichuSimulator().executeSimulation(PathUtil.resource("/SampleScriptedGame.tichu"));
         } catch (Simulation.PostActionCommandException e) {
