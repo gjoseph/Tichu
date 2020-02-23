@@ -18,7 +18,17 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-model</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-cli</artifactId>
+            <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
@@ -30,6 +40,11 @@
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-server</artifactId>
+            <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

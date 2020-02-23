@@ -26,7 +26,19 @@
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-model</artifactId>
+                <type>test-jar</type>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-cli</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-cli</artifactId>
+                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -36,7 +48,19 @@
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-server</artifactId>
+                <type>test-jar</type>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-archunit</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-archunit</artifactId>
+                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
 
@@ -148,6 +172,18 @@
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
