@@ -1,0 +1,30 @@
+{
+  extends: ["config:base"],
+  automerge: false,
+  automergeType: "pr",
+  // Wait 2 days after a release to create PR/branches
+  stabilityDays: 2,
+  packageRules: [
+    // Java packages rules:
+    {
+      packagePatterns: ["^org.slf4j"],
+      groupName: "SLF4J packages",
+    },
+    {
+      packagePatterns: ["^org.junit"],
+      groupName: "JUnit packages"
+    },
+    {
+      packagePatterns: ["^org.assertj"],
+      groupName: "AssertJ packages"
+    },
+    {
+      packagePatterns: ["^org.mockito"],
+      groupName: "Mockito packages"
+    },
+    {
+      packagePatterns: ["^com.tngtech.archunit"],
+      groupName: "ArchUnit packages"
+    }
+  ]
+}
