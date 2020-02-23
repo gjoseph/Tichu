@@ -19,6 +19,12 @@ class CheatDeal implements Action {
 
     @Override
     public Result exec(SimulatedGameContext ctx) {
+        if (ctx.game().isStarted()) {
+            throw new IllegalStateException("Game is already started");
+        }
+        if (ctx.game().isReadyToStart()) {
+            throw new IllegalStateException("Game is ready to start, too late to cheat");
+        }
         final Player player = ctx.player(playerName);
         cards.forEach(c -> player.deal(c));
 
