@@ -7,10 +7,10 @@ of the model code to re-use it in clients (e.g Javascript)
 
 For information about the original game, see https://boardgamegeek.com/boardgame/215/tichu or https://en.wikipedia.org/wiki/Tichu.
 
-Build
+Build [![Build Status](https://travis-ci.org/gjoseph/Tichu.svg?branch=master)](https://travis-ci.org/gjoseph/Tichu)
 =====
 ```
-mvn clean verify
+./mvnw clean verify
 ```
 
 Run
