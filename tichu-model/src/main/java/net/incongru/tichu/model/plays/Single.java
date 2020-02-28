@@ -1,8 +1,8 @@
 package net.incongru.tichu.model.plays;
 
+import com.google.common.base.Preconditions;
 import net.incongru.tichu.model.Card;
 
-import java.util.Collections;
 import java.util.Set;
 
 import static net.incongru.tichu.model.Card.CardSpecials.Dog;
@@ -18,18 +18,17 @@ public class Single extends AbstractPlay<Single> {
 
     private Single(Set<Card> cards) {
         super(cards);
+        Preconditions.checkArgument(cards.size() == 1, "Should pass a single Card");
         this.card = cards.iterator().next();
-        assert cards.size() == 1;
-    }
-
-    @Override
-    public Set<Card> getCards() {
-        return Collections.singleton(card);
     }
 
     @Override
     public String describe() {
         return name() + " " + card.name();
+    }
+
+    private Card getCard() {
+        return card;
     }
 
     @Override
@@ -44,10 +43,6 @@ public class Single extends AbstractPlay<Single> {
         } else {
             return card.getVal().playOrder() > otherCard.playOrder();
         }
-    }
-
-    public Card getCard() {
-        return card;
     }
 
     public static class Factory implements PlayFactory<Single> {

@@ -13,7 +13,7 @@ public abstract class AbstractPlay<P extends Play> implements Play<P> {
     private final Set<Card> cards;
 
     protected AbstractPlay(Set<Card> cards) {
-        this.cards = cards;
+        this.cards = Collections.unmodifiableSet(cards);
     }
 
     @Override
