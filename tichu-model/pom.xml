@@ -32,4 +32,58 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jsweet-plugins-release</id>
+            <name>plugins-release</name>
+            <url>http://repository.jsweet.org/artifactory/plugins-release-local</url>
+        </pluginRepository>
+        <!--<pluginRepository>-->
+        <!--    <snapshots />-->
+        <!--    <id>jsweet-plugins-snapshots</id>-->
+        <!--    <name>plugins-snapshot</name>-->
+        <!--    <url>http://repository.jsweet.org/artifactory/plugins-snapshot-local</url>-->
+        <!--</pluginRepository>-->
+    </pluginRepositories>
+    <repositories>
+        <repository>
+            <id>jsweet-central</id>
+            <name>libs-release</name>
+            <url>http://repository.jsweet.org/artifactory/libs-release-local</url>
+        </repository>
+        <!--<repository>-->
+        <!--    <snapshots />-->
+        <!--    <id>jsweet-snapshots</id>-->
+        <!--    <name>libs-snapshot</name>-->
+        <!--    <url>http://repository.jsweet.org/artifactory/libs-snapshot-local</url>-->
+        <!--</repository>-->
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jsweet</groupId>
+                <artifactId>jsweet-maven-plugin</artifactId>
+                <version>3.0.0-RC1</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <tsOut>target/ts</tsOut>
+                    <!--<outDir>target/js</outDir>-->
+                    <!--<candiesJsOut>webapp</candiesJsOut>-->
+                    <targetVersion>ES6</targetVersion>
+                    <module>none</module>
+                    <moduleResolution>classic</moduleResolution>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-js</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>jsweet</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
