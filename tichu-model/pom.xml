@@ -40,13 +40,13 @@
         <!--<dependency>-->
         <!--    <groupId>org.jsweet</groupId>-->
         <!--    <artifactId>jsweet-maven-plugin</artifactId>-->
-        <!--    <version>2.3.5</version>-->
+        <!--    <version>3.0.0-RC1</version>-->
         <!--</dependency>-->
 
         <dependency>
             <groupId>org.jsweet</groupId>
             <artifactId>jsweet-transpiler</artifactId>
-            <version>2.3.5</version>
+            <version>3.0.0-RC1</version>
         </dependency>
     </dependencies>
     <pluginRepositories>
@@ -100,7 +100,7 @@
             <plugin>
                 <groupId>org.jsweet</groupId>
                 <artifactId>jsweet-maven-plugin</artifactId>
-                <version>2.3.5</version>
+                <version>3.0.0-RC1</version>
                 <configuration>
                     <verbose>true</verbose>
                     <tsOut>target/ts</tsOut>
