@@ -36,16 +36,16 @@ public interface Play<P extends Play> {
          * In other words, this method will return a candidate found in the given cards, and
          * ignore any additional cards.
          */
-        default P findIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
+//        default P findIn(Set<Card> hand) {
+//            throw new IllegalStateException("not implemented yet"); // TODO
+//        }
 
         /**
          * Like {@link #findIn(Set)}, but returns all the possible candidates of this type.
          */
-        default List<P> findAllIn(Set<Card> hand) {
-            throw new IllegalStateException("not implemented yet"); // TODO
-        }
+//        default List<P> findAllIn(Set<Card> hand) {
+//            throw new IllegalStateException("not implemented yet"); // TODO
+//        }
 
         /**
          * Returns a Play if the given cards are of that type, null otherwise.
