@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import static net.incongru.tichu.model.Card.Comparators.BY_SUIT;
 import static net.incongru.tichu.model.util.DeckConstants.Dog;
 import static net.incongru.tichu.model.util.DeckConstants.Dragon;
+import static net.incongru.tichu.model.util.DeckConstants.Jade_Queen;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;
 import static net.incongru.tichu.model.util.DeckConstants.Phoenix;
+import static net.incongru.tichu.model.util.DeckConstants.Sword_7;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,6 +40,18 @@ class CardTest {
         assertThat(FluentIterable.from(array).toSortedSet(BY_SUIT)).containsOnly(array);
         assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedList(BY_SUIT)).hasSize(56);
         assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedSet(BY_SUIT)).hasSize(56);
+    }
+
+    @Test
+    void predicates() {
+        assertThat(Card.Predicates.is(Card.CardSpecials.Dog)).accepts(Dog);
+        assertThat(Card.Predicates.is(Card.CardSpecials.Dog)).rejects(Jade_Queen, MahJong, Dragon, Phoenix);
+
+        assertThat(Card.Predicates.is(Card.CardNumbers.Queen, Card.CardSuit.Jade)).accepts(Jade_Queen);
+        assertThat(Card.Predicates.is(Card.CardNumbers.Queen, Card.CardSuit.Jade)).rejects(Sword_7, Dog, MahJong, Dragon, Phoenix);
+
+        assertThat(Card.Predicates.is(null)).rejects(Dog, Jade_Queen);
+        assertThat(Card.Predicates.is(null, null)).rejects(Dog, Jade_Queen);
     }
 
 }

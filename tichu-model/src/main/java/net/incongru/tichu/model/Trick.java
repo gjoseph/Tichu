@@ -38,7 +38,7 @@ public class Trick {
         }
 
         // Does the player have these cards?
-        if (!player.hand().containsAll(cards)) {
+        if (!player.hand().hasAll(cards)) {
             // TODO cheat ?
             return new Play.PlayResult(Play.PlayResult.Result.NOTINHAND, "You don't have those cards!");
         }

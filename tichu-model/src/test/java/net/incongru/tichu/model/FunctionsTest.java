@@ -23,26 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  */
 class FunctionsTest {
-    @Test
-    void canFindSpecials() {
-        Card dog = Functions.find(new CardDeck().allRemaining(), Card.CardSpecials.Dog).get();
-        assertEquals(dog.getVal(), Card.CardSpecials.Dog);
-        assertEquals(dog.getVal().isSpecial(), true);
-        assertEquals(dog.getVal().playOrder(), 1);
-        assertEquals(dog.getVal().scoreValue(), 0);
-        assertEquals(null, dog.getSuit());
-        assertEquals("Dog", dog.name());
-    }
-
-    @Test
-    void canFindNumberCard() {
-        Card card = Functions.find(new CardDeck().allRemaining(), Card.CardNumbers.Eight, Card.CardSuit.Jade).get();
-        assertEquals(false, card.getVal().isSpecial());
-        assertEquals(8, card.getVal().playOrder());
-        assertEquals(0, card.getVal().scoreValue());
-        assertEquals(Card.CardSuit.Jade, card.getSuit());
-        assertEquals("8 of Jade", card.name());
-    }
 
     @Test
     void scoringDoesNotRelyOnOrder() {

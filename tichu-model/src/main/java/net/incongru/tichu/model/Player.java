@@ -5,6 +5,8 @@ import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -12,7 +14,7 @@ import java.util.Set;
 public class Player {
     private final String name;
     private boolean ready = false;
-    private final Set<Card> hand = new LinkedHashSet<>();
+    private final Hand hand = new Hand();
     private final Set<Card> wonCards = new LinkedHashSet<>();
 
     public Player(String name) {
@@ -41,8 +43,8 @@ public class Player {
         wonCards.clear();
     }
 
-    public Set<Card> hand() {
-        return Collections.unmodifiableSet(hand);
+    public Hand hand() {
+        return this.hand;
     }
 
     /**
@@ -69,12 +71,7 @@ public class Player {
      * The player has successfully played these, we remove them from her hand.
      */
     void discard(Set<Card> cards) {
-        if (!hand.containsAll(cards)) {
-            throw new IllegalStateException("Could not remove cards " + cards + " from player hand " + hand);
-        }
-        // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
-        // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
-        hand.removeAll(cards);
+        hand.discard(cards);
     }
 
     @Override
@@ -84,5 +81,46 @@ public class Player {
                 ", hand=" + hand +
                 ", wonCards=" + wonCards +
                 '}';
+    }
+
+    public static class Hand {
+        private final Set<Card> cards = new LinkedHashSet<>();
+
+        void clear() {
+            this.cards.clear();
+        }
+
+        void add(Card card) {
+            this.cards.add(card);
+        }
+
+        boolean hasAll(Set<Card> cards) {
+            return this.cards.containsAll(cards);
+        }
+
+        boolean has(Predicate<Card> test) {
+            return this.cards.stream().anyMatch(test);
+        }
+
+        int size() {
+            return this.cards.size();
+        }
+
+        boolean isEmpty() {
+            return this.cards.isEmpty();
+        }
+
+        void discard(Set<Card> cards) {
+            if (!cards.containsAll(cards)) {
+                throw new IllegalStateException("Could not remove cards " + cards + " from player's hand");
+            }
+            // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
+            // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
+            this.cards.removeAll(cards);
+        }
+
+        public String toDebugString() {
+            return this.cards.stream().map(Card::name).collect(Collectors.joining(", "));
+        }
     }
 }

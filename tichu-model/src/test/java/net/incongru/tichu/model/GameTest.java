@@ -44,10 +44,10 @@ class GameTest {
                 .hasSize(0);
 
         // hands have been dealt
-        softly.assertThat(alex.hand()).hasSize(14);
-        softly.assertThat(charlie.hand()).hasSize(14);
-        softly.assertThat(jules.hand()).hasSize(14);
-        softly.assertThat(quinn.hand()).hasSize(14);
+        softly.assertThat(alex.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(charlie.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(jules.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(quinn.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
     }
 
     @Test
