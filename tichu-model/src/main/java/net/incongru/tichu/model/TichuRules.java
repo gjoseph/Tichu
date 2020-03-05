@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static net.incongru.tichu.model.Functions.find;
+import static net.incongru.tichu.model.Card.Predicates.is;
 
 /**
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
@@ -48,7 +48,7 @@ public class TichuRules {
     }
 
     private static final Predicate<Player> hasMahjong =
-            player -> find(player.hand(), Card.CardSpecials.MahJong).isPresent();
+            player -> player.hand().has(is(Card.CardSpecials.MahJong));
 
     @Nonnull
     public Play validate(Set<Card> cards) {

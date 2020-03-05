@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static java.util.Comparator.comparing;
 import static java.util.Comparator.comparingInt;
@@ -206,6 +207,16 @@ public class Card {
             return shortName;
         }
 
+    }
+
+    public static class Predicates {
+        static Predicate<Card> is(CardSpecials value) {
+            return c -> c.getVal() == value;
+        }
+
+        static Predicate<Card> is(CardNumbers value, CardSuit suit) {
+            return c -> c.getVal() == value && c.getSuit() == suit;
+        }
     }
 
     /**
