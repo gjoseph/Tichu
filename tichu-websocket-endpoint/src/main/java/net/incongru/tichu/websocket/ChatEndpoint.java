@@ -12,54 +12,52 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint(value = ChatEndpoint.PATH + "/{username}",
         decoders = MessageDecoder.class,
-        encoders = MessageEncoder.class
+        encoders = MessageEncoder.class,
+        configurator = EndpointConfigurator.class
 )
 public class ChatEndpoint {
     public static final String PATH = "/chat";
 
-    private static Set<ChatEndpoint> chatEndpoints = new CopyOnWriteArraySet<>();
-    private static HashMap<String, String> users = new HashMap<>();
+    private final ChatStateProvider store;
 
-    private Session session;
+    public ChatEndpoint(ChatStateProvider store) {
+        this.store = store;
+    }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) throws EncodeException {
-        this.session = session;
-        chatEndpoints.add(this);
-        users.put(session.getId(), username);
+    public void onOpen(Session session, @PathParam("username") String username) throws IOException, EncodeException {
+        store.registerSession(session);
+        store.addUser(session.getId(), username);
 
         final ImmutableMessage message = ImmutableMessage.builder()
                 .from(username)
                 .content("Connected!")
                 .build();
-        broadcast(message);
+        store.broadcast(message);
     }
 
     @OnMessage
-    public void onMessage(Session session, Message message) throws EncodeException {
+    public void onMessage(Session session, Message message) throws IOException, EncodeException {
         System.out.println("message = " + message);
         final ImmutableMessage message1 = ImmutableMessage.builder()
-                .from(users.get(session.getId()))
+                .from(store.getUser(session.getId()))
                 .content(message.content())
                 .to(message.to())
                 .build();
-        broadcast(message1);
+        store.broadcast(message1);
     }
 
     @OnClose
-    public void onClose(Session session) throws EncodeException {
-        chatEndpoints.remove(this);
+    public void onClose(Session session) throws IOException, EncodeException {
+        store.removeSession(session);
         final Message message = ImmutableMessage.builder()
-                .from(users.get(session.getId()))
+                .from(store.getUser(session.getId()))
                 .content("Disconnected!")
                 .build();
-        broadcast(message);
+        store.broadcast(message);
     }
 
     @OnError
@@ -68,16 +66,4 @@ public class ChatEndpoint {
         System.out.println("throwable = " + throwable);
     }
 
-    private static void broadcast(Message message) throws EncodeException {
-
-        chatEndpoints.forEach(endpoint -> {
-            synchronized (endpoint) {
-                try {
-                    endpoint.session.getBasicRemote().sendObject(message);
-                } catch (IOException | EncodeException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 }
