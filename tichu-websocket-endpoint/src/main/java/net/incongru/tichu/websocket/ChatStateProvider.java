@@ -1,12 +1,9 @@
 package net.incongru.tichu.websocket;
 
-import javax.websocket.EncodeException;
 import javax.websocket.Session;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.function.Consumer;
 
 public class ChatStateProvider {
 
@@ -29,31 +26,11 @@ public class ChatStateProvider {
         users.put(sessionId, username);
     }
 
-    void broadcast(Message message) throws IOException, EncodeException {
-        sessions.forEach(unchecked(sesh -> {
+    void broadcast(Message message) {
+        sessions.forEach(sesh -> {
             synchronized (sesh) {
-                sesh.getBasicRemote().sendObject(message);
+                sesh.getAsyncRemote().sendObject(message);
             }
-        }));
-    }
-
-    @FunctionalInterface
-    private static interface ThrowingConsumer<T> {
-        void accept(T t) throws Exception;
-    }
-
-    private static <T> Consumer<T> unchecked(ThrowingConsumer<T> f) {
-        return t -> {
-            try {
-                f.accept(t);
-            } catch (Exception ex) {
-                sneakyThrow(ex);
-            }
-        };
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Exception, R> R sneakyThrow(Exception t) throws T {
-        throw (T) t; // ( ͡° ͜ʖ ͡°)
+        });
     }
 }
