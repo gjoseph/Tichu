@@ -2,11 +2,8 @@ var ws;
 
 function connect() {
     var username = document.getElementById("username").value;
-
     var host = document.location.host;
-    var pathname ="/"// document.location.pathname;
-
-    ws = new WebSocket("ws://" +host  + pathname + "chat/" + username);
+    ws = new WebSocket("ws://" +host + "/chat/" + username);
 
     ws.onmessage = function(event) {
     var log = document.getElementById("log");
@@ -18,9 +15,24 @@ function connect() {
 
 function send() {
     var content = document.getElementById("msg").value;
-    var json = JSON.stringify({
+    var json = JSON.stringify(
+    {
+        "type":"chat",
         "content":content
-    });
+    }
+    );
+
+    ws.send(json);
+}
+
+function other() {
+    var content = document.getElementById("msg").value;
+    var json = JSON.stringify(
+    {
+        "type":"other",
+        "thing":content
+    }
+    );
 
     ws.send(json);
 }

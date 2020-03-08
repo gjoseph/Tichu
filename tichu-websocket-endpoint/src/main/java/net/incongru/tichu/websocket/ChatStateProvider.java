@@ -26,7 +26,7 @@ public class ChatStateProvider {
         users.put(sessionId, username);
     }
 
-    void broadcast(Message message) {
+    void broadcast(Object message) { // TODO have _some_ base type here
         sessions.forEach(sesh -> {
             synchronized (sesh) {
                 sesh.getAsyncRemote().sendObject(message);
