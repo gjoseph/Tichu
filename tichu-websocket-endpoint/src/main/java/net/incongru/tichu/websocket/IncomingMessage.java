@@ -20,5 +20,5 @@ import javax.websocket.Session;
 public interface IncomingMessage {
 
     // Visitor pattern to be implemented by subtypes
-    void accept(Session session, ChatEndpoint.MessageVisitor visitor);
+    void accept(Session session, MessageHandler visitor);
 }
