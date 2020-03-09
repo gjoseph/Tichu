@@ -1,6 +1,6 @@
 package net.incongru.tichu.action.impl;
 
-import net.incongru.tichu.simu.SimulatedGameContext;
+import net.incongru.tichu.action.GameContext;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,7 +11,7 @@ class JoinTableTest {
 
     @Test
     void noMoreThan2PlayersCanJoinTeam() {
-        final SimulatedGameContext ctx = new SimulatedGameContext();
+        final GameContext ctx = new TestGameContext();
 
         assertDoesNotThrow(() -> {
             new InitialiseGame().exec(ctx);
@@ -26,7 +26,7 @@ class JoinTableTest {
 
     @Test
     void playersCompleteWhenAllPlayersJoined() {
-        final SimulatedGameContext ctx = new SimulatedGameContext();
+        final GameContext ctx = new TestGameContext();
         new InitialiseGame().exec(ctx);
 
         assertThat(ctx.game().players().isComplete()).describedAs("No played joined yet, shouldn't be ready")

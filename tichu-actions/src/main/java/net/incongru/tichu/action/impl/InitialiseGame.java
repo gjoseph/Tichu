@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.Game;
@@ -8,7 +9,6 @@ import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Round;
 import net.incongru.tichu.model.Team;
 import net.incongru.tichu.model.TichuRules;
-import net.incongru.tichu.simu.SimulatedGameContext;
 
 import java.util.List;
 import java.util.Set;
@@ -21,7 +21,7 @@ class InitialiseGame implements Action {
     }
 
     @Override
-    public Action.Result exec(SimulatedGameContext ctx) {
+    public Result exec(GameContext ctx) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));

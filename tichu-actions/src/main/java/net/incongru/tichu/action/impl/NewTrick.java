@@ -1,12 +1,12 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Trick;
-import net.incongru.tichu.simu.SimulatedGameContext;
 
 class NewTrick implements Action {
     @Override
-    public Result exec(SimulatedGameContext ctx) {
+    public Result exec(GameContext ctx) {
         final Trick trick = ctx.game().currentRound().newTrick();
         ctx.log("New trick! %s", trick);
         return new Success() {

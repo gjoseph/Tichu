@@ -11,6 +11,7 @@
 
     <modules>
         <module>tichu-model</module>
+        <module>tichu-actions</module>
         <module>tichu-simulator</module>
         <module>tichu-server</module>
         <module>tichu-archunit</module>
@@ -27,6 +28,17 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-model</artifactId>
+                <type>test-jar</type>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-actions</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-actions</artifactId>
                 <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
             </dependency>

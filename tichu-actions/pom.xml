@@ -7,18 +7,14 @@
         <version>0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>tichu-simulator</artifactId>
+    <artifactId>tichu-actions</artifactId>
     <packaging>jar</packaging>
-    <name>Tichu :: simulator</name>
+    <name>Tichu :: actions</name>
 
     <dependencies>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-model</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.incongru.tichu</groupId>
-            <artifactId>tichu-actions</artifactId>
         </dependency>
         <dependency>
             <groupId>org.immutables</groupId>
@@ -33,6 +29,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-model</artifactId>
