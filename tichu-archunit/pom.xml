@@ -23,11 +23,11 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
-            <artifactId>tichu-cli</artifactId>
+            <artifactId>tichu-simulator</artifactId>
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
-            <artifactId>tichu-cli</artifactId>
+            <artifactId>tichu-simulator</artifactId>
             <type>test-jar</type>
         </dependency>
         <dependency>
