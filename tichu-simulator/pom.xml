@@ -9,7 +9,7 @@
     </parent>
     <artifactId>tichu-simulator</artifactId>
     <packaging>jar</packaging>
-    <name>Tichu :: cli</name>
+    <name>Tichu :: simulator</name>
 
     <dependencies>
         <dependency>
