@@ -11,7 +11,7 @@
 
     <modules>
         <module>tichu-model</module>
-        <module>tichu-cli</module>
+        <module>tichu-simulator</module>
         <module>tichu-server</module>
         <module>tichu-archunit</module>
     </modules>
@@ -32,12 +32,12 @@
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
-                <artifactId>tichu-cli</artifactId>
+                <artifactId>tichu-simulator</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
-                <artifactId>tichu-cli</artifactId>
+                <artifactId>tichu-simulator</artifactId>
                 <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
