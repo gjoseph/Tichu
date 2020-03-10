@@ -1,11 +1,11 @@
 package net.incongru.tichu.action.impl;
 
 import com.google.common.collect.Sets;
-import net.incongru.tichu.simu.SimulatedGameContext;
+import net.incongru.tichu.action.GameContext;
 import org.junit.jupiter.api.Test;
 
-import static net.incongru.tichu.assertj.Conditions.notReadyNorStarted;
-import static net.incongru.tichu.assertj.Conditions.started;
+import static net.incongru.tichu.model.GameAssert.Conditions.notReadyNorStarted;
+import static net.incongru.tichu.model.GameAssert.Conditions.started;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PlayerIsReadyTest {
     @Test
     void failsWithUnknownPlayer() {
-        final SimulatedGameContext ctx = new SimulatedGameContext();
+        final GameContext ctx = new TestGameContext();
         new InitialiseGame().exec(ctx);
         new JoinTable("jamie", 0).exec(ctx);
 
@@ -25,7 +25,7 @@ class PlayerIsReadyTest {
 
     @Test
     void holdYourHorsesMarkingYourselfReadyOnceIsEnough() {
-        final SimulatedGameContext ctx = new SimulatedGameContext();
+        final GameContext ctx = new TestGameContext();
         new InitialiseGame().exec(ctx);
         new JoinTable("jamie", 0).exec(ctx);
         new PlayerIsReady("jamie").exec(ctx);
@@ -38,7 +38,7 @@ class PlayerIsReadyTest {
 
     @Test
     void gameStartsWhenAllPlayersAreReady() {
-        final SimulatedGameContext ctx = new SimulatedGameContext();
+        final GameContext ctx = new TestGameContext();
         new InitialiseGame().exec(ctx);
         new JoinTable("alex", 0).exec(ctx);
         new JoinTable("charlie", 0).exec(ctx);

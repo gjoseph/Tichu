@@ -1,9 +1,9 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Player;
-import net.incongru.tichu.simu.SimulatedGameContext;
 
 import java.util.Set;
 
@@ -18,7 +18,7 @@ class CheatDeal implements Action {
     }
 
     @Override
-    public Result exec(SimulatedGameContext ctx) {
+    public Result exec(GameContext ctx) {
         if (ctx.game().isStarted()) {
             throw new IllegalStateException("Game is already started");
         }

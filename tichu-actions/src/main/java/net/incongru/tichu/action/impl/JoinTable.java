@@ -1,10 +1,10 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Team;
-import net.incongru.tichu.simu.SimulatedGameContext;
 
 class JoinTable implements Action {
     private final String playerName;
@@ -16,7 +16,7 @@ class JoinTable implements Action {
     }
 
     @Override
-    public Result exec(SimulatedGameContext ctx) {
+    public Result exec(GameContext ctx) {
         // TODO validating team number should be role of action/rules, but where does error bubble up if invalid ?
         final Players players = ctx.game().players();
         final Team team = players.getTeam(this.team);

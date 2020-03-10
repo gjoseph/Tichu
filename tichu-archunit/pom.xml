@@ -23,6 +23,15 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-actions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-actions</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-simulator</artifactId>
         </dependency>
         <dependency>

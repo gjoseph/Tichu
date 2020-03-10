@@ -1,8 +1,8 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Game;
-import net.incongru.tichu.simu.SimulatedGameContext;
 
 class PlayerIsReady implements Action {
     private final String playerName;
@@ -12,7 +12,7 @@ class PlayerIsReady implements Action {
     }
 
     @Override
-    public Result exec(SimulatedGameContext ctx) {
+    public Result exec(GameContext ctx) {
         ctx.player(playerName).setReady();
         final Game game = ctx.game();
         if (game.players().areAllReady()) {
