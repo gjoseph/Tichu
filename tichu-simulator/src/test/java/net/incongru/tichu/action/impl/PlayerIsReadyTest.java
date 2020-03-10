@@ -4,8 +4,8 @@ import com.google.common.collect.Sets;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import org.junit.jupiter.api.Test;
 
-import static net.incongru.tichu.assertj.Conditions.notReadyNorStarted;
-import static net.incongru.tichu.assertj.Conditions.started;
+import static net.incongru.tichu.model.GameAssert.Conditions.notReadyNorStarted;
+import static net.incongru.tichu.model.GameAssert.Conditions.started;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;
 import static org.assertj.core.api.Assertions.assertThat;
