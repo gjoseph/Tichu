@@ -10,10 +10,7 @@ class NewTrick implements Action {
         final Trick trick = ctx.game().currentRound().newTrick();
         ctx.log("New trick! %s", trick);
         return new Success() {
-            @Override
-            public String toString() {
-                return "New trick started: " + trick;
-            }
+            // new trick
         };
     }
 }

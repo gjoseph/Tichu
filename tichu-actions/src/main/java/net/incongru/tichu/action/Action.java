@@ -39,12 +39,6 @@ public interface Action {
             return playResult;
         }
 
-        @Override
-        public String toString() {
-            return getClass().getSimpleName() + "{" +
-                    "playResult=" + playResult +
-                    '}';
-        }
     }
 
     static class SuccessPlayResult extends AbstractPlayResult implements Success {
