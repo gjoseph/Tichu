@@ -2,7 +2,6 @@ package net.incongru.tichu.server.resource;
 
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.Game;
-import net.incongru.tichu.model.GameView;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.TichuRules;
 
@@ -33,10 +32,6 @@ public class TichuResource {
     @Path("/start")
     public Game newGame() {
         return new Game(new Players(), new TichuRules());
-    }
-
-    public GameView view(String gameId) {
-        return null;
     }
 
     //    public Game.PlayResult validate(Game.Play play) {
