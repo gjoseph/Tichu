@@ -14,11 +14,6 @@ class CheatDeal implements Action<CheatDealParam> {
     }
 
     @Override
-    public Class<CheatDealParam> paramType() {
-        return CheatDealParam.class;
-    }
-
-    @Override
     public ActionResult exec(GameContext ctx, CheatDealParam param) {
         if (ctx.game().isStarted()) {
             throw new IllegalStateException("Game is already started");

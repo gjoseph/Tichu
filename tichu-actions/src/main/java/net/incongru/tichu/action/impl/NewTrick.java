@@ -8,10 +8,6 @@ import net.incongru.tichu.action.param.NewTrickParam;
 import net.incongru.tichu.model.Trick;
 
 class NewTrick implements Action<NewTrickParam> {
-    @Override
-    public Class<NewTrickParam> paramType() {
-        return NewTrickParam.class;
-    }
 
     @Override
     public ActionResult exec(GameContext ctx, NewTrickParam param) {

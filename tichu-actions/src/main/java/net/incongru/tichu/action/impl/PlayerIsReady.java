@@ -13,11 +13,6 @@ class PlayerIsReady implements Action<PlayerIsReadyParam> {
     }
 
     @Override
-    public Class<PlayerIsReadyParam> paramType() {
-        return PlayerIsReadyParam.class;
-    }
-
-    @Override
     public ActionResult exec(GameContext ctx, PlayerIsReadyParam param) {
         ctx.player(param.playerName()).setReady();
         final Game game = ctx.game();

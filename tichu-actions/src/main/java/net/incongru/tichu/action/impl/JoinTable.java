@@ -15,11 +15,6 @@ class JoinTable implements Action<JoinTableParam> {
     }
 
     @Override
-    public Class paramType() {
-        return JoinTableParam.class;
-    }
-
-    @Override
     public ActionResult exec(GameContext ctx, JoinTableParam param) {
         // TODO validating team number should be role of action/rules, but where does error bubble up if invalid ?
         final Players players = ctx.game().players();

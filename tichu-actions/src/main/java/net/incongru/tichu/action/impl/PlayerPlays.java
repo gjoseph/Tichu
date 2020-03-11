@@ -15,11 +15,6 @@ class PlayerPlays implements Action<PlayerPlaysParam> {
     }
 
     @Override
-    public Class<PlayerPlaysParam> paramType() {
-        return PlayerPlaysParam.class;
-    }
-
-    @Override
     public ActionResult exec(GameContext ctx, PlayerPlaysParam param) {
         final Player player = ctx.player(param.playerName());
         final Play.PlayResult res = ctx.game().currentRound().currentTrick().play(player, param.cards());

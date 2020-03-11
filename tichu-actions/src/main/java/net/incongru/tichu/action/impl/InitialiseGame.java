@@ -24,11 +24,6 @@ class InitialiseGame implements Action<InitialiseGameParam> {
     }
 
     @Override
-    public Class<InitialiseGameParam> paramType() {
-        return InitialiseGameParam.class;
-    }
-
-    @Override
     public ActionResult exec(GameContext ctx, InitialiseGameParam param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
