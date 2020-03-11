@@ -1,21 +1,25 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Game;
 
-class PlayerIsReady implements Action {
-    private final String playerName;
+class PlayerIsReady implements Action<PlayerIsReady.PlayerIsReadyParam> {
 
-    PlayerIsReady(String playerName) {
-        this.playerName = playerName;
+    PlayerIsReady() {
     }
 
     @Override
-    public ActionResult exec(GameContext ctx) {
-        ctx.player(playerName).setReady();
+    public Class<PlayerIsReadyParam> paramType() {
+        return PlayerIsReadyParam.class;
+    }
+
+    @Override
+    public ActionResult exec(GameContext ctx, PlayerIsReadyParam param) {
+        ctx.player(param.playerName).setReady();
         final Game game = ctx.game();
         if (game.players().areAllReady()) {
             game.start(); // TODO do we want to check isReadyToStart?
@@ -27,6 +31,15 @@ class PlayerIsReady implements Action {
             return new Success() {
                 // played marked ready but game not started
             };
+        }
+    }
+
+
+    static class PlayerIsReadyParam implements ActionParam {
+        private final String playerName;
+        // TODO Immutables and jackson mapping
+        public PlayerIsReadyParam(String playerName) {
+            this.playerName = playerName;
         }
     }
 }

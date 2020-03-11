@@ -2,6 +2,10 @@ package net.incongru.tichu.action.impl;
 
 import com.google.common.collect.Sets;
 import net.incongru.tichu.action.GameContext;
+import net.incongru.tichu.action.impl.CheatDeal.CheatDealParam;
+import net.incongru.tichu.action.impl.InitialiseGame.InitialiseGameParam;
+import net.incongru.tichu.action.impl.JoinTable.JoinTableParam;
+import net.incongru.tichu.action.impl.PlayerIsReady.PlayerIsReadyParam;
 import org.junit.jupiter.api.Test;
 
 import static net.incongru.tichu.model.GameAssert.Conditions.notReadyNorStarted;
@@ -15,10 +19,10 @@ class PlayerIsReadyTest {
     @Test
     void failsWithUnknownPlayer() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame().exec(ctx);
-        new JoinTable("jamie", 0).exec(ctx);
+        new InitialiseGame().exec(ctx, new InitialiseGameParam());
+        new JoinTable().exec(ctx, new JoinTableParam("jamie", 0));
 
-        assertThatThrownBy(() -> new PlayerIsReady("ghost").exec(ctx))
+        assertThatThrownBy(() -> new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("ghost")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("ghost");
     }
@@ -26,12 +30,12 @@ class PlayerIsReadyTest {
     @Test
     void holdYourHorsesMarkingYourselfReadyOnceIsEnough() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame().exec(ctx);
-        new JoinTable("jamie", 0).exec(ctx);
-        new PlayerIsReady("jamie").exec(ctx);
+        new InitialiseGame().exec(ctx, new InitialiseGameParam());
+        new JoinTable().exec(ctx, new JoinTableParam("jamie", 0));
+        new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("jamie"));
         assertThat(ctx.player("jamie").isReady()).isTrue();
 
-        assertThatThrownBy(() -> new PlayerIsReady("jamie").exec(ctx))
+        assertThatThrownBy(() -> new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("jamie")))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("jamie");
     }
@@ -39,21 +43,21 @@ class PlayerIsReadyTest {
     @Test
     void gameStartsWhenAllPlayersAreReady() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame().exec(ctx);
-        new JoinTable("alex", 0).exec(ctx);
-        new JoinTable("charlie", 0).exec(ctx);
-        new JoinTable("jules", 1).exec(ctx);
-        new JoinTable("quinn", 1).exec(ctx);
+        new InitialiseGame().exec(ctx, new InitialiseGameParam());
+        new JoinTable().exec(ctx, new JoinTableParam("alex", 0));
+        new JoinTable().exec(ctx, new JoinTableParam("charlie", 0));
+        new JoinTable().exec(ctx, new JoinTableParam("jules", 1));
+        new JoinTable().exec(ctx, new JoinTableParam("quinn", 1));
 
-        new CheatDeal("jules", Sets.newHashSet(MahJong, B2)).exec(ctx);
+        new CheatDeal().exec(ctx, new CheatDealParam("jules", Sets.newHashSet(MahJong, B2)));
 
         assertThat(ctx.game()).describedAs("Nobody is ready").is(notReadyNorStarted);
-        new PlayerIsReady("alex").exec(ctx);
+        new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("alex"));
         assertThat(ctx.game()).describedAs("Should still not be ready with just 1 ready player").is(notReadyNorStarted);
-        new PlayerIsReady("charlie").exec(ctx);
-        new PlayerIsReady("jules").exec(ctx);
+        new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("charlie"));
+        new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("jules"));
         assertThat(ctx.game()).describedAs("Should still not be ready with just 3 ready players").is(notReadyNorStarted);
-        new PlayerIsReady("quinn").exec(ctx);
+        new PlayerIsReady().exec(ctx, new PlayerIsReadyParam("quinn"));
         assertThat(ctx.game()).describedAs("Should now be ready with all 4 ready players")
                 .is(started);
 

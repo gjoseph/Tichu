@@ -1,5 +1,6 @@
 package net.incongru.tichu.action.impl;
 
+import net.incongru.tichu.action.impl.PlayerPlays.PlayerPlaysParam;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -29,35 +30,35 @@ class PlayerPlaysTest {
     void firstPlayerShouldNotBeAbleToPass() {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
-        final PlayerPlays play = new PlayerPlays("jules", Collections.emptySet());
-        assertThat(play.exec(ctx)).isErrorPlayResult(INVALIDPLAY/*??*/);
+        final PlayerPlays play = new PlayerPlays();
+        assertThat(play.exec(ctx, new PlayerPlaysParam("jules", Collections.emptySet()))).isErrorPlayResult(INVALIDPLAY/*??*/);
     }
 
     @Test
     void playingWrongCardResultsInError() {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
-        final PlayerPlays play = new PlayerPlays("jules", Set.of(G9));
-        assertThat(play.exec(ctx)).isErrorPlayResult(NOTINHAND, s -> s.startsWith("You don't have"));
+        final PlayerPlays play = new PlayerPlays();
+        assertThat(play.exec(ctx, new PlayerPlaysParam("jules", Set.of(G9)))).isErrorPlayResult(NOTINHAND, s -> s.startsWith("You don't have"));
     }
 
     @Test
     void playMahjongFirst() {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
-        final PlayerPlays play = new PlayerPlays("jules", Set.of(MahJong));
-        assertThat(play.exec(ctx)).isSuccessPlayResult(NEXTGOES);
+        final PlayerPlays play = new PlayerPlays();
+        assertThat(play.exec(ctx, new PlayerPlaysParam("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
     }
 
     @Test
     void passing() {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong), Set.of(B2)).allReady();
 
-        final PlayerPlays play1 = new PlayerPlays("jules", Set.of(MahJong));
-        assertThat(play1.exec(ctx)).isSuccessPlayResult(NEXTGOES);
+        final PlayerPlays play1 = new PlayerPlays();
+        assertThat(play1.exec(ctx, new PlayerPlaysParam("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
 
-        final PlayerPlays play2 = new PlayerPlays("charlie", Collections.emptySet());
-        assertThat(play2.exec(ctx)).isSuccessPlayResult(NEXTGOES);
+        final PlayerPlays play2 = new PlayerPlays();
+        assertThat(play2.exec(ctx, new PlayerPlaysParam("charlie", Collections.emptySet()))).isSuccessPlayResult(NEXTGOES);
     }
 
 }

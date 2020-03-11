@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.action.GameContext;
@@ -17,13 +18,18 @@ import java.util.Set;
 
 // TODO this is for simulated/fake games. We probably need a different impl for real games.
 // and/or SimulationContext is just a Provider<Game> and we can pass it along the exec() calls
-class InitialiseGame implements Action {
+class InitialiseGame implements Action<InitialiseGame.InitialiseGameParam> {
 
     InitialiseGame() {
     }
 
     @Override
-    public ActionResult exec(GameContext ctx) {
+    public Class<InitialiseGameParam> paramType() {
+        return InitialiseGameParam.class;
+    }
+
+    @Override
+    public ActionResult exec(GameContext ctx, InitialiseGameParam param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));
@@ -77,5 +83,11 @@ class InitialiseGame implements Action {
             this.controlledDeck = controlledDeck;
         }
 
+    }
+
+    static class InitialiseGameParam implements ActionParam {
+        // TODO Immutables and jackson mapping
+        public InitialiseGameParam() {
+        }
     }
 }
