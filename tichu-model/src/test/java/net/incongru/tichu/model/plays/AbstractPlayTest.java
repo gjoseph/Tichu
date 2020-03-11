@@ -21,17 +21,7 @@ class AbstractPlayTest {
     @Test
     void correctlyFindLowestCard() {
         final Set<Card> cards = Sets.newHashSet(Pagoda_9, Pagoda_7, Sword_4, Pagoda_5, Pagoda_6, Pagoda_4, Pagoda_8, Pagoda_10);
-        final AbstractPlay<AbstractPlay> play = new AbstractPlay<>(cards) {
-            @Override
-            protected boolean canBePlayedAfterTypeSafe(AbstractPlay other) {
-                throw new IllegalStateException();
-            }
-
-            @Override
-            public String describe() {
-                throw new IllegalStateException();
-            }
-        };
+        final FakePlay play = new FakePlay(cards);
         final Card smallestCard = play.smallestCard();
         assertThat(smallestCard).isIn(Pagoda_4, Sword_4); // we don't really care which of these 2 it is
 
@@ -41,4 +31,19 @@ class AbstractPlayTest {
     }
 
 
+    private static class FakePlay extends AbstractPlay<FakePlay> {
+        private FakePlay(Set<Card> cards) {
+            super(cards);
+        }
+
+        @Override
+        protected boolean canBePlayedAfterTypeSafe(FakePlay other) {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        public String describe() {
+            throw new IllegalStateException();
+        }
+    }
 }
