@@ -3,6 +3,8 @@ package net.incongru.tichu.archunit;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import net.incongru.tichu.action.Action;
+import net.incongru.tichu.simu.Simulation.PostActionCommand;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,10 +20,10 @@ class ArchUnitTest {
     // TODO // Other interesting rules in com.tngtech.archunit.library.GeneralCodingRules
 
     @ArchTest
-    static final ArchRule classes_and_ctors_in_impl_packages_should_be_package_private =
+    static final ArchRule action_and_command_classes_and_ctors_should_be_package_private =
             constructors()
-                    .that().areDeclaredInClassesThat().resideInAPackage("..impl")
-                    .and().areDeclaredInClassesThat().haveSimpleNameNotEndingWith("FactoryImpl")
+                    .that().areDeclaredInClassesThat().areAssignableTo(Action.class)
+                    .or().areDeclaredInClassesThat().areAssignableTo(PostActionCommand.class)
                     .should().bePackagePrivate()
                     .andShould().beDeclaredInClassesThat().arePackagePrivate();
 
