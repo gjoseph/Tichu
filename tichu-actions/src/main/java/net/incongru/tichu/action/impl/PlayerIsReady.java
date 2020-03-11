@@ -1,6 +1,8 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Game;
 
@@ -12,7 +14,7 @@ class PlayerIsReady implements Action {
     }
 
     @Override
-    public Result exec(GameContext ctx) {
+    public ActionResult exec(GameContext ctx) {
         ctx.player(playerName).setReady();
         final Game game = ctx.game();
         if (game.players().areAllReady()) {

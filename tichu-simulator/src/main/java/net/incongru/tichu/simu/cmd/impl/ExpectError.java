@@ -1,10 +1,10 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult.Error;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
-class ExpectError extends AbstractExpectResult<Action.Error> {
+class ExpectError extends AbstractExpectResult<Error> {
     private final String expectedError;
 
     ExpectError(String expectedError) {
@@ -12,7 +12,7 @@ class ExpectError extends AbstractExpectResult<Action.Error> {
     }
 
     @Override
-    protected void doExec(SimulatedGameContext ctx, Action.Error result) {
+    protected void doExec(SimulatedGameContext ctx, Error result) {
         if (expectedError.equals(result.error())) {
             ctx.log("Action indeed failed with '%s', as expected", expectedError);
         } else {
@@ -26,7 +26,7 @@ class ExpectError extends AbstractExpectResult<Action.Error> {
     }
 
     @Override
-    protected Class<Action.Error> expectedResult() {
-        return Action.Error.class;
+    protected Class<Error> expectedResult() {
+        return Error.class;
     }
 }

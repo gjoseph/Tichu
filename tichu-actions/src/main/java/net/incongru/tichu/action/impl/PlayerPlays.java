@@ -1,6 +1,9 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResult.ErrorPlayResult;
+import net.incongru.tichu.action.ActionResult.SuccessPlayResult;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
@@ -18,7 +21,7 @@ class PlayerPlays implements Action {
     }
 
     @Override
-    public Result exec(GameContext ctx) {
+    public ActionResult exec(GameContext ctx) {
         final Player player = ctx.player(playerName);
         final Play.PlayResult res = ctx.game().currentRound().currentTrick().play(player, cards);
 
