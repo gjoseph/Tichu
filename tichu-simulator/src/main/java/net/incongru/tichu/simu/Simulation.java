@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResult;
 import org.immutables.value.Value;
 
@@ -15,7 +15,7 @@ public interface Simulation {
 
     @Value.Immutable
     interface ActionAndCommands {
-        Action action();
+        ActionParam actionParam();
 
         List<PostActionCommand> commands();
     }

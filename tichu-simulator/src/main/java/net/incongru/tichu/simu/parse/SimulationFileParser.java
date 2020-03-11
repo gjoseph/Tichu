@@ -1,7 +1,6 @@
 package net.incongru.tichu.simu.parse;
 
-import net.incongru.tichu.action.Action;
-import net.incongru.tichu.action.impl.ActionFactoryImpl;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.simu.ImmutableActionAndCommands;
 import net.incongru.tichu.simu.ImmutableSimulation;
 import net.incongru.tichu.simu.Simulation;
@@ -18,7 +17,7 @@ public class SimulationFileParser {
     private final PostActionCommandFactoryImpl pacFactory;
 
     public SimulationFileParser() {
-        actionLineParsers = new ActionLineParsers(new ActionFactoryImpl());
+        actionLineParsers = new ActionLineParsers();
         pacFactory = new PostActionCommandFactoryImpl();
         pacLineParsers = new PACLineParsers(pacFactory);
     }
@@ -29,8 +28,8 @@ public class SimulationFileParser {
         int i = 0;
         while (i < lines.size()) {
             final TokenisedLine tokens = new TokenisedLine(lines.get(i));
-            final Action action = actionLineParsers.parse(tokens);
-            final ImmutableActionAndCommands.Builder actionAndCommandsBuilder = ImmutableActionAndCommands.builder().action(action);
+            final ActionParam param = actionLineParsers.parse(tokens);
+            final ImmutableActionAndCommands.Builder actionAndCommandsBuilder = ImmutableActionAndCommands.builder().actionParam(param);
             while (nextLineIsExpectation(lines, i)) {
                 i++;
                 final TokenisedLine cmdTokens = new TokenisedLine(lines.get(i));
