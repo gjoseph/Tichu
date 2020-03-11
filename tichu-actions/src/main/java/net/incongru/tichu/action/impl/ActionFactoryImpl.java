@@ -3,6 +3,12 @@ package net.incongru.tichu.action.impl;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.param.CheatDealParam;
+import net.incongru.tichu.action.param.InitialiseGameParam;
+import net.incongru.tichu.action.param.JoinTableParam;
+import net.incongru.tichu.action.param.NewTrickParam;
+import net.incongru.tichu.action.param.PlayerIsReadyParam;
+import net.incongru.tichu.action.param.PlayerPlaysParam;
 
 import java.util.Set;
 import java.util.function.Supplier;
@@ -29,13 +35,13 @@ public class ActionFactoryImpl implements ActionFactory {
 
     public ActionFactoryImpl() {
         this.paramToActionSupplier = Set.of(
-                new KeyThing<>(JoinTable.JoinTableParam.class, JoinTable::new),
-                new KeyThing<>(CheatDeal.CheatDealParam.class, CheatDeal::new),
-                new KeyThing<>(InitialiseGame.InitialiseGameParam.class, InitialiseGame::new),
-                new KeyThing<>(JoinTable.JoinTableParam.class, JoinTable::new),
-                new KeyThing<>(NewTrick.NewTrickParam.class, NewTrick::new),
-                new KeyThing<>(PlayerIsReady.PlayerIsReadyParam.class, PlayerIsReady::new),
-                new KeyThing<>(PlayerPlays.PlayerPlaysParam.class, PlayerPlays::new)
+                new KeyThing<>(JoinTableParam.class, JoinTable::new),
+                new KeyThing<>(CheatDealParam.class, CheatDeal::new),
+                new KeyThing<>(InitialiseGameParam.class, InitialiseGame::new),
+                new KeyThing<>(JoinTableParam.class, JoinTable::new),
+                new KeyThing<>(NewTrickParam.class, NewTrick::new),
+                new KeyThing<>(PlayerIsReadyParam.class, PlayerIsReady::new),
+                new KeyThing<>(PlayerPlaysParam.class, PlayerPlays::new)
         );
     }
 
