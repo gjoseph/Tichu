@@ -1,5 +1,6 @@
 package net.incongru.tichu.action.impl;
 
+import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.model.HandAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -27,21 +28,21 @@ class CheatDealTest {
 
     @Test
     void distributesCardsAsSpecified() {
-        final CheatDeal action = new CheatDeal("alex", Set.of(MahJong, G2, G5));
+        final CheatDeal action = new CheatDeal();
 
-        assertThat(action.exec(ctx)).isSuccessResult();
+        assertThat(action.exec(ctx, CheatDealParam.with("alex", Set.of(MahJong, G2, G5)))).isSuccessResult();
         HandAssert.assertThat(ctx.player("alex").hand()).containsOnly(MahJong, G2, G5);
     }
 
     @Test
     void tooLateIfGameReady() {
         // pre-deal some cards
-        new CheatDeal("charlie", Set.of(MahJong, B2, B3)).exec(ctx);
+        new CheatDeal().exec(ctx, CheatDealParam.with("charlie", Set.of(MahJong, B2, B3)));
         ctx.allReady();
 
         //
         assertThrows(IllegalStateException.class, () -> {
-            new CheatDeal("alex", Set.of(G2, G5)).exec(ctx);
+            new CheatDeal().exec(ctx, CheatDealParam.with("alex", Set.of(G2, G5)));
         });
     }
 

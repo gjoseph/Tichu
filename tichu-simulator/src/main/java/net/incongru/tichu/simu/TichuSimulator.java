@@ -2,6 +2,10 @@ package net.incongru.tichu.simu;
 
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionFactory;
+import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.parse.SimulationFileParser;
 
 import java.io.IOException;
@@ -13,9 +17,11 @@ import java.nio.file.Path;
 public class TichuSimulator {
 
     private final GameContextFactory gameContextFactory;
+    private final ActionFactory actionFactory;
 
     public TichuSimulator() {
         this.gameContextFactory = SimulatedGameContext::new;
+        this.actionFactory = new ActionFactoryImpl();
     }
 
     void executeSimulation(Path p) throws IOException {
@@ -23,8 +29,10 @@ public class TichuSimulator {
         final SimulatedGameContext ctx = gameContextFactory.newContext();
 
         for (Simulation.ActionAndCommands actionAndCommands : simu.actionAndCommands()) {
-            System.out.println("Executing action: " + actionAndCommands.action());
-            final Action.Result res = actionAndCommands.action().exec(ctx);
+            final ActionParam actionParam = actionAndCommands.actionParam();
+            System.out.println("Executing action: " + actionParam);
+            final Action action = actionFactory.actionFor(actionParam);
+            final ActionResult res = action.exec(ctx, actionParam);
             System.out.println("Result: " + res);
             for (Simulation.PostActionCommand postActionCommand : actionAndCommands.commands()) {
                 System.out.println("PostActionCommand: " + postActionCommand);

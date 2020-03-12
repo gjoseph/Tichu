@@ -1,6 +1,10 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.GameContext;
+import net.incongru.tichu.action.param.CheatDealParam;
+import net.incongru.tichu.action.param.InitialiseGameParam;
+import net.incongru.tichu.action.param.JoinTableParam;
+import net.incongru.tichu.action.param.PlayerIsReadyParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Player;
@@ -9,34 +13,34 @@ import java.util.Set;
 
 class TestGameContext implements GameContext {
     TestGameContext initialised() {
-        new InitialiseGame().exec(this);
+        new InitialiseGame().exec(this, InitialiseGameParam.with());
         return this;
     }
 
     TestGameContext withSamplePlayers() {
         // play order would be alex jules charlie quinn
-        new JoinTable("alex", 0).exec(this); // player 1 (team 1)
-        new JoinTable("charlie", 0).exec(this);  // player 3 (team 1)
-        new JoinTable("jules", 1).exec(this);  // player 2 (team 2)
-        new JoinTable("quinn", 1).exec(this); // player 4 (team 2)
+        new JoinTable().exec(this, JoinTableParam.with("alex", 0)); // player 1 (team 1)
+        new JoinTable().exec(this, JoinTableParam.with("charlie", 0));  // player 3 (team 1)
+        new JoinTable().exec(this, JoinTableParam.with("jules", 1));  // player 2 (team 2)
+        new JoinTable().exec(this, JoinTableParam.with("quinn", 1)); // player 4 (team 2)
         return this;
     }
 
     // ideally shouldn't be able to call this if haven't set sample players...
     TestGameContext withCards(Set<Card> forAlex, Set<Card> forCharlie, Set<Card> forJules, Set<Card> forQuinn) {
-        new CheatDeal("alex", forAlex).exec(this);
-        new CheatDeal("charlie", forCharlie).exec(this);
-        new CheatDeal("jules", forJules).exec(this);
-        new CheatDeal("quinn", forQuinn).exec(this);
+        new CheatDeal().exec(this, CheatDealParam.with("alex", forAlex));
+        new CheatDeal().exec(this, CheatDealParam.with("charlie", forCharlie));
+        new CheatDeal().exec(this, CheatDealParam.with("jules", forJules));
+        new CheatDeal().exec(this, CheatDealParam.with("quinn", forQuinn));
         return this;
     }
 
     // ideally shouldn't be able to call this if haven't set sample players...
     TestGameContext allReady() {
-        new PlayerIsReady("alex").exec(this);
-        new PlayerIsReady("charlie").exec(this);
-        new PlayerIsReady("jules").exec(this);
-        new PlayerIsReady("quinn").exec(this);
+        new PlayerIsReady().exec(this, PlayerIsReadyParam.with("alex"));
+        new PlayerIsReady().exec(this, PlayerIsReadyParam.with("charlie"));
+        new PlayerIsReady().exec(this, PlayerIsReadyParam.with("jules"));
+        new PlayerIsReady().exec(this, PlayerIsReadyParam.with("quinn"));
         return this;
     }
 

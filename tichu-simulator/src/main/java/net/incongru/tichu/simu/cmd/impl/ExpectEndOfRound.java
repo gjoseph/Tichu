@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
@@ -9,7 +9,7 @@ class ExpectEndOfRound implements Simulation.PostActionCommand {
     }
 
     @Override
-    public void exec(SimulatedGameContext ctx, Action.Result result) {
+    public void exec(SimulatedGameContext ctx, ActionResult result) {
         final boolean roundIsDone = ctx.game().currentRound().isDone();
         if (roundIsDone) {
             ctx.log("Round is done, as expected.");

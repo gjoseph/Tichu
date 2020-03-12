@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
@@ -13,7 +13,7 @@ class ExpectGameState implements Simulation.PostActionCommand {
     }
 
     @Override
-    public void exec(SimulatedGameContext ctx, Action.Result result) {
+    public void exec(SimulatedGameContext ctx, ActionResult result) {
         final boolean match = expectedGameState.test(ctx.game());
         if (match) {
             ctx.log("Game is %s, as expected", expectedGameState);

@@ -1,12 +1,12 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult.AbstractPlayResult;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
-class ExpectPlayResult extends AbstractExpectResult<Action.AbstractPlayResult> {
+class ExpectPlayResult extends AbstractExpectResult<AbstractPlayResult> {
 
     private final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult;
 
@@ -15,7 +15,7 @@ class ExpectPlayResult extends AbstractExpectResult<Action.AbstractPlayResult> {
     }
 
     @Override
-    protected void doExec(SimulatedGameContext ctx, Action.AbstractPlayResult result) {
+    protected void doExec(SimulatedGameContext ctx, AbstractPlayResult result) {
         final Play.PlayResult.Result actualResult = result.playResult().result();
         boolean match = expectedPlayResult.test(actualResult);
         if (match) {
@@ -31,7 +31,7 @@ class ExpectPlayResult extends AbstractExpectResult<Action.AbstractPlayResult> {
     }
 
     @Override
-    protected Class<Action.AbstractPlayResult> expectedResult() {
-        return Action.AbstractPlayResult.class;
+    protected Class<AbstractPlayResult> expectedResult() {
+        return AbstractPlayResult.class;
     }
 }

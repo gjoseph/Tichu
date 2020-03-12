@@ -1,12 +1,12 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
-abstract class AbstractExpectResult<R extends Action.Result> implements Simulation.PostActionCommand {
+abstract class AbstractExpectResult<R extends ActionResult> implements Simulation.PostActionCommand {
     @Override
-    public final void exec(SimulatedGameContext ctx, Action.Result result) {
+    public final void exec(SimulatedGameContext ctx, ActionResult result) {
         if (!(expectedResult().isInstance(result))) {
             throw new Simulation.PostActionCommandException("Action was expected to %s but: %s", expectedVerb(), result);
         }

@@ -1,19 +1,20 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.action.GameContext;
+import net.incongru.tichu.action.param.PlayerIsReadyParam;
 import net.incongru.tichu.model.Game;
 
-class PlayerIsReady implements Action {
-    private final String playerName;
+class PlayerIsReady implements Action<PlayerIsReadyParam> {
 
-    PlayerIsReady(String playerName) {
-        this.playerName = playerName;
+    PlayerIsReady() {
     }
 
     @Override
-    public Result exec(GameContext ctx) {
-        ctx.player(playerName).setReady();
+    public ActionResult exec(GameContext ctx, PlayerIsReadyParam param) {
+        ctx.player(param.playerName()).setReady();
         final Game game = ctx.game();
         if (game.players().areAllReady()) {
             game.start(); // TODO do we want to check isReadyToStart?
@@ -27,4 +28,6 @@ class PlayerIsReady implements Action {
             };
         }
     }
+
+
 }

@@ -1,14 +1,14 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.simu.SimulatedGameContext;
 
-class ExpectSuccess extends AbstractExpectResult<Action.Success> {
+class ExpectSuccess extends AbstractExpectResult<Success> {
     ExpectSuccess() {
     }
 
     @Override
-    protected void doExec(SimulatedGameContext ctx, Action.Success result) {
+    protected void doExec(SimulatedGameContext ctx, Success result) {
     }
 
     @Override
@@ -17,7 +17,7 @@ class ExpectSuccess extends AbstractExpectResult<Action.Success> {
     }
 
     @Override
-    protected Class<Action.Success> expectedResult() {
-        return Action.Success.class;
+    protected Class<Success> expectedResult() {
+        return Success.class;
     }
 }

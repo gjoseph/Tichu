@@ -36,6 +36,7 @@ public class TokenisedLine {
 
     /**
      * Tests the token at index i with the given Predicate, and returns it if it matches, without popping it.
+     *
      * @return the matched value value, if any, or an empty Optional otherwise
      */
     Optional<String> peek(int i, Predicate<String> predicate) {
@@ -59,6 +60,7 @@ public class TokenisedLine {
 
     /**
      * Compares the token at index i with the given String, and pops it if equals.
+     *
      * @return whether the token is equal to the given String
      */
     boolean test(int i, String expectedValue) {
@@ -67,6 +69,7 @@ public class TokenisedLine {
 
     /**
      * Tests the token at index i with the given Predicate, and pops it if it matches.
+     *
      * @return the popped value, if any, or an empty Optional otherwise
      */
     Optional<String> test(int i, Predicate<String> predicate) {
