@@ -59,7 +59,6 @@ public interface PostActionCommandFactory {
         }
 
         public boolean test(Play modelPlay) {
-            System.out.println("predicate = " + predicate);
             return predicate.test(modelPlay);
         }
 
