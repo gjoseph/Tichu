@@ -156,22 +156,28 @@ class TichuRulesTest {
     void straightStartingWithPhoenixMentionsIt() {
         final Play s = newPlay(Phoenix, Star_Jack, Sword_Queen, Sword_King, Sword_Ace);
         assertThat(s).isInstanceOf(Straight.class);
-        assertThat(s.describe()).contains("Straight of 5, from 10 to Ace").contains("Phoenix");
-        System.out.println("s.describe(): " + s.describe());
+        assertThat(s.describe())
+                .contains("Straight of 5, from 10 to Ace")
+                .contains("Phoenix")
+                .contains("for the 10");
     }
 
     @Test
     void straightEndingWithPhoenixMentionsIt() {
         final Play s = newPlay(Star_10, Star_Jack, Sword_Queen, Sword_King, Phoenix);
         assertThat(s).isInstanceOf(Straight.class);
-        assertThat(s.describe()).contains("Straight of 5, from 10 to Ace").contains("Phoenix");
+        assertThat(s.describe())
+                .contains("Straight of 5, from 10 to Ace")
+                .contains("Phoenix")
+                .contains("for the Ace");
     }
 
     @Test
     void straightWithPhoenixMentionsIt() {
         final Play s = newPlay(Star_10, Star_Jack, Phoenix, Sword_King, Star_Ace);
         assertThat(s).isInstanceOf(Straight.class);
-        assertThat(s.describe()).contains("Straight of 5, from 10 to Ace")
+        assertThat(s.describe())
+                .contains("Straight of 5, from 10 to Ace")
                 .contains("Phoenix")
                 .contains("for the Queen");
     }
