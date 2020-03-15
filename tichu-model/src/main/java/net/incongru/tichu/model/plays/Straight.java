@@ -33,15 +33,11 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     public Card.CardValue getLowerBound() {
-        // TODO handle phoenix - return "fake" card ?
         final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
         return Collections.min(values, Card.Comparators.V_BY_PLAY_ORDER);
-        //subPhoenixIfNecessary(Collections.min(getCards(), Card.Comparators.BY_PLAY_ORDER));
     }
 
     public Card.CardValue getHigherBound() {
-        // TODO handle phoenix - return "fake" card ?
-        //        return subPhoenixIfNecessary(Collections.max(getCards(), Card.Comparators.BY_PLAY_ORDER));
         final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
         return Collections.max(values, Card.Comparators.V_BY_PLAY_ORDER);
     }
@@ -53,20 +49,6 @@ public class Straight extends AbstractPlay<Straight> {
             values.add(phoenixSubstitute);
         }
         return values;
-    }
-
-    private Card subPhoenixIfNecessary(Card c) {
-        if (c.getVal() == Phoenix) {
-            // TODO Meh ?
-            final Card card = new Card(phoenixSubstitute, null);
-            System.out.println("card: " + card);
-            System.out.println("card: " + card.name());
-            System.out.println("card: " + card.getVal().niceName());
-            return card;
-        } else {
-            return c;
-        }
-
     }
 
     @Override
