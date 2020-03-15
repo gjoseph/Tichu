@@ -11,6 +11,20 @@
     <packaging>jar</packaging>
     <name>Tichu :: websocket endpoint</name>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <configuration>
+                        <haltOnFailure>false</haltOnFailure>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
