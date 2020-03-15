@@ -7,15 +7,19 @@
     "tichu": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "precommit": "pretty-quick --staged",
-    "prepare": "tsc",
-    "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "npm run build && node lib/index.js",
+    "build": "npm run clean:some && tsc -p .",
+    "clean:some": "rm -rf ./lib ./docs",
+    "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
+    "refresh": "npm run clean:all && npm install",
+    "tscov": "tscov --min-coverage 90",
+    "tscov:d": "tscov --details",
+    "publish-package": "npm run build && npm publish",
+    "docs": "typedoc --out docs ./src"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "",
   "devDependencies": {
     "@liftr/tscov": "^1.4.5",
     "@types/figlet": "^1.2.0",
