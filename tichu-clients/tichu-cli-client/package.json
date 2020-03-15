@@ -15,7 +15,8 @@
     "tscov": "tscov --min-coverage 90",
     "tscov:d": "tscov --details",
     "publish-package": "npm run build && npm publish",
-    "docs": "typedoc --out docs ./src"
+    "docs": "typedoc --out docs ./src",
+    "test": "npm run build && ava"
   },
   "keywords": [],
   "author": "",
@@ -25,10 +26,12 @@
     "node": ">=13.7.0"
   },
   "devDependencies": {
+    "@ava/typescript": "^1.1.1",
     "@liftr/tscov": "^1.4.5",
     "@types/figlet": "^1.2.0",
     "@types/inquirer": "^6.5.0",
     "@types/node": "^13.9.1",
+    "ava": "^3.5.0",
     "husky": "^4.2.3",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
@@ -45,5 +48,12 @@
     "kleur": "^3.0.3",
     "reflect-metadata": "^0.1.13",
     "tslib": "^1.11.1"
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      }
+    }
   }
 }
