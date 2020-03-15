@@ -56,6 +56,24 @@
             <type>test-jar</type>
         </dependency>
         <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-websocket-endpoint</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-websocket-endpoint</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-embedded-tomcat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-embedded-tomcat</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
             <scope>test</scope>
