@@ -10,7 +10,7 @@ import javax.websocket.Session;
 @JsonSerialize(as = ImmutableOtherThing.class)
 @JsonDeserialize(as = ImmutableOtherThing.class)
 public abstract class OtherThing implements IncomingMessage {
-    abstract String thing();
+    public abstract String thing();
 
     public void accept(Session session, MessageHandler visitor) {
         visitor.handle(session, this);
