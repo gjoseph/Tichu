@@ -11,6 +11,10 @@
       groupName: "SLF4J packages",
     },
     {
+      packagePatterns: ["^org.apache.tomcat.embed"],
+      groupName: "Tomcat packages",
+    },
+    {
       packagePatterns: ["^org.junit"],
       groupName: "JUnit packages"
     },
