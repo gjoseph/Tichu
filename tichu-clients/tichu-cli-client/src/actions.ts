@@ -1,31 +1,31 @@
 // init
 class InitParam {
-    constructor() {
-    }
+    constructor() {}
 }
 
 // join
 class JoinParam {
-    constructor(readonly  playerName: string, team: number) {
-    }
+    constructor(readonly playerName: string, team: number) {}
 }
 
 // newTrick?
 
 // isReady
 class PlayerIsReadyParam {
-    constructor(readonly  playerName: string) {
-    }
+    constructor(readonly playerName: string) {}
 }
 
 // play
 class PlayerPlaysParam {
-    constructor(readonly  playerName: string, readonly cards: string[]) {
-    }
+    constructor(readonly playerName: string, readonly cards: string[]) {}
 }
 
 // pass = play[]
 
 export enum Actions {
-    init = "init", join = "join", ready = "ready", play = "play", pass = "pass"
+    init = "init",
+    join = "join",
+    ready = "ready",
+    play = "play",
+    pass = "pass"
 }

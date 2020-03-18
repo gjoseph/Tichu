@@ -16,4 +16,4 @@ export class WSTichuClient {
     }
 }
 
-export type Status = "Done" | "Not done"
+export type Status = "Done" | "Not done";

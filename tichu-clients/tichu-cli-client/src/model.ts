@@ -3,6 +3,5 @@ export class Setup {
         readonly gameId: string,
         readonly userId: string,
         readonly teamId: string
-    ) {
-    }
+    ) {}
 }
