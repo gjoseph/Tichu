@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "npm run build && node lib/index.js",
-    "build": "npm run clean:some && tsc -p .",
+    "build": "npm run clean:some && tsc -p . && ava",
     "clean:some": "rm -rf ./lib ./docs",
     "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
     "refresh": "npm run clean:all && npm install",
@@ -16,7 +16,7 @@
     "tscov:d": "tscov --details",
     "publish-package": "npm run build && npm publish",
     "docs": "typedoc --out docs ./src",
-    "test": "npm run build && ava"
+    "test": "npm run build"
   },
   "keywords": [],
   "author": "",
