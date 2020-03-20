@@ -1,9 +1,9 @@
 import inquirer from "inquirer";
-import { Actions } from "./actions";
 import { program } from "commander";
 import { coerceTeamId } from "./util";
 import { Setup } from "./model";
 import { Status, WSTichuClient } from "./ws-client";
+import { GameOpts, setupQuestions } from "./startup";
 
 program
     .storeOptionsAsProperties(false)
@@ -16,48 +16,16 @@ program
 
 program
     .parseAsync()
-    .then(program => program.opts())
-    .then((opts: any) => {
-        return inquirer
-            .prompt([
-                {
-                    when: opts.user === undefined,
-                    type: "input",
-                    name: "userId",
-                    validate: (input: string) => input.length > 0
-                },
-                {
-                    when: opts.team === undefined,
-                    type: "list",
-                    name: "teamId",
-                    choices: [1, 2]
-                },
-                {
-                    type: "confirm",
-                    name: "confirm",
-                    message: "Start ?"
-                },
-                {
-                    when: (answers: any) => {
-                        return answers.action === Actions.play;
-                    },
-                    type: "checkbox",
-                    name: "cards",
-                    message: "Pick cards to play",
-                    choices: [
-                        { name: "first", value: 1 },
-                        { name: "second", value: 2 }
-                    ]
-                }
-            ])
-            .then((answers: any) => {
-                // Combine CLI opts and answers
-                return new Setup(
-                    answers.gameId || opts.game,
-                    answers.userId || opts.user,
-                    answers.teamId || opts.team
-                );
-            });
+    .then(program => program.opts() as GameOpts)
+    .then((opts: GameOpts) => {
+        return inquirer.prompt(setupQuestions(opts)).then((answers: any) => {
+            // Combine CLI opts and answers
+            return new Setup(
+                answers.gameId || opts.game,
+                answers.userId || opts.user,
+                answers.teamId || opts.team
+            );
+        });
     })
     .then((setup: Setup) => {
         console.log("Connecting to game ...", setup);
