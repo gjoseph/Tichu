@@ -5,6 +5,9 @@ import { Setup } from "./model";
 import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
 
+// const url = "wss://echo.websocket.org";
+const url = "ws://localhost:8080/chat/ignore-for-now";
+
 program
     .storeOptionsAsProperties(false)
     .option("-u, --user <userId>", "your name... until we figure auth out")
@@ -29,7 +32,7 @@ program
     })
     .then((setup: Setup) => {
         console.log("Connecting to game ...", setup);
-        return new WSTichuClient().connect().waitUntilDone();
+        return new WSTichuClient().connect(url).waitUntilDone();
     })
     .then((status: Status) => {
         console.log("Status:", status);
