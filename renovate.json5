@@ -27,6 +27,10 @@
       groupName: "Mockito packages"
     },
     {
+      packagePatterns: ["^net.javacrumbs.json-unit"],
+      groupName: "JsonUnit packages"
+    },
+    {
       packagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages"
     }
