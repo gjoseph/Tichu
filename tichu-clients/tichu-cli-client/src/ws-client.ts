@@ -1,12 +1,16 @@
 import * as readline from "readline";
 import { Interface } from "readline";
 import WebSocket from "ws";
+import inquirer from "inquirer";
+import { Cards } from "./cards";
+import { JoinParam } from "./actions";
+import { GameOpts } from "./startup";
 
 export class WSTichuClient {
     private console: Console;
     private _webSocket: WebSocket | undefined;
 
-    constructor() {
+    constructor(readonly opts: GameOpts) {
         this.console = new Console(this.send, this.close);
     }
 
@@ -25,6 +29,29 @@ export class WSTichuClient {
 
     waitUntilDone(): Status {
         return "Done";
+    }
+
+    private onConnect() {
+        this.send(
+            JSON.stringify(new JoinParam(this.opts.user, this.opts.team))
+        );
+
+        inquirer
+            .prompt([
+                {
+                    message:
+                        "Pick cards, hit enter to play them. Just hit enter to pass.",
+                    prefix: "<this is the prefix>",
+                    suffix: "<this is the suffix>",
+                    type: "checkbox",
+                    name: "cards",
+                    choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
+                    pageSize: 20
+                }
+            ])
+            .then((answers: any) => {
+                console.log("answers:", answers);
+            });
     }
 
     send = (data: string) => {
@@ -63,7 +90,7 @@ export class WSTichuClient {
                 "Connected (press CTRL+C to quit)",
                 Console.Colors.Green
             );
-
+            this.onConnect();
             // setup line-handlers on console object:
             /*
             wsConsole.on("line", data => {

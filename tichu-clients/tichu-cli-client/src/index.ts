@@ -1,7 +1,6 @@
 import inquirer from "inquirer";
 import { program } from "commander";
 import { coerceTeamId } from "./util";
-import { Setup } from "./model";
 import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
 
@@ -23,16 +22,16 @@ program
     .then((opts: GameOpts) => {
         return inquirer.prompt(setupQuestions(opts)).then((answers: any) => {
             // Combine CLI opts and answers
-            return new Setup(
-                answers.gameId || opts.game,
-                answers.userId || opts.user,
-                answers.teamId || opts.team
-            );
+            return {
+                game: answers.gameId || opts.game,
+                user: answers.userId || opts.user,
+                team: answers.teamId || opts.team
+            } as GameOpts;
         });
     })
-    .then((setup: Setup) => {
-        console.log("Connecting to game ...", setup);
-        return new WSTichuClient().connect(url).waitUntilDone();
+    .then((opts: GameOpts) => {
+        console.log("Connecting to game ...", opts);
+        return new WSTichuClient(opts).connect(url).waitUntilDone();
     })
     .then((status: Status) => {
         console.log("Status:", status);

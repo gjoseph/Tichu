@@ -1,23 +1,26 @@
 // init
-class InitParam {
+import { Card } from "./cards";
+
+export class InitParam {
     constructor() {}
 }
 
 // join
-class JoinParam {
+export class JoinParam {
+    type: string = "join";
     constructor(readonly playerName: string, team: number) {}
 }
 
 // newTrick?
 
 // isReady
-class PlayerIsReadyParam {
+export class PlayerIsReadyParam {
     constructor(readonly playerName: string) {}
 }
 
 // play
-class PlayerPlaysParam {
-    constructor(readonly playerName: string, readonly cards: string[]) {}
+export class PlayerPlaysParam {
+    constructor(readonly playerName: string, readonly cards: Card[]) {}
 }
 
 // pass = play[]
