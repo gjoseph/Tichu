@@ -7,6 +7,7 @@ import org.immutables.value.Value;
 import java.util.Set;
 
 @Value.Immutable
+// No json support here - we don't want cheats!
 public interface CheatDealParam extends ActionParam {
     String playerName();
 
