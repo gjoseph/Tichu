@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class DeckConstantsCodeGen {
 
@@ -29,6 +30,9 @@ public class DeckConstantsCodeGen {
         final String newSrc = oldSrc.replaceFirst("(?s)(?m)^\\s+?// ==== Start CodeGen(.*)// ==== End CodeGen\\s+^", javaConstants);
         final Path path = Files.writeString(srcPath, newSrc, StandardCharsets.UTF_8);
         System.out.println("Written " + srcPath + "(" + newSrc.length() + " chars)");
+
+        final String typescriptConstants = generateTypescriptConstants(cards);
+        System.out.println("typescriptConstants = " + typescriptConstants);
     }
 
     private static String generateJavaConstants(Set<Card> cards) {
@@ -62,6 +66,33 @@ public class DeckConstantsCodeGen {
         }
         out.println("    // ==== End CodeGen");
         out.println();
+
+        return stringWriter.toString();
+    }
+
+    private static String generateTypescriptConstants(Set<Card> cards) {
+        final StringWriter stringWriter = new StringWriter();
+        final PrintWriter out = new PrintWriter(stringWriter);
+        out.println("export const Cards: Array<Card> = [");
+        out.println(
+                cards.stream().map(card -> {
+                    final StringBuilder sb = new StringBuilder();
+                    sb.append("  { ")
+                            .append("name: \"").append(card.name()).append("\", ")
+                            .append("shortName: \"").append(card.shortName()).append("\", ")
+                            .append("scoreValue: ").append(card.getVal().scoreValue()).append(", ");
+                    final boolean special = card.getVal().isSpecial();
+                    if (special) {
+                        sb.append("special: SpecialCards." + card.name());
+                    } else {
+                        sb.append("suit: CardSuit.").append(card.getSuit().name()).append(", ");
+                        sb.append("number: ").append(card.getVal().playOrder());
+                    }
+                    sb.append(" } as ").append(special ? "SpecialCard" : "NormalCard");
+                    return sb.toString();
+                }).collect(Collectors.joining(",\n"))
+        );
+        out.println("];");
 
         return stringWriter.toString();
     }
