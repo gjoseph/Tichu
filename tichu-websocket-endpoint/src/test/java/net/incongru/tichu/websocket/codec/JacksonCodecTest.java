@@ -1,16 +1,21 @@
 package net.incongru.tichu.websocket.codec;
 
+import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
+import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.ChatEndpoint;
+import net.incongru.tichu.websocket.GameActionMessage;
+import net.incongru.tichu.websocket.ImmutableGameActionMessage;
 import net.incongru.tichu.websocket.ImmutableIncomingChatMessage;
-import net.incongru.tichu.websocket.ImmutableOtherThing;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
-import net.incongru.tichu.websocket.OtherThing;
+import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -23,18 +28,18 @@ class JacksonCodecTest {
 
     @ParameterizedTest
     @MethodSource
-    <T> void canDecodeSubTypesOfIncomingMessage(String json, Class<T> expectedParsedType, Consumer<T> assertionsOnResult) throws Exception {
+    <T> void canDecodeSubTypesOfIncomingMessages(String json, Class<T> expectedParsedType, Consumer<T> assertionsOnResult) throws Exception {
         final JacksonCodec<IncomingMessage> codec = new ChatEndpoint.IncomingMessageCodec();
         final IncomingMessage parsed = codec.decode(json);
         assertThat(parsed).isInstanceOfSatisfying(expectedParsedType, assertionsOnResult);
     }
 
-    static Stream<Arguments> canDecodeSubTypesOfIncomingMessage() {
+    static Stream<Arguments> canDecodeSubTypesOfIncomingMessages() {
         return Stream.of(
                 arguments("{\"type\":\"chat\", \"content\":\"HELLO\"}", IncomingChatMessage.class,
                         (Consumer<IncomingChatMessage>) m -> assertThat(m.content()).isEqualTo("HELLO")),
-                arguments("{\"type\":\"other\", \"thing\":\"yayaya\"}", OtherThing.class,
-                        (Consumer<OtherThing>) m -> assertThat(m.thing()).isEqualTo("yayaya"))
+                arguments("{\"type\":\"game\", \"action\": {\"type\":\"play\", \"playerName\":\"jules\", \"cards\": [\"star_ace\", \"sword_ace\"]}}", GameActionMessage.class,
+                        (Consumer<GameActionMessage>) m -> assertThat(m.action()).isEqualTo(sampleGameParam()))
         );
     }
 
@@ -42,13 +47,23 @@ class JacksonCodecTest {
     @MethodSource
     void canEncodeSubtypesOfMessages(IncomingMessage toEncode, String expectedJson) throws Exception {
         final JacksonCodec<IncomingMessage> codec = new ChatEndpoint.IncomingMessageCodec();
-        assertThatJson(codec.encode(toEncode)).isEqualTo(expectedJson);
+        assertThatJson(codec.encode(toEncode))
+                .when(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo(expectedJson);
     }
 
     static Stream<Arguments> canEncodeSubtypesOfMessages() {
         return Stream.of(
                 arguments(ImmutableIncomingChatMessage.builder().content("hello").build(), "{type:'chat', content:'hello'}"),
-                arguments(ImmutableOtherThing.builder().thing("yayaya").build(), "{type:'other', thing:'yayaya'}")
+                arguments(ImmutableGameActionMessage.builder().action(sampleGameParam()).build(),
+                        "{" +
+                                "  type:'game'," +
+                                "  action:  { " +
+                                "      type: 'play', " +
+                                "      playerName: 'jules', " +
+                                "      cards: ['RA', 'KA'] " +
+                                "    }" +
+                                " }")
         );
     }
 
@@ -61,10 +76,13 @@ class JacksonCodecTest {
         final String rewritten = codec.encode(parsed);
         assertThatJson(input).isEqualTo(rewritten);
 
-        final ImmutableOtherThing initialObj = ImmutableOtherThing.builder().thing("yayaya").build();
+        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().action(sampleGameParam()).build();
         final String serialised = codec.encode(initialObj);
         final IncomingMessage deserialised = codec.decode(serialised);
         assertEquals(initialObj, deserialised);
     }
 
+    private static PlayerPlaysParam sampleGameParam() {
+        return ImmutablePlayerPlaysParam.builder().playerName("jules").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)).build();
+    }
 }

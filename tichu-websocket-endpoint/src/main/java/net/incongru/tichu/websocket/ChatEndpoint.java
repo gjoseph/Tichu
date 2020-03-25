@@ -21,7 +21,7 @@ public class ChatEndpoint {
     public static class IncomingMessageCodec extends JacksonCodec<IncomingMessage> {
     }
 
-    public static class OtherThingCodec extends JacksonCodec<OtherThing> {
+    public static class OtherThingCodec extends JacksonCodec<GameActionMessage> {
     }
 
     public static class OutgoingChatMessageCodec extends JacksonCodec<OutgoingChatMessage> {

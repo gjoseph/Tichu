@@ -11,5 +11,5 @@ interface MessageHandler {
     // Visitor pattern below, see message implementations
     void handle(Session session, IncomingChatMessage incomingChatMessage);
 
-    void handle(Session session, OtherThing otherThing);
+    void handle(Session session, GameActionMessage gameActionMessage);
 }
