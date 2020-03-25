@@ -2,11 +2,11 @@ package net.incongru.tichu.action.param;
 
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.model.Card;
-import org.immutables.value.Value.Immutable;
+import org.immutables.value.Value;
 
 import java.util.Set;
 
-@Immutable
+@Value.Immutable
 public interface CheatDealParam extends ActionParam {
     String playerName();
 
