@@ -157,7 +157,12 @@ public class DeckConstants {
                 int mod = field.getModifiers();
                 if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && Modifier.isFinal(mod)) {
                     if (Card.class.equals(field.getType())) {
-                        namedCards.put(field.getName().toUpperCase(), (Card) field.get(null));
+                        final String fieldName = field.getName();
+                        namedCards.put(fieldName.toUpperCase(), (Card) field.get(null));
+                        // we know constants starting with _ are special cards and their shortName() impls start with a *
+                        if (fieldName.startsWith("_")) {
+                            namedCards.put(fieldName.replace('_', '*').toUpperCase(), (Card) field.get(null));
+                        }
                     }
                 }
             }
