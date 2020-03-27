@@ -5,7 +5,6 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 public interface NewTrickParam extends ActionParam {
-    // TODO jackson mapping?
 
     // Convenience ...
     static NewTrickParam with() {

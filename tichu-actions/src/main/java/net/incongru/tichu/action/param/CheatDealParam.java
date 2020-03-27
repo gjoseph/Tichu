@@ -11,7 +11,6 @@ public interface CheatDealParam extends ActionParam {
     String playerName();
 
     Set<Card> cards();
-    // TODO jackson mapping?
 
     // Convenience ...
     static CheatDealParam with(String playerName, Set<Card> cards) {

@@ -11,7 +11,6 @@ public interface PlayerPlaysParam extends ActionParam {
     String playerName();
 
     Set<Card> cards();
-    // TODO jackson mapping?
 
     // Convenience ...
     static PlayerPlaysParam with(String playerName, Set<Card> cards) {

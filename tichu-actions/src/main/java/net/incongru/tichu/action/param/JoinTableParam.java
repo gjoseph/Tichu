@@ -8,7 +8,6 @@ public interface JoinTableParam extends ActionParam {
     String playerName();
 
     int team();
-    // TODO jackson mapping?
 
     // Convenience ...
     static JoinTableParam with(String playerName, int team) {

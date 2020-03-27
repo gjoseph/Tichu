@@ -45,13 +45,13 @@ public class MessageHandlerImpl implements MessageHandler {
         store.broadcast(message1);
     }
 
-    public void handle(Session session, OtherThing otherThing) {
-        System.out.println("otherThing = " + otherThing);
+    @Override
+    public void handle(Session session, GameActionMessage gameActionMessage) {
+        System.out.println("gameActionMessage = " + gameActionMessage);
         final ImmutableOutgoingChatMessage message1 = ImmutableOutgoingChatMessage.builder()
                 .from(store.getUser(session.getId()))
-                .content("This is another message" + otherThing.thing())
+                .content("This is another message" + gameActionMessage.action())
                 .build();
         store.broadcast(message1);
-        store.broadcast(ImmutableOtherThing.builder().thing("hello other thing").build());
     }
 }

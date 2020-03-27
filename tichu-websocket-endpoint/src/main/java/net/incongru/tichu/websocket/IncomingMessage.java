@@ -15,7 +15,7 @@ import javax.websocket.Session;
         // We specify the type here using the Immutable* impls so serialising uses the correct name
         // but we still need to also specify @JsonDeserialize(as) on the abstract types for deserialisation
         @JsonSubTypes.Type(value = ImmutableIncomingChatMessage.class, name = "chat"),
-        @JsonSubTypes.Type(value = ImmutableOtherThing.class, name = "other")
+        @JsonSubTypes.Type(value = ImmutableGameActionMessage.class, name = "game")
 })
 public interface IncomingMessage {
 

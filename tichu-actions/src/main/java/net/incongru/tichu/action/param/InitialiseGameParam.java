@@ -5,7 +5,6 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 public interface InitialiseGameParam extends ActionParam {
-    // TODO jackson mapping?
 
     // Convenience ...
     static InitialiseGameParam with() {
