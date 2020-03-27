@@ -57,13 +57,13 @@ class JacksonCodecTest {
                 arguments(ImmutableIncomingChatMessage.builder().content("hello").build(), "{type:'chat', content:'hello'}"),
                 arguments(ImmutableGameActionMessage.builder().action(sampleGameParam()).build(),
                         "{" +
-                                "  type:'game'," +
-                                "  action:  { " +
-                                "      type: 'play', " +
-                                "      playerName: 'jules', " +
-                                "      cards: ['RA', 'KA'] " +
-                                "    }" +
-                                " }")
+                        "  type:'game'," +
+                        "  action:  { " +
+                        "      type: 'play', " +
+                        "      playerName: 'jules', " +
+                        "      cards: ['RA', 'KA'] " +
+                        "    }" +
+                        " }")
         );
     }
 
