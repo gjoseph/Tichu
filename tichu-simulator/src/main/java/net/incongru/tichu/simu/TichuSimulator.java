@@ -5,6 +5,7 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.GameContextFactory;
 import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.parse.SimulationFileParser;
 
@@ -16,7 +17,7 @@ import java.nio.file.Path;
  */
 public class TichuSimulator {
 
-    private final GameContextFactory gameContextFactory;
+    private final GameContextFactory<SimulatedGameContext> gameContextFactory;
     private final ActionFactory actionFactory;
 
     public TichuSimulator() {
