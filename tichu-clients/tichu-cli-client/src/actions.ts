@@ -1,14 +1,33 @@
 // init
 import { Card } from "./cards";
 
-export class InitParam {
+export interface Message {
+    readonly type: "chat" | "game";
+}
+
+export class ChatMessage {
+    readonly type = "chat";
+
+    constructor(readonly content: string) {}
+}
+
+export class GameMessage {
+    readonly type = "game";
+
+    constructor(readonly action: GameParam) {}
+}
+
+interface GameParam {}
+
+export class InitParam implements GameParam {
     constructor() {}
 }
 
 // join
 export class JoinParam {
     type: string = "join";
-    constructor(readonly playerName: string, team: number) {}
+
+    constructor(readonly playerName: string, readonly team: number) {}
 }
 
 // newTrick?

@@ -1,9 +1,7 @@
-import * as readline from "readline";
-import { Interface } from "readline";
 import WebSocket from "ws";
 import inquirer from "inquirer";
 import { Cards } from "./cards";
-import { JoinParam } from "./actions";
+import { GameMessage, JoinParam, Message } from "./actions";
 import { GameOpts } from "./startup";
 
 export class WSTichuClient {
@@ -31,11 +29,8 @@ export class WSTichuClient {
         return "Done";
     }
 
-    private onConnect() {
-        this.send(
-            JSON.stringify(new JoinParam(this.opts.user, this.opts.team))
-        );
 
+    promptForCards = () => {
         inquirer
             .prompt([
                 {
@@ -51,11 +46,24 @@ export class WSTichuClient {
             ])
             .then((answers: any) => {
                 console.log("answers:", answers);
+                return "ok";
             });
+    };
+
+    private onConnect() {
+        const joinParam = new JoinParam(this.opts.user, this.opts.team);
+        const msg = new GameMessage(joinParam);
+        this.send(msg);
+
+        // on receive, set next prompt function
+
+        // loop:
+        // prompt for action, send we message
+        this.promptForCards();
     }
 
-    send = (data: string) => {
-        this.ws().send(data);
+    send = (msg: Message) => {
+        this.ws().send(JSON.stringify(msg));
         this.console.prompt();
     };
 
@@ -170,23 +178,23 @@ export class WSTichuClient {
 // copied from wscat
 class Console {
     // extends EventEmitter {
-    private stdin: NodeJS.ReadStream;
+    // private stdin: NodeJS.ReadStream;
     private stdout: NodeJS.WriteStream;
-    private readlineInterface: Interface;
+    // private readlineInterface: Interface;
     private _resetInput: () => void;
 
     constructor(onLine: (line: string) => void, onClose: () => void) {
         // super();
 
-        this.stdin = process.stdin;
+        // this.stdin = process.stdin;
         this.stdout = process.stdout;
 
-        this.readlineInterface = readline.createInterface(
-            this.stdin,
-            this.stdout
-        );
+        // this.readlineInterface = readline.createInterface(
+        //     this.stdin,
+        //     this.stdout
+        // );
 
-        this.readlineInterface.on("line", onLine).on("close", onClose);
+        // this.readlineInterface.on("line", onLine).on("close", onClose);
 
         this._resetInput = () => {
             this.clear();
@@ -212,7 +220,7 @@ class Console {
     }
 
     prompt() {
-        this.readlineInterface.prompt();
+        // this.readlineInterface.prompt();
     }
 
     print(type: string, msg: string, color: string) {
@@ -237,13 +245,13 @@ class Console {
         // }
     }
 
-    pause() {
-        this.stdin.on("keypress", this._resetInput);
-    }
-
-    resume() {
-        this.stdin.removeListener("keypress", this._resetInput);
-    }
+    // pause() {
+    //     this.stdin.on("keypress", this._resetInput);
+    // }
+    //
+    // resume() {
+    //     this.stdin.removeListener("keypress", this._resetInput);
+    // }
 }
 
 export type Status = "Done" | "Not done";

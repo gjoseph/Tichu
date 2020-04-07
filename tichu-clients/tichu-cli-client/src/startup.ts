@@ -1,7 +1,7 @@
 import { Actions } from "./actions";
 
 export interface GameOpts {
-    game: string;
+    room: string;
     user: string;
     team: number;
 }
