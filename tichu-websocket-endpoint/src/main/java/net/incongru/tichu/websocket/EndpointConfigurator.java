@@ -4,7 +4,7 @@ import javax.websocket.server.ServerEndpointConfig;
 
 public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
     // TODO is there a guarantee the configurator is a singleton!? doesn't sound right.
-    private final ChatStateProvider stateProvider = new ChatStateProvider();
+    private final SessionProvider sessionProvider = new SessionProvider();
 
     public EndpointConfigurator() {
     }
@@ -14,6 +14,6 @@ public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
         if (endpointClass != ChatEndpoint.class) {
             throw new IllegalStateException("This can only instantiate ChatEndpoint");
         }
-        return (T) new ChatEndpoint(new MessageHandlerImpl(stateProvider));
+        return (T) new ChatEndpoint(new MessageHandlerImpl(sessionProvider));
     }
 }

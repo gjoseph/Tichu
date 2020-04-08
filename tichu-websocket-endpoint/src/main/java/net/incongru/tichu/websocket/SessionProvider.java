@@ -5,16 +5,17 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-public class ChatStateProvider {
+public class SessionProvider {
 
     private Set<Session> sessions = new CopyOnWriteArraySet<>();
+    // TODO type this map
     private HashMap<String, String> users = new HashMap<>();
 
-    void registerSession(Session session) {
+    void register(Session session) {
         sessions.add(session);
     }
 
-    void removeSession(Session session) {
+    void remove(Session session) {
         sessions.remove(session);
     }
 
