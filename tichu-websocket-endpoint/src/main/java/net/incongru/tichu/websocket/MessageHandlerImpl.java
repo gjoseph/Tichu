@@ -10,48 +10,48 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void newSession(Session session, String username) {
+    public void newSession(Session session, String roomId) {
         sessions.register(session);
-        // TODO get user from auth
-        System.out.println("session.getUserPrincipal() = " + session.getUserPrincipal());
-        System.out.println("session.getUserProperties() = " + session.getUserProperties());
-        sessions.addUser(session.getId(), username);
 
+        final String user = getUser(session);
         final ImmutableOutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
-                .from(username)
+                .from(user)
                 .content("Connected!")
                 .build();
 
-        // TODO This should probably not be in _store_
         sessions.broadcast(message);
     }
 
     @Override
     public void closeSession(Session session) {
-        sessions.remove(session);
         final OutgoingChatMessage outgoingChatMessage = ImmutableOutgoingChatMessage.builder()
-                .from(sessions.getUser(session.getId()))
+                .from(getUser(session))
                 .content("Disconnected!")
                 .build();
+        sessions.remove(session);
         sessions.broadcast(outgoingChatMessage);
     }
 
     @Override
     public void handle(Session session, IncomingChatMessage incomingMessage) {
-        final ImmutableOutgoingChatMessage message1 = ImmutableOutgoingChatMessage.builder()
-                .from(sessions.getUser(session.getId()))
+        final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
+                .from(getUser(session))
                 .content(incomingMessage.content())
                 .build();
-        sessions.broadcast(message1);
+        sessions.broadcast(message);
     }
 
     @Override
     public void handle(Session session, GameActionMessage gameActionMessage) {
         System.out.println("gameActionMessage = " + gameActionMessage);
-        final ImmutableOutgoingChatMessage message1 = ImmutableOutgoingChatMessage.builder()
-                .from(sessions.getUser(session.getId()))
+        final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
+                .from(getUser(session))
                 .content("This is another message" + gameActionMessage.action())
                 .build();
-        sessions.broadcast(message1);
+        sessions.broadcast(message);
+    }
+
+    private String getUser(Session session) {
+        return session.getUserPrincipal().getName();
     }
 }

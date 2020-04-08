@@ -3,12 +3,12 @@ package net.incongru.tichu.websocket.codec;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.util.DeckConstants;
-import net.incongru.tichu.websocket.ChatEndpoint;
 import net.incongru.tichu.websocket.GameActionMessage;
 import net.incongru.tichu.websocket.ImmutableGameActionMessage;
 import net.incongru.tichu.websocket.ImmutableIncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
+import net.incongru.tichu.websocket.RoomEndpoint;
 import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +29,7 @@ class JacksonCodecTest {
     @ParameterizedTest
     @MethodSource
     <T> void canDecodeSubTypesOfIncomingMessages(String json, Class<T> expectedParsedType, Consumer<T> assertionsOnResult) throws Exception {
-        final JacksonCodec<IncomingMessage> codec = new ChatEndpoint.IncomingMessageCodec();
+        final JacksonCodec<IncomingMessage> codec = new RoomEndpoint.IncomingMessageCodec();
         final IncomingMessage parsed = codec.decode(json);
         assertThat(parsed).isInstanceOfSatisfying(expectedParsedType, assertionsOnResult);
     }
@@ -46,7 +46,7 @@ class JacksonCodecTest {
     @ParameterizedTest
     @MethodSource
     void canEncodeSubtypesOfMessages(IncomingMessage toEncode, String expectedJson) throws Exception {
-        final JacksonCodec<IncomingMessage> codec = new ChatEndpoint.IncomingMessageCodec();
+        final JacksonCodec<IncomingMessage> codec = new RoomEndpoint.IncomingMessageCodec();
         assertThatJson(codec.encode(toEncode))
                 .when(Option.IGNORING_ARRAY_ORDER)
                 .isEqualTo(expectedJson);
@@ -69,7 +69,7 @@ class JacksonCodecTest {
 
     @Test
     void jacksonMappingIsSymetric() throws Exception {
-        final JacksonCodec<IncomingMessage> codec = new ChatEndpoint.IncomingMessageCodec();
+        final JacksonCodec<IncomingMessage> codec = new RoomEndpoint.IncomingMessageCodec();
 
         final String input = "{\"type\":\"chat\", \"content\":\"HELLO\"}";
         final IncomingMessage parsed = codec.decode(input);

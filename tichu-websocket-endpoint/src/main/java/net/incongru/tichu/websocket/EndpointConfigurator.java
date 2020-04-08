@@ -11,9 +11,9 @@ public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
 
     @Override
     public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-        if (endpointClass != ChatEndpoint.class) {
-            throw new IllegalStateException("This can only instantiate ChatEndpoint");
+        if (endpointClass != RoomEndpoint.class) {
+            throw new IllegalStateException("This can only instantiate RoomEndpoint");
         }
-        return (T) new ChatEndpoint(new MessageHandlerImpl(sessionProvider));
+        return (T) new RoomEndpoint(new MessageHandlerImpl(sessionProvider));
     }
 }

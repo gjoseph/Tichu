@@ -10,13 +10,13 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint(value = ChatEndpoint.PATH + "/{username}",
-        decoders = ChatEndpoint.IncomingMessageCodec.class,
-        encoders = {ChatEndpoint.OutgoingChatMessageCodec.class, ChatEndpoint.OtherThingCodec.class},
+@ServerEndpoint(value = RoomEndpoint.PATH + "/{roomId}",
+        decoders = RoomEndpoint.IncomingMessageCodec.class,
+        encoders = {RoomEndpoint.OutgoingChatMessageCodec.class, RoomEndpoint.OtherThingCodec.class},
         configurator = EndpointConfigurator.class
 )
-public class ChatEndpoint {
-    public static final String PATH = "/chat";
+public class RoomEndpoint {
+    public static final String PATH = "/room";
 
     public static class IncomingMessageCodec extends JacksonCodec<IncomingMessage> {
     }
@@ -29,13 +29,13 @@ public class ChatEndpoint {
 
     private final MessageHandler messageHandler;
 
-    public ChatEndpoint(MessageHandler messageHandler) {
+    public RoomEndpoint(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) {
-        messageHandler.newSession(session, username);
+    public void onOpen(Session session, @PathParam("roomId") String roomId) {
+        messageHandler.newSession(session, roomId);
     }
 
     @OnMessage
@@ -52,6 +52,7 @@ public class ChatEndpoint {
     public void onError(Session session, Throwable throwable) {
         // Do error handling here
         System.out.println("throwable = " + throwable);
+        throwable.printStackTrace();
     }
 
 }
