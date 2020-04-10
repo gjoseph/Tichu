@@ -1,5 +1,7 @@
 package net.incongru.tichu.websocket;
 
+import net.incongru.tichu.model.UserId;
+
 import javax.websocket.Session;
 
 public class MessageHandlerImpl implements MessageHandler {
@@ -13,7 +15,8 @@ public class MessageHandlerImpl implements MessageHandler {
     public void newSession(Session session, String roomId) {
         sessions.register(session);
 
-        final String user = getUser(session);
+        final UserId user = getUser(session);
+
         final ImmutableOutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(user)
                 .content("Connected!")
@@ -51,7 +54,7 @@ public class MessageHandlerImpl implements MessageHandler {
         sessions.broadcast(message);
     }
 
-    private String getUser(Session session) {
-        return session.getUserPrincipal().getName();
+    private UserId getUser(Session session) {
+        return UserId.of(session.getUserPrincipal().getName());
     }
 }

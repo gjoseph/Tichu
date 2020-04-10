@@ -38,7 +38,7 @@ class JacksonCodecTest {
         return Stream.of(
                 arguments("{\"type\":\"chat\", \"content\":\"HELLO\"}", IncomingChatMessage.class,
                         (Consumer<IncomingChatMessage>) m -> assertThat(m.content()).isEqualTo("HELLO")),
-                arguments("{\"type\":\"game\", \"action\": {\"type\":\"play\", \"playerName\":\"jules\", \"cards\": [\"star_ace\", \"sword_ace\"]}}", GameActionMessage.class,
+                arguments("{\"type\":\"game\", \"action\": {\"type\":\"play\", \"cards\": [\"star_ace\", \"sword_ace\"]}}", GameActionMessage.class,
                         (Consumer<GameActionMessage>) m -> assertThat(m.action()).isEqualTo(sampleGameParam()))
         );
     }
@@ -60,7 +60,6 @@ class JacksonCodecTest {
                         "  type:'game'," +
                         "  action:  { " +
                         "      type: 'play', " +
-                        "      playerName: 'jules', " +
                         "      cards: ['RA', 'KA'] " +
                         "    }" +
                         " }")
@@ -83,6 +82,6 @@ class JacksonCodecTest {
     }
 
     private static PlayerPlaysParam sampleGameParam() {
-        return ImmutablePlayerPlaysParam.builder().playerName("jules").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)).build();
+        return ImmutablePlayerPlaysParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)).build();
     }
 }

@@ -2,6 +2,7 @@ package net.incongru.tichu.websocket;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import net.incongru.tichu.model.UserId;
 import org.immutables.value.Value;
 
 @Value.Immutable
@@ -9,7 +10,7 @@ import org.immutables.value.Value;
 @JsonSerialize(as = ImmutableOutgoingChatMessage.class)
 @JsonDeserialize(as = ImmutableOutgoingChatMessage.class)
 public interface OutgoingChatMessage {
-    String from();
+    UserId from();
 
     String content();
 }

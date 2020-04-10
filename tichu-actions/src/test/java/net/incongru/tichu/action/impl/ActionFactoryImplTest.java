@@ -3,6 +3,7 @@ package net.incongru.tichu.action.impl;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,14 +28,14 @@ class ActionFactoryImplTest {
 
     @Test
     void recognisesInitActionParam() {
-        assertThat(actionFactory.actionFor(InitialiseGameParam.with()))
+        assertThat(actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param()))
                 .isInstanceOf(InitialiseGame.class);
     }
 
     @Test
     void newInstancesOnEachCall() {
-        final Action<InitialiseGameParam> first = actionFactory.actionFor(InitialiseGameParam.with());
-        final Action<InitialiseGameParam> second = actionFactory.actionFor(InitialiseGameParam.with());
+        final Action<InitialiseGameParam> first = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
+        final Action<InitialiseGameParam> second = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
         assertThat(first).isNotSameAs(second);
     }
 

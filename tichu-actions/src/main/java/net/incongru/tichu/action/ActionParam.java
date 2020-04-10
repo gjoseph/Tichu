@@ -1,6 +1,8 @@
 package net.incongru.tichu.action;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import net.incongru.tichu.model.UserId;
+import org.immutables.value.Value;
 
 // We need this here as well, so that immutables generates @JsonTypeInfo(use=JsonTypeInfo.Id.NONE)
 // on implementations' $Json inner classes, without with the polymorphic deser just falls apart
@@ -12,4 +14,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 // Subtypes declaration is done at usage point, to minimise distance between allowed params (e.g we don't want to expose CheatDealParam to the web client)
 public interface ActionParam {
+
+    @Value.Immutable
+    interface WithActor<AP extends ActionParam> {
+        UserId actor();
+
+        AP param();
+    }
 }
+

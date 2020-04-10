@@ -3,16 +3,17 @@ package net.incongru.tichu.simu.cmd.impl;
 import net.incongru.tichu.action.ActionResult.AbstractPlayResult;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Trick;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
 class ExpectWinTrick extends ExpectPlayResult {
-    private final String expectedPlayerName;
+    private final UserId expectedPlayer;
 
-    ExpectWinTrick(String expectedPlayerName) {
+    ExpectWinTrick(UserId expectedPlayer) {
         super(PostActionCommandFactory.ExpectablePlayResult.TrickEnd);
-        this.expectedPlayerName = expectedPlayerName;
+        this.expectedPlayer = expectedPlayer;
     }
 
     @Override
@@ -22,12 +23,12 @@ class ExpectWinTrick extends ExpectPlayResult {
         final Trick trick = ctx.game().currentRound().currentTrick();
 
         final Player lastPlayer = trick.previousNonPass().player();
-        final boolean match = trick.isDone() && lastPlayer.name().equals(expectedPlayerName);
+        final boolean match = trick.isDone() && lastPlayer.id().equals(expectedPlayer);
         if (match) {
-            ctx.log("Trick is done and won by %s, as expected.", expectedPlayerName);
+            ctx.log("Trick is done and won by %s, as expected.", expectedPlayer);
         } else {
             ctx.log("Trick is %, last player is %s", trick.isDone() ? "done" : "not done", lastPlayer);
-            throw new Simulation.PostActionCommandException("Trick was expected to be 'done' at this point, with %s as the winner", expectedPlayerName);
+            throw new Simulation.PostActionCommandException("Trick was expected to be 'done' at this point, with %s as the winner", expectedPlayer);
         }
 
     }

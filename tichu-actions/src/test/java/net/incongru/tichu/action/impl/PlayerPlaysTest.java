@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Collections.emptySet()))).isErrorPlayResult(INVALIDPLAY/*??*/);
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Collections.emptySet()))).isErrorPlayResult(INVALIDPLAY/*??*/);
     }
 
     @Test
@@ -39,7 +40,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Set.of(G9)))).isErrorPlayResult(NOTINHAND, s -> s.startsWith("You don't have"));
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(G9)))).isErrorPlayResult(NOTINHAND, s -> s.startsWith("You don't have"));
     }
 
     @Test
@@ -47,7 +48,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
     }
 
     @Test
@@ -55,10 +56,10 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong), Set.of(B2)).allReady();
 
         final PlayerPlays play1 = new PlayerPlays();
-        assertThat(play1.exec(ctx, PlayerPlaysParam.with("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play1.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
 
         final PlayerPlays play2 = new PlayerPlays();
-        assertThat(play2.exec(ctx, PlayerPlaysParam.with("charlie", Collections.emptySet()))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play2.exec(ctx, PlayerPlaysParam.withActor(UserId.of("charlie"), Collections.emptySet()))).isSuccessPlayResult(NEXTGOES);
     }
 
 }

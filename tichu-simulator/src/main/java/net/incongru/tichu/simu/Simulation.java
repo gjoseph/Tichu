@@ -15,7 +15,7 @@ public interface Simulation {
 
     @Value.Immutable
     interface ActionAndCommands {
-        ActionParam actionParam();
+        ActionParam.WithActor actionParam();
 
         List<PostActionCommand> commands();
     }

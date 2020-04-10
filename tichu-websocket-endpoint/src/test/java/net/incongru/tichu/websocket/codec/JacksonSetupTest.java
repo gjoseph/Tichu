@@ -60,17 +60,17 @@ class JacksonSetupTest {
 
     @Test
     void canSerValidActionParam() throws JsonProcessingException {
-        final PlayerPlaysParam play = ImmutablePlayerPlaysParam.builder().playerName("charlie").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final PlayerPlaysParam play = ImmutablePlayerPlaysParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(play);
         assertThatJson(objectMapper.writeValueAsString(actionParamWrapper))
                 .when(Option.IGNORING_ARRAY_ORDER)
-                .isEqualTo("{action: {type: 'play', playerName: 'charlie', cards: ['RA', 'B2']}}");
+                .isEqualTo("{action: {type: 'play', cards: ['RA', 'B2']}}");
     }
 
     @Test
     @Disabled("https://github.com/FasterXML/jackson-databind/issues/436")
     void rejectSerOfUnregisteredActionParamType() {
-        final ActionParam cheat = ImmutableCheatDealParam.builder().playerName("charlie").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final ActionParam cheat = ImmutableCheatDealParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(cheat);
 
         assertThatThrownBy(() -> {
@@ -83,11 +83,10 @@ class JacksonSetupTest {
 
     @Test
     void canDeserValidActionParam() throws JsonProcessingException {
-        final String json = "{\"type\": \"play\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}";
+        final String json = "{\"type\": \"play\", \"cards\": [\"RA\", \"B2\"]}";
         assertThat(objectMapper.readValue(json, ActionParam.class))
                 .isInstanceOfSatisfying(PlayerPlaysParam.class, play -> {
                     assertThat(play.cards()).containsExactlyInAnyOrder(DeckConstants.RA, DeckConstants.B2);
-                    assertThat(play.playerName()).isEqualTo("charlie");
                 });
     }
 

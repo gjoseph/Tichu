@@ -2,6 +2,7 @@ package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.param.NewTrickParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +29,7 @@ class NewTrickTest {
         ctx.withCards(Set.of(B2), Set.of(B3), Set.of(B4), Set.of(MahJong))
                 .allReady();
         // we still have cards to play
-        assertThrows(IllegalStateException.class, () -> new NewTrick().exec(ctx, NewTrickParam.with()));
+        assertThrows(IllegalStateException.class, () -> new NewTrick().exec(ctx, NewTrickParam.withActor(UserId.of("alex"))));
     }
 
     @Test
@@ -36,15 +37,15 @@ class NewTrickTest {
         ctx.withCards(Set.of(MahJong), Set.of(B3), Set.of(B2), Set.of(B4))
                 .allReady();
         // play all the cards
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("alex", Set.of(MahJong)))).isSuccessResult();
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("jules", Set.of(B2)))).isSuccessResult();
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("charlie", Set.of(B3)))).isSuccessResult();
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("quinn", Set.of(B4)))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("alex"), Set.of(MahJong)))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(B2)))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of(B3)))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("quinn"), Set.of(B4)))).isSuccessResult();
         // all players now explicitly pass
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("alex", Set.of()))).isSuccessResult();
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("jules", Set.of()))).isSuccessResult();
-        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.with("charlie", Set.of()))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("alex"), Set.of()))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of()))).isSuccessResult();
+        assertThat(new PlayerPlays().exec(ctx, PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of()))).isSuccessResult();
 
-        assertThat(new NewTrick().exec(ctx, NewTrickParam.with())).isSuccessResult();
+        assertThat(new NewTrick().exec(ctx, NewTrickParam.withActor(UserId.of("alex")))).isSuccessResult();
     }
 }

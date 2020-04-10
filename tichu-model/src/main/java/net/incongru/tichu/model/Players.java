@@ -7,15 +7,9 @@ import com.google.common.collect.PeekingIterator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the players and teams
@@ -25,20 +19,6 @@ public class Players {
     private final Team[] teams = new Team[2];
 
     public Players() {
-    }
-
-    private void ensureNoDuplicateNames() {
-        final List<String> dupes = players.stream() // Meh....
-                .map(Player::name)
-                .map(String::toLowerCase)
-                .collect(groupingBy(identity(), counting()))
-                .entrySet().stream()
-                .filter(e -> e.getValue() > 1)
-                .map(Map.Entry::getKey)
-                .collect(toList());
-        if (!dupes.isEmpty()) {
-            throw new IllegalArgumentException("There can only be one " + dupes);
-        }
     }
 
     public void add(Team t) {
@@ -59,13 +39,17 @@ public class Players {
 //        if (Arrays.binarySearch(teams, t) < 0) { TODO
 //            throw new IllegalArgumentException("Team " + t + " is not at this table");
 //        }
-        t.join(p);
-        players.add(p);
+        optGetPlayer(p.id()).ifPresentOrElse(
+                ignore -> {
+                    throw new IllegalArgumentException("Player " + p + " has already joined");
+                },
+                () -> {
+                    t.join(p);
+                    players.add(p);
+                });
     }
 
     public boolean isComplete() {
-        // Ensure names are unique
-        ensureNoDuplicateNames();
         if (teams.length != 2) {
             return false;
         }
@@ -105,9 +89,13 @@ public class Players {
         return cycle;
     }
 
-    public Optional<Player> getPlayerByName(String name) {
+    public Player getPlayerById(UserId id) {
+        return optGetPlayer(id).orElseThrow(() -> new IllegalArgumentException("No player with ID " + id));
+    }
+
+    private Optional<Player> optGetPlayer(UserId id) {
         return stream()
-                .filter(player -> player.name().equalsIgnoreCase(name))
+                .filter(player -> player.id().equals(id))
                 .findAny();
     }
 

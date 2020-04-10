@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static net.incongru.tichu.model.TestUtil.samplePlayers;
+import static net.incongru.tichu.model.UserId.of;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.not;
@@ -22,10 +23,10 @@ class GameTest {
     @BeforeEach
     void setUp() {
         players = samplePlayers();
-        alex = players.getPlayerByName("Alex").orElseThrow();
-        charlie = players.getPlayerByName("Charlie").orElseThrow();
-        jules = players.getPlayerByName("Jules").orElseThrow();
-        quinn = players.getPlayerByName("Quinn").orElseThrow();
+        alex = players.getPlayerById(of("Alex"));
+        charlie = players.getPlayerById(of("Charlie"));
+        jules = players.getPlayerById(of("Jules"));
+        quinn = players.getPlayerById(of("Quinn"));
     }
 
     /**

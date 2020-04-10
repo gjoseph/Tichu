@@ -2,6 +2,7 @@ package net.incongru.tichu.action;
 
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Player;
+import net.incongru.tichu.model.UserId;
 
 public abstract class AbstractGameContext implements GameContext {
     private final Object lock = new Object();
@@ -23,8 +24,8 @@ public abstract class AbstractGameContext implements GameContext {
     }
 
     @Override
-    public Player player(String playerName) {
-        return game().players().getPlayerByName(playerName).orElseThrow(() -> new IllegalArgumentException("No player called " + playerName));
+    public Player player(UserId playerId) {
+        return game().players().getPlayerById(playerId);
     }
 
 }

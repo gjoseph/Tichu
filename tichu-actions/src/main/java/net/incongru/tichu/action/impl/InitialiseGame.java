@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResult;
 import net.incongru.tichu.action.ActionResult.Success;
 import net.incongru.tichu.action.GameContext;
@@ -24,7 +25,7 @@ class InitialiseGame implements Action<InitialiseGameParam> {
     }
 
     @Override
-    public ActionResult exec(GameContext ctx, InitialiseGameParam param) {
+    public ActionResult exec(GameContext ctx, ActionParam.WithActor<InitialiseGameParam> param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));
