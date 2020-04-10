@@ -1,5 +1,6 @@
 package net.incongru.tichu.action.impl;
 
+import net.incongru.tichu.action.AbstractGameContext;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
@@ -11,7 +12,7 @@ import net.incongru.tichu.model.Player;
 
 import java.util.Set;
 
-class TestGameContext implements GameContext {
+class TestGameContext extends AbstractGameContext {
     TestGameContext initialised() {
         new InitialiseGame().exec(this, InitialiseGameParam.with());
         return this;
@@ -44,38 +45,9 @@ class TestGameContext implements GameContext {
         return this;
     }
 
-    // This is a copy of SimulatedGameContext ...
-    private final Object lock = new Object();
-    private Game game;
-
     TestGameContext() {
     }
 
-    @Override
-    public void newGame(Game game) {
-        synchronized (this.lock) {
-            if (this.game != null) {
-                throw new IllegalStateException("GameContext has already been initialised");
-            }
-            this.game = game;
-        }
-    }
-
-    @Override
-    public Game game() {
-        return game;
-    }
-
-    @Override
-    public Player player(String playerName) {
-        return game().players().getPlayerByName(playerName).orElseThrow(() -> new IllegalArgumentException("No player called " + playerName));
-    }
-
-    /**
-     * Logs a message to the simulation.
-     *
-     * @see String#format(String, Object...)
-     */
     @Override
     public void log(String msg, Object... args) {
         System.out.println(String.format(msg, args));
