@@ -1,7 +1,5 @@
 package net.incongru.tichu.websocket.codec;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -22,7 +20,6 @@ import net.incongru.tichu.action.param.ImmutableJoinTableParam;
 import net.incongru.tichu.action.param.ImmutableNewTrickParam;
 import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
-import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 
