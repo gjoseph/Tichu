@@ -32,11 +32,6 @@
             <artifactId>checker</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-        <!--    <groupId>org.checkerframework</groupId>-->
-        <!--    <artifactId>jdk8</artifactId>-->
-        <!--    <scope>provided</scope>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
