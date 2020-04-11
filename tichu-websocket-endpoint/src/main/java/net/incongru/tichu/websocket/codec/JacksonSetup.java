@@ -21,6 +21,7 @@ import net.incongru.tichu.action.param.ImmutableNewTrickParam;
 import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
 class JacksonSetup {
@@ -31,16 +32,20 @@ class JacksonSetup {
         // Card support
         m.setMixInAnnotation(Card.class, CardJacksonSupport.class);
 
+        // UserId support
+        m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
+
         // ActionParam support -- the mixin here is useless since we have @JsonTypeInfo on ActionParam
         // The fact that the annotation was needed to drive immutable to generate the right plumbing
         // may explain why we didn't figure out how to configure type info just via code
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
+        // TODO use an enum for these names
         m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, "init"));
         m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, "join"));
         m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, "newTrick")); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, "isReady"));
+        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, "ready"));
         m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, "play"));
 
         // Not sure how this is useful
@@ -72,6 +77,11 @@ class JacksonSetup {
 
         @JsonValue
         abstract String shortName();
+    }
+
+    abstract static class UserIdJacksonSupport {
+        @JsonValue
+        String id;
     }
 
     static class CardDeserializer extends FromStringDeserializer<Card> {

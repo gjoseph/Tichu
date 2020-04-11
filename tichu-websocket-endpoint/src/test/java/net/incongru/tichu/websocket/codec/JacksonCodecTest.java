@@ -2,6 +2,7 @@ package net.incongru.tichu.websocket.codec;
 
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.GameActionMessage;
 import net.incongru.tichu.websocket.ImmutableGameActionMessage;
