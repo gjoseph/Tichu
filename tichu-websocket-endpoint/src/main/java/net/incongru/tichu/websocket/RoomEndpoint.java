@@ -39,13 +39,13 @@ public class RoomEndpoint {
     }
 
     @OnMessage
-    public void onMessage(Session session, IncomingMessage incomingMessage) {
-        incomingMessage.accept(session, messageHandler);
+    public void onMessage(Session session, @PathParam("roomId") String roomId, IncomingMessage incomingMessage) {
+        incomingMessage.accept(session, roomId, messageHandler);
     }
 
     @OnClose
-    public void onClose(Session session) {
-        messageHandler.closeSession(session);
+    public void onClose(Session session, @PathParam("roomId") String roomId) {
+        messageHandler.closeSession(session, roomId);
     }
 
     @OnError

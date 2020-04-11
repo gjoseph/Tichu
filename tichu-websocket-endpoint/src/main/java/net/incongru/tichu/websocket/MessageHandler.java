@@ -6,10 +6,10 @@ import javax.websocket.Session;
 interface MessageHandler {
     void newSession(Session session, String roomId);
 
-    void closeSession(Session session);
+    void closeSession(Session session, String roomId);
 
     // Visitor pattern below, see message implementations
-    void handle(Session session, IncomingChatMessage incomingChatMessage);
+    void handle(Session session, String roomId, IncomingChatMessage incomingChatMessage);
 
-    void handle(Session session, GameActionMessage gameActionMessage);
+    void handle(Session session, String roomId, GameActionMessage gameActionMessage);
 }

@@ -26,7 +26,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void closeSession(Session session) {
+    public void closeSession(Session session, String roomId) {
         final OutgoingChatMessage outgoingChatMessage = ImmutableOutgoingChatMessage.builder()
                 .from(getUser(session))
                 .content("Disconnected!")
@@ -36,7 +36,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void handle(Session session, IncomingChatMessage incomingMessage) {
+    public void handle(Session session, String roomId, IncomingChatMessage incomingMessage) {
         final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(getUser(session))
                 .content(incomingMessage.content())
@@ -45,7 +45,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void handle(Session session, GameActionMessage gameActionMessage) {
+    public void handle(Session session, String roomId, GameActionMessage gameActionMessage) {
         System.out.println("gameActionMessage = " + gameActionMessage);
         final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(getUser(session))
