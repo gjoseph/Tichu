@@ -1,5 +1,7 @@
 package net.incongru.tichu.websocket;
 
+import javax.websocket.SendHandler;
+import javax.websocket.SendResult;
 import javax.websocket.Session;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -17,10 +19,20 @@ public class SessionProvider {
         sessions.remove(session);
     }
 
-    void broadcast(Object message) { // TODO have _some_ base type here
+    // TODO broadcast per-room (we may need both method for system-wide broadcasts)
+    void broadcast(OutgoingMessage message) {
         sessions.forEach(sesh -> {
             synchronized (sesh) {
-                sesh.getAsyncRemote().sendObject(message);
+                sesh.getAsyncRemote().sendObject(message, new SendHandler() {
+                    @Override
+                    public void onResult(SendResult result) {
+                        System.out.println("result = " + result);
+                        if (!result.isOK()) {
+                            // TODO metrics and logs
+                            result.getException().printStackTrace();
+                        }
+                    }
+                });
             }
         });
     }

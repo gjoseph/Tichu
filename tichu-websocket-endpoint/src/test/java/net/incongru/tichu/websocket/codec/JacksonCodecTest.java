@@ -6,9 +6,11 @@ import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.GameActionMessage;
 import net.incongru.tichu.websocket.ImmutableGameActionMessage;
-import net.incongru.tichu.websocket.ImmutableIncomingChatMessage;
+import net.incongru.tichu.websocket.ImmutableGameActionResultMessage;
+import net.incongru.tichu.websocket.ImmutableOutgoingChatMessage;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
+import net.incongru.tichu.websocket.OutgoingMessage;
 import net.incongru.tichu.websocket.RoomEndpoint;
 import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.api.Test;
@@ -46,23 +48,22 @@ class JacksonCodecTest {
 
     @ParameterizedTest
     @MethodSource
-    void canEncodeSubtypesOfMessages(IncomingMessage toEncode, String expectedJson) throws Exception {
-        final JacksonCodec<IncomingMessage> codec = new RoomEndpoint.IncomingMessageCodec();
+    void canEncodeSubtypesOfOutgoingMessages(OutgoingMessage toEncode, String expectedJson) throws Exception {
+        final JacksonCodec<OutgoingMessage> codec = new RoomEndpoint.OutgoingMessageCodec();
         assertThatJson(codec.encode(toEncode))
                 .when(Option.IGNORING_ARRAY_ORDER)
                 .isEqualTo(expectedJson);
     }
 
-    static Stream<Arguments> canEncodeSubtypesOfMessages() {
+    static Stream<Arguments> canEncodeSubtypesOfOutgoingMessages() {
         return Stream.of(
-                arguments(ImmutableIncomingChatMessage.builder().content("hello").build(), "{type:'chat', content:'hello'}"),
-                arguments(ImmutableGameActionMessage.builder().action(sampleGameParam()).build(),
+                arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").build(),
+                        "{type:'chat', from: 'dummy', content:'hello'}"),
+                arguments(ImmutableGameActionResultMessage.builder().player(UserId.of("dummy")).result("temporary action result").build(),
                         "{" +
-                        "  type:'game'," +
-                        "  action:  { " +
-                        "      type: 'play', " +
-                        "      cards: ['RA', 'KA'] " +
-                        "    }" +
+                        "  type: 'game'," +
+                        "  player: 'dummy'," +
+                        "  result: 'temporary action result'" +
                         " }")
         );
     }

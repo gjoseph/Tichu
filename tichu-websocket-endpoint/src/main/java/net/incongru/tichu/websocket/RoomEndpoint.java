@@ -12,7 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = RoomEndpoint.PATH + "/{roomId}",
         decoders = RoomEndpoint.IncomingMessageCodec.class,
-        encoders = {RoomEndpoint.OutgoingChatMessageCodec.class, RoomEndpoint.OtherThingCodec.class},
+        encoders = {RoomEndpoint.OutgoingMessageCodec.class},
         configurator = EndpointConfigurator.class
 )
 public class RoomEndpoint {
@@ -21,10 +21,7 @@ public class RoomEndpoint {
     public static class IncomingMessageCodec extends JacksonCodec<IncomingMessage> {
     }
 
-    public static class OtherThingCodec extends JacksonCodec<GameActionMessage> {
-    }
-
-    public static class OutgoingChatMessageCodec extends JacksonCodec<OutgoingChatMessage> {
+    public static class OutgoingMessageCodec extends JacksonCodec<OutgoingMessage> {
     }
 
     private final MessageHandler messageHandler;

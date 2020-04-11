@@ -9,7 +9,7 @@ import org.immutables.value.Value;
 @Value.Style(strictBuilder = true) // disables the "from" method in builder
 @JsonSerialize(as = ImmutableOutgoingChatMessage.class)
 @JsonDeserialize(as = ImmutableOutgoingChatMessage.class)
-public interface OutgoingChatMessage {
+public interface OutgoingChatMessage extends OutgoingMessage {
     UserId from();
 
     String content();
