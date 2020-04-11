@@ -1,14 +1,27 @@
 package net.incongru.tichu.websocket;
 
+import net.incongru.tichu.action.Action;
+import net.incongru.tichu.action.ActionFactory;
+import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ImmutableWithActor;
+import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.room.Room;
+import net.incongru.tichu.room.RoomGameContext;
+import net.incongru.tichu.room.RoomProvider;
 
 import javax.websocket.Session;
 
 public class MessageHandlerImpl implements MessageHandler {
     private final SessionProvider sessions;
+    private final RoomProvider roomProvider;
+    private final ActionFactory actionFactory;
 
-    public MessageHandlerImpl(SessionProvider sessions) {
+    public MessageHandlerImpl(SessionProvider sessions, RoomProvider roomProvider) {
         this.sessions = sessions;
+        this.roomProvider = roomProvider;
+        this.actionFactory = new ActionFactoryImpl();
     }
 
     @Override
@@ -17,6 +30,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
         final UserId user = getUser(session);
 
+        roomProvider.getRoom(roomId).enter(user);
         final ImmutableOutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(user)
                 .content("Connected!")
@@ -46,15 +60,24 @@ public class MessageHandlerImpl implements MessageHandler {
 
     @Override
     public void handle(Session session, String roomId, GameActionMessage gameActionMessage) {
-        System.out.println("gameActionMessage = " + gameActionMessage);
-        final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
-                .from(getUser(session))
-                .content("This is another message" + gameActionMessage.action())
+        final Room room = roomProvider.getRoom(roomId);
+        final RoomGameContext ctx = room.gameContext();
+
+        final UserId user = getUser(session);
+        final ActionParam actionParam = gameActionMessage.action();
+        final ActionParam.WithActor withActor = ImmutableWithActor.builder().actor(user).param(actionParam).build();
+        final Action action = actionFactory.actionFor(actionParam);
+        final ActionResult res = action.exec(ctx, withActor);
+
+        final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
+                .player(user)
+                .result(res.toString())
                 .build();
-        sessions.broadcast(message);
+        sessions.broadcast(msg);
     }
 
     private UserId getUser(Session session) {
         return UserId.of(session.getUserPrincipal().getName());
     }
+
 }
