@@ -1,7 +1,7 @@
 package net.incongru.tichu.simu;
 
 import net.incongru.tichu.action.ActionParam;
-import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResponse;
 import org.immutables.value.Value;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface Simulation {
         /**
          * @throws PostActionCommandException
          */
-        void exec(SimulatedGameContext ctx, ActionResult result);
+        void exec(SimulatedGameContext ctx, ActionResponse response);
     }
 
     class PostActionCommandException extends RuntimeException {

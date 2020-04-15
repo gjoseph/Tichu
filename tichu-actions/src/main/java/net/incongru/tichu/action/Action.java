@@ -8,10 +8,11 @@ public interface Action<P extends ActionParam> {
 
     // TODO add a description here or on param type
 
-    ActionResult exec(GameContext ctx, ActionParam.WithActor<P> actionParam);
+    ActionResponse exec(GameContext ctx, ActionParam.WithActor<P> actionParam);
 
     enum ActionType {
         init, join, isReady, cheatDeal,
+        newTrick, // not sure we need this as an action to begin with
         play, pass
     }
 

@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.simu.SimulatedGameContext;
@@ -14,7 +14,7 @@ class ExpectNextPlayerToBe implements Simulation.PostActionCommand {
     }
 
     @Override
-    public void exec(SimulatedGameContext ctx, ActionResult result) {
+    public void exec(SimulatedGameContext ctx, ActionResponse response) {
         final Trick trick = ctx.game().currentRound().currentTrick();
         // "currentPlayer" should already have been set to next here
         final UserId nextPlayer = trick.currentPlayer().id();

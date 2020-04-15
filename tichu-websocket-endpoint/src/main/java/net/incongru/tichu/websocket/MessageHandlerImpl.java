@@ -3,7 +3,7 @@ package net.incongru.tichu.websocket;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
-import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.model.UserId;
@@ -67,11 +67,11 @@ public class MessageHandlerImpl implements MessageHandler {
         final ActionParam actionParam = gameActionMessage.action();
         final ActionParam.WithActor withActor = ImmutableWithActor.builder().actor(user).param(actionParam).build();
         final Action action = actionFactory.actionFor(actionParam);
-        final ActionResult res = action.exec(ctx, withActor);
+        final ActionResponse res = action.exec(ctx, withActor);
 
         final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
                 .player(user)
-                .result(res.toString())
+                .result(res)
                 .build();
         sessions.broadcast(msg);
     }

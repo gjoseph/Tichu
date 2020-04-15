@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.ImmutableInitialiseGameParam;
 import net.incongru.tichu.action.param.ImmutableJoinTableParam;
@@ -34,6 +35,10 @@ class JacksonSetup {
 
         // UserId support
         m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
+
+        // ActionResponse support
+        m.setMixInAnnotation(ActionResponse.class, ActionResultJacksonSupport.class);
+        m.setMixInAnnotation(ActionResponse.Message.class, MessageJacksonSupport.class);
 
         // ActionParam support -- the mixin here is useless since we have @JsonTypeInfo on ActionParam
         // The fact that the annotation was needed to drive immutable to generate the right plumbing
@@ -83,6 +88,13 @@ class JacksonSetup {
         @JsonValue
         String id;
     }
+
+    abstract static class MessageJacksonSupport {
+        @JsonValue
+        String message;
+    }
+
+    abstract static class ActionResultJacksonSupport{}
 
     static class CardDeserializer extends FromStringDeserializer<Card> {
 

@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
@@ -13,7 +13,7 @@ abstract class AbstractExpectScore implements Simulation.PostActionCommand {
     }
 
     @Override
-    public void exec(SimulatedGameContext ctx, ActionResult result) {
+    public void exec(SimulatedGameContext ctx, ActionResponse response) {
         final Score score = score(ctx);
         final boolean match = score.equals(expectedScore);
         if (match) {
