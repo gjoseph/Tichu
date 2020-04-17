@@ -11,6 +11,7 @@ import net.incongru.tichu.action.param.ImmutableCheatDealParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 import net.javacrumbs.jsonunit.core.Option;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +53,20 @@ class JacksonSetupTest {
     }
 
     @Test
+    void canSerUserId() throws JsonProcessingException {
+        final UserId u = UserId.of("test-user");
+
+        assertThatJson(objectMapper.writeValueAsString(u)).isEqualTo("test-user");
+    }
+
+    @Test
+    void canDeserUserId() throws JsonProcessingException {
+        final String json = "{\"user\": \"test-user\"}";
+        final UserIdWrapper readUserId = objectMapper.readValue(json, UserIdWrapper.class);
+        assertThat(readUserId.user).isEqualTo(UserId.of("test-user"));
+    }
+
+    @Test
     void deserUnknownCardResultsInJacksonException() {
         assertThatThrownBy(() -> objectMapper.readValue("\"foo\"", Card.class))
                 .isInstanceOf(InvalidFormatException.class)
@@ -60,17 +75,17 @@ class JacksonSetupTest {
 
     @Test
     void canSerValidActionParam() throws JsonProcessingException {
-        final PlayerPlaysParam play = ImmutablePlayerPlaysParam.builder().playerName("charlie").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final PlayerPlaysParam play = ImmutablePlayerPlaysParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(play);
         assertThatJson(objectMapper.writeValueAsString(actionParamWrapper))
                 .when(Option.IGNORING_ARRAY_ORDER)
-                .isEqualTo("{action: {type: 'play', playerName: 'charlie', cards: ['RA', 'B2']}}");
+                .isEqualTo("{action: {type: 'play', cards: ['RA', 'B2']}}");
     }
 
     @Test
     @Disabled("https://github.com/FasterXML/jackson-databind/issues/436")
     void rejectSerOfUnregisteredActionParamType() {
-        final ActionParam cheat = ImmutableCheatDealParam.builder().playerName("charlie").cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final ActionParam cheat = ImmutableCheatDealParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(cheat);
 
         assertThatThrownBy(() -> {
@@ -83,11 +98,10 @@ class JacksonSetupTest {
 
     @Test
     void canDeserValidActionParam() throws JsonProcessingException {
-        final String json = "{\"type\": \"play\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}";
+        final String json = "{\"type\": \"play\", \"cards\": [\"RA\", \"B2\"]}";
         assertThat(objectMapper.readValue(json, ActionParam.class))
                 .isInstanceOfSatisfying(PlayerPlaysParam.class, play -> {
                     assertThat(play.cards()).containsExactlyInAnyOrder(DeckConstants.RA, DeckConstants.B2);
-                    assertThat(play.playerName()).isEqualTo("charlie");
                 });
     }
 
@@ -112,6 +126,11 @@ class JacksonSetupTest {
     static class CardArrayWrapper {
         @JsonProperty
         Card[] cards;
+    }
+
+    static class UserIdWrapper {
+        @JsonProperty
+        UserId user;
     }
 
     static class ActionParamWrapper {

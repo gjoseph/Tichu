@@ -1,5 +1,6 @@
 package net.incongru.tichu.simu.cmd;
 
+import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Score;
@@ -88,23 +89,29 @@ public interface PostActionCommandFactory {
     }
 
     enum ExpectablePlayResult implements NameableEnum {
-        NextGoes(Play.PlayResult.Result.NEXTGOES, "next goes", "next"),
-        TrickEnd(Play.PlayResult.Result.TRICK_END, "trick end", "take pile", "win trick"), // TODO is this really win-trick?
-        NotInHand(Play.PlayResult.Result.NOTINHAND, "not in hand", "cheat", "stop stealing cards you dingo"),
-        TooWeak(Play.PlayResult.Result.TOOWEAK, "too weak"),
-        InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, "invalid play", "invalid combo", "wtf is this even"),
-        NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, "not your turn");
+        NextGoes(Play.PlayResult.Result.NEXTGOES, PlayerPlaysResult.NEXT_PLAYER_GOES, "next goes", "next"),
+        TrickEnd(Play.PlayResult.Result.TRICK_END, PlayerPlaysResult.TRICK_END, "trick end", "take pile", "win trick"), // TODO is this really win-trick?
+        NotInHand(Play.PlayResult.Result.NOTINHAND, PlayerPlaysResult.NOT_IN_HAND, "not in hand", "cheat", "stop stealing cards you dingo"),
+        TooWeak(Play.PlayResult.Result.TOOWEAK, PlayerPlaysResult.TOO_WEAK, "too weak"),
+        InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, PlayerPlaysResult.INVALID_PLAY, "invalid play", "invalid combo", "wtf is this even"),
+        NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, PlayerPlaysResult.INVALID_STATE, "not your turn");
 
         private final Play.PlayResult.Result modelEquivalent;
+        private final PlayerPlaysResult actionResponseEquivalent;
         private final List<String> altNames;
 
-        ExpectablePlayResult(Play.PlayResult.Result modelEquivalent, String... altNames) {
+        ExpectablePlayResult(Play.PlayResult.Result modelEquivalent, PlayerPlaysResult actionResponseEquivalent, String... altNames) {
             this.modelEquivalent = modelEquivalent;
+            this.actionResponseEquivalent = actionResponseEquivalent;
             this.altNames = Arrays.asList(altNames);
         }
 
         public boolean test(Play.PlayResult.Result modelResult) {
             return modelEquivalent == modelResult;
+        }
+
+        public boolean test(PlayerPlaysResult responseResult) {
+            return actionResponseEquivalent == responseResult;
         }
 
         @Override

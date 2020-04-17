@@ -1,19 +1,23 @@
 package net.incongru.tichu.websocket;
 
+import net.incongru.tichu.room.DummyRoomProvider;
+import net.incongru.tichu.room.RoomProvider;
+
 import javax.websocket.server.ServerEndpointConfig;
 
 public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
     // TODO is there a guarantee the configurator is a singleton!? doesn't sound right.
-    private final ChatStateProvider stateProvider = new ChatStateProvider();
+    private final SessionProvider sessionProvider = new SessionProvider();
+    private final RoomProvider roomProvider = new DummyRoomProvider();
 
     public EndpointConfigurator() {
     }
 
     @Override
     public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
-        if (endpointClass != ChatEndpoint.class) {
-            throw new IllegalStateException("This can only instantiate ChatEndpoint");
+        if (endpointClass != RoomEndpoint.class) {
+            throw new IllegalStateException("This can only instantiate RoomEndpoint");
         }
-        return (T) new ChatEndpoint(new MessageHandlerImpl(stateProvider));
+        return (T) new RoomEndpoint(new MessageHandlerImpl(sessionProvider, roomProvider));
     }
 }

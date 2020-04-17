@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import static java.util.Collections.emptySet;
 import static net.incongru.tichu.model.TestUtil.samplePlayers;
+import static net.incongru.tichu.model.UserId.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,10 +24,10 @@ class TrickTest {
     @BeforeEach
     void setUp() {
         players = samplePlayers();
-        alex = players.getPlayerByName("Alex").orElseThrow();
-        charlie = players.getPlayerByName("Charlie").orElseThrow();
-        jules = players.getPlayerByName("Jules").orElseThrow();
-        quinn = players.getPlayerByName("Quinn").orElseThrow();
+        alex = players.getPlayerById(of("Alex"));
+        charlie = players.getPlayerById(of("Charlie"));
+        jules = players.getPlayerById(of("Jules"));
+        quinn = players.getPlayerById(of("Quinn"));
     }
 
     @Test

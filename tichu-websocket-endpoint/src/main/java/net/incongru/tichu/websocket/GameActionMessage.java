@@ -14,8 +14,9 @@ public abstract class GameActionMessage implements IncomingMessage {
     //    @JsonUnwrapped -- TODO would be nice but fucks with typing
     public abstract ActionParam action();
 
-    public void accept(Session session, MessageHandler visitor) {
-        visitor.handle(session, this);
+    @Override
+    public void accept(Session session, String roomId, MessageHandler visitor) {
+        visitor.handle(session, roomId, this);
     }
 
 }

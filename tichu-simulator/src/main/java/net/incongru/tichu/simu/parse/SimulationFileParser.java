@@ -28,7 +28,7 @@ public class SimulationFileParser {
         int i = 0;
         while (i < lines.size()) {
             final TokenisedLine tokens = new TokenisedLine(lines.get(i));
-            final ActionParam param = actionLineParsers.parse(tokens);
+            final ActionParam.WithActor param = actionLineParsers.parse(tokens);
             final ImmutableActionAndCommands.Builder actionAndCommandsBuilder = ImmutableActionAndCommands.builder().actionParam(param);
             while (nextLineIsExpectation(lines, i)) {
                 i++;

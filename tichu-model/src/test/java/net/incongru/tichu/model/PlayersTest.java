@@ -1,10 +1,10 @@
 package net.incongru.tichu.model;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Iterator;
 
+import static net.incongru.tichu.model.UserId.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -12,28 +12,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PlayersTest {
     @Test
-    @Disabled("Currently doesn't work, but also not convinced by add/join impl")
-    void playerNamesMustBeUniqueCaseInsensitively() {
+    void samePlayerCantJoinMultipleTimes() {
         assertThrows(IllegalArgumentException.class, () -> {
             final Players players = new Players();
-            players.join(new Player("Quinn"), new Team("t1"));
-            players.join(new Player("Quinn"), new Team("t2"));
+            players.join(new Player(of("Quinn")), new Team("t1"));
+            players.join(new Player(of("Quinn")), new Team("t2"));
         });
         assertThrows(IllegalArgumentException.class, () -> {
             final Players players = new Players();
-            players.join(new Player("Quinn"), new Team("t1"));
-            players.join(new Player("Jules"), new Team("t2"));
-            players.join(new Player("quiNN"), new Team("t2"));
+            players.join(new Player(of("Quinn")), new Team("t1"));
+            players.join(new Player(of("Jules")), new Team("t2"));
+            players.join(new Player(of("Quinn")), new Team("t2"));
         });
-    }
-
-    @Test
-    void playerByNameIsCaseInsensitive() {
-        final Players players = TestUtil.samplePlayers();
-
-        assertThat(players.getPlayerByName("Salami")).isEmpty();
-        assertThat(players.getPlayerByName("charlie")).hasValue(players.getPlayerByName("Charlie").get());
-        assertThat(players.getPlayerByName("chaRLie")).hasValue(players.getPlayerByName("charliE").get());
     }
 
     @Test
@@ -44,10 +34,10 @@ class PlayersTest {
         players.add(t1);
         players.add(t2);
 
-        final Player alex = new Player("Alex");  // Quinn's team mate
-        final Player charlie = new Player("Charlie"); // Jules' team mate
-        final Player jules = new Player("Jules"); // Charlie's team mate
-        final Player quinn = new Player("Quinn"); // Alex's team mate
+        final Player alex = new Player(of("Alex"));  // Quinn's team mate
+        final Player charlie = new Player(of("Charlie")); // Jules' team mate
+        final Player jules = new Player(of("Jules")); // Charlie's team mate
+        final Player quinn = new Player(of("Quinn")); // Alex's team mate
 
         // Team membership influences play order, not join.
         // TODO we will probably decouple "joining" a game and deciding seat (i.e play order) later
@@ -57,7 +47,7 @@ class PlayersTest {
         players.join(quinn, t1);
         players.stream().forEach(Player::setReady);
 
-        final Iterator<Player> it = players.cycleFrom(players.getPlayerByName("Charlie").get());
+        final Iterator<Player> it = players.cycleFrom(players.getPlayerById(of("Charlie")));
         // Start at Charlie, team 2
         assertThat(it.next()).isEqualTo(charlie);
         // Next up should be a player from other team; which of the 2 will for now be determined by join order (i.e who joined team 1 after charlie joined)
@@ -73,7 +63,7 @@ class PlayersTest {
     @Test
     void cycleFromFirstCallToNextGivesGivenPlayer() {
         final Players players = TestUtil.samplePlayers();
-        final Player charlie = players.getPlayerByName("Charlie").orElseThrow();
+        final Player charlie = players.getPlayerById(of("Charlie"));
         // If we ask to "cycle from Charlie",
         final Iterator<Player> it = players.cycleFrom(charlie);
         // we expect the first call to it.next() to actually gives us back Charlie
@@ -87,13 +77,13 @@ class PlayersTest {
         final Team t2 = new Team("Team 2");
         players.add(t1);
         players.add(t2);
-        players.join(new Player("Alex"), t1);
+        players.join(new Player(of("Alex")), t1);
         assertFalse(players.isComplete());
-        players.join(new Player("Charlie"), t2);
+        players.join(new Player(of("Charlie")), t2);
         assertFalse(players.isComplete());
-        players.join(new Player("Jules"), t2);
+        players.join(new Player(of("Jules")), t2);
         assertFalse(players.isComplete());
-        players.join(new Player("Quinn"), t1);
+        players.join(new Player(of("Quinn")), t1);
         assertTrue(players.isComplete());
     }
 }

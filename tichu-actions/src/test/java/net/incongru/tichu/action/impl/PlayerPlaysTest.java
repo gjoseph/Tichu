@@ -1,6 +1,7 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,9 @@ import java.util.Collections;
 import java.util.Set;
 
 import static net.incongru.tichu.action.ActionResultAssert.assertThat;
-import static net.incongru.tichu.model.Play.PlayResult.Result.INVALIDPLAY;
-import static net.incongru.tichu.model.Play.PlayResult.Result.NEXTGOES;
-import static net.incongru.tichu.model.Play.PlayResult.Result.NOTINHAND;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.INVALID_PLAY;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.NEXT_PLAYER_GOES;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.NOT_IN_HAND;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.G9;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;
@@ -31,7 +32,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Collections.emptySet()))).isErrorPlayResult(INVALIDPLAY/*??*/);
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Collections.emptySet()))).isErrorPlayResult(INVALID_PLAY/* TODO is this the right error ??*/);
     }
 
     @Test
@@ -39,7 +40,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Set.of(G9)))).isErrorPlayResult(NOTINHAND, s -> s.startsWith("You don't have"));
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(G9)))).isErrorPlayResult(NOT_IN_HAND, s -> s.contains("You don't have those cards"));
     }
 
     @Test
@@ -47,7 +48,7 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(play.exec(ctx, PlayerPlaysParam.with("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong)))).isSuccessPlayResult(NEXT_PLAYER_GOES);
     }
 
     @Test
@@ -55,10 +56,10 @@ class PlayerPlaysTest {
         ctx.withCards(Set.of(), Set.of(), Set.of(MahJong), Set.of(B2)).allReady();
 
         final PlayerPlays play1 = new PlayerPlays();
-        assertThat(play1.exec(ctx, PlayerPlaysParam.with("jules", Set.of(MahJong)))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play1.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong)))).isSuccessPlayResult(NEXT_PLAYER_GOES);
 
         final PlayerPlays play2 = new PlayerPlays();
-        assertThat(play2.exec(ctx, PlayerPlaysParam.with("charlie", Collections.emptySet()))).isSuccessPlayResult(NEXTGOES);
+        assertThat(play2.exec(ctx, PlayerPlaysParam.withActor(UserId.of("charlie"), Collections.emptySet()))).isSuccessPlayResult(NEXT_PLAYER_GOES);
     }
 
 }

@@ -1,8 +1,8 @@
 package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.Action;
-import net.incongru.tichu.action.ActionResult;
-import net.incongru.tichu.action.ActionResult.Success;
+import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.model.Card;
@@ -24,7 +24,7 @@ class InitialiseGame implements Action<InitialiseGameParam> {
     }
 
     @Override
-    public ActionResult exec(GameContext ctx, InitialiseGameParam param) {
+    public ActionResponse exec(GameContext ctx, ActionParam.WithActor<InitialiseGameParam> param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));
@@ -43,9 +43,14 @@ class InitialiseGame implements Action<InitialiseGameParam> {
             }
         };
         ctx.newGame(game);
-        return new Success() {
-//                return "Game initialised";
-        };
+
+        // TODO other possible responses:
+        // game already started, perhaps team setup, rules, etc
+        return new SimpleResponse(
+                param.actor(),
+                ActionType.init,
+                InitialiseGameResult.OK
+        );
     }
 
     static class SimulatedTichuRules extends TichuRules {

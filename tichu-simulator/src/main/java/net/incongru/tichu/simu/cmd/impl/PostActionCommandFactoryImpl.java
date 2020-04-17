@@ -1,6 +1,7 @@
 package net.incongru.tichu.simu.cmd.impl;
 
 import net.incongru.tichu.model.Score;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
@@ -32,12 +33,12 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
 
     @Override
     public Simulation.PostActionCommand expectWinTrick(String expectedPlayerName) {
-        return new ExpectWinTrick(expectedPlayerName);
+        return new ExpectWinTrick(UserId.of(expectedPlayerName));
     }
 
     @Override
     public Simulation.PostActionCommand expectNextPlayerToBe(String expectedPlayerName) {
-        return new ExpectNextPlayerToBe(expectedPlayerName);
+        return new ExpectNextPlayerToBe(UserId.of(expectedPlayerName));
     }
 
     @Override
@@ -57,6 +58,6 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
 
     @Override
     public Simulation.PostActionCommand debugPlayerHand(String playerName) {
-        return new DebugPlayerHand(playerName);
+        return new DebugPlayerHand(UserId.of(playerName));
     }
 }

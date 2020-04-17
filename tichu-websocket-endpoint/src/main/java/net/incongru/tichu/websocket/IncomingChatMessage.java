@@ -12,8 +12,9 @@ import javax.websocket.Session;
 public abstract class IncomingChatMessage implements IncomingMessage {
     public abstract String content();
 
-    public void accept(Session session, MessageHandler visitor) {
-        visitor.handle(session, this);
+    @Override
+    public void accept(Session session, String roomId, MessageHandler visitor) {
+        visitor.handle(session, roomId, this);
     }
 
 }

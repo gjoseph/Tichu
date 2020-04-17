@@ -55,7 +55,7 @@ public class Trick {
         // Validate this player can play now - only currentPlayer can play, unless its a bomb
         if (!rules.isBomb(play) && !player.equals(currentPlayer)) {
             // TODO return different PlayResult.Result
-            return new Play.PlayResult(play, Play.PlayResult.Result.INVALIDSTATE, "not your turn, it's " + currentPlayer.name() + "'s turn");
+            return new Play.PlayResult(play, Play.PlayResult.Result.INVALIDSTATE, "not your turn");
         }
 
         // Validate cards against last play

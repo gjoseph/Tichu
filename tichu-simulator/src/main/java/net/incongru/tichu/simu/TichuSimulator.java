@@ -4,7 +4,8 @@ package net.incongru.tichu.simu;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
-import net.incongru.tichu.action.ActionResult;
+import net.incongru.tichu.action.ActionResponse;
+import net.incongru.tichu.action.GameContextFactory;
 import net.incongru.tichu.action.impl.ActionFactoryImpl;
 import net.incongru.tichu.simu.parse.SimulationFileParser;
 
@@ -16,7 +17,7 @@ import java.nio.file.Path;
  */
 public class TichuSimulator {
 
-    private final GameContextFactory gameContextFactory;
+    private final GameContextFactory<SimulatedGameContext> gameContextFactory;
     private final ActionFactory actionFactory;
 
     public TichuSimulator() {
@@ -29,10 +30,10 @@ public class TichuSimulator {
         final SimulatedGameContext ctx = gameContextFactory.newContext();
 
         for (Simulation.ActionAndCommands actionAndCommands : simu.actionAndCommands()) {
-            final ActionParam actionParam = actionAndCommands.actionParam();
+            final ActionParam.WithActor actionParam = actionAndCommands.actionParam();
             System.out.println("Executing action: " + actionParam);
-            final Action action = actionFactory.actionFor(actionParam);
-            final ActionResult res = action.exec(ctx, actionParam);
+            final Action action = actionFactory.actionFor(actionParam.param());
+            final ActionResponse res = action.exec(ctx, actionParam);
             System.out.println("Result: " + res);
             for (Simulation.PostActionCommand postActionCommand : actionAndCommands.commands()) {
                 System.out.println("PostActionCommand: " + postActionCommand);

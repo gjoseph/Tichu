@@ -1,12 +1,14 @@
 package net.incongru.tichu.websocket.codec;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -14,25 +16,34 @@ import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.ImmutableInitialiseGameParam;
 import net.incongru.tichu.action.param.ImmutableJoinTableParam;
 import net.incongru.tichu.action.param.ImmutableNewTrickParam;
 import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
-import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
+
+import java.io.IOException;
 
 class JacksonSetup {
 
     static ObjectMapper setupJacksonMapper() {
         final SimpleModule m = new SimpleModule();
 
-        // Card support
+        // Mixins to support custom serialisation of our non-javabean classes
         m.setMixInAnnotation(Card.class, CardJacksonSupport.class);
+        m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
+        m.setMixInAnnotation(ActionResponse.class, ActionResultJacksonSupport.class);
+        m.setMixInAnnotation(ActionResponse.Message.class, MessageJacksonSupport.class);
 
         // ActionParam support -- the mixin here is useless since we have @JsonTypeInfo on ActionParam
         // The fact that the annotation was needed to drive immutable to generate the right plumbing
@@ -40,11 +51,15 @@ class JacksonSetup {
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
-        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, "init"));
-        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, "join"));
-        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, "newTrick")); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, "isReady"));
-        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, "play"));
+        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, Action.ActionType.init.name()));
+        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, Action.ActionType.join.name()));
+        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, Action.ActionType.newTrick.name())); // TODO should not need this one?
+        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, Action.ActionType.ready.name()));
+        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, Action.ActionType.play.name()));
+
+        // All enums should be serialised in kebab-case
+        // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?
+        m.addSerializer(Enum.class, new EnumKebabSerializer());
 
         // Not sure how this is useful
         final PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator
@@ -58,6 +73,7 @@ class JacksonSetup {
                 .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
                 .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
                 .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .addModule(new Jdk8Module())
                 .addModule(m)
                 // .polymorphicTypeValidator(ptv)
@@ -77,6 +93,38 @@ class JacksonSetup {
         abstract String shortName();
     }
 
+    abstract static class UserIdJacksonSupport {
+        @JsonValue
+        String id;
+    }
+
+    static interface ActionResultJacksonSupport<R extends ActionResponse.Result> {
+
+        @JsonGetter
+        UserId actor();
+
+        @JsonGetter
+        Action.ActionType forAction();
+
+        @JsonGetter
+        R result();
+
+        @JsonGetter
+        net.incongru.tichu.action.ActionResponse.Message message();
+
+        // PlayerPlaysResponse properties:
+        @JsonGetter
+        Play play();
+
+        @JsonGetter
+        UserId nextPlayer();
+    }
+
+    abstract static class MessageJacksonSupport {
+        @JsonValue
+        String message;
+    }
+
     static class CardDeserializer extends FromStringDeserializer<Card> {
 
         public CardDeserializer() {
@@ -89,4 +137,15 @@ class JacksonSetup {
         }
     }
 
+    private static class EnumKebabSerializer extends StdSerializer<Enum> {
+        public EnumKebabSerializer() {
+            super(Enum.class);
+        }
+
+        @Override
+        public void serialize(Enum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            final String kebab = value.name().toLowerCase().replace('_', '-');
+            jgen.writeString(kebab);
+        }
+    }
 }

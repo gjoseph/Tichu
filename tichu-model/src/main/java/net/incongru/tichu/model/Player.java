@@ -2,6 +2,7 @@ package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
 
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -12,24 +13,24 @@ import java.util.stream.Collectors;
  *
  */
 public class Player {
-    private final String name;
+    private final UserId id;
     private boolean ready = false;
     private final Hand hand = new Hand();
     private final Set<Card> wonCards = new LinkedHashSet<>();
 
-    public Player(String name) {
-        Preconditions.checkNotNull(name, "Player name can't be null");
-        this.name = name;
+    public Player(@Nonnull UserId id) {
+        Preconditions.checkNotNull(id, "Player name can't be null");
+        this.id = id;
         this.ready = false;
     }
 
-    public String name() {
-        return name;
+    public UserId id() {
+        return id;
     }
 
     public void setReady() {
         if (this.ready) {
-            throw new IllegalStateException(name() + " is already ready");
+            throw new IllegalStateException(id() + " is already ready");
         }
         this.ready = true;
     }
@@ -77,10 +78,11 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
-                ", hand=" + hand +
-                ", wonCards=" + wonCards +
-                '}';
+               "id=" + id +
+               ", ready=" + ready +
+               ", hand=" + hand +
+               ", wonCards=" + wonCards +
+               '}';
     }
 
     public static class Hand {

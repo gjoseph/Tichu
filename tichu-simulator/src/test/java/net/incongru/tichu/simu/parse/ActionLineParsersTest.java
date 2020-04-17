@@ -2,11 +2,13 @@ package net.incongru.tichu.simu.parse;
 
 import com.google.common.collect.Sets;
 import net.incongru.tichu.action.ActionFactory;
+import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,14 +73,17 @@ class ActionLineParsersTest {
     @Test
     void recognisesInitAction() {
         assertThat(parsers.parse(t("init")))
-                .isInstanceOf(InitialiseGameParam.class);
+                .isInstanceOf(ActionParam.WithActor.class)
+                .satisfies(withActor -> {
+                    assertThat(withActor.param()).isInstanceOf(InitialiseGameParam.class);
+                });
     }
 
     @ParameterizedTest
     @MethodSource
     void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
         assertThat(parsers.parse(t(txt)))
-                .isEqualTo(JoinTableParam.with(expectedPlayerName, expectedTeamIndex));
+                .isEqualTo(JoinTableParam.withActor(UserId.of(expectedPlayerName), expectedTeamIndex));
     }
 
     static Stream<Arguments> joinTeamActionIs0Indexed() {
@@ -91,25 +96,25 @@ class ActionLineParsersTest {
     @Test
     void recognisesPlayerIsReady() {
         assertThat(parsers.parse(t("jules is ready")))
-                .isEqualTo(PlayerIsReadyParam.with("jules"));
+                .isEqualTo(PlayerIsReadyParam.withActor(UserId.of("jules")));
     }
 
     @Test
     void recognisesCheatDeal() {
         assertThat(parsers.parse(t("cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra")))
-                .isEqualTo(CheatDealParam.with("quinn", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA)));
+                .isEqualTo(CheatDealParam.withActor(UserId.of("quinn"), Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK, RA)));
     }
 
     @Test
     void recognisesPlayerPlays() {
         assertThat(parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8")))
-                .isEqualTo(PlayerPlaysParam.with("alex", Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8)));
+                .isEqualTo(PlayerPlaysParam.withActor(UserId.of("alex"), Sets.newHashSet(MahJong, R2, B3, K4, G5, R6, B7, K8)));
     }
 
     @Test
     void recognisesPlayerPasses() {
         assertThat(parsers.parse(t("alex passes")))
-                .isEqualTo(PlayerPlaysParam.with("alex", Collections.emptySet()));
+                .isEqualTo(PlayerPlaysParam.withActor(UserId.of("alex"), Collections.emptySet()));
     }
 
     @Test

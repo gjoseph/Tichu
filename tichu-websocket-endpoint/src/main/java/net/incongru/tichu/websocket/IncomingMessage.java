@@ -9,7 +9,7 @@ import javax.websocket.Session;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         // our json shapes will have a "type" with values as specified below
-        property = "type"
+        property = "messageType"
 )
 @JsonSubTypes({
         // We specify the type here using the Immutable* impls so serialising uses the correct name
@@ -20,5 +20,5 @@ import javax.websocket.Session;
 public interface IncomingMessage {
 
     // Visitor pattern to be implemented by subtypes
-    void accept(Session session, MessageHandler visitor);
+    void accept(Session session, String roomId, MessageHandler visitor);
 }

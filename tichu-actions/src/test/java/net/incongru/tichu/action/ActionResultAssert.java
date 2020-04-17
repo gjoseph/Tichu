@@ -1,55 +1,64 @@
 package net.incongru.tichu.action;
 
-import net.incongru.tichu.action.ActionResult.AbstractPlayResult;
-import net.incongru.tichu.action.ActionResult.Error;
-import net.incongru.tichu.action.ActionResult.ErrorPlayResult;
-import net.incongru.tichu.action.ActionResult.Success;
-import net.incongru.tichu.action.ActionResult.SuccessPlayResult;
-import net.incongru.tichu.model.Play;
+import net.incongru.tichu.action.impl.PlayerPlaysResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class ActionResultAssert extends AbstractAssert<ActionResultAssert, ActionResult> {
-    public static ActionResultAssert assertThat(ActionResult actual) {
+public class ActionResultAssert extends AbstractAssert<ActionResultAssert, ActionResponse> {
+    public static ActionResultAssert assertThat(ActionResponse actual) {
         return new ActionResultAssert(actual);
     }
 
-    public ActionResultAssert(ActionResult actual) {
+    public ActionResultAssert(ActionResponse actual) {
         super(actual, ActionResultAssert.class);
     }
 
-    public ActionResultAssert isSuccessPlayResult(Play.PlayResult.Result expectedResultType) {
+    public ActionResultAssert isSuccessPlayResult(PlayerPlaysResult expectedResultType) {
         isNotNull();
         // not producing great stack trace (starts in the assert methods) or errors (bc PlayResult doesnt have a toString)
-        return isInstanceOfSatisfying(SuccessPlayResult.class, hasResultType(expectedResultType));
+        return isInstanceOf(PlayerPlaysResponse.class)
+                .satisfies(isSuccessful(true))
+                .satisfies(hasResultType(expectedResultType));
     }
 
-    public ActionResultAssert isErrorPlayResult(Play.PlayResult.Result expectedResultType) {
+    public ActionResultAssert isErrorPlayResult(PlayerPlaysResult expectedResultType) {
         return isErrorPlayResult(expectedResultType, s -> true);
     }
 
-    public ActionResultAssert isErrorPlayResult(Play.PlayResult.Result expectedResultType, Predicate<String> errorMessagePredicate) {
+    public ActionResultAssert isErrorPlayResult(PlayerPlaysResult expectedResultType, Predicate<String> errorMessagePredicate) {
         isNotNull();
-        return isInstanceOfSatisfying(ErrorPlayResult.class, hasResultType(expectedResultType));
+        return isInstanceOf(PlayerPlaysResponse.class)
+                .satisfies(isSuccessful(false))
+                .satisfies(hasResultType(expectedResultType))
+                .satisfies(hasMessage(errorMessagePredicate));
     }
 
     public ActionResultAssert isSuccessResult() {
         isNotNull();
-        return isInstanceOf(Success.class);
+        return satisfies(isSuccessful(true));
     }
 
     public ActionResultAssert isErrorResult(Predicate<String> errorMessagePredicate) {
         isNotNull();
-        return isInstanceOf(Error.class).satisfies(r -> {
-            final String error = ((Error) r).error();
-            Assertions.assertThat(error).matches(errorMessagePredicate);
-        });
+        // TODO maybe we want to differentiate error/fail
+        return satisfies(isSuccessful(false)).satisfies(hasMessage(errorMessagePredicate));
     }
 
-    private <T extends AbstractPlayResult> Consumer<T> hasResultType(Play.PlayResult.Result expectedResultType) {
-        return r -> Assertions.assertThat(r.playResult().result()).isEqualTo(expectedResultType);
+    private Consumer<ActionResponse> isSuccessful(boolean expectedSuccessful) {
+        return r -> Assertions.assertThat(r.result().isSuccessful()).isEqualTo(expectedSuccessful);
+    }
+
+    private <ARR extends ActionResponse.Result> Consumer<ActionResponse> hasResultType(ARR expectedResultType) {
+        // Using equalTo since we expect all impls of Result to be enums
+        return r -> Assertions.assertThat(r.result()).isEqualTo(expectedResultType);
+    }
+
+    private Consumer<ActionResponse> hasMessage(Predicate<String> messagePredicate) {
+        // TODO we're asserting on toString of Message, which is not great
+        return r -> Assertions.assertThat(r.message().toString()).matches(messagePredicate);
     }
 }

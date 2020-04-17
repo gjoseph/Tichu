@@ -2,6 +2,7 @@ package net.incongru.tichu.action.impl;
 
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.model.HandAssert;
+import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,19 +31,19 @@ class CheatDealTest {
     void distributesCardsAsSpecified() {
         final CheatDeal action = new CheatDeal();
 
-        assertThat(action.exec(ctx, CheatDealParam.with("alex", Set.of(MahJong, G2, G5)))).isSuccessResult();
-        HandAssert.assertThat(ctx.player("alex").hand()).containsOnly(MahJong, G2, G5);
+        assertThat(action.exec(ctx, CheatDealParam.withActor(UserId.of("alex"), Set.of(MahJong, G2, G5)))).isSuccessResult();
+        HandAssert.assertThat(ctx.player(UserId.of("alex")).hand()).containsOnly(MahJong, G2, G5);
     }
 
     @Test
     void tooLateIfGameReady() {
         // pre-deal some cards
-        new CheatDeal().exec(ctx, CheatDealParam.with("charlie", Set.of(MahJong, B2, B3)));
+        new CheatDeal().exec(ctx, CheatDealParam.withActor(UserId.of("charlie"), Set.of(MahJong, B2, B3)));
         ctx.allReady();
 
         //
         assertThrows(IllegalStateException.class, () -> {
-            new CheatDeal().exec(ctx, CheatDealParam.with("alex", Set.of(G2, G5)));
+            new CheatDeal().exec(ctx, CheatDealParam.withActor(UserId.of("alex"), Set.of(G2, G5)));
         });
     }
 
