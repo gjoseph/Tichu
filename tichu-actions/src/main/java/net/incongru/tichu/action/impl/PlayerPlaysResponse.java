@@ -32,15 +32,15 @@ public class PlayerPlaysResponse extends SimpleResponse<PlayerPlaysResult> {
             case TRICK_END:
                 return PlayerPlaysResult.TRICK_END;
             case NEXTGOES:
-                return PlayerPlaysResult.NEXTGOES;
+                return PlayerPlaysResult.NEXT_PLAYER_GOES;
             case TOOWEAK:
-                return PlayerPlaysResult.TOOWEAK;
+                return PlayerPlaysResult.TOO_WEAK;
             case INVALIDPLAY:
-                return PlayerPlaysResult.INVALIDPLAY;
+                return PlayerPlaysResult.INVALID_PLAY;
             case INVALIDSTATE:
-                return PlayerPlaysResult.INVALIDSTATE;
+                return PlayerPlaysResult.INVALID_STATE;
             case NOTINHAND:
-                return PlayerPlaysResult.NOTINHAND;
+                return PlayerPlaysResult.NOT_IN_HAND;
             default:
                 throw new IllegalStateException("Unknown result type :" + res);
         }

@@ -89,12 +89,12 @@ public interface PostActionCommandFactory {
     }
 
     enum ExpectablePlayResult implements NameableEnum {
-        NextGoes(Play.PlayResult.Result.NEXTGOES, PlayerPlaysResult.NEXTGOES, "next goes", "next"),
+        NextGoes(Play.PlayResult.Result.NEXTGOES, PlayerPlaysResult.NEXT_PLAYER_GOES, "next goes", "next"),
         TrickEnd(Play.PlayResult.Result.TRICK_END, PlayerPlaysResult.TRICK_END, "trick end", "take pile", "win trick"), // TODO is this really win-trick?
-        NotInHand(Play.PlayResult.Result.NOTINHAND, PlayerPlaysResult.NOTINHAND, "not in hand", "cheat", "stop stealing cards you dingo"),
-        TooWeak(Play.PlayResult.Result.TOOWEAK, PlayerPlaysResult.TOOWEAK, "too weak"),
-        InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, PlayerPlaysResult.INVALIDPLAY, "invalid play", "invalid combo", "wtf is this even"),
-        NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, PlayerPlaysResult.INVALIDSTATE, "not your turn");
+        NotInHand(Play.PlayResult.Result.NOTINHAND, PlayerPlaysResult.NOT_IN_HAND, "not in hand", "cheat", "stop stealing cards you dingo"),
+        TooWeak(Play.PlayResult.Result.TOOWEAK, PlayerPlaysResult.TOO_WEAK, "too weak"),
+        InvalidPlay(Play.PlayResult.Result.INVALIDPLAY, PlayerPlaysResult.INVALID_PLAY, "invalid play", "invalid combo", "wtf is this even"),
+        NotYourTurn(Play.PlayResult.Result.INVALIDSTATE, PlayerPlaysResult.INVALID_STATE, "not your turn");
 
         private final Play.PlayResult.Result modelEquivalent;
         private final PlayerPlaysResult actionResponseEquivalent;

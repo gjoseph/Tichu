@@ -71,7 +71,7 @@ class JacksonCodecTest {
                         "  messageType: 'game', " +
                         "  forAction: 'join', " +
                         "  actor: 'dummy', " +
-                        "  result: 'OK_TABLE_IS_NOW_FULL', " +
+                        "  result: 'ok-table-is-now-full', " +
                         "  message: 'join was OK_TABLE_IS_NOW_FULL'" + // temporary message
                         " }"),
                 arguments(ImmutableGameActionResultMessage.builder().result(new PlayerPlaysResponse(
@@ -89,7 +89,7 @@ class JacksonCodecTest {
                         "  forAction: 'play', " +
                         "  actor: 'dummy-1', " +
                         "  nextPlayer: 'dummy-2', " +
-                        "  result: 'NEXTGOES', " +
+                        "  result: 'next-player-goes', " +
                         "  message: 'test', " +
                         // Cards aren't quoted?
                         // This is pbly a temporary shape for play!?

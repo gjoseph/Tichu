@@ -3,12 +3,12 @@ package net.incongru.tichu.action.impl;
 import net.incongru.tichu.action.ActionResponse;
 
 public enum PlayerPlaysResult implements ActionResponse.Result {
-    NEXTGOES,
+    NEXT_PLAYER_GOES,
     TRICK_END,
-    TOOWEAK(false),
-    NOTINHAND(false),
-    INVALIDPLAY(false),
-    INVALIDSTATE(false);
+    TOO_WEAK(false),
+    NOT_IN_HAND(false),
+    INVALID_PLAY(false),
+    INVALID_STATE(false);
 
     private final boolean success;
 
