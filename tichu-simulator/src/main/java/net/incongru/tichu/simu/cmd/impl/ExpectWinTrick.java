@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.impl.PlayerPlaysActionResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResponse;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.model.UserId;
@@ -17,7 +17,7 @@ class ExpectWinTrick extends ExpectPlayResult {
     }
 
     @Override
-    protected void doExec(SimulatedGameContext ctx, PlayerPlaysActionResponse response) {
+    protected void doExec(SimulatedGameContext ctx, PlayerPlaysResponse response) {
         super.doExec(ctx, response);
 
         final Trick trick = ctx.game().currentRound().currentTrick();

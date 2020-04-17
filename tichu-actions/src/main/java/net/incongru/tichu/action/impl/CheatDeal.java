@@ -24,10 +24,7 @@ class CheatDeal implements Action<CheatDealParam> {
         final Player player = ctx.player(param.actor());
         param.param().cards().forEach(c -> player.deal(c));
 
-        return new SimpleActionResponse(param.actor(), ActionType.cheatDeal, CheatDealResult.OK);
+        return new SimpleResponse(param.actor(), ActionType.cheatDeal, CheatDealResult.OK);
     }
 
-    enum CheatDealResult implements ActionResponse.Result {
-        OK;
-    }
 }

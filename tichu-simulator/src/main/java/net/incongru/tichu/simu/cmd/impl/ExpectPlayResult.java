@@ -1,11 +1,12 @@
 package net.incongru.tichu.simu.cmd.impl;
 
-import net.incongru.tichu.action.impl.PlayerPlaysActionResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
-class ExpectPlayResult extends AbstractExpectResult<PlayerPlaysActionResponse> {
+class ExpectPlayResult extends AbstractExpectResult<PlayerPlaysResponse> {
 
     private final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult;
 
@@ -14,8 +15,8 @@ class ExpectPlayResult extends AbstractExpectResult<PlayerPlaysActionResponse> {
     }
 
     @Override
-    protected void doExec(SimulatedGameContext ctx, PlayerPlaysActionResponse response) {
-        final PlayerPlaysActionResponse.PlayerPlaysResult actualResult = response.result();
+    protected void doExec(SimulatedGameContext ctx, PlayerPlaysResponse response) {
+        final PlayerPlaysResult actualResult = response.result();
         boolean match = expectedPlayResult.test(actualResult);
         if (match) {
             ctx.log("Play was %s, as expected", expectedPlayResult);
@@ -30,7 +31,7 @@ class ExpectPlayResult extends AbstractExpectResult<PlayerPlaysActionResponse> {
     }
 
     @Override
-    protected Class<PlayerPlaysActionResponse> expectedResult() {
-        return PlayerPlaysActionResponse.class;
+    protected Class<PlayerPlaysResponse> expectedResult() {
+        return PlayerPlaysResponse.class;
     }
 }

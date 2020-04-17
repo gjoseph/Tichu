@@ -22,27 +22,7 @@ class JoinTable implements Action<JoinTableParam> {
         players.join(new Player(param.actor()), team);
 
         // TODO return Error if team full, wrong player etc
-        return new SimpleActionResponse(param.actor(), ActionType.join, JoinResult.OK);
-    }
-
-    enum JoinResult implements ActionResponse.Result {
-        CAN_NOT_JOIN_FULL_TABLE(false),
-        OK, OK_TABLE_IS_NOW_FULL;
-
-        private final boolean success;
-
-        JoinResult() {
-            this(true);
-        }
-
-        JoinResult(boolean success) {
-            this.success = success;
-        }
-
-        @Override
-        public boolean isSuccessful() {
-            return this.success;
-        }
+        return new SimpleResponse(param.actor(), ActionType.join, JoinTableResult.OK);
     }
 
 }

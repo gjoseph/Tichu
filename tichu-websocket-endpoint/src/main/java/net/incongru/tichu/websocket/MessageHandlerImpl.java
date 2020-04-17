@@ -70,7 +70,6 @@ public class MessageHandlerImpl implements MessageHandler {
         final ActionResponse res = action.exec(ctx, withActor);
 
         final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
-                .player(user)
                 .result(res)
                 .build();
         sessions.broadcast(msg);

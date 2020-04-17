@@ -23,7 +23,7 @@ class PlayerPlays implements Action<PlayerPlaysParam> {
         // ... the next player is whoever won the trick
         //
         final boolean isTrickEnd = playResult.result() == Play.PlayResult.Result.TRICK_END;
-        return new PlayerPlaysActionResponse(
+        return new PlayerPlaysResponse(
                 param.actor(),
                 playResult,
                 isTrickEnd ? null : trick.currentPlayer().id(),

@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.Set;
 
 import static net.incongru.tichu.action.ActionResultAssert.assertThat;
-import static net.incongru.tichu.action.impl.PlayerPlaysActionResponse.PlayerPlaysResult.INVALIDPLAY;
-import static net.incongru.tichu.action.impl.PlayerPlaysActionResponse.PlayerPlaysResult.NEXTGOES;
-import static net.incongru.tichu.action.impl.PlayerPlaysActionResponse.PlayerPlaysResult.NOTINHAND;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.INVALIDPLAY;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.NEXTGOES;
+import static net.incongru.tichu.action.impl.PlayerPlaysResult.NOTINHAND;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.G9;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;

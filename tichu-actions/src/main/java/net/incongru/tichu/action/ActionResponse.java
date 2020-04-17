@@ -1,6 +1,5 @@
 package net.incongru.tichu.action;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import net.incongru.tichu.model.UserId;
 
 import javax.annotation.Nonnull;
@@ -14,16 +13,13 @@ public interface ActionResponse<R extends ActionResponse.Result> {
 //        String actorLog(); // i18n?
 
     // TODO a generic Fail response? or is that sthg we'd do in a try/catch block elsewhere
-    @JsonGetter
+
     UserId actor();
 
-    @JsonGetter
     Action.ActionType forAction();
 
-    @JsonGetter
     R result();
 
-    @JsonGetter
     Message message();
 
     interface Result {

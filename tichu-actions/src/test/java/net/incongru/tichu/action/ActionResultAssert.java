@@ -1,6 +1,7 @@
 package net.incongru.tichu.action;
 
-import net.incongru.tichu.action.impl.PlayerPlaysActionResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResponse;
+import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
@@ -16,21 +17,21 @@ public class ActionResultAssert extends AbstractAssert<ActionResultAssert, Actio
         super(actual, ActionResultAssert.class);
     }
 
-    public ActionResultAssert isSuccessPlayResult(PlayerPlaysActionResponse.PlayerPlaysResult expectedResultType) {
+    public ActionResultAssert isSuccessPlayResult(PlayerPlaysResult expectedResultType) {
         isNotNull();
         // not producing great stack trace (starts in the assert methods) or errors (bc PlayResult doesnt have a toString)
-        return isInstanceOf(PlayerPlaysActionResponse.class)
+        return isInstanceOf(PlayerPlaysResponse.class)
                 .satisfies(isSuccessful(true))
                 .satisfies(hasResultType(expectedResultType));
     }
 
-    public ActionResultAssert isErrorPlayResult(PlayerPlaysActionResponse.PlayerPlaysResult expectedResultType) {
+    public ActionResultAssert isErrorPlayResult(PlayerPlaysResult expectedResultType) {
         return isErrorPlayResult(expectedResultType, s -> true);
     }
 
-    public ActionResultAssert isErrorPlayResult(PlayerPlaysActionResponse.PlayerPlaysResult expectedResultType, Predicate<String> errorMessagePredicate) {
+    public ActionResultAssert isErrorPlayResult(PlayerPlaysResult expectedResultType, Predicate<String> errorMessagePredicate) {
         isNotNull();
-        return isInstanceOf(PlayerPlaysActionResponse.class)
+        return isInstanceOf(PlayerPlaysResponse.class)
                 .satisfies(isSuccessful(false))
                 .satisfies(hasResultType(expectedResultType))
                 .satisfies(hasMessage(errorMessagePredicate));

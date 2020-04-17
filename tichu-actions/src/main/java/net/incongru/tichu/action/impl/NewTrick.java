@@ -13,10 +13,7 @@ class NewTrick implements Action<NewTrickParam> {
     public ActionResponse exec(GameContext ctx, ActionParam.WithActor<NewTrickParam> param) {
         final Trick trick = ctx.game().currentRound().newTrick();
         ctx.log("New trick! %s", trick);
-        return new SimpleActionResponse(param.actor(), ActionType.newTrick, NewTrickResult.OK);
+        return new SimpleResponse(param.actor(), ActionType.newTrick, NewTrickResult.OK);
     }
 
-    enum NewTrickResult implements ActionResponse.Result {
-        OK;
-    }
 }

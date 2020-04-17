@@ -9,7 +9,7 @@ import javax.websocket.Session;
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         // our json shapes will have a "type" with values as specified below
-        property = "type"
+        property = "messageType"
 )
 @JsonSubTypes({
         // We specify the type here using the Immutable* impls so serialising uses the correct name

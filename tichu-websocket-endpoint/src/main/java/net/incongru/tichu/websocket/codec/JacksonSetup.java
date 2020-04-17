@@ -1,5 +1,6 @@
 package net.incongru.tichu.websocket.codec;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.CheatDealParam;
@@ -22,6 +24,7 @@ import net.incongru.tichu.action.param.ImmutableNewTrickParam;
 import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
@@ -89,12 +92,32 @@ class JacksonSetup {
         String id;
     }
 
+    static interface ActionResultJacksonSupport<R extends ActionResponse.Result> {
+
+        @JsonGetter
+        UserId actor();
+
+        @JsonGetter
+        Action.ActionType forAction();
+
+        @JsonGetter
+        R result();
+
+        @JsonGetter
+        net.incongru.tichu.action.ActionResponse.Message message();
+
+        // PlayerPlaysResponse properties:
+        @JsonGetter
+        Play play();
+
+        @JsonGetter
+        UserId nextPlayer();
+    }
+
     abstract static class MessageJacksonSupport {
         @JsonValue
         String message;
     }
-
-    abstract static class ActionResultJacksonSupport{}
 
     static class CardDeserializer extends FromStringDeserializer<Card> {
 

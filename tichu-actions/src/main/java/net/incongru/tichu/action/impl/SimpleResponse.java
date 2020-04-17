@@ -1,5 +1,6 @@
 package net.incongru.tichu.action.impl;
 
+import com.google.common.annotations.VisibleForTesting;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.model.UserId;
@@ -7,18 +8,19 @@ import net.incongru.tichu.model.UserId;
 /**
  * {@link ActionResponse} for actions that don't require additional params in their response.
  */
-public class SimpleActionResponse<R extends ActionResponse.Result> implements ActionResponse<R> {
+public class SimpleResponse<R extends ActionResponse.Result> implements ActionResponse<R> {
 
     private final UserId actor;
     private final Action.ActionType actionType;
     private final R result;
     private final Message message;
 
-    SimpleActionResponse(UserId actor, Action.ActionType actionType, R result) {
+    @VisibleForTesting
+    public SimpleResponse(UserId actor, Action.ActionType actionType, R result) {
         this(actor, actionType, result, new Message(actionType + " was " + result));
     }
 
-    SimpleActionResponse(UserId actor, Action.ActionType actionType, R result, Message message) {
+    SimpleResponse(UserId actor, Action.ActionType actionType, R result, Message message) {
         this.actor = actor;
         this.actionType = actionType;
         this.result = result;
@@ -47,7 +49,7 @@ public class SimpleActionResponse<R extends ActionResponse.Result> implements Ac
 
     @Override
     public String toString() {
-        return "SimpleActionResponse{" +
+        return "SimpleResponse{" +
                "actor=" + actor +
                ", actionType=" + actionType +
                ", result=" + result +

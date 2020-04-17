@@ -46,10 +46,10 @@ class InitialiseGame implements Action<InitialiseGameParam> {
 
         // TODO other possible responses:
         // game already started, perhaps team setup, rules, etc
-        return new SimpleActionResponse(
+        return new SimpleResponse(
                 param.actor(),
                 ActionType.init,
-                InitResult.OK
+                InitialiseGameResult.OK
         );
     }
 
@@ -85,7 +85,4 @@ class InitialiseGame implements Action<InitialiseGameParam> {
 
     }
 
-    enum InitResult implements ActionResponse.Result {
-        OK;
-    }
 }

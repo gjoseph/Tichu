@@ -19,29 +19,11 @@ class PlayerIsReady implements Action<PlayerIsReadyParam> {
         if (game.players().areAllReady()) {
             game.start(); // TODO do we want to check isReadyToStart?
             game.currentRound().start(); // TODO see net.incongru.tichu.model.Round.start
-            return new SimpleActionResponse(param.actor(), ActionType.isReady, PlayerIsReadyResult.OK_STARTED);
+            return new SimpleResponse(param.actor(), ActionType.isReady, PlayerIsReadyResult.OK_STARTED);
         } else {
-            return new SimpleActionResponse(param.actor(), ActionType.isReady, PlayerIsReadyResult.OK);
+            return new SimpleResponse(param.actor(), ActionType.isReady, PlayerIsReadyResult.OK);
         }
     }
 
 
-    enum PlayerIsReadyResult implements ActionResponse.Result {
-        OK, OK_STARTED;
-
-        private final boolean success;
-
-        PlayerIsReadyResult() {
-            this(true);
-        }
-
-        PlayerIsReadyResult(boolean success) {
-            this.success = success;
-        }
-
-        @Override
-        public boolean isSuccessful() {
-            return this.success;
-        }
-    }
 }
