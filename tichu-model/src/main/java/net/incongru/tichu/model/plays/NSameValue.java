@@ -26,7 +26,7 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
     @Override
     protected boolean canBePlayedAfterTypeSafe(P other) {
         return other.getCards().size() == this.getCards().size() // Not very useful, since we check the class, but at least explicit
-                && other.value.playOrder() < this.value.playOrder();
+               && other.value.playOrder() < this.value.playOrder();
     }
 
     @Override

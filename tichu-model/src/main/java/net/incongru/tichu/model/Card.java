@@ -61,7 +61,7 @@ public class Card {
         }
         Card card = (Card) o;
         return Objects.equals(val, card.val) &&
-                Objects.equals(suit, card.suit);
+               Objects.equals(suit, card.suit);
     }
 
     @Override
