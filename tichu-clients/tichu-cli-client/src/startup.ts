@@ -1,4 +1,4 @@
-import { Actions } from "./actions";
+import { Actions } from "./messages";
 
 export interface GameOpts {
     room: string;

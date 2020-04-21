@@ -1,16 +1,28 @@
 import WebSocket from "ws";
 import inquirer from "inquirer";
 import { Cards } from "./cards";
-import { GameMessage, JoinParam, Message } from "./actions";
+import {
+    IncomingChatMessage,
+    IncomingGameMessage,
+    IncomingMessage,
+    JoinParam,
+    OutgoingChatMessage,
+    OutgoingGameMessage,
+    OutgoingMessage,
+    PlayerIsReadyParam,
+    PlayerPlaysParam
+} from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
 
 export class WSTichuClient {
-    private console: Console;
     private _webSocket: WebSocket | undefined;
+    private console: Console;
+    private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
 
     constructor(readonly opts: GameOpts) {
         this.console = new Console();
+        this.nextPrompt = undefined;
     }
 
     connect(url: string) {
@@ -27,50 +39,105 @@ export class WSTichuClient {
     // https://www.npmjs.com/package/https-proxy-agent could be needed as well
 
     waitUntilDone(): Status {
+        // while (true) {
+        //     console.log("...next question...");
+        //     this.prompt()
+        //     console.log("....thanks.,,,")
+        // }
         return "Done";
     }
 
+    ask = (question: any) => {
+        // question: DistinctQuestion) => {
+        return inquirer.prompt([question]);
+    };
+
     promptForCards = () => {
-        inquirer
-            .prompt([
-                {
-                    message:
-                        "Pick cards with space, hit enter to play them. Just hit enter to pass.",
-                    type: "checkbox",
-                    name: "cards",
-                    choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
-                    pageSize: 20
-                }
-            ])
-            .then((answers: any) => {
-                console.log("answers:", answers);
-                return "ok";
-            });
+        const question = {
+            message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
+            type: "checkbox",
+            name: "cards",
+            choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
+            pageSize: 20
+        };
+        return this.ask(question).then((answers: any) => {
+            return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
+        });
+    };
+
+    promptForJoin = () => {
+        return this.ask({
+            type: "confirm",
+            name: "join",
+            message: "Join table?"
+        }).then((answers: any) => {
+            if (answers.join) {
+                return new OutgoingGameMessage(new JoinParam(this.opts.team));
+            } else {
+                return new OutgoingChatMessage("Not joining");
+            }
+        });
+    };
+
+    promptForReadiness = () => {
+        return this.ask({
+            type: "confirm",
+            name: "ready",
+            message: "Are you ready?"
+        }).then((answers: any) => {
+            if (answers.ready) {
+                return new OutgoingGameMessage(new PlayerIsReadyParam());
+            } else {
+                return new OutgoingChatMessage("Not ready");
+            }
+        });
     };
 
     private onConnect() {
-        const joinParam = new JoinParam(this.opts.user, this.opts.team);
-        const msg = new GameMessage(joinParam);
-        this.send(msg);
-
-        // on receive, set next prompt function
-
-        // loop:
-        // prompt for action, send we message
-        this.promptForCards();
+        // TODO nextPrompt=join if game already exists in room, otherwise setup game
+        this.nextPrompt = this.promptForJoin;
     }
 
-    send = (msg: Message) => {
-        this.ws().send(JSON.stringify(msg));
+    send = (msg: OutgoingMessage) => {
+        const msgJson = JSON.stringify(msg);
+        this.console.debug(" Sending", msgJson);
+        this.ws().send(msgJson);
     };
 
     private receive(data: WebSocket.Data) {
-        // cast will pbly fail
+        // there's gotta be a better way than just casting to string
+        const res = JSON.parse(data as string) as IncomingMessage;
+        this.console.debug("Received", res);
+
+        if (res.messageType === "chat") {
+            this.handleChatMessage(res as IncomingChatMessage);
+        } else if (res.messageType === "game") {
+            this.handleGameMessage(res as IncomingGameMessage);
+        } else {
+            throw new Error("Unknown message type: " + res.messageType);
+        }
+
+        if (this.nextPrompt) {
+            this.nextPrompt().then(this.send);
+        }
+    }
+
+    private handleChatMessage(res: IncomingChatMessage) {
         this.console.print(
             Console.Types.Incoming,
-            data as string,
+            res.content,
             Console.Colors.Blue
         );
+    }
+
+    private handleGameMessage(msg: IncomingGameMessage) {
+        // set nextPrompt depending on received message
+        // unclear what happens with prompts if we receive multiple messages. Probably fucks us over
+        console.log("msg.forAction:", msg.forAction);
+        if (msg.forAction === "join" && msg.result === "ok") {
+            this.nextPrompt = this.promptForReadiness;
+        }
+        // TODO etc...
     }
 
     close = () => {
