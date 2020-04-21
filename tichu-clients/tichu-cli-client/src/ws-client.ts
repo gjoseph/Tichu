@@ -154,7 +154,15 @@ export class WSTichuClient {
     private webSocketSetup(url: string, wsConsole: Console): WebSocket {
         const noop = () => {};
 
-        const ws = new WebSocket(url); // TODO wtf are subprotocols
+        // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
+        const userPass = `${this.opts.user}:${this.opts.user}`;
+        const authHeaderValue =
+            "Basic " + Buffer.from(userPass).toString("base64");
+        const ws = new WebSocket(url, {
+            headers: {
+                Authorization: authHeaderValue
+            }
+        }); // TODO wtf are subprotocols
 
         ws.on("open", () => {
             wsConsole.print(
