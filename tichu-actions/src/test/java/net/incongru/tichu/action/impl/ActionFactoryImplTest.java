@@ -34,8 +34,8 @@ class ActionFactoryImplTest {
 
     @Test
     void newInstancesOnEachCall() {
-        final Action<InitialiseGameParam> first = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
-        final Action<InitialiseGameParam> second = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
+        final Action<InitialiseGameParam, ?> first = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
+        final Action<InitialiseGameParam, ?> second = actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
         assertThat(first).isNotSameAs(second);
     }
 

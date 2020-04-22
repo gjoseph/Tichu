@@ -7,14 +7,14 @@ import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.model.Player;
 
-class CheatDeal implements Action<CheatDealParam> {
+class CheatDeal implements Action<CheatDealParam, CheatDealResult> {
 
     CheatDeal() {
         // TODO check we're in cheat/simu mode
     }
 
     @Override
-    public ActionResponse exec(GameContext ctx, ActionParam.WithActor<CheatDealParam> param) {
+    public ActionResponse<CheatDealResult> exec(GameContext ctx, ActionParam.WithActor<CheatDealParam> param) {
         if (ctx.game().isStarted()) {
             throw new IllegalStateException("Game is already started");
         }
@@ -24,7 +24,7 @@ class CheatDeal implements Action<CheatDealParam> {
         final Player player = ctx.player(param.actor());
         param.param().cards().forEach(c -> player.deal(c));
 
-        return new SimpleResponse(param.actor(), ActionType.cheatDeal, CheatDealResult.OK);
+        return new SimpleResponse<>(param.actor(), ActionType.cheatDeal, CheatDealResult.OK);
     }
 
 }
