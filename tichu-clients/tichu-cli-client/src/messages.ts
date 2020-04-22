@@ -38,7 +38,14 @@ export class OutgoingGameMessage implements Message {
 }
 
 type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
-type IncomingResult = "ok" | "";
+type IncomingResult =
+    // join:
+    | "can-not-join-full-table"
+    | "ok"
+    | "ok-table-is-now-full"
+    // playerIsReady
+    | "ok"
+    | "ok-started";
 type Actor = string;
 type ActionResultMessage = string;
 

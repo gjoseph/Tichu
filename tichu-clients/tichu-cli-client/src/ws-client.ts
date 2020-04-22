@@ -72,7 +72,9 @@ export class WSTichuClient {
             message: "Join table?"
         }).then((answers: any) => {
             if (answers.join) {
-                return new OutgoingGameMessage(new JoinParam(this.opts.team));
+                return new OutgoingGameMessage(
+                    new JoinParam(this.opts.team - 1 /* 0-indexed */)
+                );
             } else {
                 return new OutgoingChatMessage("Not joining");
             }
@@ -119,7 +121,7 @@ export class WSTichuClient {
 
         if (this.nextPrompt) {
             this.nextPrompt().then(this.send);
-        }
+        } // TODO else cancel?
     }
 
     private handleChatMessage(res: IncomingChatMessage) {
@@ -132,11 +134,42 @@ export class WSTichuClient {
 
     private handleGameMessage(msg: IncomingGameMessage) {
         // set nextPrompt depending on received message
-        // unclear what happens with prompts if we receive multiple messages. Probably fucks us over
+        // unclear what happens with prompts if we receive multiple messages. Probably fucks us over <-- TODO for some reason sometimes we send multiple messages
         console.log("msg.forAction:", msg.forAction);
-        if (msg.forAction === "join" && msg.result === "ok") {
-            this.nextPrompt = this.promptForReadiness;
+        switch (msg.forAction) {
+            case "init":
+                break;
+            case "join":
+                switch (msg.result) {
+                    case "ok":
+                        // TODO check if this came from me -- someone else might have joined but i still need to join
+                        this.console.debug("Waiting for others");
+                        this.nextPrompt = undefined;
+                        break;
+                    case "ok-table-is-now-full":
+                        this.nextPrompt = this.promptForReadiness;
+                        break;
+                }
+                break;
+            case "ready":
+                switch (msg.result) {
+                    case "ok":
+                        this.console.debug("Waiting for others to be ready");
+                        this.nextPrompt = undefined;
+                        break;
+                    case "ok-started":
+                        this.nextPrompt = this.promptForCards;
+                        break;
+                }
+                break;
+            case "newTrick":
+                break;
+            case "play":
+                break;
+            default:
+                throw new Error("Unknown action: " + msg.forAction);
         }
+
         // TODO etc...
     }
 
