@@ -18,13 +18,13 @@ import java.util.Set;
 
 // TODO this is for simulated/fake games. We probably need a different impl for real games.
 // and/or SimulationContext is just a Provider<Game> and we can pass it along the exec() calls
-class InitialiseGame implements Action<InitialiseGameParam> {
+class InitialiseGame implements Action<InitialiseGameParam, InitialiseGameResult> {
 
     InitialiseGame() {
     }
 
     @Override
-    public ActionResponse exec(GameContext ctx, ActionParam.WithActor<InitialiseGameParam> param) {
+    public ActionResponse<InitialiseGameResult> exec(GameContext ctx, ActionParam.WithActor<InitialiseGameParam> param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));
@@ -46,7 +46,7 @@ class InitialiseGame implements Action<InitialiseGameParam> {
 
         // TODO other possible responses:
         // game already started, perhaps team setup, rules, etc
-        return new SimpleResponse(
+        return new SimpleResponse<>(
                 param.actor(),
                 ActionType.init,
                 InitialiseGameResult.OK

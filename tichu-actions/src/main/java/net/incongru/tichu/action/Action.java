@@ -4,11 +4,11 @@ package net.incongru.tichu.action;
  * @param <P> the type of {@link ActionParam} this action supports.
  * @see ActionFactory
  */
-public interface Action<P extends ActionParam> {
+public interface Action<P extends ActionParam, R extends ActionResponse.Result> {
 
     // TODO add a description here or on param type
 
-    ActionResponse exec(GameContext ctx, ActionParam.WithActor<P> actionParam);
+    ActionResponse<R> exec(GameContext ctx, ActionParam.WithActor<P> actionParam);
 
     enum ActionType {
         init, join, ready,

@@ -3,6 +3,7 @@ package net.incongru.tichu.action.impl;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
+import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
@@ -19,13 +20,12 @@ public class ActionFactoryImpl implements ActionFactory {
     // GameContext should allow actions to e.g check for playerName validity
     // Maybe Actions will have a validate() method before they get executed.
 
-
     // Couldn't get a Map<Class<P>, Supplier<Action<P>>> to work (i.e without casting all over the place or impl my own map maybe)
     private static class KeyThing<P extends ActionParam> {
         final Class<P> paramClass;
-        final Supplier<Action<P>> actionSupplier;
+        final Supplier<Action<P, ?>> actionSupplier;
 
-        private KeyThing(Class<P> paramClass, Supplier<Action<P>> actionSupplier) {
+        private KeyThing(Class<P> paramClass, Supplier<Action<P, ?>> actionSupplier) {
             this.paramClass = paramClass;
             this.actionSupplier = actionSupplier;
         }
@@ -46,7 +46,7 @@ public class ActionFactoryImpl implements ActionFactory {
     }
 
     @Override
-    public <P extends ActionParam> Action<P> actionFor(P param) {
+    public <P extends ActionParam> Action<P, ? extends ActionResponse.Result> actionFor(P param) {
         // there's gotta be a nicer way ...
         return ((KeyThing<P>) paramToActionSupplier
                 .stream()

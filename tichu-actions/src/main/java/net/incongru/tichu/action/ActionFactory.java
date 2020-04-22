@@ -6,6 +6,6 @@ package net.incongru.tichu.action;
  */
 public interface ActionFactory {
 
-    <P extends ActionParam> Action<? extends P> actionFor(P param);
+    <P extends ActionParam> Action<? extends P, ? extends ActionResponse.Result> actionFor(P param);
 
 }

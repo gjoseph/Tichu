@@ -9,13 +9,13 @@ import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Trick;
 
-class PlayerPlays implements Action<PlayerPlaysParam> {
+class PlayerPlays implements Action<PlayerPlaysParam, PlayerPlaysResult> {
 
     PlayerPlays() {
     }
 
     @Override
-    public ActionResponse exec(GameContext ctx, ActionParam.WithActor<PlayerPlaysParam> param) {
+    public ActionResponse<PlayerPlaysResult> exec(GameContext ctx, ActionParam.WithActor<PlayerPlaysParam> param) {
         final Player player = ctx.player(param.actor());
         final Trick trick = ctx.game().currentRound().currentTrick();
         final Play.PlayResult playResult = trick.play(player, param.param().cards());
