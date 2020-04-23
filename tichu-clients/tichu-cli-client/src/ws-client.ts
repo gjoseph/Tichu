@@ -52,19 +52,6 @@ export class WSTichuClient {
         return inquirer.prompt([question]);
     };
 
-    promptForCards = () => {
-        const question = {
-            message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
-            type: "checkbox",
-            name: "cards",
-            choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
-            pageSize: 20
-        };
-        return this.ask(question).then((answers: any) => {
-            return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
-        });
-    };
-
     promptForJoin = () => {
         return this.ask({
             type: "confirm",
@@ -92,6 +79,19 @@ export class WSTichuClient {
             } else {
                 return new OutgoingChatMessage("Not ready");
             }
+        });
+    };
+
+    promptForCards = () => {
+        const question = {
+            message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
+            type: "checkbox",
+            name: "cards",
+            choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
+            pageSize: 20
+        };
+        return this.ask(question).then((answers: any) => {
+            return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
         });
     };
 
