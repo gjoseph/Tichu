@@ -14,15 +14,18 @@ import {
 } from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
+import PromptUI from "inquirer/lib/ui/prompt";
 
 export class WSTichuClient {
     private _webSocket: WebSocket | undefined;
     private console: Console;
     private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
+    private currentPromptUi: PromptUI | undefined;
 
     constructor(readonly opts: GameOpts) {
         this.console = new Console();
         this.nextPrompt = undefined;
+        this.currentPromptUi = undefined;
     }
 
     connect(url: string) {
@@ -47,10 +50,22 @@ export class WSTichuClient {
         return "Done";
     }
 
-    ask = (question: any) => {
+    ask = <T>(question: any): Promise<T> => {
         // question: DistinctQuestion) => {
-        return inquirer.prompt([question]);
+        this.closeCurrentPrompt();
+        const promptPromiseAndUi = inquirer.prompt([question]);
+        // inquirer.prompt() actuall returns Promise<T> & {ui: PromptUI} so we keep track of it to be able to close it
+        this.currentPromptUi = promptPromiseAndUi.ui;
+        return promptPromiseAndUi as Promise<T>;
     };
+
+    private closeCurrentPrompt() {
+        // can't use ?. operator below because of the @ts-ignore statement ...
+        if (this.currentPromptUi) {
+            // @ts-ignore : close() is protected but we really want to call it ...
+            this.currentPromptUi.close();
+        }
+    }
 
     promptForJoin = () => {
         return this.ask({
@@ -107,6 +122,8 @@ export class WSTichuClient {
     };
 
     private receive(data: WebSocket.Data) {
+        this.closeCurrentPrompt();
+
         // there's gotta be a better way than just casting to string
         const res = JSON.parse(data as string) as IncomingMessage;
         this.console.debug("Received", res);
@@ -121,7 +138,7 @@ export class WSTichuClient {
 
         if (this.nextPrompt) {
             this.nextPrompt().then(this.send);
-        } // TODO else cancel?
+        }
     }
 
     private handleChatMessage(res: IncomingChatMessage) {
@@ -134,8 +151,6 @@ export class WSTichuClient {
 
     private handleGameMessage(msg: IncomingGameMessage) {
         // set nextPrompt depending on received message
-        // unclear what happens with prompts if we receive multiple messages. Probably fucks us over <-- TODO for some reason sometimes we send multiple messages
-        console.log("msg.forAction:", msg.forAction);
         switch (msg.forAction) {
             case "init":
                 break;
