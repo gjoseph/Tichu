@@ -46,9 +46,9 @@ class JacksonCodecTest {
 
     static Stream<Arguments> canDecodeSubTypesOfIncomingMessages() {
         return Stream.of(
-                arguments("{\"messageType\":\"chat\", \"content\":\"HELLO\"}", IncomingChatMessage.class,
+                arguments("{\"txId\":\"<random-incoming-id>\", \"messageType\":\"chat\", \"content\":\"HELLO\"}", IncomingChatMessage.class,
                         (Consumer<IncomingChatMessage>) m -> assertThat(m.content()).isEqualTo("HELLO")),
-                arguments("{\"messageType\":\"game\", \"action\": {\"type\":\"play\", \"cards\": [\"star_ace\", \"sword_ace\"]}}", GameActionMessage.class,
+                arguments("{\"txId\":\"<random-incoming-id>\", \"messageType\":\"game\", \"action\": {\"type\":\"play\", \"cards\": [\"star_ace\", \"sword_ace\"]}}", GameActionMessage.class,
                         (Consumer<GameActionMessage>) m -> assertThat(m.action()).isEqualTo(sampleGameParam()))
         );
     }
@@ -66,25 +66,36 @@ class JacksonCodecTest {
         return Stream.of(
                 arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").build(),
                         "{messageType:'chat', from:'dummy', content: 'hello'}"),
-                arguments(ImmutableGameActionResultMessage.builder().result(new SimpleResponse<>(UserId.of("dummy"), Action.ActionType.join, JoinTableResult.OK_TABLE_IS_NOW_FULL)).build(),
+                arguments(ImmutableGameActionResultMessage.builder()
+                                .txId("<random-id>")
+                                .result(new SimpleResponse<>(
+                                        UserId.of("dummy"),
+                                        Action.ActionType.join,
+                                        JoinTableResult.OK_TABLE_IS_NOW_FULL
+                                ))
+                                .build(),
                         "{" +
+                        "  txId: '<random-id>', " +
                         "  messageType: 'game', " +
                         "  forAction: 'join', " +
                         "  actor: 'dummy', " +
                         "  result: 'ok-table-is-now-full', " +
                         "  message: 'join was OK_TABLE_IS_NOW_FULL'" + // temporary message
                         " }"),
-                arguments(ImmutableGameActionResultMessage.builder().result(new PlayerPlaysResponse(
-                                UserId.of("dummy-1"),
-                                new Play.PlayResult(
-                                        new Pair.Factory().is(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)),
-                                        Play.PlayResult.Result.NEXTGOES,
-                                        "woop"
-                                ),
-                                UserId.of("dummy-2"),
-                                new ActionResponse.Message("test")
-                        )).build(),
+                arguments(ImmutableGameActionResultMessage.builder()
+                                .txId("<random-id>")
+                                .result(new PlayerPlaysResponse(
+                                        UserId.of("dummy-1"),
+                                        new Play.PlayResult(
+                                                new Pair.Factory().is(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)),
+                                                Play.PlayResult.Result.NEXTGOES,
+                                                "woop"
+                                        ),
+                                        UserId.of("dummy-2"),
+                                        new ActionResponse.Message("test")
+                                )).build(),
                         "{" +
+                        "  txId: '<random-id>', " +
                         "  messageType: 'game', " +
                         "  forAction: 'play', " +
                         "  actor: 'dummy-1', " +
@@ -102,12 +113,12 @@ class JacksonCodecTest {
     void jacksonMappingIsSymetric() throws Exception {
         final JacksonCodec<IncomingMessage> codec = new RoomEndpoint.IncomingMessageCodec();
 
-        final String input = "{\"messageType\":\"chat\", \"content\":\"HELLO\"}";
+        final String input = "{\"txId\":\"<random-incoming-id>\", \"messageType\":\"chat\", \"content\":\"HELLO\"}";
         final IncomingMessage parsed = codec.decode(input);
         final String rewritten = codec.encode(parsed);
         assertThatJson(input).isEqualTo(rewritten);
 
-        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().action(sampleGameParam()).build();
+        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().txId("<random-incoming-id>").action(sampleGameParam()).build();
         final String serialised = codec.encode(initialObj);
         final IncomingMessage deserialised = codec.decode(serialised);
         assertEquals(initialObj, deserialised);
