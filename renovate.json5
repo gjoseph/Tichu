@@ -5,14 +5,19 @@
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
   packageRules: [
+    // Don't try to update/lookup self:
+    {
+      packagePatterns: ["^net.incongru.tichu"],
+      enabled: false
+    },
     // Java packages rules:
     {
       packagePatterns: ["^org.slf4j"],
-      groupName: "SLF4J packages",
+      groupName: "SLF4J packages"
     },
     {
       packagePatterns: ["^org.apache.tomcat.embed"],
-      groupName: "Tomcat packages",
+      groupName: "Tomcat packages"
     },
     {
       packagePatterns: ["^org.junit"],
