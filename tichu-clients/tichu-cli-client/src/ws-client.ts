@@ -74,9 +74,7 @@ export class WSTichuClient {
             message: "Join table?"
         }).then((answers: any) => {
             if (answers.join) {
-                return new OutgoingGameMessage(
-                    new JoinParam(this.opts.team - 1 /* 0-indexed */)
-                );
+                return new OutgoingGameMessage(new JoinParam(this.opts.team));
             } else {
                 return new OutgoingChatMessage("Not joining");
             }

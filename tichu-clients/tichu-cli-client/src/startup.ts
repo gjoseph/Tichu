@@ -17,7 +17,10 @@ export const setupQuestions = (opts: GameOpts) => [
         when: opts.team === undefined,
         type: "list",
         name: "teamId",
-        choices: [1, 2] // this should not be a --cli or setup question anyway
+        choices: [
+            { name: "Team #1", value: 0 },
+            { name: "Team #2", value: 1 }
+        ] // this should not be a --cli or setup question anyway
     },
     {
         type: "confirm",

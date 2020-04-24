@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2019", // Node doesn't understand nullish coalescing or optional chaining, so instruct ts to transpile
     "module": "commonjs",
     "lib": ["es6", "es2015", "dom"],
     "declaration": false,

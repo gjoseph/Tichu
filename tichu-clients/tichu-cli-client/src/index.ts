@@ -22,9 +22,9 @@ program
         return inquirer.prompt(setupQuestions(opts)).then((answers: any) => {
             // Combine CLI opts and answers
             return {
-                room: answers.roomId || opts.room,
-                user: answers.userId || opts.user,
-                team: answers.teamId || opts.team
+                room: answers.roomId ?? opts.room,
+                user: answers.userId ?? opts.user,
+                team: answers.teamId ?? opts.team
             } as GameOpts;
         });
     })
