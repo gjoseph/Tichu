@@ -98,11 +98,15 @@ export class WSTichuClient {
     };
 
     promptForCards = () => {
+        const cards = Cards.sort(() => 0.5 - Math.random()).slice(0, 14);
+        const choices = cards.map(c => {
+            return { value: c.shortName, name: c.name };
+        });
         const question = {
             message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
             type: "checkbox",
             name: "cards",
-            choices: Cards.sort(() => 0.5 - Math.random()).slice(0, 14),
+            choices: choices,
             pageSize: 20
         };
         return this.ask(question).then((answers: any) => {
