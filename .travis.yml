@@ -26,4 +26,4 @@ matrix:
       node_js:
         - 13
       before_install:
-        - cd tichu-clients/tichu-cli-client
+        - cd tichu-clients/tichu-term-client
