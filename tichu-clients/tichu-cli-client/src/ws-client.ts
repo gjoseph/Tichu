@@ -17,8 +17,8 @@ import { Console } from "./console";
 import PromptUI from "inquirer/lib/ui/prompt";
 
 export class WSTichuClient {
-    private _webSocket: WebSocket | undefined;
-    private console: Console;
+    private readonly console: Console;
+    private webSocket: WebSocket | undefined;
     private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
     private currentPromptUi: PromptUI | undefined;
 
@@ -29,7 +29,7 @@ export class WSTichuClient {
     }
 
     connect(url: string) {
-        this._webSocket = this.webSocketSetup(url, this.console);
+        this.webSocket = this.webSocketSetup(url, this.console);
         return this;
     }
 
@@ -193,10 +193,10 @@ export class WSTichuClient {
     };
 
     private ws(): WebSocket {
-        if (!this._webSocket) {
+        if (!this.webSocket) {
             throw new Error("Websocket is not setup!");
         }
-        return this._webSocket;
+        return this.webSocket;
     }
 
     private webSocketSetup(url: string, wsConsole: Console): WebSocket {
