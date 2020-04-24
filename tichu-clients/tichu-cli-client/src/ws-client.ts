@@ -21,11 +21,13 @@ export class WSTichuClient {
     private webSocket: WebSocket | undefined;
     private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
     private currentPromptUi: PromptUI | undefined;
+    private waitingForAnswer: string[];
 
     constructor(readonly opts: GameOpts) {
         this.console = new Console();
         this.nextPrompt = undefined;
         this.currentPromptUi = undefined;
+        this.waitingForAnswer = [];
     }
 
     connect(url: string) {
@@ -114,6 +116,7 @@ export class WSTichuClient {
     }
 
     send = (msg: OutgoingMessage) => {
+        this.waitingForAnswer.push(msg.id); // Do we care for chat messages?
         const msgJson = JSON.stringify(msg);
         this.console.debug(" Sending", msgJson);
         this.ws().send(msgJson);
@@ -148,16 +151,32 @@ export class WSTichuClient {
     }
 
     private handleGameMessage(msg: IncomingGameMessage) {
+        // do we care for all messages ?
+        const idxCorrespondingRequest = this.waitingForAnswer.indexOf(msg.id);
+        const isResponse = idxCorrespondingRequest >= 0;
+        if (isResponse) {
+            console.log(
+                "Removing message",
+                msg.id,
+                "from queue ",
+                this.waitingForAnswer
+            );
+            this.waitingForAnswer.splice(idxCorrespondingRequest);
+        }
+
         // set nextPrompt depending on received message
+        // or leave it as-is
+        // receive() will reapply nextPrompt
         switch (msg.forAction) {
             case "init":
                 break;
             case "join":
                 switch (msg.result) {
                     case "ok":
-                        // TODO check if this came from me -- someone else might have joined but i still need to join
-                        this.console.debug("Waiting for others");
-                        this.nextPrompt = undefined;
+                        if (isResponse) {
+                            this.console.debug("Waiting for others");
+                            this.nextPrompt = undefined;
+                        }
                         break;
                     case "ok-table-is-now-full":
                         this.nextPrompt = this.promptForReadiness;
@@ -167,8 +186,12 @@ export class WSTichuClient {
             case "ready":
                 switch (msg.result) {
                     case "ok":
-                        this.console.debug("Waiting for others to be ready");
-                        this.nextPrompt = undefined;
+                        if (isResponse) {
+                            this.console.debug(
+                                "Waiting for others to be ready"
+                            );
+                            this.nextPrompt = undefined;
+                        }
                         break;
                     case "ok-started":
                         this.nextPrompt = this.promptForCards;

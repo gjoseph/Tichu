@@ -1,12 +1,13 @@
 // init
 import { Card } from "./cards";
+import { nanoid } from "nanoid";
 
 interface Message {
     readonly messageType: "chat" | "game";
 }
 
 export type IncomingMessage = Message;
-export type OutgoingMessage = Message;
+export type OutgoingMessage = Message & { id: string };
 
 export class IncomingChatMessage implements IncomingMessage {
     readonly messageType = "chat";
@@ -14,16 +15,17 @@ export class IncomingChatMessage implements IncomingMessage {
     constructor(readonly content: string) {}
 }
 
-export class OutgoingChatMessage implements Message {
+export class OutgoingChatMessage implements OutgoingMessage {
     readonly messageType = "chat";
 
-    constructor(readonly content: string) {}
+    constructor(readonly content: string, readonly id: string = nanoid()) {}
 }
 
-export class IncomingGameMessage implements Message {
+export class IncomingGameMessage implements IncomingMessage {
     readonly messageType = "game";
 
     constructor(
+        readonly id: string, // TODO "inResponseTo" ?
         readonly forAction: ActionType,
         readonly actor: Actor,
         readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
@@ -31,10 +33,10 @@ export class IncomingGameMessage implements Message {
     ) {}
 }
 
-export class OutgoingGameMessage implements Message {
+export class OutgoingGameMessage implements OutgoingMessage {
     readonly messageType = "game";
 
-    constructor(readonly action: GameParam) {}
+    constructor(readonly action: GameParam, readonly id: string = nanoid()) {}
 }
 
 type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
