@@ -12,7 +12,7 @@ export class Console {
             Green: "\u001b[32m",
             Yellow: "\u001b[33m",
             Blue: "\u001b[34m",
-            Default: "\u001b[39m"
+            Default: "\u001b[39m",
         };
     }
 
@@ -21,7 +21,7 @@ export class Console {
             Incoming: "< ",
             Control: "",
             Error: "error: ",
-            Debug: "debug: "
+            Debug: "debug: ",
         };
     }
 

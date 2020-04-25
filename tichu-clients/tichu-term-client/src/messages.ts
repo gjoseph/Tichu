@@ -90,5 +90,5 @@ export enum Actions {
     join = "join",
     ready = "ready",
     play = "play",
-    pass = "pass"
+    pass = "pass",
 }

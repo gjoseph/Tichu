@@ -11,7 +11,7 @@ export const setupQuestions = (opts: GameOpts) => [
         when: opts.user === undefined,
         type: "input",
         name: "userId",
-        validate: (input: string) => input.length > 0
+        validate: (input: string) => input.length > 0,
     },
     {
         when: opts.team === undefined,
@@ -19,13 +19,13 @@ export const setupQuestions = (opts: GameOpts) => [
         name: "teamId",
         choices: [
             { name: "Team #1", value: 0 },
-            { name: "Team #2", value: 1 }
-        ] // this should not be a --cli or setup question anyway
+            { name: "Team #2", value: 1 },
+        ], // this should not be a --cli or setup question anyway
     },
     {
         type: "confirm",
         name: "confirm",
-        message: "Start ?"
+        message: "Start ?",
     },
     {
         when: (answers: any) => {
@@ -36,7 +36,7 @@ export const setupQuestions = (opts: GameOpts) => [
         message: "Pick cards to play",
         choices: [
             { name: "first", value: 1 },
-            { name: "second", value: 2 }
-        ]
-    }
+            { name: "second", value: 2 },
+        ],
+    },
 ];

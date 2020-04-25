@@ -10,7 +10,7 @@ import {
     OutgoingGameMessage,
     OutgoingMessage,
     PlayerIsReadyParam,
-    PlayerPlaysParam
+    PlayerPlaysParam,
 } from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
@@ -73,7 +73,7 @@ export class WSTichuClient {
         return this.ask({
             type: "confirm",
             name: "join",
-            message: "Join table?"
+            message: "Join table?",
         }).then((answers: any) => {
             if (answers.join) {
                 return new OutgoingGameMessage(new JoinParam(this.opts.team));
@@ -87,7 +87,7 @@ export class WSTichuClient {
         return this.ask({
             type: "confirm",
             name: "ready",
-            message: "Are you ready?"
+            message: "Are you ready?",
         }).then((answers: any) => {
             if (answers.ready) {
                 return new OutgoingGameMessage(new PlayerIsReadyParam());
@@ -99,7 +99,7 @@ export class WSTichuClient {
 
     promptForCards = () => {
         const cards = Cards.sort(() => 0.5 - Math.random()).slice(0, 14);
-        const choices = cards.map(c => {
+        const choices = cards.map((c) => {
             return { value: c.shortName, name: c.name };
         });
         const question = {
@@ -107,7 +107,7 @@ export class WSTichuClient {
             type: "checkbox",
             name: "cards",
             choices: choices,
-            pageSize: 20
+            pageSize: 20,
         };
         return this.ask(question).then((answers: any) => {
             return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
@@ -233,8 +233,8 @@ export class WSTichuClient {
             "Basic " + Buffer.from(userPass).toString("base64");
         const ws = new WebSocket(url, {
             headers: {
-                Authorization: authHeaderValue
-            }
+                Authorization: authHeaderValue,
+            },
         }); // TODO wtf are subprotocols
 
         ws.on("open", () => {
@@ -256,7 +256,7 @@ export class WSTichuClient {
             process.exit();
         });
 
-        ws.on("error", err => {
+        ws.on("error", (err) => {
             wsConsole.print(
                 Console.Types.Error,
                 err.message,

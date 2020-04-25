@@ -17,14 +17,14 @@ program
 
 program
     .parseAsync()
-    .then(program => program.opts() as GameOpts)
+    .then((program) => program.opts() as GameOpts)
     .then((opts: GameOpts) => {
         return inquirer.prompt(setupQuestions(opts)).then((answers: any) => {
             // Combine CLI opts and answers
             return {
                 room: answers.roomId ?? opts.room,
                 user: answers.userId ?? opts.user,
-                team: answers.teamId ?? opts.team
+                team: answers.teamId ?? opts.team,
             } as GameOpts;
         });
     })
