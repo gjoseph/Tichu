@@ -7,7 +7,7 @@ interface Message {
 }
 
 export type IncomingMessage = Message;
-export type OutgoingMessage = Message & { id: string };
+export type OutgoingMessage = Message & { txId: string };
 
 export class IncomingChatMessage implements IncomingMessage {
     readonly messageType = "chat";
@@ -18,14 +18,14 @@ export class IncomingChatMessage implements IncomingMessage {
 export class OutgoingChatMessage implements OutgoingMessage {
     readonly messageType = "chat";
 
-    constructor(readonly content: string, readonly id: string = nanoid()) {}
+    constructor(readonly content: string, readonly txId: string = nanoid()) {}
 }
 
 export class IncomingGameMessage implements IncomingMessage {
     readonly messageType = "game";
 
     constructor(
-        readonly id: string, // TODO "inResponseTo" ?
+        readonly txId: string,
         readonly forAction: ActionType,
         readonly actor: Actor,
         readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
@@ -36,7 +36,7 @@ export class IncomingGameMessage implements IncomingMessage {
 export class OutgoingGameMessage implements OutgoingMessage {
     readonly messageType = "game";
 
-    constructor(readonly action: GameParam, readonly id: string = nanoid()) {}
+    constructor(readonly action: GameParam, readonly txId: string = nanoid()) {}
 }
 
 type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
