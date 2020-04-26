@@ -6,7 +6,7 @@ import net.incongru.tichu.model.UserId;
 import org.immutables.value.Value;
 
 @Value.Immutable
-@Value.Style(strictBuilder = true) // disables the "from" method in builder
+@Value.Style(stagedBuilder = true, strictBuilder = true) // disables the "from" method in builder
 @JsonSerialize(as = ImmutableOutgoingChatMessage.class)
 @JsonDeserialize(as = ImmutableOutgoingChatMessage.class)
 public interface OutgoingChatMessage extends OutgoingMessage {

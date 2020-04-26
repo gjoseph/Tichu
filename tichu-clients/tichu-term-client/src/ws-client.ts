@@ -120,7 +120,7 @@ export class WSTichuClient {
     }
 
     send = (msg: OutgoingMessage) => {
-        this.waitingForAnswer.push(msg.id); // Do we care for chat messages?
+        this.waitingForAnswer.push(msg.txId); // Do we care for chat messages?
         const msgJson = JSON.stringify(msg);
         this.console.debug(" Sending", msgJson);
         this.ws().send(msgJson);
@@ -156,12 +156,12 @@ export class WSTichuClient {
 
     private handleGameMessage(msg: IncomingGameMessage) {
         // do we care for all messages ?
-        const idxCorrespondingRequest = this.waitingForAnswer.indexOf(msg.id);
+        const idxCorrespondingRequest = this.waitingForAnswer.indexOf(msg.txId);
         const isResponse = idxCorrespondingRequest >= 0;
         if (isResponse) {
             console.log(
                 "Removing message",
-                msg.id,
+                msg.txId,
                 "from queue ",
                 this.waitingForAnswer
             );

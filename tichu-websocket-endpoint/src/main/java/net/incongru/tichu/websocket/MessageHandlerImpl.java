@@ -69,7 +69,15 @@ public class MessageHandlerImpl implements MessageHandler {
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
+        // This will differ based on action/result
+        // -- some need to be broadcast to all users
+        // -- some to just the actor
+        // -- some different message (values) to actor and other players
+        // Actual result probably only sent to actor
+        // Other table members just receive a log/view of it?
+
         final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
+                .txId(gameActionMessage.txId())
                 .result(res)
                 .build();
         sessions.broadcast(msg);
