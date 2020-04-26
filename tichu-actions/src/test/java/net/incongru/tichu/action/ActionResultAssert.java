@@ -49,7 +49,9 @@ public class ActionResultAssert extends AbstractAssert<ActionResultAssert, Actio
     }
 
     private Consumer<ActionResponse> isSuccessful(boolean expectedSuccessful) {
-        return r -> Assertions.assertThat(r.result().isSuccessful()).isEqualTo(expectedSuccessful);
+        return r -> Assertions.assertThat(r.result().isSuccessful())
+                .describedAs("Result for %s is %s, expecting %s", r.forAction(), r.result(), expectedSuccessful ? "success" : "failure")
+                .isEqualTo(expectedSuccessful);
     }
 
     private <ARR extends ActionResponse.Result> Consumer<ActionResponse> hasResultType(ARR expectedResultType) {

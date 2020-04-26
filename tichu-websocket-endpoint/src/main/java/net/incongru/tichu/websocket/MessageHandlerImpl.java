@@ -5,7 +5,7 @@ import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.ImmutableWithActor;
-import net.incongru.tichu.action.impl.ActionFactoryImpl;
+import net.incongru.tichu.action.impl.DefaultActionFactory;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.room.Room;
 import net.incongru.tichu.room.RoomGameContext;
@@ -21,7 +21,7 @@ public class MessageHandlerImpl implements MessageHandler {
     public MessageHandlerImpl(SessionProvider sessions, RoomProvider roomProvider) {
         this.sessions = sessions;
         this.roomProvider = roomProvider;
-        this.actionFactory = new ActionFactoryImpl();
+        this.actionFactory = new DefaultActionFactory();
     }
 
     @Override

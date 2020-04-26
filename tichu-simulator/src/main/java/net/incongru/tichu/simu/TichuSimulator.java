@@ -6,7 +6,7 @@ import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.GameContextFactory;
-import net.incongru.tichu.action.impl.ActionFactoryImpl;
+import net.incongru.tichu.action.impl.SimulatedActionFactory;
 import net.incongru.tichu.simu.parse.SimulationFileParser;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class TichuSimulator {
 
     public TichuSimulator() {
         this.gameContextFactory = SimulatedGameContext::new;
-        this.actionFactory = new ActionFactoryImpl();
+        this.actionFactory = new SimulatedActionFactory();
     }
 
     void executeSimulation(Path p) throws IOException {
