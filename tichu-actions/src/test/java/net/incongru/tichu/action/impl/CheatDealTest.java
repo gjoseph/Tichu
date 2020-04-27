@@ -1,8 +1,13 @@
 package net.incongru.tichu.action.impl;
 
+import com.google.common.collect.Sets;
+import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
+import net.incongru.tichu.action.param.InitialiseGameParam;
+import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.model.HandAssert;
 import net.incongru.tichu.model.UserId;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -25,6 +30,34 @@ class CheatDealTest {
     @BeforeEach
     void setUp() {
         ctx = new TestGameContext().initialised().withSamplePlayers();
+    }
+
+    @Test
+    void failsInNormalGame() {
+        final GameContext ctx = new TestGameContext();
+        new InitialiseGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
+
+        Assertions.assertThatThrownBy(() -> {
+            new CheatDeal().exec(ctx, CheatDealParam.withActor(UserId.of("jules"), Sets.newHashSet(MahJong, B2)));
+        }).isInstanceOf(IllegalStateException.class).hasMessageMatching("(?i).*can't cheat.*");
+    }
+
+    @Test
+    void worksInSimulatedGame() {
+        final GameContext ctx = new TestGameContext();
+        new InitialiseSimulatedGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
+
+        Assertions.assertThatCode(() -> {
+            new CheatDeal().exec(ctx, CheatDealParam.withActor(UserId.of("jules"), Sets.newHashSet(MahJong, B2)));
+        }).doesNotThrowAnyException();
     }
 
     @Test

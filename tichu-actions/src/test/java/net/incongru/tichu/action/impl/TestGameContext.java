@@ -12,7 +12,7 @@ import java.util.Set;
 
 class TestGameContext extends AbstractGameContext {
     TestGameContext initialised() {
-        new InitialiseGame().exec(this, InitialiseGameParam.withActor(UserId.of("alex")));
+        new InitialiseSimulatedGame().exec(this, InitialiseGameParam.withActor(UserId.of("alex")));
         return this;
     }
 

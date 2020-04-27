@@ -44,7 +44,7 @@ class PlayerIsReadyTest {
     @Test
     void gameStartsWhenAllPlayersAreReady() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
+        new InitialiseSimulatedGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
         new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
         new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
         new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
