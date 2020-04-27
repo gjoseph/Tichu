@@ -1,5 +1,7 @@
 package net.incongru.tichu.model;
 
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+
 import java.util.Set;
 import net.incongru.tichu.model.card.Card;
 import org.assertj.core.api.AbstractAssert;
@@ -43,6 +45,11 @@ public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
                 actual.toDebugString()
             );
         }
+        return this;
+    }
+
+    public HandAssert hasSize(int expected) {
+        checkSizes(actual, actual.size(), expected, info);
         return this;
     }
 }
