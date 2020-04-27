@@ -103,7 +103,7 @@ public class Players {
      * 0-indexed.
      */
     public Team getTeam(int i) {
-        Preconditions.checkArgument(0 <= i && i < 2);
+        Preconditions.checkArgument(0 <= i && i < 2, "Team must be 0 or 1, got %s", i);
         return teams[i];
     }
 

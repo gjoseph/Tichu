@@ -67,7 +67,7 @@ class JacksonCodecTest {
                 arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").build(),
                         "{messageType:'chat', from:'dummy', content: 'hello'}"),
                 arguments(ImmutableGameActionResultMessage.builder()
-                                .txId("<random-id>")
+                                .clientTxId("<random-id>")
                                 .result(new SimpleResponse<>(
                                         UserId.of("dummy"),
                                         Action.ActionType.join,
@@ -83,7 +83,7 @@ class JacksonCodecTest {
                         "  message: 'join was OK_TABLE_IS_NOW_FULL'" + // temporary message
                         " }"),
                 arguments(ImmutableGameActionResultMessage.builder()
-                                .txId("<random-id>")
+                                .clientTxId("<random-id>")
                                 .result(new PlayerPlaysResponse(
                                         UserId.of("dummy-1"),
                                         new Play.PlayResult(
@@ -118,7 +118,7 @@ class JacksonCodecTest {
         final String rewritten = codec.encode(parsed);
         assertThatJson(input).isEqualTo(rewritten);
 
-        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().txId("<random-incoming-id>").action(sampleGameParam()).build();
+        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().clientTxId("<random-incoming-id>").action(sampleGameParam()).build();
         final String serialised = codec.encode(initialObj);
         final IncomingMessage deserialised = codec.decode(serialised);
         assertEquals(initialObj, deserialised);

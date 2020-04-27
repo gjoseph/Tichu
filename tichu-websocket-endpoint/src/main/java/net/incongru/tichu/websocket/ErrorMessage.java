@@ -23,7 +23,7 @@ import java.util.Optional;
 public interface ErrorMessage extends OutgoingMessage {
 
     @Nonnull
-    Optional<String> txId();
+    Optional<String> clientTxId();
 
     /**
      * The user whose message caused the exception

@@ -1,5 +1,6 @@
 package net.incongru.tichu.websocket;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -25,7 +26,8 @@ public interface IncomingMessage {
      * it must only be unique enough for the client to identify responses generated against this message.
      */
     @Nonnull
-    String txId();
+    @JsonProperty("txId")
+    String clientTxId();
 
     // Visitor pattern to be implemented by subtypes
     void accept(Session session, String roomId, MessageHandler visitor);
