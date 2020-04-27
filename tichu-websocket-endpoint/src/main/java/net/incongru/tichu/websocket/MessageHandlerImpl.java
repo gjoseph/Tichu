@@ -12,6 +12,7 @@ import net.incongru.tichu.room.RoomGameContext;
 import net.incongru.tichu.room.RoomProvider;
 
 import javax.websocket.Session;
+import java.util.UUID;
 
 public class MessageHandlerImpl implements MessageHandler {
     private final SessionProvider sessions;
@@ -31,22 +32,40 @@ public class MessageHandlerImpl implements MessageHandler {
         final UserId user = getUser(session);
 
         roomProvider.getRoom(roomId).enter(user);
-        final ImmutableOutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
-                .from(user)
-                .content("Connected!")
+
+        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
+                .actor(getUser(session))
+                .activity(RoomActivityMessage.RoomActivity.CONNECTED)
                 .build();
 
-        sessions.broadcast(message);
+//        sessions.broadcast(roomId, message);
+        sessions.broadcast(msg);
     }
 
     @Override
     public void closeSession(Session session, String roomId) {
-        final OutgoingChatMessage outgoingChatMessage = ImmutableOutgoingChatMessage.builder()
-                .from(getUser(session))
-                .content("Disconnected!")
+        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
+                .actor(getUser(session))
+                .activity(RoomActivityMessage.RoomActivity.DISCONNECTED)
                 .build();
+        // roomProvider.getRoom(roomId).leave(user);
         sessions.remove(session);
-        sessions.broadcast(outgoingChatMessage);
+        sessions.broadcast(msg);
+    }
+
+    @Override
+    public void handleError(Session session, Throwable throwable) {
+        // TODO proper logs
+        final String traceId = UUID.randomUUID().toString();
+        System.out.println(String.format("Exception [%s]: %s ", traceId, throwable));
+        throwable.printStackTrace();
+        final ErrorMessage message = ImmutableErrorMessage.builder()
+                .actor(getUser(session))
+                .traceId(traceId)
+                .txId("<TODO>") // TODO
+                .build();
+        // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
+        sessions.broadcast(message);
     }
 
     @Override

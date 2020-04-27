@@ -47,9 +47,7 @@ public class RoomEndpoint {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        // Do error handling here
-        System.out.println("throwable = " + throwable);
-        throwable.printStackTrace();
+        messageHandler.handleError(session, throwable);
     }
 
 }

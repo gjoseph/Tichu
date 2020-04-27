@@ -8,6 +8,8 @@ interface MessageHandler {
 
     void closeSession(Session session, String roomId);
 
+    void handleError(Session session, Throwable throwable);
+
     // Visitor pattern below, see message implementations
     void handle(Session session, String roomId, IncomingChatMessage incomingChatMessage);
 
