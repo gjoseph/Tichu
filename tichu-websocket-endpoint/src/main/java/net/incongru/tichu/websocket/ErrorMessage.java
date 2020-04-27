@@ -8,6 +8,7 @@ import org.immutables.value.Value;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * {@link ErrorMessage}s have a trace ID which uniquely identifies the exception in logs.
@@ -21,8 +22,8 @@ import javax.annotation.Nullable;
 @JsonDeserialize(as = ImmutableErrorMessage.class)
 public interface ErrorMessage extends OutgoingMessage {
 
-    @Nullable
-    String txId();
+    @Nonnull
+    Optional<String> txId();
 
     /**
      * The user whose message caused the exception

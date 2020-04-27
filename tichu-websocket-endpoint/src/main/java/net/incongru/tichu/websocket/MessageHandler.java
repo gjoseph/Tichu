@@ -1,6 +1,7 @@
 package net.incongru.tichu.websocket;
 
 import javax.websocket.Session;
+import java.util.Optional;
 
 // TODO this could become websocket-jsr356-agnostic if the 1st param was not Session but something agnostic
 interface MessageHandler {
@@ -8,7 +9,7 @@ interface MessageHandler {
 
     void closeSession(Session session, String roomId);
 
-    void handleError(Session session, Throwable throwable);
+    void handleError(Session session, Optional<String> txId, Throwable e);
 
     // Visitor pattern below, see message implementations
     void handle(Session session, String roomId, IncomingChatMessage incomingChatMessage);

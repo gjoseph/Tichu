@@ -12,6 +12,7 @@ import net.incongru.tichu.room.RoomGameContext;
 import net.incongru.tichu.room.RoomProvider;
 
 import javax.websocket.Session;
+import java.util.Optional;
 import java.util.UUID;
 
 public class MessageHandlerImpl implements MessageHandler {
@@ -54,7 +55,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void handleError(Session session, Throwable throwable) {
+    public void handleError(Session session, Optional<String> txId, Throwable throwable) {
         // TODO proper logs
         final String traceId = UUID.randomUUID().toString();
         System.out.println(String.format("Exception [%s]: %s ", traceId, throwable));
@@ -62,7 +63,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final ErrorMessage message = ImmutableErrorMessage.builder()
                 .actor(getUser(session))
                 .traceId(traceId)
-                .txId("<TODO>") // TODO
+                .txId(txId)
                 .build();
         // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
         sessions.broadcast(message);

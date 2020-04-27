@@ -1,6 +1,7 @@
 package net.incongru.tichu.websocket.codec;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -65,6 +66,7 @@ class JacksonSetup {
                 .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
                 .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
+                .serializationInclusion(JsonInclude.Include.NON_ABSENT)
                 .addModule(new Jdk8Module())
                 .addModule(m)
                 .build();
