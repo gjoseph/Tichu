@@ -1,24 +1,20 @@
 // init
 import { Card } from "./cards";
 import { nanoid } from "nanoid";
+import { UserId } from "./model";
 
 interface Message {
-    readonly messageType: "chat" | "game";
+    readonly messageType: "activity" | "game" | "chat" | "error";
 }
 
+// Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
 export type IncomingMessage = Message;
 export type OutgoingMessage = Message & { txId: string };
 
-export class IncomingChatMessage implements IncomingMessage {
-    readonly messageType = "chat";
+export class ActivityMessage implements IncomingMessage {
+    readonly messageType = "activity";
 
-    constructor(readonly content: string) {}
-}
-
-export class OutgoingChatMessage implements OutgoingMessage {
-    readonly messageType = "chat";
-
-    constructor(readonly content: string, readonly txId: string = nanoid()) {}
+    constructor(readonly actor: UserId, readonly activity: ActivityType) {}
 }
 
 export class IncomingGameMessage implements IncomingMessage {
@@ -27,9 +23,25 @@ export class IncomingGameMessage implements IncomingMessage {
     constructor(
         readonly txId: string,
         readonly forAction: ActionType,
-        readonly actor: Actor,
+        readonly actor: UserId,
         readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
         readonly message: ActionResultMessage
+    ) {}
+}
+
+export class IncomingChatMessage implements IncomingMessage {
+    readonly messageType = "chat";
+
+    constructor(readonly from: UserId, readonly content: string) {}
+}
+
+export class ErrorMessage implements IncomingMessage {
+    readonly messageType = "error";
+
+    constructor(
+        readonly actor: UserId,
+        readonly txId: string,
+        readonly traceId: string
     ) {}
 }
 
@@ -39,6 +51,13 @@ export class OutgoingGameMessage implements OutgoingMessage {
     constructor(readonly action: GameParam, readonly txId: string = nanoid()) {}
 }
 
+export class OutgoingChatMessage implements OutgoingMessage {
+    readonly messageType = "chat";
+
+    constructor(readonly content: string, readonly txId: string = nanoid()) {}
+}
+
+type ActivityType = "coco" | "disconnected";
 type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
 type IncomingResult =
     // join:
@@ -48,7 +67,7 @@ type IncomingResult =
     // playerIsReady
     | "ok"
     | "ok-started";
-type Actor = string;
+
 type ActionResultMessage = string;
 
 interface GameParam {

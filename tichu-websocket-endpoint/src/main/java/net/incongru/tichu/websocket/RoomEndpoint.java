@@ -9,6 +9,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+import java.util.Optional;
 
 @ServerEndpoint(value = RoomEndpoint.PATH + "/{roomId}",
         decoders = RoomEndpoint.IncomingMessageCodec.class,
@@ -37,7 +38,11 @@ public class RoomEndpoint {
 
     @OnMessage
     public void onMessage(Session session, @PathParam("roomId") String roomId, IncomingMessage incomingMessage) {
-        incomingMessage.accept(session, roomId, messageHandler);
+        try {
+            incomingMessage.accept(session, roomId, messageHandler);
+        } catch (Exception e) {
+            messageHandler.handleError(session, Optional.of(incomingMessage.txId()), e);
+        }
     }
 
     @OnClose
@@ -47,9 +52,7 @@ public class RoomEndpoint {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        // Do error handling here
-        System.out.println("throwable = " + throwable);
-        throwable.printStackTrace();
+        messageHandler.handleError(session, Optional.empty(), throwable);
     }
 
 }

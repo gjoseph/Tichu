@@ -6,14 +6,16 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        // our json shapes will have a "type" with values as specified below
+        // our json shapes will have a "messageType" with values as specified below
         property = "messageType"
 )
 @JsonSubTypes({
         // We specify the type here using the Immutable* impls so serialising uses the correct name
         // but we still need to also specify @JsonDeserialize(as) on the abstract types for deserialisation
         @JsonSubTypes.Type(value = ImmutableOutgoingChatMessage.class, name = "chat"),
-        @JsonSubTypes.Type(value = ImmutableGameActionResultMessage.class, name = "game")
+        @JsonSubTypes.Type(value = ImmutableGameActionResultMessage.class, name = "game"),
+        @JsonSubTypes.Type(value = ImmutableErrorMessage.class, name = "error"),
+        @JsonSubTypes.Type(value = ImmutableRoomActivityMessage.class, name = "activity")
 })
 public interface OutgoingMessage {
 

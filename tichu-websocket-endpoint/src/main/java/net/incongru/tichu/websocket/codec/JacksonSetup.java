@@ -1,6 +1,7 @@
 package net.incongru.tichu.websocket.codec;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -12,16 +13,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.NamedType;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import net.incongru.tichu.action.Action;
-import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
-import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.ImmutableInitialiseGameParam;
 import net.incongru.tichu.action.param.ImmutableJoinTableParam;
 import net.incongru.tichu.action.param.ImmutableNewTrickParam;
@@ -61,22 +58,17 @@ class JacksonSetup {
         // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?
         m.addSerializer(Enum.class, new EnumKebabSerializer());
 
-        // Not sure how this is useful
-        final PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator
-                .builder()
-                .allowIfBaseType(ActionParam.class)
-                .denyForExactBaseType(CheatDealParam.class)
-                .build();
-
         return JsonMapper.builder()
                 .enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
                 .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
+                //TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
                 .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
                 .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
                 .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+                .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
+                .serializationInclusion(JsonInclude.Include.NON_ABSENT)
                 .addModule(new Jdk8Module())
                 .addModule(m)
-                // .polymorphicTypeValidator(ptv)
                 .build();
     }
 
