@@ -78,6 +78,17 @@
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-websocket-schema</artifactId>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
+                <artifactId>tichu-websocket-schema</artifactId>
+                <type>test-jar</type>
+                <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-embedded-tomcat</artifactId>
                 <version>0.1-SNAPSHOT</version>
             </dependency>
