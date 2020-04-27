@@ -55,7 +55,7 @@ public class MessageHandlerImpl implements MessageHandler {
     }
 
     @Override
-    public void handleError(Session session, Optional<String> txId, Throwable throwable) {
+    public void handleError(Session session, Optional<String> clientTxId, Throwable throwable) {
         // TODO proper logs
         final String traceId = UUID.randomUUID().toString();
         System.out.println(String.format("Exception [%s]: %s ", traceId, throwable));
@@ -63,7 +63,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final ErrorMessage message = ImmutableErrorMessage.builder()
                 .actor(getUser(session))
                 .traceId(traceId)
-                .txId(txId)
+                .clientTxId(clientTxId)
                 .build();
         // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
         sessions.broadcast(message);
@@ -97,7 +97,7 @@ public class MessageHandlerImpl implements MessageHandler {
         // Other table members just receive a log/view of it?
 
         final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
-                .txId(gameActionMessage.txId())
+                .clientTxId(gameActionMessage.clientTxId())
                 .result(res)
                 .build();
         sessions.broadcast(msg);

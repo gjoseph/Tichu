@@ -41,7 +41,7 @@ public class RoomEndpoint {
         try {
             incomingMessage.accept(session, roomId, messageHandler);
         } catch (Exception e) {
-            messageHandler.handleError(session, Optional.of(incomingMessage.txId()), e);
+            messageHandler.handleError(session, Optional.of(incomingMessage.clientTxId()), e);
         }
     }
 

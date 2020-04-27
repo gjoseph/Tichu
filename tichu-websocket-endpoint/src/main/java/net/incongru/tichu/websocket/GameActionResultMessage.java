@@ -1,6 +1,7 @@
 package net.incongru.tichu.websocket;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,7 +22,8 @@ public interface GameActionResultMessage extends OutgoingMessage {
      * TODO - another type of OutgoingMessage for game results for non-response messages (i.e broadcasts to other players)
      */
     @Nonnull
-    String txId();
+    @JsonProperty("txId")
+    String clientTxId();
 
     @JsonUnwrapped
     ActionResponse result();
