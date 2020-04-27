@@ -50,6 +50,15 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-websocket-schema</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-websocket-schema</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-embedded-tomcat</artifactId>
         </dependency>
         <dependency>
