@@ -2,6 +2,8 @@ import WebSocket from "ws";
 import inquirer from "inquirer";
 import { Cards } from "./cards";
 import {
+    ActivityMessage,
+    ErrorMessage,
     IncomingChatMessage,
     IncomingGameMessage,
     IncomingMessage,
@@ -130,15 +132,19 @@ export class WSTichuClient {
         this.closeCurrentPrompt();
 
         // there's gotta be a better way than just casting to string
-        const res = JSON.parse(data as string) as IncomingMessage;
-        this.console.debug("Received", res);
+        const msg = JSON.parse(data as string) as IncomingMessage;
+        this.console.debug("Received", msg);
 
-        if (res.messageType === "chat") {
-            this.handleChatMessage(res as IncomingChatMessage);
-        } else if (res.messageType === "game") {
-            this.handleGameMessage(res as IncomingGameMessage);
+        if (msg.messageType === "chat") {
+            this.handleChatMessage(msg as IncomingChatMessage);
+        } else if (msg.messageType === "game") {
+            this.handleGameMessage(msg as IncomingGameMessage);
+        } else if (msg.messageType === "activity") {
+            this.handleActivityMessage(msg as ActivityMessage);
+        } else if (msg.messageType === "error") {
+            this.handleErrorMessage(msg as ErrorMessage);
         } else {
-            throw new Error("Unknown message type: " + res.messageType);
+            throw new Error("Unknown message type: " + msg.messageType);
         }
 
         if (this.nextPrompt) {
@@ -146,11 +152,27 @@ export class WSTichuClient {
         }
     }
 
-    private handleChatMessage(res: IncomingChatMessage) {
+    private handleChatMessage(msg: IncomingChatMessage) {
         this.console.print(
             Console.Types.Incoming,
-            res.content,
+            `${msg.from}: ${msg.content}`,
             Console.Colors.Blue
+        );
+    }
+
+    private handleErrorMessage(msg: ErrorMessage) {
+        this.console.print(
+            Console.Types.Incoming,
+            `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`,
+            Console.Colors.Red
+        );
+    }
+
+    private handleActivityMessage(msg: ActivityMessage) {
+        this.console.print(
+            Console.Types.Incoming,
+            `${msg.actor} ${msg.activity}`,
+            Console.Colors.Green
         );
     }
 
