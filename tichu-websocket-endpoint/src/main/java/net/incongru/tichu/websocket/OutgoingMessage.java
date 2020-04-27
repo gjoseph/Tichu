@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
-        // our json shapes will have a "type" with values as specified below
+        // our json shapes will have a "messageType" with values as specified below
         property = "messageType"
 )
 @JsonSubTypes({
