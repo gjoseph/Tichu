@@ -6,6 +6,10 @@ import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.DefaultActionFactory;
+import net.incongru.tichu.model.Game;
+import net.incongru.tichu.model.Player;
+import net.incongru.tichu.model.Players;
+import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.room.Room;
 import net.incongru.tichu.room.RoomGameContext;
@@ -14,6 +18,8 @@ import net.incongru.tichu.room.RoomProvider;
 import javax.websocket.Session;
 import java.util.Optional;
 import java.util.UUID;
+
+import static net.incongru.tichu.action.impl.PlayerIsReadyResult.OK_STARTED;
 
 public class MessageHandlerImpl implements MessageHandler {
     private final SessionProvider sessions;
@@ -101,6 +107,33 @@ public class MessageHandlerImpl implements MessageHandler {
                 .result(res)
                 .build();
         sessions.broadcast(msg);
+
+        // TODO not here
+        if (res.result() == OK_STARTED) {
+            final Game game = ctx.game();
+            final Trick trick = game.currentRound().currentTrick();
+            final Players players = game.players();
+            players.stream().forEach(p -> {
+                final Player.Hand hand = p.hand();
+                System.out.println("player = " + p);
+                System.out.println("hand = " + hand);
+                final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
+                        .clientTxId(gameActionMessage.clientTxId())
+                        .hand(hand)
+                        .build();
+                System.out.println("playerHandMessage = " + playerHandMessage);
+
+                // TODO abstract into SessionProvider
+                // TODO Send to a particular player obviously
+                session.getAsyncRemote().sendObject(playerHandMessage, result -> {
+                    if (!result.isOK()) {
+                        // TODO metrics and logs
+                        result.getException().printStackTrace();
+                    }
+                });
+
+            });
+        }
     }
 
     private UserId getUser(Session session) {

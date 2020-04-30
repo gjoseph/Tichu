@@ -2,6 +2,7 @@ package net.incongru.tichu.websocket.codec;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -26,10 +27,12 @@ import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
 import java.io.IOException;
+import java.util.Set;
 
 class JacksonSetup {
 
@@ -38,6 +41,7 @@ class JacksonSetup {
 
         // Mixins to support custom serialisation of our non-javabean classes
         m.setMixInAnnotation(Card.class, CardJacksonSupport.class);
+        m.setMixInAnnotation(Player.Hand.class, HandJacksonSupport.class);
         m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
         m.setMixInAnnotation(ActionResponse.class, ActionResultJacksonSupport.class);
         m.setMixInAnnotation(ActionResponse.Message.class, MessageJacksonSupport.class);
@@ -83,6 +87,11 @@ class JacksonSetup {
 
         @JsonValue
         abstract String shortName();
+    }
+
+    abstract static class HandJacksonSupport {
+        @JsonProperty
+        Set<Card> cards;
     }
 
     abstract static class UserIdJacksonSupport {
