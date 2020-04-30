@@ -274,7 +274,6 @@ export class WSTichuClient {
                 `Disconnected (code: ${code}, reason: "${reason}")`,
                 Console.Colors.Green
             );
-            wsConsole.clear();
             process.exit();
         });
 

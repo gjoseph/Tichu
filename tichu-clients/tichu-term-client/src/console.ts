@@ -41,8 +41,4 @@ export class Console {
             .join(" ");
         this.print(Console.Types.Debug, msgStr, Console.Colors.Yellow);
     }
-
-    clear() {
-        this.stdout.write("\u001b[2K\u001b[3D");
-    }
 }
