@@ -1,10 +1,10 @@
 // init
-import { Card } from "./cards";
+import { Card, cardFromName } from "./cards";
 import { nanoid } from "nanoid";
 import { UserId } from "./model";
 
 interface Message {
-    readonly messageType: "activity" | "game" | "chat" | "error";
+    readonly messageType: "activity" | "game" | "hand" | "chat" | "error";
 }
 
 // Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
@@ -26,6 +26,16 @@ export class IncomingGameMessage implements IncomingMessage {
         readonly actor: UserId,
         readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
         readonly message: ActionResultMessage
+    ) {}
+}
+
+type CardShortName = string;
+export class IncomingHandMessage implements IncomingMessage {
+    readonly messageType = "hand";
+
+    constructor(
+        readonly txId: string,
+        readonly hand: { cards: CardShortName[] }
     ) {}
 }
 

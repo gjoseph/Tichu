@@ -1,11 +1,12 @@
 import WebSocket from "ws";
 import inquirer from "inquirer";
-import { Cards } from "./cards";
+import { Card, cardFromName } from "./cards";
 import {
     ActivityMessage,
     ErrorMessage,
     IncomingChatMessage,
     IncomingGameMessage,
+    IncomingHandMessage,
     IncomingMessage,
     JoinParam,
     OutgoingChatMessage,
@@ -99,8 +100,7 @@ export class WSTichuClient {
         });
     };
 
-    promptForCards = () => {
-        const cards = Cards.sort(() => 0.5 - Math.random()).slice(0, 14);
+    promptForCards = (cards: Card[]) => () => {
         const choices = cards.map((c) => {
             return { value: c.shortName, name: c.name };
         });
@@ -139,6 +139,8 @@ export class WSTichuClient {
             this.handleChatMessage(msg as IncomingChatMessage);
         } else if (msg.messageType === "game") {
             this.handleGameMessage(msg as IncomingGameMessage);
+        } else if (msg.messageType === "hand") {
+            this.handleHandMessage(msg as IncomingHandMessage);
         } else if (msg.messageType === "activity") {
             this.handleActivityMessage(msg as ActivityMessage);
         } else if (msg.messageType === "error") {
@@ -220,7 +222,10 @@ export class WSTichuClient {
                         }
                         break;
                     case "ok-started":
-                        this.nextPrompt = this.promptForCards;
+                        this.console.debug("Let's get started!");
+                        // expecting each player to get a hand message now ...
+                        // see handleHandMessage
+                        this.nextPrompt = undefined;
                         break;
                 }
                 break;
@@ -233,6 +238,16 @@ export class WSTichuClient {
         }
 
         // TODO etc...
+    }
+
+    private handleHandMessage(msg: IncomingHandMessage) {
+        // msg has a txId but we don't really care while "fetching hand" isn't its own action
+        // for the originating client, the txId will have been removed from queue with the game message
+        // for the other 3 clients, it will be unknown
+        this.console.debug("Received cards", msg.hand.cards);
+        // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
+        const cards: Card[] = msg.hand.cards.map(cardFromName);
+        this.nextPrompt = this.promptForCards(cards);
     }
 
     close = () => {
