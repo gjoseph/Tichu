@@ -6,6 +6,8 @@ import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.DefaultActionFactory;
+import net.incongru.tichu.action.impl.PlayerIsReadyResult;
+import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Players;
@@ -19,7 +21,7 @@ import javax.websocket.Session;
 import java.util.Optional;
 import java.util.UUID;
 
-import static net.incongru.tichu.action.impl.PlayerIsReadyResult.OK_STARTED;
+import static net.incongru.tichu.websocket.SessionProvider.getUser;
 
 public class MessageHandlerImpl implements MessageHandler {
     private final SessionProvider sessions;
@@ -109,7 +111,7 @@ public class MessageHandlerImpl implements MessageHandler {
         sessions.broadcast(msg);
 
         // TODO not here
-        if (res.result() == OK_STARTED) {
+        if (res.result() == PlayerIsReadyResult.OK_STARTED || res.result() == PlayerPlaysResult.NEXT_PLAYER_GOES) {
             final Game game = ctx.game();
             final Trick trick = game.currentRound().currentTrick();
             final Players players = game.players();
@@ -122,22 +124,9 @@ public class MessageHandlerImpl implements MessageHandler {
                         .hand(hand)
                         .build();
                 System.out.println("playerHandMessage = " + playerHandMessage);
-
-                // TODO abstract into SessionProvider
-                // TODO Send to a particular player obviously
-                session.getAsyncRemote().sendObject(playerHandMessage, result -> {
-                    if (!result.isOK()) {
-                        // TODO metrics and logs
-                        result.getException().printStackTrace();
-                    }
-                });
-
+                sessions.send(p.id(), playerHandMessage);
             });
         }
-    }
-
-    private UserId getUser(Session session) {
-        return UserId.of(session.getUserPrincipal().getName());
     }
 
 }
