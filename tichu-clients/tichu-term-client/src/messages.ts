@@ -1,5 +1,5 @@
 // init
-import { Card, cardFromName } from "./cards";
+import { Card } from "./cards";
 import { nanoid } from "nanoid";
 import { UserId } from "./model";
 
@@ -69,14 +69,19 @@ export class OutgoingChatMessage implements OutgoingMessage {
 
 type ActivityType = "coco" | "disconnected";
 type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
-type IncomingResult =
-    // join:
+type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
+export type JoinResult =
     | "can-not-join-full-table"
     | "ok"
-    | "ok-table-is-now-full"
-    // playerIsReady
-    | "ok"
-    | "ok-started";
+    | "ok-table-is-now-full";
+export type PlayerIsReadyResult = "ok" | "ok-started";
+export type PlayResult =
+    | "next-player-goes"
+    | "trick-end"
+    | "too-weak"
+    | "not-in-hand"
+    | "invalid-play"
+    | "invalid-state";
 
 type ActionResultMessage = string;
 

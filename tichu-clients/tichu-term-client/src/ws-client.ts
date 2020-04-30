@@ -8,16 +8,20 @@ import {
     IncomingGameMessage,
     IncomingHandMessage,
     IncomingMessage,
+    JoinResult,
     JoinParam,
     OutgoingChatMessage,
     OutgoingGameMessage,
     OutgoingMessage,
     PlayerIsReadyParam,
+    PlayerIsReadyResult,
     PlayerPlaysParam,
+    PlayResult,
 } from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
 import PromptUI from "inquirer/lib/ui/prompt";
+import { visitEnumValue } from "ts-enum-util";
 
 export class WSTichuClient {
     private readonly console: Console;
@@ -199,39 +203,46 @@ export class WSTichuClient {
             case "init":
                 break;
             case "join":
-                switch (msg.result) {
-                    case "ok":
+                visitEnumValue(msg.result as JoinResult).with({
+                    "can-not-join-full-table": () => {
+                        this.console.debug("Nah this table is full");
+                        this.nextPrompt = undefined;
+                    },
+                    ok: () => {
                         if (isResponse) {
                             this.console.debug("Waiting for others");
                             this.nextPrompt = undefined;
                         }
-                        break;
-                    case "ok-table-is-now-full":
+                    },
+                    "ok-table-is-now-full": () => {
                         this.nextPrompt = this.promptForReadiness;
-                        break;
-                }
+                    },
+                });
                 break;
             case "ready":
-                switch (msg.result) {
-                    case "ok":
+                visitEnumValue(msg.result as PlayerIsReadyResult).with({
+                    ok: () => {
                         if (isResponse) {
                             this.console.debug(
                                 "Waiting for others to be ready"
                             );
                             this.nextPrompt = undefined;
                         }
-                        break;
-                    case "ok-started":
+                    },
+                    "ok-started": () => {
                         this.console.debug("Let's get started!");
                         // expecting each player to get a hand message now ...
                         // see handleHandMessage
                         this.nextPrompt = undefined;
-                        break;
-                }
+                    },
+                });
                 break;
             case "newTrick":
                 break;
             case "play":
+                // visitEnumValue(msg.result as PlayResult).with({
+                //     "trick-end": () => {},
+                // });
                 break;
             default:
                 throw new Error("Unknown action: " + msg.forAction);
