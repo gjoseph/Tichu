@@ -17,6 +17,8 @@ import {
     PlayerIsReadyResult,
     PlayerPlaysParam,
     PlayResult,
+    NewTrickParam,
+    IncomingPlayerPlaysResponse,
 } from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
@@ -100,6 +102,20 @@ export class WSTichuClient {
                 return new OutgoingGameMessage(new PlayerIsReadyParam());
             } else {
                 return new OutgoingChatMessage("Not ready");
+            }
+        });
+    };
+
+    promptForNewTrick = () => {
+        return this.ask({
+            type: "confirm",
+            name: "ready",
+            message: "Kick-off new trick?",
+        }).then((answers: any) => {
+            if (answers.ready) {
+                return new OutgoingGameMessage(new NewTrickParam());
+            } else {
+                return new OutgoingChatMessage("Not ready for a new trick");
             }
         });
     };
@@ -237,12 +253,30 @@ export class WSTichuClient {
                     },
                 });
                 break;
-            case "newTrick":
+            case "new-trick":
+                this.console.debug("What do we do here?");
                 break;
             case "play":
-                // visitEnumValue(msg.result as PlayResult).with({
-                //     "trick-end": () => {},
-                // });
+                const msg1 = msg as IncomingPlayerPlaysResponse;
+                visitEnumValue(msg1.result as PlayResult).with({
+                    "next-player-goes": () => {
+                        this.console.print(
+                            Console.Types.Control,
+                            `It's now ${msg1.nextPlayer}'s turn`,
+                            Console.Colors.Green
+                        );
+                    },
+                    "trick-end": () => {
+                        // TODO Anyone will be table to trigger new-trick here, but maybe this should only be for the winning player?
+                        // (I don't think the info is currently in the messages)
+                        this.nextPrompt = this.promptForNewTrick;
+                    },
+                    // errors:
+                    "invalid-play": this.logErrorNoPromptChange(msg.message),
+                    "invalid-state": this.logErrorNoPromptChange(msg.message),
+                    "not-in-hand": this.logErrorNoPromptChange(msg.message),
+                    "too-weak": this.logErrorNoPromptChange(msg.message),
+                });
                 break;
             default:
                 throw new Error("Unknown action: " + msg.forAction);
@@ -255,11 +289,19 @@ export class WSTichuClient {
         // msg has a txId but we don't really care while "fetching hand" isn't its own action
         // for the originating client, the txId will have been removed from queue with the game message
         // for the other 3 clients, it will be unknown
-        this.console.debug("Received cards", msg.hand.cards);
+        // this.console.debug("Received cards", msg.hand.cards);
         // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
         const cards: Card[] = msg.hand.cards.map(cardFromName);
         this.nextPrompt = this.promptForCards(cards);
     }
+
+    private logErrorNoPromptChange = (s: string) => () => {
+        this.console.print(
+            Console.Types.Error,
+            `Yeah nah ${s}`,
+            Console.Colors.Red
+        );
+    };
 
     close = () => {
         this.ws().close();

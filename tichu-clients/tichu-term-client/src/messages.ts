@@ -29,6 +29,20 @@ export class IncomingGameMessage implements IncomingMessage {
     ) {}
 }
 
+export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
+    constructor(
+        readonly txId: string,
+        readonly forAction: ActionType,
+        readonly actor: UserId,
+        readonly result: IncomingResult,
+        readonly message: ActionResultMessage,
+        // readonly  play: Play,
+        readonly nextPlayer: UserId
+    ) {
+        super(txId, forAction, actor, result, message);
+    }
+}
+
 type CardShortName = string;
 export class IncomingHandMessage implements IncomingMessage {
     readonly messageType = "hand";
@@ -68,7 +82,7 @@ export class OutgoingChatMessage implements OutgoingMessage {
 }
 
 type ActivityType = "coco" | "disconnected";
-type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
+type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
 type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
 export type JoinResult =
     | "can-not-join-full-table"
@@ -102,7 +116,12 @@ export class JoinParam implements GameParam {
     constructor(readonly team: number) {}
 }
 
-// newTrick?
+// newTrick
+export class NewTrickParam implements GameParam {
+    readonly type = "new-trick";
+
+    constructor() {}
+}
 
 // isReady
 export class PlayerIsReadyParam implements GameParam {
