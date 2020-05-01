@@ -6,6 +6,7 @@ import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.DefaultActionFactory;
+import net.incongru.tichu.action.impl.NewTrickResult;
 import net.incongru.tichu.action.impl.PlayerIsReadyResult;
 import net.incongru.tichu.action.impl.PlayerPlaysResult;
 import net.incongru.tichu.model.Game;
@@ -97,6 +98,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
+        System.out.println(String.format("%s => %s", withActor, res.result()));
         // This will differ based on action/result
         // -- some need to be broadcast to all users
         // -- some to just the actor
@@ -111,19 +113,19 @@ public class MessageHandlerImpl implements MessageHandler {
         sessions.broadcast(msg);
 
         // TODO not here
-        if (res.result() == PlayerIsReadyResult.OK_STARTED || res.result() == PlayerPlaysResult.NEXT_PLAYER_GOES) {
+        if (res.result() == PlayerIsReadyResult.OK_STARTED
+            || res.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
+            || res.result() == NewTrickResult.OK) {
             final Game game = ctx.game();
             final Trick trick = game.currentRound().currentTrick();
             final Players players = game.players();
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
-                System.out.println("player = " + p);
-                System.out.println("hand = " + hand);
+                System.out.println(p.id() + " has " + hand.toDebugString());
                 final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
                         .clientTxId(gameActionMessage.clientTxId())
                         .hand(hand)
                         .build();
-                System.out.println("playerHandMessage = " + playerHandMessage);
                 sessions.send(p.id(), playerHandMessage);
             });
         }
