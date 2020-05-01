@@ -24,7 +24,7 @@ class InitialiseGame implements Action<InitialiseGameParam, InitialiseGameResult
         // game already started, perhaps team setup, rules, etc
         return new SimpleResponse<>(
                 param.actor(),
-                ActionType.init,
+                ActionType.INIT,
                 InitialiseGameResult.OK
         );
     }

@@ -29,7 +29,7 @@ class CheatDeal implements Action<CheatDealParam, CheatDealResult> {
         final Player player = ctx.player(param.actor());
         param.param().cards().forEach(c -> player.deal(c));
 
-        return new SimpleResponse<>(param.actor(), ActionType.cheatDeal, CheatDealResult.OK);
+        return new SimpleResponse<>(param.actor(), ActionType.CHEAT_DEAL, CheatDealResult.OK);
     }
 
 }

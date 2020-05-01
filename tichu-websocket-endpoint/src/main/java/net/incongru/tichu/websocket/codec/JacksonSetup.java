@@ -48,11 +48,11 @@ class JacksonSetup {
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
-        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, Action.ActionType.init.name()));
-        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, Action.ActionType.join.name()));
-        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, Action.ActionType.newTrick.name())); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, Action.ActionType.ready.name()));
-        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, Action.ActionType.play.name()));
+        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, kebab(Action.ActionType.INIT)));
+        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, kebab(Action.ActionType.JOIN)));
+        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, kebab(Action.ActionType.NEW_TRICK))); // TODO should not need this one?
+        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, kebab(Action.ActionType.READY)));
+        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, kebab(Action.ActionType.PLAY)));
 
         // All enums should be serialised in kebab-case
         // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?
@@ -136,8 +136,12 @@ class JacksonSetup {
 
         @Override
         public void serialize(Enum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            final String kebab = value.name().toLowerCase().replace('_', '-');
+            final String kebab = kebab(value);
             jgen.writeString(kebab);
         }
+    }
+
+    protected static String kebab(Enum value) {
+        return value.name().toLowerCase().replace('_', '-');
     }
 }
