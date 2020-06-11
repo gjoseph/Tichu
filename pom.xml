@@ -12,7 +12,6 @@
         <module>tichu-model</module>
         <module>tichu-actions</module>
         <module>tichu-simulator</module>
-        <module>tichu-server</module>
         <module>tichu-websocket-endpoint</module>
         <module>tichu-embedded-tomcat</module>
         <module>tichu-archunit</module>
@@ -51,17 +50,6 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-simulator</artifactId>
-                <type>test-jar</type>
-                <version>0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>net.incongru.tichu</groupId>
-                <artifactId>tichu-server</artifactId>
-                <version>0.1-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>net.incongru.tichu</groupId>
-                <artifactId>tichu-server</artifactId>
                 <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
             </dependency>

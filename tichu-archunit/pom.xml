@@ -41,22 +41,6 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
-            <artifactId>tichu-server</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Makes ArchUnit very verbose - so we replace this with slf4j-nop below -->
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>net.incongru.tichu</groupId>
-            <artifactId>tichu-server</artifactId>
-            <type>test-jar</type>
-        </dependency>
-        <dependency>
-            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-websocket-endpoint</artifactId>
         </dependency>
         <dependency>
