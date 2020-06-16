@@ -10,7 +10,7 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "build": "lerna run --stream build",
-    "test": "lerna run --stream test",
+    "test": "lerna run --stream test # ⚠️  tichu-web will run tests in watch mode when not on CI",
     "term-client": "build && lerna run --scope tichu-term-client start",
     "web": "build && lerna run --scope tichu-web start"
   },
