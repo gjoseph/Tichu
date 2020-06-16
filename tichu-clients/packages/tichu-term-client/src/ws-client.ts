@@ -1,6 +1,6 @@
 import WebSocket from "ws";
 import inquirer from "inquirer";
-import { Card, cardFromName } from "./cards";
+import { Card, cardFromName } from "tichu-client-ts-lib";
 import {
     ActivityMessage,
     ErrorMessage,

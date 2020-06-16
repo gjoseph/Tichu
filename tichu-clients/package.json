@@ -3,5 +3,12 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run --stream build",
+    "test": "lerna run --stream test",
+    "term-client": "build && lerna run --scope tichu-term-client start",
+    "web": "build && lerna run --scope tichu-web start"
   }
 }

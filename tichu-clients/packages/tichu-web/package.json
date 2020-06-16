@@ -13,7 +13,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "tichu-term-client": "1.0.0",
+    "tichu-client-ts-lib": "1.0.0",
     "typescript": "^3.7.5"
   },
   "scripts": {

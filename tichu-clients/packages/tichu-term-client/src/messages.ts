@@ -1,5 +1,5 @@
 // init
-import { Card } from "./cards";
+import { Card } from "tichu-client-ts-lib";
 import { nanoid } from "nanoid";
 import { UserId } from "./model";
 

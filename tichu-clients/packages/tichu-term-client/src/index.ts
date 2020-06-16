@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import { program } from "commander";
-import { coerceTeamId } from "./util";
+import { coerceTeamId } from "tichu-client-ts-lib";
 import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
 

@@ -11,7 +11,10 @@
         "types": ["node", "inquirer", "figlet", "fs-extra"],
         "esModuleInterop": true,
         "resolveJsonModule": true,
-        "importHelpers": true
+        "importHelpers": true,
+
+        "declaration": true,
+        "declarationMap": true
     },
     "exclude": ["node_modules", "lib", "templates"]
 }
