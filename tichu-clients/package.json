@@ -2,7 +2,10 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "lerna": "^3.22.1",
+    "husky": "4.2.5",
+    "prettier": "2.0.5",
+    "pretty-quick": "2.0.1"
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
@@ -10,5 +13,14 @@
     "test": "lerna run --stream test",
     "term-client": "build && lerna run --scope tichu-term-client start",
     "web": "build && lerna run --scope tichu-web start"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --no-restage --bail"
+    }
+  },
+  "prettier": {
+    "tabWidth": 4,
+    "useTabs": false
   }
 }
