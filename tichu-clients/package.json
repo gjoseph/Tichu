@@ -24,7 +24,6 @@
   },
   "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
   "prettier": {
-    "tabWidth": 4,
     "useTabs": false
   }
 }

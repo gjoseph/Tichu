@@ -1,12 +1,10 @@
 Learning lerna:
 
--   `$(npm bin)/lerna bootstrap --hoist`
-    -   Updates `./package-lock.json` but doesn't modify `packages/*/package.json`
--   Common deps can be added to ./package.json
-    -   can they? Do they still need to be in `packages/*/package.json` ?
--   add scripts to `./package.json` for common commands
-    -   .. bootstrap hoist can pbly a pre/postinstall script
--   hoisting causes issue with CRA -- for some reason the wrong version of webpack ends up installed in ./
+- `$(npm bin)/lerna bootstrap --hoist`
+  - Updates `./package-lock.json` but doesn't modify `packages/*/package.json`
+- Common deps can be added to ./package.json
+  - can they? Do they still need to be in `packages/*/package.json` ?
+- hoisting causes issue with CRA -- for some reason the wrong version of webpack ends up installed in ./
 
 Couldn't get typescript project references to play nice with CRA so tichu-client-ts-lib is its own module.
 
