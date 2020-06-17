@@ -27,3 +27,5 @@ matrix:
         - 13
       before_install:
         - cd tichu-clients
+      after_script:
+        - npm run prettier-check-all
