@@ -31,6 +31,7 @@ import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Set;
 
@@ -150,7 +151,7 @@ class JacksonSetup {
         }
     }
 
-    protected static String kebab(Enum value) {
+    protected static String kebab(@Nonnull Enum<?> value) {
         return value.name().toLowerCase().replace('_', '-');
     }
 }

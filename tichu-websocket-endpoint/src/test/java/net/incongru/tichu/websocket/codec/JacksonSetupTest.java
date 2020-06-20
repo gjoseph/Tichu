@@ -24,6 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static net.incongru.tichu.websocket.codec.JacksonSetup.kebab;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -121,6 +122,24 @@ class JacksonSetupTest {
                 arguments("{\"type\": \"net.incongru.tichu.action.param.ImmutableCheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"),
                 arguments("{\"type\": \"net.incongru.tichu.action.param.CheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}")
         );
+    }
+
+    enum KebabTests {
+        lol, LOL, Lol,
+        lol_what, LOL_WHAT, Lol_What,
+        _a, a_
+    }
+
+    @Test
+    void kebabWorksAsIntended() {
+        assertThat(kebab(KebabTests.lol)).isEqualTo("lol");
+        assertThat(kebab(KebabTests.LOL)).isEqualTo("lol");
+        assertThat(kebab(KebabTests.Lol)).isEqualTo("lol");
+        assertThat(kebab(KebabTests.lol_what)).isEqualTo("lol-what");
+        assertThat(kebab(KebabTests.LOL_WHAT)).isEqualTo("lol-what");
+        assertThat(kebab(KebabTests.Lol_What)).isEqualTo("lol-what");
+        assertThat(kebab(KebabTests._a)).isEqualTo("-a");
+        assertThat(kebab(KebabTests.a_)).isEqualTo("a-");
     }
 
     static class CardArrayWrapper {
