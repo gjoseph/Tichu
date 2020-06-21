@@ -35,12 +35,15 @@ public class SessionProvider {
     }
 
     private void sendMessage(Session session, OutgoingMessage message) {
-        session.getAsyncRemote().sendObject(message, result -> {
-            if (!result.isOK()) {
-                // TODO metrics and logs
-                result.getException().printStackTrace();
-            }
-        });
+        // Synchronising here for now -- see https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
+        synchronized (session) {
+            session.getAsyncRemote().sendObject(message, result -> {
+                if (!result.isOK()) {
+                    // TODO metrics and logs
+                    result.getException().printStackTrace();
+                }
+            });
+        }
     }
 
     static UserId getUser(Session session) {
