@@ -100,38 +100,39 @@ public class MessageHandlerImpl implements MessageHandler {
 
         System.out.println(String.format("%s => %s", withActor, res.result()));
 
-        final AddressedMessages messageBundle = new AddressedMessages();
+        final AddressedMessages messageBundle = generateMessages(ctx, gameActionMessage, res);
+        send(sessions, messageBundle);
+    }
 
-        // This will differ based on action/result
-        // -- some need to be broadcast to all users
-        // -- some to just the actor
-        // -- some different message (values) to actor and other players
-        // Actual result probably only sent to actor
+    /**
+     * Generate different messages based on action and response.
+     */
+    protected AddressedMessages generateMessages(RoomGameContext ctx, GameActionMessage actionMessage, ActionResponse actionResponse) {
+        final AddressedMessages messageBundle = new AddressedMessages();
+        // Actual result should probably be only sent to actor
         // Other table members just receive a log/view of it?
         messageBundle.roomMessage(ImmutableGameActionResultMessage.builder()
-                .clientTxId(gameActionMessage.clientTxId())
-                .result(res)
+                .clientTxId(actionMessage.clientTxId())
+                .result(actionResponse)
                 .build());
 
-        // Also send hand messages to each player after every relevant action
-        // TODO not here
-        if (res.result() == PlayerIsReadyResult.OK_STARTED
-            || res.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
-            || res.result() == NewTrickResult.OK) {
+        if (actionResponse.result() == PlayerIsReadyResult.OK_STARTED
+            || actionResponse.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
+            || actionResponse.result() == NewTrickResult.OK) {
             final Game game = ctx.game();
             final Trick trick = game.currentRound().currentTrick();
             final Players players = game.players();
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
                 final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
-                        .clientTxId(gameActionMessage.clientTxId())
+                        .clientTxId(actionMessage.clientTxId())
                         .hand(hand)
                         .build();
                 messageBundle.userMessage(p.id(), playerHandMessage);
             });
         }
 
-        send(sessions, messageBundle);
+        return messageBundle;
     }
 
     private void send(SessionProvider sessions, AddressedMessages messageBundle) {
