@@ -99,19 +99,21 @@ public class MessageHandlerImpl implements MessageHandler {
         final ActionResponse res = action.exec(ctx, withActor);
 
         System.out.println(String.format("%s => %s", withActor, res.result()));
+
+        final AddressedMessages messageBundle = new AddressedMessages();
+
         // This will differ based on action/result
         // -- some need to be broadcast to all users
         // -- some to just the actor
         // -- some different message (values) to actor and other players
         // Actual result probably only sent to actor
         // Other table members just receive a log/view of it?
-
-        final GameActionResultMessage msg = ImmutableGameActionResultMessage.builder()
+        messageBundle.roomMessage(ImmutableGameActionResultMessage.builder()
                 .clientTxId(gameActionMessage.clientTxId())
                 .result(res)
-                .build();
-        sessions.broadcast(msg);
+                .build());
 
+        // Also send hand messages to each player after every relevant action
         // TODO not here
         if (res.result() == PlayerIsReadyResult.OK_STARTED
             || res.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
@@ -121,14 +123,25 @@ public class MessageHandlerImpl implements MessageHandler {
             final Players players = game.players();
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
-                System.out.println(p.id() + " has " + hand.toDebugString());
                 final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
                         .clientTxId(gameActionMessage.clientTxId())
                         .hand(hand)
                         .build();
-                sessions.send(p.id(), playerHandMessage);
+                messageBundle.userMessage(p.id(), playerHandMessage);
             });
         }
+
+        send(sessions, messageBundle);
+    }
+
+    private void send(SessionProvider sessions, AddressedMessages messageBundle) {
+        messageBundle.getMessages().forEach(env -> {
+            if (env.recipient() != null) {
+                sessions.send(env.recipient(), env.message());
+            } else {
+                sessions.broadcast(env.message());
+            }
+        });
     }
 
 }
