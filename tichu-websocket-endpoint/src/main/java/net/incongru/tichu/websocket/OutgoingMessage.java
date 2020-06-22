@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         // but we still need to also specify @JsonDeserialize(as) on the abstract types for deserialisation
         @JsonSubTypes.Type(value = ImmutableOutgoingChatMessage.class, name = "chat"),
         @JsonSubTypes.Type(value = ImmutableGameActionResultMessage.class, name = "game"),
+        @JsonSubTypes.Type(value = ImmutablePlayerHandMessage.class, name = "hand"),
         @JsonSubTypes.Type(value = ImmutableErrorMessage.class, name = "error"),
         @JsonSubTypes.Type(value = ImmutableRoomActivityMessage.class, name = "activity")
 })

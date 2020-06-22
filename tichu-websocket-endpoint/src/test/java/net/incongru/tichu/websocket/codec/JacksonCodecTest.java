@@ -70,7 +70,7 @@ class JacksonCodecTest {
                                 .clientTxId("<random-id>")
                                 .result(new SimpleResponse<>(
                                         UserId.of("dummy"),
-                                        Action.ActionType.join,
+                                        Action.ActionType.JOIN,
                                         JoinTableResult.OK_TABLE_IS_NOW_FULL
                                 ))
                                 .build(),
@@ -80,7 +80,7 @@ class JacksonCodecTest {
                         "  forAction: 'join', " +
                         "  actor: 'dummy', " +
                         "  result: 'ok-table-is-now-full', " +
-                        "  message: 'join was OK_TABLE_IS_NOW_FULL'" + // temporary message
+                        "  message: 'JOIN was OK_TABLE_IS_NOW_FULL'" + // temporary message
                         " }"),
                 arguments(ImmutableGameActionResultMessage.builder()
                                 .clientTxId("<random-id>")

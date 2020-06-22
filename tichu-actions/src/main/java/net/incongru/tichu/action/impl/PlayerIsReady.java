@@ -19,9 +19,9 @@ class PlayerIsReady implements Action<PlayerIsReadyParam, PlayerIsReadyResult> {
         if (game.players().areAllReady()) {
             game.start(); // TODO do we want to check isReadyToStart?
             game.currentRound().start(); // TODO see net.incongru.tichu.model.Round.start
-            return new SimpleResponse<>(param.actor(), ActionType.ready, PlayerIsReadyResult.OK_STARTED);
+            return new SimpleResponse<>(param.actor(), ActionType.READY, PlayerIsReadyResult.OK_STARTED);
         } else {
-            return new SimpleResponse<>(param.actor(), ActionType.ready, PlayerIsReadyResult.OK);
+            return new SimpleResponse<>(param.actor(), ActionType.READY, PlayerIsReadyResult.OK);
         }
     }
 

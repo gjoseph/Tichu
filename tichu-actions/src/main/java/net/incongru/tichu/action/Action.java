@@ -11,10 +11,10 @@ public interface Action<P extends ActionParam, R extends ActionResponse.Result> 
     ActionResponse<R> exec(GameContext ctx, ActionParam.WithActor<P> actionParam);
 
     enum ActionType {
-        init, join, ready,
-        cheatDeal,
-        newTrick, // not sure we need this as an action to begin with
-        play, pass
+        INIT, JOIN, READY,
+        CHEAT_DEAL,
+        NEW_TRICK, // not sure we need this as an action to begin with
+        PLAY, PASS
     }
 
 }

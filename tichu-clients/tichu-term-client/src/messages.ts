@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { UserId } from "./model";
 
 interface Message {
-    readonly messageType: "activity" | "game" | "chat" | "error";
+    readonly messageType: "activity" | "game" | "hand" | "chat" | "error";
 }
 
 // Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
@@ -26,6 +26,30 @@ export class IncomingGameMessage implements IncomingMessage {
         readonly actor: UserId,
         readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
         readonly message: ActionResultMessage
+    ) {}
+}
+
+export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
+    constructor(
+        readonly txId: string,
+        readonly forAction: ActionType,
+        readonly actor: UserId,
+        readonly result: IncomingResult,
+        readonly message: ActionResultMessage,
+        // readonly  play: Play,
+        readonly nextPlayer: UserId
+    ) {
+        super(txId, forAction, actor, result, message);
+    }
+}
+
+type CardShortName = string;
+export class IncomingHandMessage implements IncomingMessage {
+    readonly messageType = "hand";
+
+    constructor(
+        readonly txId: string,
+        readonly hand: { cards: CardShortName[] }
     ) {}
 }
 
@@ -58,15 +82,20 @@ export class OutgoingChatMessage implements OutgoingMessage {
 }
 
 type ActivityType = "coco" | "disconnected";
-type ActionType = "init" | "join" | "newTrick" | "ready" | "play";
-type IncomingResult =
-    // join:
+type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
+type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
+export type JoinResult =
     | "can-not-join-full-table"
     | "ok"
-    | "ok-table-is-now-full"
-    // playerIsReady
-    | "ok"
-    | "ok-started";
+    | "ok-table-is-now-full";
+export type PlayerIsReadyResult = "ok" | "ok-started";
+export type PlayResult =
+    | "next-player-goes"
+    | "trick-end"
+    | "too-weak"
+    | "not-in-hand"
+    | "invalid-play"
+    | "invalid-state";
 
 type ActionResultMessage = string;
 
@@ -87,7 +116,12 @@ export class JoinParam implements GameParam {
     constructor(readonly team: number) {}
 }
 
-// newTrick?
+// newTrick
+export class NewTrickParam implements GameParam {
+    readonly type = "new-trick";
+
+    constructor() {}
+}
 
 // isReady
 export class PlayerIsReadyParam implements GameParam {

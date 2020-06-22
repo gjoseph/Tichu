@@ -1,22 +1,29 @@
 import WebSocket from "ws";
 import inquirer from "inquirer";
-import { Cards } from "./cards";
+import { Card, cardFromName } from "./cards";
 import {
     ActivityMessage,
     ErrorMessage,
     IncomingChatMessage,
     IncomingGameMessage,
+    IncomingHandMessage,
     IncomingMessage,
+    JoinResult,
     JoinParam,
     OutgoingChatMessage,
     OutgoingGameMessage,
     OutgoingMessage,
     PlayerIsReadyParam,
+    PlayerIsReadyResult,
     PlayerPlaysParam,
+    PlayResult,
+    NewTrickParam,
+    IncomingPlayerPlaysResponse,
 } from "./messages";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
 import PromptUI from "inquirer/lib/ui/prompt";
+import { visitEnumValue } from "ts-enum-util";
 
 export class WSTichuClient {
     private readonly console: Console;
@@ -99,8 +106,21 @@ export class WSTichuClient {
         });
     };
 
-    promptForCards = () => {
-        const cards = Cards.sort(() => 0.5 - Math.random()).slice(0, 14);
+    promptForNewTrick = () => {
+        return this.ask({
+            type: "confirm",
+            name: "ready",
+            message: "Kick-off new trick?",
+        }).then((answers: any) => {
+            if (answers.ready) {
+                return new OutgoingGameMessage(new NewTrickParam());
+            } else {
+                return new OutgoingChatMessage("Not ready for a new trick");
+            }
+        });
+    };
+
+    promptForCards = (cards: Card[]) => () => {
         const choices = cards.map((c) => {
             return { value: c.shortName, name: c.name };
         });
@@ -139,6 +159,8 @@ export class WSTichuClient {
             this.handleChatMessage(msg as IncomingChatMessage);
         } else if (msg.messageType === "game") {
             this.handleGameMessage(msg as IncomingGameMessage);
+        } else if (msg.messageType === "hand") {
+            this.handleHandMessage(msg as IncomingHandMessage);
         } else if (msg.messageType === "activity") {
             this.handleActivityMessage(msg as ActivityMessage);
         } else if (msg.messageType === "error") {
@@ -197,36 +219,64 @@ export class WSTichuClient {
             case "init":
                 break;
             case "join":
-                switch (msg.result) {
-                    case "ok":
+                visitEnumValue(msg.result as JoinResult).with({
+                    "can-not-join-full-table": () => {
+                        this.console.debug("Nah this table is full");
+                        this.nextPrompt = undefined;
+                    },
+                    ok: () => {
                         if (isResponse) {
                             this.console.debug("Waiting for others");
                             this.nextPrompt = undefined;
                         }
-                        break;
-                    case "ok-table-is-now-full":
+                    },
+                    "ok-table-is-now-full": () => {
                         this.nextPrompt = this.promptForReadiness;
-                        break;
-                }
+                    },
+                });
                 break;
             case "ready":
-                switch (msg.result) {
-                    case "ok":
+                visitEnumValue(msg.result as PlayerIsReadyResult).with({
+                    ok: () => {
                         if (isResponse) {
                             this.console.debug(
                                 "Waiting for others to be ready"
                             );
                             this.nextPrompt = undefined;
                         }
-                        break;
-                    case "ok-started":
-                        this.nextPrompt = this.promptForCards;
-                        break;
-                }
+                    },
+                    "ok-started": () => {
+                        this.console.debug("Let's get started!");
+                        // expecting each player to get a hand message now ...
+                        // see handleHandMessage
+                        this.nextPrompt = undefined;
+                    },
+                });
                 break;
-            case "newTrick":
+            case "new-trick":
+                this.console.debug("What do we do here?");
                 break;
             case "play":
+                const msg1 = msg as IncomingPlayerPlaysResponse;
+                visitEnumValue(msg1.result as PlayResult).with({
+                    "next-player-goes": () => {
+                        this.console.print(
+                            Console.Types.Control,
+                            `It's now ${msg1.nextPlayer}'s turn`,
+                            Console.Colors.Green
+                        );
+                    },
+                    "trick-end": () => {
+                        // TODO Anyone will be table to trigger new-trick here, but maybe this should only be for the winning player?
+                        // (I don't think the info is currently in the messages)
+                        this.nextPrompt = this.promptForNewTrick;
+                    },
+                    // errors:
+                    "invalid-play": this.logErrorNoPromptChange(msg.message),
+                    "invalid-state": this.logErrorNoPromptChange(msg.message),
+                    "not-in-hand": this.logErrorNoPromptChange(msg.message),
+                    "too-weak": this.logErrorNoPromptChange(msg.message),
+                });
                 break;
             default:
                 throw new Error("Unknown action: " + msg.forAction);
@@ -234,6 +284,24 @@ export class WSTichuClient {
 
         // TODO etc...
     }
+
+    private handleHandMessage(msg: IncomingHandMessage) {
+        // msg has a txId but we don't really care while "fetching hand" isn't its own action
+        // for the originating client, the txId will have been removed from queue with the game message
+        // for the other 3 clients, it will be unknown
+        // this.console.debug("Received cards", msg.hand.cards);
+        // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
+        const cards: Card[] = msg.hand.cards.map(cardFromName);
+        this.nextPrompt = this.promptForCards(cards);
+    }
+
+    private logErrorNoPromptChange = (s: string) => () => {
+        this.console.print(
+            Console.Types.Error,
+            `Yeah nah ${s}`,
+            Console.Colors.Red
+        );
+    };
 
     close = () => {
         this.ws().close();
@@ -274,7 +342,6 @@ export class WSTichuClient {
                 `Disconnected (code: ${code}, reason: "${reason}")`,
                 Console.Colors.Green
             );
-            wsConsole.clear();
             process.exit();
         });
 

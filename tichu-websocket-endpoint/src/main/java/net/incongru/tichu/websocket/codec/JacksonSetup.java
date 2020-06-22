@@ -2,6 +2,7 @@ package net.incongru.tichu.websocket.codec;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -26,10 +27,13 @@ import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.Set;
 
 class JacksonSetup {
 
@@ -38,6 +42,7 @@ class JacksonSetup {
 
         // Mixins to support custom serialisation of our non-javabean classes
         m.setMixInAnnotation(Card.class, CardJacksonSupport.class);
+        m.setMixInAnnotation(Player.Hand.class, HandJacksonSupport.class);
         m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
         m.setMixInAnnotation(ActionResponse.class, ActionResultJacksonSupport.class);
         m.setMixInAnnotation(ActionResponse.Message.class, MessageJacksonSupport.class);
@@ -48,11 +53,11 @@ class JacksonSetup {
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
-        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, Action.ActionType.init.name()));
-        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, Action.ActionType.join.name()));
-        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, Action.ActionType.newTrick.name())); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, Action.ActionType.ready.name()));
-        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, Action.ActionType.play.name()));
+        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, kebab(Action.ActionType.INIT)));
+        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, kebab(Action.ActionType.JOIN)));
+        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, kebab(Action.ActionType.NEW_TRICK))); // TODO should not need this one?
+        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, kebab(Action.ActionType.READY)));
+        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, kebab(Action.ActionType.PLAY)));
 
         // All enums should be serialised in kebab-case
         // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?
@@ -83,6 +88,11 @@ class JacksonSetup {
 
         @JsonValue
         abstract String shortName();
+    }
+
+    abstract static class HandJacksonSupport {
+        @JsonProperty
+        Set<Card> cards;
     }
 
     abstract static class UserIdJacksonSupport {
@@ -136,8 +146,12 @@ class JacksonSetup {
 
         @Override
         public void serialize(Enum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
-            final String kebab = value.name().toLowerCase().replace('_', '-');
+            final String kebab = kebab(value);
             jgen.writeString(kebab);
         }
+    }
+
+    protected static String kebab(@Nonnull Enum<?> value) {
+        return value.name().toLowerCase().replace('_', '-');
     }
 }
