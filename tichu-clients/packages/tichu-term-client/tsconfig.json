@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2019", // Node doesn't understand nullish coalescing or optional chaining, so instruct ts to transpile
+    "module": "commonjs",
+    "lib": ["es6", "es2015", "dom"],
+    "declaration": false,
+    "experimentalDecorators": true,
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "strict": true,
+    "types": ["node", "inquirer", "figlet", "fs-extra"],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "importHelpers": true
+  },
+  "exclude": ["node_modules", "lib", "templates"]
+}

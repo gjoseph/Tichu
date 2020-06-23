@@ -1,0 +1,29 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lerna": "^3.22.1",
+    "prettier": "2.0.5",
+    "pretty-quick": "2.0.1"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap && npm run setup-husky",
+    "setup-husky": "npm rebuild husky # much faster than the npm install --save-dev husky documented alternative",
+    "build": "lerna run --stream build",
+    "test": "lerna run --stream test # ⚠️  tichu-web will run tests in watch mode when not on CI",
+    "term-client": "build && lerna run --scope tichu-term-client start",
+    "web": "build && lerna run --scope tichu-web start",
+    "prettier-check-all": "prettier --check . # not using lerna here so we also check the root",
+    "prettier-fix-all": "prettier --write . # not using lerna here so we also check the root"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --check"
+    }
+  },
+  "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
+  "prettier": {
+    "useTabs": false
+  }
+}
