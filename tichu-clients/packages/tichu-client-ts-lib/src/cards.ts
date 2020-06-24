@@ -18,7 +18,7 @@ export interface SpecialCard extends CardBase {
 
 export type Card = NormalCard | SpecialCard;
 
-enum CardSuit {
+export enum CardSuit {
     Jade,
     Sword,
     Pagoda,

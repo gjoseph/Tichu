@@ -1,20 +1,12 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { ReactComponent as SampleCard } from "./sample_card.svg";
-import { Card, cardFromName } from "tichu-client-ts-lib";
-import { CardView } from "./components/CardView";
-
-const CardComp = () => {
-  const card: Card = cardFromName("*P");
-  console.log(card);
-  return <CardView />;
-};
+import { AllCards, Card, cardFromName } from "tichu-client-ts-lib";
+import { CardSet } from "./components/CardSet";
 
 function App() {
   return (
     <div className="App">
-      <CardComp />
+      <CardSet cards={AllCards} />;
     </div>
   );
 }
