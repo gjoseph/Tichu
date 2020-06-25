@@ -95,7 +95,7 @@ public class DeckConstantsCodeGen {
                 out.append("        number: ").append(String.valueOf(card.getVal().playOrder())).append(",\n");
             }
             out.append("        type: \"").append(special ? "special" : "normal").append("\",\n");
-            out.append("    } as ").append(special ? "SpecialCard" : "NormalCard").append(",\n");
+            out.append("    },\n");
         });
         out.println("];");
         out.println("// ==== End CodeGen");
