@@ -1,4 +1,4 @@
-import { Actions } from "./messages";
+import { Actions } from "tichu-client-ts-lib";
 
 export interface GameOpts {
   room: string;

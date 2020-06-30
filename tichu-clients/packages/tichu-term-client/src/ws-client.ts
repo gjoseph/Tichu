@@ -19,7 +19,7 @@ import {
   PlayResult,
   NewTrickParam,
   IncomingPlayerPlaysResponse,
-} from "./messages";
+} from "tichu-client-ts-lib";
 import { GameOpts } from "./startup";
 import { Console } from "./console";
 import PromptUI from "inquirer/lib/ui/prompt";
