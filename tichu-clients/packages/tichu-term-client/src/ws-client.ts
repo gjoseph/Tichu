@@ -1,4 +1,4 @@
-import WebSocket from "ws";
+import WebSocket from "isomorphic-ws";
 import inquirer from "inquirer";
 import { Card, cardFromName } from "tichu-client-ts-lib";
 import {
