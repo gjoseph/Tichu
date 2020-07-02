@@ -41,7 +41,6 @@
     "commander": "^5.0.0",
     "fs-extra": "^9.0.0",
     "inquirer": "^7.1.0",
-    "inversify": "^5.0.1",
     "isomorphic-ws": "^4.0.1",
     "kleur": "^4.0.0",
     "nanoid": "^3.1.3",
