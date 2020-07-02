@@ -1,9 +1,4 @@
 import {
-  TichuWebSocketHandlerFactory,
-  TichuWebSocketHandler,
-} from "./ws-handler";
-import { Log } from "./log";
-import {
   ActivityMessage,
   Card,
   cardFromName,
@@ -18,10 +13,13 @@ import {
   OutgoingMessage,
   PlayerIsReadyParam,
   PlayerPlaysParam,
+  SendFunction,
+  TichuWebSocketHandler,
+  TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
+import { Log } from "./log";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
-import { SendFunction } from "./ws-client";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = (
   send: SendFunction

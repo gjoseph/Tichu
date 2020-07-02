@@ -11,15 +11,15 @@ import {
   OutgoingMessage,
   PlayerIsReadyResult,
   PlayResult,
-} from "tichu-client-ts-lib";
+} from "./messages";
 import { visitEnumValue } from "ts-enum-util";
 import {
-  TichuWebSocketHandlerFactory,
   TichuWebSocketHandler,
+  TichuWebSocketHandlerFactory,
 } from "./ws-handler";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
-
+export type Status = "Done" | "Not done";
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
   private webSocket: WebSocket | undefined;
@@ -171,5 +171,3 @@ export class WSTichuClient {
     this.handler.debug(msg);
   };
 }
-
-export type Status = "Done" | "Not done";

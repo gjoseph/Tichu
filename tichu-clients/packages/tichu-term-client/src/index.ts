@@ -1,8 +1,8 @@
 import inquirer from "inquirer";
 import { program } from "commander";
-import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
 import { newTerminalHandler } from "./term-handler";
+import { Status, WSTichuClient } from "tichu-client-ts-lib";
 
 const url = "ws://localhost:8080/room/some-room-id";
 

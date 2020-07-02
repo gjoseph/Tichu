@@ -7,7 +7,7 @@ import {
   JoinResult,
   PlayerIsReadyResult,
   PlayResult,
-} from "tichu-client-ts-lib";
+} from "./messages";
 import { EnumValueVisitorCore } from "ts-enum-util";
 import { SendFunction } from "./ws-client";
 
