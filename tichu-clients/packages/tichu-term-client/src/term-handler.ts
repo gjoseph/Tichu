@@ -18,22 +18,12 @@ import {
 } from "tichu-client-ts-lib";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
-import { GameOpts } from "./startup";
 
 export class ConsoleHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
-  private teamNumber: number;
 
-  constructor(
-    readonly send: (msg: OutgoingMessage) => void,
-    readonly console: Console,
-    opts: GameOpts
-  ) {
-    // TODO this is temporary, we should just prompt for this
-    // depending on table state
-    this.teamNumber = opts.team;
-  }
+  constructor(readonly send: SendFunction, readonly console: Console) {}
 
   // ==== Websocket callbacks
   onConnect = () => {
@@ -204,12 +194,17 @@ export class ConsoleHandler implements TichuWebSocketHandler {
 
   private promptForJoin = () => {
     return this.ask({
-      type: "confirm",
-      name: "join",
-      message: "Join table?",
+      type: "list",
+      name: "teamId",
+      choices: [
+        { name: "No, just observe", value: -1 },
+        { name: "Team #1", value: 0 },
+        { name: "Team #2", value: 1 },
+      ],
+      message: "Join a team?",
     }).then((answers: any) => {
-      if (answers.join) {
-        return new OutgoingGameMessage(new JoinParam(this.teamNumber));
+      if (answers.teamId >= 0) {
+        return new OutgoingGameMessage(new JoinParam(answers.teamId));
       } else {
         return new OutgoingChatMessage("Not joining");
       }

@@ -29,7 +29,7 @@ export class WSTichuClient {
   private waitingForAnswer: string[];
 
   constructor(readonly opts: GameOpts) {
-    this.handler = new ConsoleHandler(this.send, new Console(), opts);
+    this.handler = new ConsoleHandler(this.send, new Console());
     this.waitingForAnswer = [];
   }
 

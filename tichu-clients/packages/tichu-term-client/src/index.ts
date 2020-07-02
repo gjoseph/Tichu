@@ -1,6 +1,5 @@
 import inquirer from "inquirer";
 import { program } from "commander";
-import { coerceTeamId } from "tichu-client-ts-lib";
 import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
 
@@ -12,8 +11,7 @@ program
   .requiredOption(
     "-r, --room <roomId>",
     "the room id... until we figure out an API to list available rooms"
-  )
-  .option("-t, --team <teamId>", "Team 1 or 2", coerceTeamId);
+  );
 
 program
   .parseAsync()
@@ -24,7 +22,6 @@ program
       return {
         room: answers.roomId ?? opts.room,
         user: answers.userId ?? opts.user,
-        team: answers.teamId ?? opts.team,
       } as GameOpts;
     });
   })
