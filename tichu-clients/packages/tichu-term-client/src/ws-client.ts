@@ -13,12 +13,16 @@ import {
   PlayResult,
 } from "tichu-client-ts-lib";
 import { GameOpts } from "./startup";
-import { Console } from "./console";
 import { visitEnumValue } from "ts-enum-util";
-import { ConsoleHandler } from "./term-handler";
+import {
+  TichuWebSocketHandlerFactory,
+  TichuWebSocketHandler,
+} from "./ws-handler";
+
+export type SendFunction = (msg: OutgoingMessage) => void;
 
 export class WSTichuClient {
-  private handler: ConsoleHandler;
+  private readonly handler: TichuWebSocketHandler;
   private webSocket: WebSocket | undefined;
 
   /**
@@ -28,8 +32,11 @@ export class WSTichuClient {
    */
   private waitingForAnswer: string[];
 
-  constructor(readonly opts: GameOpts) {
-    this.handler = new ConsoleHandler(this.send, new Console());
+  constructor(
+    readonly opts: GameOpts,
+    handlerFactory: TichuWebSocketHandlerFactory
+  ) {
+    this.handler = handlerFactory(this.send);
     this.waitingForAnswer = [];
   }
 

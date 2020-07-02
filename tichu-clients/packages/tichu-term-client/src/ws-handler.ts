@@ -9,6 +9,15 @@ import {
   PlayResult,
 } from "tichu-client-ts-lib";
 import { EnumValueVisitorCore } from "ts-enum-util";
+import { SendFunction } from "./ws-client";
+
+/**
+ * WSTichuClient calls this to get an implementation of TichuWebSocketHandler
+ * and set it up with a `send` callback function.
+ */
+export type TichuWebSocketHandlerFactory = (
+  send: SendFunction
+) => TichuWebSocketHandler;
 
 export interface TichuWebSocketHandler {
   // ==== Websocket callbacks

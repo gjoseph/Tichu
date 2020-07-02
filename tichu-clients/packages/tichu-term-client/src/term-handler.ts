@@ -1,4 +1,7 @@
-import { TichuWebSocketHandler } from "./ws-handler";
+import {
+  TichuWebSocketHandlerFactory,
+  TichuWebSocketHandler,
+} from "./ws-handler";
 import { Console } from "./console";
 import {
   ActivityMessage,
@@ -18,8 +21,15 @@ import {
 } from "tichu-client-ts-lib";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
+import { SendFunction } from "./ws-client";
 
-export class ConsoleHandler implements TichuWebSocketHandler {
+export const newConsoleHandler: TichuWebSocketHandlerFactory = (
+  send: SendFunction
+) => {
+  return new ConsoleHandler(send, new Console());
+};
+
+class ConsoleHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
 
