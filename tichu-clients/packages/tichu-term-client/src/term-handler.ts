@@ -2,7 +2,7 @@ import {
   TichuWebSocketHandlerFactory,
   TichuWebSocketHandler,
 } from "./ws-handler";
-import { Console } from "./console";
+import { Log } from "./log";
 import {
   ActivityMessage,
   Card,
@@ -26,54 +26,38 @@ import { SendFunction } from "./ws-client";
 export const newTerminalHandler: TichuWebSocketHandlerFactory = (
   send: SendFunction
 ) => {
-  return new TerminalHandler(send, new Console());
+  return new TerminalHandler(send, new Log());
 };
 
 class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
 
-  constructor(readonly send: SendFunction, readonly console: Console) {}
+  constructor(readonly send: SendFunction, readonly log: Log) {}
 
   // ==== Websocket callbacks
   onConnect = () => {
-    this.console.print(
-      Console.Types.Control,
-      "Connected (press CTRL+C to quit)",
-      Console.Colors.Green
-    );
+    this.log.control("Connected (press CTRL+C to quit)");
     // TODO nextPrompt=join if game already exists in room, otherwise setup game
     this.nextPrompt = this.promptForJoin;
   };
 
   onConnectionClose = (code: number, reason: string) => {
-    this.console.print(
-      Console.Types.Control,
-      `Disconnected (code: ${code}, reason: "${reason}")`,
-      Console.Colors.Green
-    );
+    this.log.control(`Disconnected (code: ${code}, reason: "${reason}")`);
     process.exit();
   };
 
   onWebsocketError = (err: Error) => {
-    this.console.print(Console.Types.Error, err.message, Console.Colors.Yellow);
+    this.log.error("Websocket error: " + err.message);
     process.exit(-1);
   };
 
   onPing = () => {
-    this.console.print(
-      Console.Types.Incoming,
-      "Received ping",
-      Console.Colors.Blue
-    );
+    this.log.control("Received ping");
   };
 
   onPong = () => {
-    this.console.print(
-      Console.Types.Incoming,
-      "Received pong",
-      Console.Colors.Blue
-    );
+    this.log.control("Received pong");
   };
 
   // ==== Message handling
@@ -89,26 +73,16 @@ class TerminalHandler implements TichuWebSocketHandler {
   }
 
   handleChatMessage(msg: IncomingChatMessage) {
-    this.console.print(
-      Console.Types.Incoming,
-      `${msg.from}: ${msg.content}`,
-      Console.Colors.Blue
-    );
+    this.log.chat(`${msg.from}: ${msg.content}`);
   }
 
   handleActivityMessage(msg: ActivityMessage) {
-    this.console.print(
-      Console.Types.Incoming,
-      `${msg.actor} ${msg.activity}`,
-      Console.Colors.Green
-    );
+    this.log.activity(`${msg.actor} ${msg.activity}`);
   }
 
   handleErrorMessage(msg: ErrorMessage) {
-    this.console.print(
-      Console.Types.Incoming,
-      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`,
-      Console.Colors.Red
+    this.log.error(
+      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`
     );
   }
 
@@ -164,11 +138,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   ) => {
     return {
       "next-player-goes": () => {
-        this.console.print(
-          Console.Types.Control,
-          `It's now ${msg.nextPlayer}'s turn`,
-          Console.Colors.Green
-        );
+        this.log.activity(`It's now ${msg.nextPlayer}'s turn`);
       },
       "trick-end": () => {
         // TODO Anyone will be table to trigger new-trick here, but maybe this should only be for the winning player?
@@ -266,11 +236,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   private logErrorNoPromptChange = (s: string) => () => {
-    this.console.print(
-      Console.Types.Error,
-      `Yeah nah ${s}`,
-      Console.Colors.Red
-    );
+    this.log.error(`Yeah nah ${s}`);
   };
 
   debug = (...msg: any) => {
@@ -283,6 +249,6 @@ class TerminalHandler implements TichuWebSocketHandler {
         }
       })
       .join(" ");
-    this.console.print(Console.Types.Debug, msgStr, Console.Colors.Yellow);
+    this.log.debug(msgStr);
   };
 }

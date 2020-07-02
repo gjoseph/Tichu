@@ -96,9 +96,7 @@ export class WSTichuClient {
     const isResponse = idxCorrespondingRequest >= 0;
     if (isResponse) {
       this.debug(
-        "Removing message",
-        msg.txId,
-        "from queue ",
+        `Removing ${msg.txId} from message queue - remaining:`,
         this.waitingForAnswer
       );
       this.waitingForAnswer.splice(idxCorrespondingRequest);
