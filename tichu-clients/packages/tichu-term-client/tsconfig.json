@@ -8,7 +8,7 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
-    "types": ["node", "inquirer", "figlet", "fs-extra"],
+    "types": ["node", "inquirer", "fs-extra"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "importHelpers": true
