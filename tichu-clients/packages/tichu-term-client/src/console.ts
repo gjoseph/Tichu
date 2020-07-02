@@ -28,17 +28,4 @@ export class Console {
   print(type: string, msg: string, color: string) {
     this.stdout.write(color + type + msg + Console.Colors.Default + "\n\n");
   }
-
-  debug(...msg: any) {
-    const msgStr = msg
-      .map((m: any) => {
-        if (typeof m !== "string") {
-          return JSON.stringify(m, null, 2);
-        } else {
-          return m;
-        }
-      })
-      .join(" ");
-    this.print(Console.Types.Debug, msgStr, Console.Colors.Yellow);
-  }
 }
