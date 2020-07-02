@@ -23,13 +23,13 @@ import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
 import { SendFunction } from "./ws-client";
 
-export const newConsoleHandler: TichuWebSocketHandlerFactory = (
+export const newTerminalHandler: TichuWebSocketHandlerFactory = (
   send: SendFunction
 ) => {
-  return new ConsoleHandler(send, new Console());
+  return new TerminalHandler(send, new Console());
 };
 
-class ConsoleHandler implements TichuWebSocketHandler {
+class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
 

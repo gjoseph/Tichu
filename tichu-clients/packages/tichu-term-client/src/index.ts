@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { program } from "commander";
 import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
-import { newConsoleHandler } from "./term-handler";
+import { newTerminalHandler } from "./term-handler";
 
 const url = "ws://localhost:8080/room/some-room-id";
 
@@ -28,7 +28,7 @@ program
   })
   .then((opts: GameOpts) => {
     console.log("Connecting to room ...", opts);
-    return new WSTichuClient(opts, newConsoleHandler)
+    return new WSTichuClient(opts, newTerminalHandler)
       .connect(url)
       .waitUntilDone();
   })
