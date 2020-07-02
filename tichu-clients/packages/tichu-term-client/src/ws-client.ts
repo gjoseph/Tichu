@@ -12,7 +12,6 @@ import {
   PlayerIsReadyResult,
   PlayResult,
 } from "tichu-client-ts-lib";
-import { GameOpts } from "./startup";
 import { visitEnumValue } from "ts-enum-util";
 import {
   TichuWebSocketHandlerFactory,
@@ -33,7 +32,7 @@ export class WSTichuClient {
   private waitingForAnswer: string[];
 
   constructor(
-    readonly opts: GameOpts,
+    readonly bogusCredentials: string, // TODO
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
     this.handler = handlerFactory(this.send);
@@ -145,7 +144,7 @@ export class WSTichuClient {
 
   private webSocketSetup(url: string): WebSocket {
     // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
-    const userPass = `${this.opts.user}:${this.opts.user}`;
+    const userPass = `${this.bogusCredentials}:${this.bogusCredentials}`;
     const authHeaderValue = "Basic " + Buffer.from(userPass).toString("base64");
     const ws = new WebSocket(url, {
       headers: {

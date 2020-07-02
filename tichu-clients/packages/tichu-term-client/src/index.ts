@@ -28,7 +28,7 @@ program
   })
   .then((opts: GameOpts) => {
     console.log("Connecting to room ...", opts);
-    return new WSTichuClient(opts, newTerminalHandler)
+    return new WSTichuClient(opts.user, newTerminalHandler)
       .connect(url)
       .waitUntilDone();
   })
