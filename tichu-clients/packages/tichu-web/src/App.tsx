@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { AllCards, Card, cardFromName } from "tichu-client-ts-lib";
+import { AllCards } from "tichu-client-ts-lib";
 import { CardSet } from "./components/CardSet";
 
 function App() {

@@ -1,71 +1,55 @@
 {
-    "name": "tichu-client-ts-lib",
-    "version": "1.0.0",
-    "description": "",
-    "main": "./lib/index.js",
-    "scripts": {
-        "start": "npm run build && node lib/index.js",
-        "build": "npm run clean:some && tsc --build && ava",
-        "clean:some": "rm -rf ./lib ./docs",
-        "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
-        "refresh": "npm run clean:all && npm install",
-        "tscov": "tscov --min-coverage 90",
-        "tscov:d": "tscov --details",
-        "publish-package": "npm run build && npm publish",
-        "docs": "typedoc --out docs ./src",
-        "test": "npm run build"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "",
-    "engineStrict": true,
-    "engines": {
-        "node": ">=13.7.0"
-    },
-    "devDependencies": {
-        "@ava/typescript": "1.1.1",
-        "@liftr/tscov": "1.4.6",
-        "@types/figlet": "1.2.0",
-        "@types/inquirer": "6.5.0",
-        "@types/node": "13.13.2",
-        "@types/ws": "7.2.4",
-        "ava": "3.7.1",
-        "husky": "4.2.5",
-        "prettier": "2.0.5",
-        "pretty-quick": "2.0.1",
-        "ts-node": "8.9.0",
-        "typedoc": "0.17.4",
-        "typescript": "3.8.3"
-    },
-    "dependencies": {
-        "@types/fs-extra": "^8.1.0",
-        "commander": "^5.0.0",
-        "figlet": "^1.3.0",
-        "fs-extra": "^9.0.0",
-        "inquirer": "^7.1.0",
-        "inversify": "^5.0.1",
-        "kleur": "^3.0.3",
-        "lol": "^1.0.101-lol",
-        "nanoid": "^3.1.3",
-        "reflect-metadata": "^0.1.13",
-        "ts-enum-util": "^4.0.1",
-        "tslib": "^1.11.1",
-        "ws": "^7.2.3"
-    },
-    "ava": {
-        "typescript": {
-            "rewritePaths": {
-                "src/": "lib/"
-            }
-        }
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "pretty-quick --staged --no-restage --bail"
-        }
-    },
-    "prettier": {
-        "tabWidth": 4,
-        "useTabs": false
+  "name": "tichu-client-ts-lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "start": "npm run build && node lib/index.js",
+    "build": "npm run clean:some && tsc --build && ava",
+    "clean:some": "rm -rf ./lib ./docs",
+    "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
+    "refresh": "npm run clean:all && npm install",
+    "tscov": "tscov --min-coverage 90",
+    "tscov:d": "tscov --details",
+    "publish-package": "npm run build && npm publish",
+    "docs": "typedoc --out docs ./src",
+    "test": "npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=13.7.0"
+  },
+  "devDependencies": {
+    "@ava/typescript": "1.1.1",
+    "@liftr/tscov": "1.4.6",
+    "@types/inquirer": "6.5.0",
+    "@types/node": "13.13.2",
+    "@types/ws": "7.2.4",
+    "ava": "3.7.1",
+    "husky": "4.2.5",
+    "prettier": "2.0.5",
+    "pretty-quick": "2.0.1",
+    "ts-node": "8.9.0",
+    "typedoc": "0.17.4",
+    "typescript": "3.8.3"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^8.1.0",
+    "fs-extra": "^9.0.0",
+    "isomorphic-ws": "^4.0.1",
+    "nanoid": "^3.1.3",
+    "ts-enum-util": "^4.0.1",
+    "tslib": "^1.11.1",
+    "ws": "^7.2.3"
+  },
+  "ava": {
+    "typescript": {
+      "rewritePaths": {
+        "src/": "lib/"
+      }
     }
+  }
 }

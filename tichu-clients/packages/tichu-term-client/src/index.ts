@@ -1,8 +1,8 @@
 import inquirer from "inquirer";
 import { program } from "commander";
-import { coerceTeamId } from "tichu-client-ts-lib";
-import { Status, WSTichuClient } from "./ws-client";
 import { GameOpts, setupQuestions } from "./startup";
+import { newTerminalHandler } from "./term-handler";
+import { Status, WSTichuClient } from "tichu-client-ts-lib";
 
 const url = "ws://localhost:8080/room/some-room-id";
 
@@ -12,8 +12,7 @@ program
   .requiredOption(
     "-r, --room <roomId>",
     "the room id... until we figure out an API to list available rooms"
-  )
-  .option("-t, --team <teamId>", "Team 1 or 2", coerceTeamId);
+  );
 
 program
   .parseAsync()
@@ -24,13 +23,14 @@ program
       return {
         room: answers.roomId ?? opts.room,
         user: answers.userId ?? opts.user,
-        team: answers.teamId ?? opts.team,
       } as GameOpts;
     });
   })
   .then((opts: GameOpts) => {
     console.log("Connecting to room ...", opts);
-    return new WSTichuClient(opts).connect(url).waitUntilDone();
+    return new WSTichuClient(opts.user, newTerminalHandler)
+      .connect(url)
+      .waitUntilDone();
   })
   .then((status: Status) => {
     console.log("Status:", status);

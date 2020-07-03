@@ -1,7 +1,6 @@
-// init
-import { Card } from "tichu-client-ts-lib";
-import { nanoid } from "nanoid";
+import { Card } from "./cards";
 import { UserId } from "./model";
+import { nanoid } from "nanoid";
 
 interface Message {
   readonly messageType: "activity" | "game" | "hand" | "chat" | "error";
@@ -44,6 +43,7 @@ export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
 }
 
 type CardShortName = string;
+
 export class IncomingHandMessage implements IncomingMessage {
   readonly messageType = "hand";
 
