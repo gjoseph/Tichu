@@ -29,7 +29,7 @@ export class WSTichuClient {
    * TODO: for some reason, we only track these for game messages - should we track
    * for all?
    */
-  private waitingForAnswer: string[];
+  private readonly waitingForAnswer: string[];
 
   constructor(
     readonly bogusCredentials: string, // TODO
@@ -98,7 +98,8 @@ export class WSTichuClient {
         `Removing ${msg.txId} from message queue - remaining:`,
         this.waitingForAnswer
       );
-      this.waitingForAnswer.splice(idxCorrespondingRequest);
+      // TODO add test for this
+      this.waitingForAnswer.splice(idxCorrespondingRequest, 1);
     }
 
     // set nextPrompt depending on received message
