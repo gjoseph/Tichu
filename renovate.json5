@@ -11,6 +11,11 @@
       packagePatterns: ["^net.incongru.tichu"],
       enabled: false
     },
+    // Auto-merge patch updates (repo still requires an approval, so we could potentially do this for all updates
+    {
+      "updateTypes": ["patch"],
+      "automerge": true
+    },
     // Java packages rules:
     {
       packagePatterns: ["^org.slf4j"],
