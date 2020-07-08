@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { program } from "commander";
 import { GameOpts, setupQuestions } from "./startup";
 import { newTerminalHandler } from "./term-handler";
-import { Status, WSTichuClient } from "tichu-client-ts-lib";
+import { WSTichuClient } from "tichu-client-ts-lib";
 
 const url = "ws://localhost:8080/room/some-room-id";
 
@@ -28,12 +28,7 @@ program
   })
   .then((opts: GameOpts) => {
     console.log("Connecting to room ...", opts);
-    return new WSTichuClient(opts.user, newTerminalHandler)
-      .connect(url)
-      .waitUntilDone();
-  })
-  .then((status: Status) => {
-    console.log("Status:", status);
+    return new WSTichuClient(opts.user, newTerminalHandler).connect(url);
   })
   .finally(() => {
     console.log("Done");

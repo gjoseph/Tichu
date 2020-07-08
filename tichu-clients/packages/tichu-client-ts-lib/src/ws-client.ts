@@ -19,7 +19,6 @@ import {
 } from "./ws-handler";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
-export type Status = "Done" | "Not done";
 export type WebSocketTypes = WebSocket | wsWebSocket;
 
 // Events used in websocket listeners are the common properties of browser websocket and the ws package's corresponding events,
@@ -68,10 +67,6 @@ export class WSTichuClient {
   //
   // https://www.npmjs.com/package/read has a timeout function which could also be interesting
   // https://www.npmjs.com/package/https-proxy-agent could be needed as well
-
-  waitUntilDone(): Status {
-    return "Done";
-  }
 
   send = (msg: OutgoingMessage) => {
     this.waitingForAnswer.push(msg.txId); // Do we care for chat messages?
