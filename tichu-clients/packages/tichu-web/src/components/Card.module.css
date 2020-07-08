@@ -1,13 +1,8 @@
 .cardSet {
-  position: relative;
-}
-
-.cardSet div {
-  position: absolute;
 }
 
 .card {
-  position: relative;
+  position: absolute;
   background-color: beige;
   width: 10rem;
   height: 15rem;
