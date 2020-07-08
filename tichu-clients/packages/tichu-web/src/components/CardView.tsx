@@ -3,15 +3,21 @@ import { Card, CardSuit, NormalCard } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import styles from "./Card.module.css";
 
-type CardViewProps = {
+interface CardViewProps {
   card: Card;
-};
+  handleSelect: (isSelected: boolean, card: Card) => void;
+}
 
 /**
  * I don't know how to prevent children elements - does it matter?
  */
-export const CardView: FC<CardViewProps> = ({ card }: CardViewProps) => {
-  var color: string;
+export const CardView: FC<CardViewProps> = ({
+  card,
+  handleSelect,
+}: CardViewProps) => {
+  const [isSelected, setIsSelected] = React.useState(false);
+
+  let color: string;
   if (card.type === "normal") {
     color = mapEnumValue((card as NormalCard).suit).with({
       [CardSuit.Jade]: "#060",
@@ -22,8 +28,16 @@ export const CardView: FC<CardViewProps> = ({ card }: CardViewProps) => {
   } else {
     color = "#999";
   }
+
+  const onClick = () => {
+    const newValue = !isSelected;
+    setIsSelected(newValue);
+    handleSelect(newValue, card);
+  };
+
+  const cssClass = (isSelected ? styles.selected : "") + " " + styles.card;
   return (
-    <div className={styles.card}>
+    <div className={cssClass} onClick={onClick}>
       <span className={styles.cardShortName} style={{ color: color }}>
         {card.shortName}
       </span>
