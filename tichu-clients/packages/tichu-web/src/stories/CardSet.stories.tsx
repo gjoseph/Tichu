@@ -13,4 +13,9 @@ export const _3Cards = () => (
   />
 );
 
-export const _14Cards = () => <CardSet cards={AllCards} />;
+export const _14Cards = () => {
+  const rnd = [...AllCards].sort(() => Math.random() - 0.5).slice(0, 14);
+  return <CardSet cards={rnd} />;
+};
+
+export const All_Cards = () => <CardSet cards={AllCards} />;
