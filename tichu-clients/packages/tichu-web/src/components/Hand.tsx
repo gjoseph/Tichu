@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Card, cardFromName } from "tichu-client-ts-lib";
+import { Card } from "tichu-client-ts-lib";
 import { CardSet } from "./CardSet";
 
 const SendButton: FC<{ enabled: boolean; handleClick: () => void }> = ({
@@ -13,7 +13,10 @@ const SendButton: FC<{ enabled: boolean; handleClick: () => void }> = ({
   );
 };
 
-export const Hand: FC = (props) => {
+type SendCardsFunction = (cards: Card[]) => void;
+export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
+  props
+) => {
   const [selectedCards, setSelectedCards] = React.useState(new Array<Card>());
 
   // should selected cards be in state?
@@ -28,17 +31,19 @@ export const Hand: FC = (props) => {
 
   const handleSend = () => {
     console.log(
-      "SEND: ",
-      selectedCards.map((c) => c.shortName)
+      "SENDING: ",
+      selectedCards.map((c) => c.shortName),
+      "to",
+      props.sendCards
     );
+    props.sendCards(selectedCards);
+    console.log("SENT");
+    setSelectedCards([]);
   };
 
   return (
     <div>
-      <CardSet
-        handleSelect={handleSelect}
-        cards={[cardFromName("*P"), cardFromName("GJ"), cardFromName("K6")]}
-      />
+      <CardSet handleSelect={handleSelect} cards={props.cardsInHand} />
       <SendButton handleClick={handleSend} enabled={selectedCards.length > 0} />
       <p>Selected cards: {selectedCards.map((c) => c.name).join(", ")}</p>
     </div>
