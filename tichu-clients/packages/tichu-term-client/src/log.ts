@@ -24,6 +24,7 @@ export class Log {
   }
 
   debug(msg: string) {
+    // Check for a debug flag
     this.log(kleur.yellow("Debug: " + msg));
   }
 
