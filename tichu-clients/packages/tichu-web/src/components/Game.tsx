@@ -1,6 +1,13 @@
 import React, { FC } from "react";
-import styles from "./Table.module.css";
+import styles from "./Game.module.css";
 import { Hand } from "./Hand";
+import {
+  Card,
+  OutgoingGameMessage,
+  PlayerPlaysParam,
+  SendFunction,
+} from "tichu-client-ts-lib";
+import { GameState } from "../model/GameState";
 
 /**
  * Represents another player at the table - hidden cards, etc.
@@ -29,16 +36,27 @@ const GameStats: FC = () => {
   return <div />;
 };
 
-interface TableProps {}
+export const Game: FC<{ sendMessage: SendFunction; gameState: GameState }> = ({
+  sendMessage,
+  // this is a stupid prop
+  gameState,
+}) => {
+  const sendCards = (cards: Card[]) => {
+    const msg = new OutgoingGameMessage(PlayerPlaysParam.fromCards(cards));
+    sendMessage(msg);
+  };
 
-export const Table: FC<TableProps> = (props: TableProps) => {
   return (
-    <div className={styles.table}>
+    <div className={styles.game}>
       <OtherPlayer />
       <OtherPlayer />
       <OtherPlayer />
       <Player>
-        <Hand />
+        {gameState.hand ? (
+          <Hand sendCards={sendCards} cardsInHand={gameState.hand} />
+        ) : (
+          <>dealing or empty hand?</>
+        )}
         <Prefs />
       </Player>
       <GameStats />
