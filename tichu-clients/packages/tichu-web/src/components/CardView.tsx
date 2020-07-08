@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Card, CardSuit, NormalCard } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
-import "./Card.css";
+import styles from "./Card.module.css";
 
 type CardViewProps = {
   card: Card;
@@ -23,11 +23,11 @@ export const CardView: FC<CardViewProps> = ({ card }: CardViewProps) => {
     color = "#999";
   }
   return (
-    <div className="card">
-      <span className="card-short-name" style={{ color: color }}>
+    <div className={styles.card}>
+      <span className={styles.cardShortName} style={{ color: color }}>
         {card.shortName}
       </span>
-      <span className="card-name">{card.name}</span>
+      <span className={styles.cardName}>{card.name}</span>
     </div>
   );
 };
