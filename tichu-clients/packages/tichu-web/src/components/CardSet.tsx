@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { CardView } from "./CardView";
 import { Card } from "tichu-client-ts-lib";
-import "./Card.css";
+import styles from "./Card.module.css";
 
 type CardSetProps = {
   cards: Card[];
@@ -9,7 +9,7 @@ type CardSetProps = {
 
 export const CardSet: FC<CardSetProps> = (props: CardSetProps) => {
   return (
-    <div className="card-set">
+    <div className={styles.cardSet}>
       {props.cards.map((card, idx) => (
         <div style={{ left: `${idx * 5}em` }}>
           <CardView card={card} />
