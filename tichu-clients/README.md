@@ -12,9 +12,9 @@ Unclear if I need all the differences in my tsconfig.json files...
 
 Also see regen-lock-files.sh
 npx lerna bootstrap
-#npm install does not work from within subpackages but other scripts seem to work fine
-#lerna add can be used to add a dependency, but there doesn't seem to be a lerna remove command... npm uninstall also fails
-## https://github.com/lerna/lerna/issues/1229
+npm install does not work from within subpackages but other scripts seem to work fine
+`lerna add` can be used to add a dependency, but there is no `lerna remove` command... npm uninstall also fails
+Good Lerna thread about this: https://github.com/lerna/lerna/issues/1229
 
-npm run term-client -- -- -- -r 1 # sorta works but seems to hang (without all the -- the arguments aren't passed down and fails on "unknown arg")
+npm run term-client -- -- -r 1 # needs multiple -- to pass the args to the correct process
 npm run web
