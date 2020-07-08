@@ -237,7 +237,9 @@ class TerminalHandler implements TichuWebSocketHandler {
       pageSize: 20,
     };
     return this.ask(question).then((answers: any) => {
-      return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
+      return new OutgoingGameMessage(
+        PlayerPlaysParam.fromShortNames(answers.cards)
+      );
     });
   };
 
