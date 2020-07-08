@@ -26,8 +26,11 @@ export interface TichuWebSocketHandler {
   // in ws callbacks and still have the current this bindings without
   // too much hassle
   onConnect: () => void;
-  onConnectionClose: (code: number, reason: string) => void;
-  onWebsocketError: (err: Error) => void;
+  onConnectionClose: (code: number, reason: string, wasClean: boolean) => void;
+  /**
+   * Browser websocket error events don't have a message or error object
+   */
+  onWebsocketError: (message?: string, error?: any) => void;
   onPing: () => void;
   onPong: () => void;
 

@@ -27,6 +27,10 @@ export const newTerminalHandler: TichuWebSocketHandlerFactory = (
   return new TerminalHandler(send, new Log());
 };
 
+/**
+ * This handler sets its nextPrompt property depending on received message, or leaves it as-is.
+ * `afterMessageProcessing` applies/displays it.
+ */
 class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
@@ -40,13 +44,17 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.nextPrompt = this.promptForJoin;
   };
 
-  onConnectionClose = (code: number, reason: string) => {
-    this.log.control(`Disconnected (code: ${code}, reason: "${reason}")`);
+  onConnectionClose = (code: number, reason: string, wasClean: boolean) => {
+    this.log.control(
+      `Disconnected (code: ${code}, reason: "${reason}", ${
+        wasClean ? "clean" : "dirty"
+      })`
+    );
     process.exit();
   };
 
-  onWebsocketError = (err: Error) => {
-    this.log.error("Websocket error: " + err.message);
+  onWebsocketError = (message?: string, error?: any) => {
+    this.log.error("Websocket error: " + message);
     process.exit(-1);
   };
 
@@ -88,7 +96,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     // msg has a txId but we don't really care while "fetching hand" isn't its own action
     // for the originating client, the txId will have been removed from queue with the game message
     // for the other 3 clients, it will be unknown
-    // debug("Received cards", msg.hand.cards);
+    this.log.debug("Received cards: " + msg.hand.cards);
     // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
     const cards: Card[] = msg.hand.cards.map(cardFromName);
     this.nextPrompt = this.promptForCards(cards);
@@ -98,12 +106,12 @@ class TerminalHandler implements TichuWebSocketHandler {
   handleJoin = (isResponse: boolean) => {
     return {
       "can-not-join-full-table": () => {
-        this.debug("Nah this table is full");
+        this.log.activity("Sorry, this table is full");
         this.nextPrompt = undefined;
       },
       ok: () => {
         if (isResponse) {
-          this.debug("Waiting for others");
+          this.log.activity("Waiting for others");
           this.nextPrompt = undefined;
         }
       },
