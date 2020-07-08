@@ -27,6 +27,10 @@ export const newTerminalHandler: TichuWebSocketHandlerFactory = (
   return new TerminalHandler(send, new Log());
 };
 
+/**
+ * This handler sets its nextPrompt property depending on received message, or leaves it as-is.
+ * `afterMessageProcessing` applies/displays it.
+ */
 class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
@@ -40,13 +44,17 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.nextPrompt = this.promptForJoin;
   };
 
-  onConnectionClose = (code: number, reason: string) => {
-    this.log.control(`Disconnected (code: ${code}, reason: "${reason}")`);
+  onConnectionClose = (code: number, reason: string, wasClean: boolean) => {
+    this.log.control(
+      `Disconnected (code: ${code}, reason: "${reason}", ${
+        wasClean ? "clean" : "dirty"
+      })`
+    );
     process.exit();
   };
 
-  onWebsocketError = (err: Error) => {
-    this.log.error("Websocket error: " + err.message);
+  onWebsocketError = (message?: string, error?: any) => {
+    this.log.error("Websocket error: " + message);
     process.exit(-1);
   };
 

@@ -1,4 +1,4 @@
-import WebSocket from "isomorphic-ws";
+import wsWebSocket from "ws";
 import {
   ActivityMessage,
   ErrorMessage,
@@ -20,9 +20,26 @@ import {
 
 export type SendFunction = (msg: OutgoingMessage) => void;
 export type Status = "Done" | "Not done";
+export type WebSocketTypes = WebSocket | wsWebSocket;
+
+// Events used in websocket listeners are the common properties of browser websocket and the ws package's corresponding events,
+// here's some type definitions for them:
+type OnOpenParams = {};
+type OnCloseParams = {
+  code: number;
+  reason: string;
+  wasClean: boolean;
+};
+// browser Websocket does not have an ErrorEvent type; it's generic Event with type "error", no message or error object.
+type OnErrorParams = { message?: string; error?: any };
+// browser Websocket as `lastEventId` and `origin` properties in addition for MessageEvent, not sure what they're for
+type OnMessageParams = { data: WebSocketData };
+// ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
+type WebSocketData = string;
+
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
-  private webSocket: WebSocket | undefined;
+  private webSocket: WebSocketTypes | undefined;
 
   /**
    * Message IDs we sent and expect a response about.
@@ -63,7 +80,11 @@ export class WSTichuClient {
     this.ws().send(msgJson);
   };
 
-  receive = (data: WebSocket.Data) => {
+  close = () => {
+    this.ws().close();
+  };
+
+  private receive = (data: WebSocketData) => {
     this.handler.beforeMessageProcessing();
 
     // there's gotta be a better way than just casting to string
@@ -102,9 +123,6 @@ export class WSTichuClient {
       this.waitingForAnswer.splice(idxCorrespondingRequest, 1);
     }
 
-    // set nextPrompt depending on received message
-    // or leave it as-is
-    // receive() will reapply nextPrompt
     switch (msg.forAction) {
       case "init":
         break;
@@ -132,38 +150,44 @@ export class WSTichuClient {
     }
   }
 
-  close = () => {
-    this.ws().close();
-  };
-
-  private ws(): WebSocket {
+  private ws(): WebSocketTypes {
     if (!this.webSocket) {
       throw new Error("Websocket is not setup!");
     }
     return this.webSocket;
   }
 
-  private webSocketSetup(url: string): WebSocket {
+  private webSocketSetup(url: string): WebSocketTypes {
     // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
     const userPass = `${this.bogusCredentials}:${this.bogusCredentials}`;
-    const authHeaderValue = "Basic " + Buffer.from(userPass).toString("base64");
-    const ws = new WebSocket(url, {
-      headers: {
-        Authorization: authHeaderValue,
-      },
-    }); // TODO wtf are subprotocols
+    // options don't exist in the browser js API for websocket, so we can't pass a header
+    // doing this for now -- will need to use proper tokens/tickets
+    url = url.replace("://", `://${userPass}@`);
 
-    ws.on("open", this.handler.onConnect);
-    ws.on("close", this.handler.onConnectionClose);
-    ws.on("error", this.handler.onWebsocketError);
+    let ws: WebSocketTypes;
+    if (typeof WebSocket !== "undefined") {
+      ws = new WebSocket(url);
+    } else {
+      ws = new wsWebSocket(url);
+    }
+    // TODO wtf are subprotocols
 
-    // ws.on("message", (data: WebSocket.Data) => {
-    //   this.receive(data);
-    // });
-    ws.on("message", this.receive);
+    ws.onopen = (event: OnOpenParams) => this.handler.onConnect;
+    ws.onclose = (event: OnCloseParams) => {
+      this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
+    };
+    ws.onerror = (event: OnErrorParams) => {
+      this.debug(event.message);
+      this.handler.onWebsocketError(event.message, event.error);
+    };
 
-    ws.on("ping", this.handler.onPing);
-    ws.on("pong", this.handler.onPong);
+    ws.onmessage = (event: OnMessageParams) => {
+      this.receive(event.data);
+    };
+
+    // TODO fix this?
+    // ws.on("ping", this.handler.onPing);
+    // ws.on("pong", this.handler.onPong);
 
     return ws;
   }
