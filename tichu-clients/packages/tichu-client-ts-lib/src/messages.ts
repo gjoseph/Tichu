@@ -1,4 +1,4 @@
-import { Card } from "./cards";
+import { Card, CardShortName } from "./cards";
 import { UserId } from "./model";
 import { nanoid } from "nanoid";
 
@@ -41,8 +41,6 @@ export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
     super(txId, forAction, actor, result, message);
   }
 }
-
-type CardShortName = string;
 
 export class IncomingHandMessage implements IncomingMessage {
   readonly messageType = "hand";
@@ -133,7 +131,15 @@ export class PlayerIsReadyParam implements GameParam {
 export class PlayerPlaysParam implements GameParam {
   readonly type = "play";
 
-  constructor(readonly cards: Card[]) {}
+  static fromShortNames(shortNames: CardShortName[]) {
+    return new PlayerPlaysParam(shortNames);
+  }
+
+  static fromCards(fullObjects: Card[]) {
+    return new PlayerPlaysParam(fullObjects.map((c) => c.shortName));
+  }
+
+  private constructor(readonly cards: CardShortName[]) {}
 }
 
 // pass = play[]
