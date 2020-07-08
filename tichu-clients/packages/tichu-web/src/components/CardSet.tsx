@@ -7,13 +7,23 @@ type CardSetProps = {
   cards: Card[];
 };
 
+const CardPosition: FC<{ idx: number; children: React.ReactNode }> = ({
+  idx,
+  children,
+}) => {
+  // <div style={{ left: `${idx * 5}em` }}>
+  return (
+    <div style={{ transform: `translate(${idx * 5}em, 0)` }}>{children}</div>
+  );
+};
+
 export const CardSet: FC<CardSetProps> = (props: CardSetProps) => {
   return (
     <div className={styles.cardSet}>
       {props.cards.map((card, idx) => (
-        <div style={{ left: `${idx * 5}em` }}>
+        <CardPosition idx={idx}>
           <CardView card={card} />
-        </div>
+        </CardPosition>
       ))}
     </div>
   );
