@@ -12,9 +12,9 @@
     "setup-husky": "npm rebuild husky # much faster than the npm install --save-dev husky documented alternative",
     "build": "lerna run --stream build",
     "test": "lerna run --stream test # ⚠️  tichu-web will run tests in watch mode when not on CI",
-    "term-client": "npm run build && lerna run --scope tichu-term-client start",
-    "web": "npm run build && lerna run --scope tichu-web start",
-    "web-storybook": "npm run build && lerna run --scope tichu-web storybook",
+    "term-client": "npm run build && cd packages/tichu-term-client && npm run start",
+    "web": "npm run build && cd packages/tichu-web && npm run start",
+    "web-storybook": "npm run build && cd packages/tichu-web && npm run storybook",
     "prettier-check-all": "prettier --check . # not using lerna here so we also check the root",
     "prettier-fix-all": "prettier --write . # not using lerna here so we also check the root"
   },
