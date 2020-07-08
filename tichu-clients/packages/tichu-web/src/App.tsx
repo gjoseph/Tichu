@@ -1,12 +1,11 @@
 import React from "react";
 import "./App.css";
-import { AllCards } from "tichu-client-ts-lib";
-import { CardSet } from "./components/CardSet";
+import { Table } from "./components/Table";
 
 function App() {
   return (
     <div className="App">
-      <CardSet cards={AllCards} />;
+      <Table />
     </div>
   );
 }

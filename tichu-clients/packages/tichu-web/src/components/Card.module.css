@@ -1,4 +1,5 @@
 .cardSet {
+  height: 300px;
 }
 
 .card {
@@ -11,6 +12,9 @@
 
   cursor: pointer;
   user-select: none;
+}
+.card.selected {
+  background-color: purple;
 }
 
 .card:active {
