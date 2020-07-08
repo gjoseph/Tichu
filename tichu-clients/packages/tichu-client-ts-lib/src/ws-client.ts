@@ -167,15 +167,18 @@ export class WSTichuClient {
     }
     // TODO wtf are subprotocols
 
-    ws.onopen = (event: OnOpenParams) => this.handler.onConnect;
+    ws.onopen = (event: OnOpenParams) => {
+      this.debug("ws onopen", event);
+      this.handler.onConnect();
+    };
     ws.onclose = (event: OnCloseParams) => {
+      this.debug("ws onclose:", event);
       this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
     };
     ws.onerror = (event: OnErrorParams) => {
-      this.debug(event.message);
+      this.debug("ws onerror:", event);
       this.handler.onWebsocketError(event.message, event.error);
     };
-
     ws.onmessage = (event: OnMessageParams) => {
       this.receive(event.data);
     };
