@@ -7,7 +7,7 @@ interface Message {
 }
 
 // Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
-export type IncomingMessage = Message;
+export type IncomingMessage = Message & { txId?: string };
 export type OutgoingMessage = Message & { txId: string };
 
 export class ActivityMessage implements IncomingMessage {
