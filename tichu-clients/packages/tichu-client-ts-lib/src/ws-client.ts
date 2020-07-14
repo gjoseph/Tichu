@@ -84,23 +84,18 @@ export class WSTichuClient {
 
     // there's gotta be a better way than just casting to string
     const msg = JSON.parse(data as string) as IncomingMessage;
-    this.debug("Received", msg);
+    // this.debug("Received", msg);
 
-    // Game messages are handled more specifically here before being
+    // Game messages are handled more specifically in handleGameMessage before being
     // delegated to handler - other simpler messages are delegated straightaway.
-    if (msg.messageType === "game") {
-      this.handleGameMessage(msg as IncomingGameMessage);
-    } else if (msg.messageType === "hand") {
-      this.handler.handleHandMessage(msg as IncomingHandMessage);
-    } else if (msg.messageType === "chat") {
-      this.handler.handleChatMessage(msg as IncomingChatMessage);
-    } else if (msg.messageType === "activity") {
-      this.handler.handleActivityMessage(msg as ActivityMessage);
-    } else if (msg.messageType === "error") {
-      this.handler.handleErrorMessage(msg as ErrorMessage);
-    } else {
-      throw new Error("Unknown message type: " + msg.messageType);
-    }
+    visitEnumValue(msg.messageType).with({
+      game: () => this.handleGameMessage(msg as IncomingGameMessage),
+      hand: () => this.handler.handleHandMessage(msg as IncomingHandMessage),
+      chat: () => this.handler.handleChatMessage(msg as IncomingChatMessage),
+      activity: () =>
+        this.handler.handleActivityMessage(msg as ActivityMessage),
+      error: () => this.handler.handleErrorMessage(msg as ErrorMessage),
+    });
 
     this.handler.afterMessageProcessing();
   };
@@ -118,31 +113,28 @@ export class WSTichuClient {
       this.waitingForAnswer.splice(idxCorrespondingRequest, 1);
     }
 
-    switch (msg.forAction) {
-      case "init":
-        break;
-      case "join":
+    visitEnumValue(msg.forAction).with({
+      init: () => {},
+      join: () => {
         visitEnumValue(msg.result as JoinResult).with(
           this.handler.handleJoin(isResponse)
         );
-        break;
-      case "ready":
+      },
+      ready: () => {
         visitEnumValue(msg.result as PlayerIsReadyResult).with(
           this.handler.handleReady(isResponse)
         );
-        break;
-      case "new-trick":
+      },
+      "new-trick": () => {
         this.debug("What do we do here?"); // TODO
-        break;
-      case "play":
+      },
+      play: () => {
         const msg1 = msg as IncomingPlayerPlaysResponse;
         visitEnumValue(msg1.result as PlayResult).with(
           this.handler.handlePlayResult(isResponse, msg1)
         );
-        break;
-      default:
-        throw new Error("Unknown action: " + msg.forAction);
-    }
+      },
+    });
   }
 
   private ws(): WebSocketTypes {
