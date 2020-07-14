@@ -42,17 +42,15 @@ export class WSTichuClient {
 
   /**
    * Message IDs we sent and expect a response about.
-   * TODO: for some reason, we only track these for game messages - should we track
-   * for all?
    */
-  private readonly waitingForAnswer: string[];
+  private readonly waitingForResponse: string[];
 
   constructor(
     readonly bogusCredentials: string, // TODO
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
     this.handler = handlerFactory(this.send);
-    this.waitingForAnswer = [];
+    this.waitingForResponse = [];
   }
 
   connect(url: string) {
@@ -69,7 +67,7 @@ export class WSTichuClient {
   // https://www.npmjs.com/package/https-proxy-agent could be needed as well
 
   send = (msg: OutgoingMessage) => {
-    this.waitingForAnswer.push(msg.txId); // Do we care for chat messages?
+    this.waitingForResponse.push(msg.txId);
     const msgJson = JSON.stringify(msg);
     this.debug(" Sending", msgJson);
     this.ws().send(msgJson);
@@ -86,10 +84,13 @@ export class WSTichuClient {
     const msg = JSON.parse(data as string) as IncomingMessage;
     // this.debug("Received", msg);
 
+    const isResponse = this.removeFromResponseQueue(msg);
+
     // Game messages are handled more specifically in handleGameMessage before being
     // delegated to handler - other simpler messages are delegated straightaway.
     visitEnumValue(msg.messageType).with({
-      game: () => this.handleGameMessage(msg as IncomingGameMessage),
+      game: () =>
+        this.handleGameMessage(msg as IncomingGameMessage, isResponse),
       hand: () => this.handler.handleHandMessage(msg as IncomingHandMessage),
       chat: () => this.handler.handleChatMessage(msg as IncomingChatMessage),
       activity: () =>
@@ -100,19 +101,7 @@ export class WSTichuClient {
     this.handler.afterMessageProcessing();
   };
 
-  private handleGameMessage(msg: IncomingGameMessage) {
-    // do we care for all messages ?
-    const idxCorrespondingRequest = this.waitingForAnswer.indexOf(msg.txId);
-    const isResponse = idxCorrespondingRequest >= 0;
-    if (isResponse) {
-      this.debug(
-        `Removing ${msg.txId} from message queue - remaining:`,
-        this.waitingForAnswer
-      );
-      // TODO add test for this
-      this.waitingForAnswer.splice(idxCorrespondingRequest, 1);
-    }
-
+  private handleGameMessage(msg: IncomingGameMessage, isResponse: boolean) {
     visitEnumValue(msg.forAction).with({
       init: () => {},
       join: () => {
@@ -135,6 +124,23 @@ export class WSTichuClient {
         );
       },
     });
+  }
+
+  // TODO add tests -- likely needs to be moved out of this class
+  private removeFromResponseQueue(msg: IncomingMessage) {
+    if (!msg.txId) {
+      return false;
+    }
+    const idxCorrespondingRequest = this.waitingForResponse.indexOf(msg.txId);
+    const isResponse = idxCorrespondingRequest >= 0;
+    if (isResponse) {
+      this.debug(
+        `Removing ${msg.txId} from message queue - remaining:`,
+        this.waitingForResponse
+      );
+      this.waitingForResponse.splice(idxCorrespondingRequest, 1);
+    }
+    return isResponse;
   }
 
   private ws(): WebSocketTypes {
