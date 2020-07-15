@@ -21,10 +21,8 @@ import { Log } from "./log";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
 
-export const newTerminalHandler: TichuWebSocketHandlerFactory = (
-  send: SendFunction
-) => {
-  return new TerminalHandler(send, new Log());
+export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
+  return new TerminalHandler(new Log());
 };
 
 /**
@@ -35,7 +33,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
 
-  constructor(readonly send: SendFunction, readonly log: Log) {}
+  constructor(readonly log: Log) {}
 
   // ==== Websocket callbacks
   onConnect = () => {
@@ -72,9 +70,9 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.closeCurrentPrompt();
   }
 
-  afterMessageProcessing() {
+  afterMessageProcessing(send: SendFunction) {
     if (this.nextPrompt) {
-      this.nextPrompt().then(this.send);
+      this.nextPrompt().then(send);
     }
   }
 

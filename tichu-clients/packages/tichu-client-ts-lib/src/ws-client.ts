@@ -49,11 +49,12 @@ export class WSTichuClient {
     readonly bogusCredentials: string, // TODO
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
-    this.handler = handlerFactory(this.send);
+    this.handler = handlerFactory();
     this.waitingForResponse = [];
   }
 
-  connect(url: string) {
+  // TODO move url (or room id...) to constructor
+  connect(url: string): WSTichuClient {
     this.webSocket = this.webSocketSetup(url);
     return this;
   }
@@ -98,7 +99,7 @@ export class WSTichuClient {
       error: () => this.handler.handleErrorMessage(msg as ErrorMessage),
     });
 
-    this.handler.afterMessageProcessing();
+    this.handler.afterMessageProcessing(this.send);
   };
 
   private handleGameMessage(msg: IncomingGameMessage, isResponse: boolean) {
