@@ -77,7 +77,7 @@ export class WSTichuClient {
   send = (msg: OutgoingMessage, onResponse: OnResponse = NOOP) => {
     this.waitingForResponse.set(msg.txId, onResponse);
     const msgJson = JSON.stringify(msg);
-    this.debug(" Sending", msgJson);
+    this.debug("Sending", msg);
     this.ws().send(msgJson);
   };
 
