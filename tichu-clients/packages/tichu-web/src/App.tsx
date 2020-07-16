@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Game } from "./components/Game";
 import {
   JoinParam,
@@ -109,17 +116,44 @@ const Button: FC<{ msg: string; handleClick: () => void }> = ({
 };
 
 const App: FC<{ websocketUrl: string }> = (props) => {
-  const [user, setUser] = useState<User>(
-    new User("no-id-yet", "Jules Maigret")
-  );
-
+  const [user, setUser] = useState<User>();
   return (
     <div className="App">
       <SnackbarProvider maxSnack={3}>
-        <Room user={user} websocketUrl={props.websocketUrl} />
+        {user ? (
+          <Room user={user} websocketUrl={props.websocketUrl} />
+        ) : (
+          <DummyUsernameInput setUser={setUser} />
+        )}
       </SnackbarProvider>
     </div>
   );
 };
 
+const DummyUsernameInput: FC<{
+  setUser: Dispatch<SetStateAction<User | undefined>>;
+}> = ({ setUser }) => {
+  const [name, setName] = useState("");
+  return (
+    <form
+      action=""
+      onSubmit={(e) => {
+        e.preventDefault();
+        setUser(new User(name, name));
+      }}
+    >
+      <label htmlFor="name">
+        Please enter your name :
+        <input
+          type="text"
+          id="name"
+          placeholder="your name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      <input type="submit" value={"Send"} />
+    </form>
+  );
+};
 export default App;
