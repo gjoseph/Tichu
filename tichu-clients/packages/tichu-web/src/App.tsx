@@ -13,7 +13,7 @@ import { GameState } from "./model/GameState";
 import { RoomState, RoomStatus } from "./model/RoomState";
 import { User } from "./model/User";
 import { Chat, ChatMessage } from "./components/Chat";
-import { ActivityLog } from "./components/ActivityLog";
+import { ActivityLog, ActivityLogMessage } from "./components/ActivityLog";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
@@ -24,8 +24,15 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   const [gameState, setGameState] = useState<GameState>(new GameState([]));
 
   const [chatMessages, setChatMessages] = useState(new Array<ChatMessage>());
-  const newMessage = (newMessage: ChatMessage) => {
+  const newChatMessage = (newMessage: ChatMessage) => {
     setChatMessages((currentMessages) => [...currentMessages, newMessage]);
+  };
+
+  const [activityLog, setActivityLog] = useState(
+    new Array<ActivityLogMessage>()
+  );
+  const newActivity = (newAct: ActivityLogMessage) => {
+    setActivityLog((current) => [...current, newAct]);
   };
 
   const [wsClient, setWsClient] = useState<PossibleWSTichuClient>(undefined);
@@ -33,7 +40,13 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
     setWsClient(
       new WSTichuClient(
         props.user.id,
-        newReactHandler(enqueueSnackbar, setRoomState, setGameState, newMessage)
+        newReactHandler(
+          enqueueSnackbar,
+          setRoomState,
+          setGameState,
+          newChatMessage,
+          newActivity
+        )
       ).connect(props.websocketUrl)
     );
     // Still unsure why enqueueSnackbar needs to be a dep, but not newMessage
@@ -83,7 +96,7 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       <p>STATUS : {roomState.status}</p>
       {game}
       <Chat chatMessages={chatMessages} />
-      <ActivityLog />
+      <ActivityLog debug log={activityLog} />
     </>
   );
 };
