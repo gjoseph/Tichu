@@ -13,10 +13,13 @@ import { OptionsObject, SnackbarKey, SnackbarMessage } from "notistack";
 import { Log } from "./Log";
 import { GameState } from "./model/GameState";
 import { RoomState, RoomStatus } from "./model/RoomState";
+import { ActivityLogMessage } from "./components/ActivityLog";
 
+// Callbacks given by Room/Game
 type SetRoomState = (roomState: RoomState) => void;
 type SetGameState = (gameState: GameState) => void;
 type NewChatMessage = (newMessage: IncomingChatMessage) => void;
+type NewActivityLog = (newMessage: ActivityLogMessage) => void;
 
 type Notifier = (
   message: SnackbarMessage,
@@ -27,12 +30,14 @@ export const newReactHandler: (
   notify: Notifier,
   setRoomState: SetRoomState,
   setGameState: SetGameState,
-  newChatMessage: NewChatMessage
+  newChatMessage: NewChatMessage,
+  newActivityLog: NewActivityLog
 ) => TichuWebSocketHandlerFactory = (
   notify,
   setRoomState,
   setGameState,
-  newChatMessage
+  newChatMessage,
+  newActivityLog
 ) => {
   return () => {
     return new ReactAppHandler(
@@ -40,7 +45,8 @@ export const newReactHandler: (
       setRoomState,
       setGameState,
       newChatMessage,
-      new Log(true)
+      newActivityLog,
+      new Log(true, newActivityLog)
     );
   };
 };
@@ -51,6 +57,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     readonly setRoomState: SetRoomState,
     readonly setGameState: SetGameState,
     readonly newChatMessage: NewChatMessage,
+    readonly newActivityLog: NewActivityLog,
     readonly log: Log
   ) {}
 
@@ -96,7 +103,10 @@ class ReactAppHandler implements TichuWebSocketHandler {
 
   handleActivityMessage(msg: ActivityMessage) {
     this.log.debug(`Activity: ${msg.actor} ${msg.activity}`);
-    // this.newActivity(msg);
+    this.newActivityLog({
+      debug: false,
+      message: `${msg.actor} ${msg.activity}'d`,
+    });
   }
 
   handleErrorMessage(msg: ErrorMessage) {
