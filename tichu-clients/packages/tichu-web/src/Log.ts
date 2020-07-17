@@ -6,20 +6,20 @@ export class Log {
     readonly newActivityLog: (newMessage: ActivityLogMessage) => void
   ) {}
 
-  error(...msg: any) {
+  error(...msg: any[]) {
     console.error(...msg);
     this.newActivityLog({
       debug: true,
-      message: msg,
+      message: [...msg].join(" ➡️ "),
     });
   }
 
-  debug(...msg: any) {
+  debug(...msg: any[]) {
     if (this.isDebug) {
       console.debug(...msg);
       this.newActivityLog({
         debug: true,
-        message: msg,
+        message: [...msg].join(" ➡️ "),
       });
     }
   }
