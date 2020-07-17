@@ -64,8 +64,8 @@ class JacksonCodecTest {
 
     static Stream<Arguments> canEncodeSubtypesOfOutgoingMessages() {
         return Stream.of(
-                arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").build(),
-                        "{messageType:'chat', from:'dummy', content: 'hello'}"),
+                arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").clientTxId("<random-id>").build(),
+                        "{messageType:'chat', from:'dummy', content: 'hello', txId: '<random-id>'}"),
                 arguments(ImmutableGameActionResultMessage.builder()
                                 .clientTxId("<random-id>")
                                 .result(new SimpleResponse<>(
