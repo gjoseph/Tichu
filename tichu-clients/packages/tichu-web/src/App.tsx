@@ -103,7 +103,7 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       <p>STATUS : {roomState.status}</p>
       {game}
       <Chat chatMessages={chatMessages} />
-      <ActivityLog debug log={activityLog} />
+      <ActivityLog showDebug log={activityLog} />
     </>
   );
 };
