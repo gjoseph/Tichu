@@ -9,6 +9,8 @@ import React, {
 import { Game } from "./components/Game";
 import {
   JoinParam,
+  OnResponse,
+  OutgoingChatMessage,
   OutgoingGameMessage,
   PlayerIsReadyParam,
   WSTichuClient,
@@ -33,6 +35,9 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   const [chatMessages, setChatMessages] = useState(new Array<ChatMessage>());
   const newChatMessage = (newMessage: ChatMessage) => {
     setChatMessages((currentMessages) => [...currentMessages, newMessage]);
+  };
+  const sentChatMessage = (text: string, onResponse: OnResponse) => {
+    wsClient!.send(new OutgoingChatMessage(text), onResponse);
   };
 
   const [activityLog, setActivityLog] = useState(
@@ -102,7 +107,7 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       <p>Hello, {props.user.name}</p>
       <p>STATUS : {roomState.status}</p>
       {game}
-      <Chat chatMessages={chatMessages} />
+      <Chat chatMessages={chatMessages} sendChatMessage={sentChatMessage} />
       <ActivityLog showDebug log={activityLog} />
     </>
   );
