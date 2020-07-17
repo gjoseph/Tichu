@@ -36,6 +36,13 @@ type OnMessageParams = { data: WebSocketData };
 // ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
 type WebSocketData = string;
 
+/**
+ * A function to callback when receiving a response to a particular message.
+ */
+export type OnResponse = () => void;
+
+const NOOP = () => {};
+
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
   private webSocket: WebSocketTypes | undefined;
@@ -43,14 +50,14 @@ export class WSTichuClient {
   /**
    * Message IDs we sent and expect a response about.
    */
-  private readonly waitingForResponse: string[];
+  private readonly waitingForResponse: Map<string, OnResponse>;
 
   constructor(
     readonly bogusCredentials: string, // TODO
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
     this.handler = handlerFactory();
-    this.waitingForResponse = [];
+    this.waitingForResponse = new Map<string, OnResponse>();
   }
 
   // TODO move url (or room id...) to constructor
@@ -67,8 +74,8 @@ export class WSTichuClient {
   // https://www.npmjs.com/package/read has a timeout function which could also be interesting
   // https://www.npmjs.com/package/https-proxy-agent could be needed as well
 
-  send = (msg: OutgoingMessage) => {
-    this.waitingForResponse.push(msg.txId);
+  send = (msg: OutgoingMessage, onResponse: OnResponse = NOOP) => {
+    this.waitingForResponse.set(msg.txId, onResponse);
     const msgJson = JSON.stringify(msg);
     this.debug(" Sending", msgJson);
     this.ws().send(msgJson);
@@ -132,14 +139,20 @@ export class WSTichuClient {
     if (!msg.txId) {
       return false;
     }
-    const idxCorrespondingRequest = this.waitingForResponse.indexOf(msg.txId);
-    const isResponse = idxCorrespondingRequest >= 0;
+    const isResponse = this.waitingForResponse.has(msg.txId);
     if (isResponse) {
       this.debug(
         `Removing ${msg.txId} from message queue - remaining:`,
-        this.waitingForResponse
+        this.waitingForResponse.keys()
       );
-      this.waitingForResponse.splice(idxCorrespondingRequest, 1);
+      // Invoke callback
+      this.waitingForResponse.get(msg.txId)!();
+      // Remove entry from queue
+      this.waitingForResponse.delete(msg.txId);
+      this.debug(
+        `Removed ${msg.txId} from message queue - remaining:`,
+        this.waitingForResponse.keys()
+      );
     }
     return isResponse;
   }
