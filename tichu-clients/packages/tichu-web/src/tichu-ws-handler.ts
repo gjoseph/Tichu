@@ -190,16 +190,5 @@ class ReactAppHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = (...msg: any) => {
-    const msgStr = msg
-      .map((m: any) => {
-        if (typeof m !== "string") {
-          return JSON.stringify(m, null, 2);
-        } else {
-          return m;
-        }
-      })
-      .join(" ");
-    this.log.debug(msgStr);
-  };
+  debug = this.log.debug;
 }

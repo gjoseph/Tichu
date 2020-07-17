@@ -245,7 +245,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = (...msg: any) => {
+  debug = (...msg: any[]) => {
     const msgStr = msg
       .map((m: any) => {
         if (typeof m !== "string") {
