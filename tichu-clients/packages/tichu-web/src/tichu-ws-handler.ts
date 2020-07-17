@@ -65,7 +65,9 @@ class ReactAppHandler implements TichuWebSocketHandler {
   onConnect = () => {
     this.log.debug("Connected (press CTRL+C to quit)");
     this.setRoomState(new RoomState(RoomStatus.CONNECTED));
-    this.notify("Connected !");
+    this.notify("Connected !", {
+      variant: "success",
+    });
   };
 
   onConnectionClose = (code: number, reason: string, wasClean: boolean) => {
@@ -74,7 +76,9 @@ class ReactAppHandler implements TichuWebSocketHandler {
         wasClean ? "clean" : "dirty"
       })`
     );
-    this.notify("Disconnected");
+    this.notify("Disconnected", {
+      variant: "warning",
+    });
   };
 
   onWebsocketError = (msg?: string, err?: Error) => {
