@@ -83,6 +83,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(getUser(session))
                 .content(incomingMessage.content())
+                .clientTxId(incomingMessage.clientTxId())
                 .build();
         sessions.broadcast(message);
     }
