@@ -8,14 +8,15 @@ export default {
 };
 
 // const events = actions("enableDebug");
+const sampleMessages = [
+  { message: "Hello, world", debug: false },
+  { message: "This is a debug message", debug: true },
+  { message: "This is another message", debug: false },
+];
 
-export const MessageStylesWithDebugOn = () => (
-  <ActivityLog
-    debug
-    log={[
-      { message: "Hello, world", debug: false },
-      { message: "This is a debug message", debug: true },
-      { message: "This is another message", debug: false },
-    ]}
-  />
-);
+export const MessageStylesWithDebugOn = () => {
+  return <ActivityLog showDebug log={sampleMessages} />;
+};
+export const MessageStylesWithDebugOff = () => {
+  return <ActivityLog log={sampleMessages} />;
+};
