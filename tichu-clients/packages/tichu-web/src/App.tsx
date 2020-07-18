@@ -104,7 +104,6 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
 
   return (
     <>
-      <p>Hello, {props.user.name}</p>
       <p>STATUS : {roomState.status}</p>
       {game}
       <Chat chatMessages={chatMessages} sendChatMessage={sentChatMessage} />
@@ -121,12 +120,37 @@ const Button: FC<{ msg: string; handleClick: () => void }> = ({
 };
 
 const App: FC<{ websocketUrl: string }> = (props) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | undefined>(() => {
+    const id = localStorage.getItem("tichuUser.id");
+    const name = localStorage.getItem("tichuUser.name");
+    if (id && name) {
+      return new User(id, name);
+    }
+    return undefined;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem("tichuUser.id", user?.id || "");
+    localStorage.setItem("tichuUser.name", user?.name || "");
+  }, [user]);
+
+  const logOut = () => {
+    setUser(undefined);
+    localStorage.removeItem("tichuUser.id");
+    localStorage.removeItem("tichuUser.name");
+  };
+
   return (
     <div className="App">
       <SnackbarProvider maxSnack={3}>
         {user ? (
-          <Room user={user} websocketUrl={props.websocketUrl} />
+          <>
+            <div>
+              Hello, {user.name}
+              <button onClick={logOut}>logout</button>
+            </div>
+            <Room user={user} websocketUrl={props.websocketUrl} />
+          </>
         ) : (
           <DummyUsernameInput setUser={setUser} />
         )}
@@ -138,13 +162,14 @@ const App: FC<{ websocketUrl: string }> = (props) => {
 const DummyUsernameInput: FC<{
   setUser: Dispatch<SetStateAction<User | undefined>>;
 }> = ({ setUser }) => {
-  const [name, setName] = useState("");
+  const [userName, setUserName] = React.useState("");
+
   return (
     <form
       action=""
       onSubmit={(e) => {
         e.preventDefault();
-        setUser(new User(name, name));
+        setUser(new User(userName, userName));
       }}
     >
       <label htmlFor="name">
@@ -153,8 +178,8 @@ const DummyUsernameInput: FC<{
           type="text"
           id="name"
           placeholder="your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
         />
       </label>
       <input type="submit" value={"Send"} />
