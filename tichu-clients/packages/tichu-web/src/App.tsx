@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { Game } from "./components/Game";
 import {
   JoinParam,
@@ -23,6 +16,7 @@ import { RoomState, RoomStatus } from "./model/RoomState";
 import { User } from "./model/User";
 import { Chat, ChatMessage } from "./components/Chat";
 import { ActivityLog, ActivityLogMessage } from "./components/ActivityLog";
+import { useStoredState } from "./react-utils";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
@@ -120,25 +114,7 @@ const Button: FC<{ msg: string; handleClick: () => void }> = ({
 };
 
 const App: FC<{ websocketUrl: string }> = (props) => {
-  const [user, setUser] = useState<User | undefined>(() => {
-    const id = localStorage.getItem("tichuUser.id");
-    const name = localStorage.getItem("tichuUser.name");
-    if (id && name) {
-      return new User(id, name);
-    }
-    return undefined;
-  });
-
-  React.useEffect(() => {
-    localStorage.setItem("tichuUser.id", user?.id || "");
-    localStorage.setItem("tichuUser.name", user?.name || "");
-  }, [user]);
-
-  const logOut = () => {
-    setUser(undefined);
-    localStorage.removeItem("tichuUser.id");
-    localStorage.removeItem("tichuUser.name");
-  };
+  const [user, setUser, logOut] = useStoredState<User>("tichu.user");
 
   return (
     <div className="App">
@@ -160,7 +136,7 @@ const App: FC<{ websocketUrl: string }> = (props) => {
 };
 
 const DummyUsernameInput: FC<{
-  setUser: Dispatch<SetStateAction<User | undefined>>;
+  setUser: (user: User) => void;
 }> = ({ setUser }) => {
   const [userName, setUserName] = React.useState("");
 
