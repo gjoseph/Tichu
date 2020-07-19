@@ -16,6 +16,7 @@ import { RoomState, RoomStatus } from "./model/RoomState";
 import { User } from "./model/User";
 import { Chat, ChatMessage } from "./components/Chat";
 import { ActivityLog, ActivityLogMessage } from "./components/ActivityLog";
+import { ConnectivityIndicatorConnected } from "./components/ConnectivityIndicator";
 import { useStoredState } from "./react-utils";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
@@ -102,6 +103,13 @@ const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       {game}
       <Chat chatMessages={chatMessages} sendChatMessage={sentChatMessage} />
       <ActivityLog showDebug log={activityLog} />
+      <div style={{ width: "100px" }}>
+        {wsClient ? (
+          <ConnectivityIndicatorConnected wsClient={wsClient} />
+        ) : (
+          <p>not connected yet</p>
+        )}
+      </div>
     </>
   );
 };
