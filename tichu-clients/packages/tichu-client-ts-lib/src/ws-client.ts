@@ -32,7 +32,7 @@ type OnCloseParams = {
 // browser Websocket does not have an ErrorEvent type; it's generic Event with type "error", no message or error object.
 type OnErrorParams = { message?: string; error?: any };
 // browser Websocket as `lastEventId` and `origin` properties in addition for MessageEvent, not sure what they're for
-type OnMessageParams = { data: WebSocketData };
+type OnReceiveParams = { data: WebSocketData };
 // ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
 type WebSocketData = string;
 
@@ -43,9 +43,22 @@ export type OnResponse = () => void;
 
 const NOOP = () => {};
 
+type OnOpen = (event: OnOpenParams) => void;
+type OnClose = (event: OnCloseParams) => void;
+type OnError = (event: OnErrorParams) => void;
+type OnReceive = (event: OnReceiveParams) => void;
+type OnSend = (msg: OutgoingMessage) => void;
+
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
   private webSocket: WebSocketTypes | undefined;
+
+  // event handlers
+  private onOpens: OnOpen[];
+  private onCloses: OnClose[];
+  private onErrors: OnError[];
+  private onReceives: OnReceive[];
+  private onSends: OnSend[];
 
   /**
    * Message IDs we sent and expect a response about.
@@ -57,13 +70,65 @@ export class WSTichuClient {
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
     this.handler = handlerFactory();
+
+    // default event handlers
+    const defaultOnOpen = (event: OnOpenParams) => {
+      this.debug("ws onopen", event);
+      this.handler.onConnect();
+    };
+    this.onOpens = [defaultOnOpen];
+
+    const defaultOnClose = (event: OnCloseParams) => {
+      this.debug("ws onclose:", event);
+      this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
+    };
+    this.onCloses = [defaultOnClose];
+
+    const defaultOnError = (event: OnErrorParams) => {
+      this.debug("ws onerror:", event);
+      this.handler.onWebsocketError(event.message, event.error);
+    };
+    this.onErrors = [defaultOnError];
+
+    const defaultOnReceive = (event: OnReceiveParams) => {
+      this.receive(event.data);
+    };
+    this.onReceives = [defaultOnReceive];
+
+    this.onSends = [];
+
+    // message tracker
     this.waitingForResponse = new Map<string, OnResponse>();
+  }
+
+  registerOnOpen(onOpen: OnOpen) {
+    this.onOpens = [...this.onOpens, onOpen];
+  }
+
+  registerOnClose(onClose: OnClose) {
+    this.onCloses = [...this.onCloses, onClose];
+  }
+
+  registerOnError(onError: OnError) {
+    this.onErrors = [...this.onErrors, onError];
+  }
+
+  registerOnSend(onSend: OnSend) {
+    this.onSends = [...this.onSends, onSend];
+  }
+
+  registerOnReceive(onReceive: OnReceive) {
+    this.onReceives = [...this.onReceives, onReceive];
   }
 
   // TODO move url (or room id...) to constructor
   connect(url: string): WSTichuClient {
     this.webSocket = this.webSocketSetup(url);
     return this;
+  }
+
+  isConnected(): boolean {
+    return this.ws().readyState === WebSocket.OPEN;
   }
 
   // After connection, only actions should be play or pass
@@ -79,6 +144,7 @@ export class WSTichuClient {
     const msgJson = JSON.stringify(msg);
     this.debug("Sending", msg);
     this.ws().send(msgJson);
+    this.onSends.forEach((f) => f(msg));
   };
 
   close = () => {
@@ -165,6 +231,34 @@ export class WSTichuClient {
   }
 
   private webSocketSetup(url: string): WebSocketTypes {
+    const ws = this.newWebsocket(url);
+
+    ws.onopen = (event: OnOpenParams) => {
+      this.onOpens.forEach((f) => f(event));
+    };
+
+    ws.onclose = (e: OnCloseParams) => {
+      this.onCloses.forEach((f) => f(e));
+    };
+
+    ws.onerror = (e: OnErrorParams) => {
+      this.onErrors.forEach((f) => f(e));
+    };
+
+    ws.onmessage = (e: OnReceiveParams) => {
+      console.log("onmessage:", e);
+      console.log("this.onReceives:", this.onReceives);
+      this.onReceives.forEach((f) => f(e));
+    };
+
+    // browser websocket API doesn't support handling ping/pong
+    // ws.on("ping", this.handler.onPing);
+    // ws.on("pong", this.handler.onPong);
+
+    return ws;
+  }
+
+  protected newWebsocket(url: string) {
     // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
     const userPass = `${this.bogusCredentials}:${this.bogusCredentials}`;
     // options don't exist in the browser js API for websocket, so we can't pass a header
@@ -178,27 +272,6 @@ export class WSTichuClient {
       ws = new wsWebSocket(url);
     }
     // TODO wtf are subprotocols
-
-    ws.onopen = (event: OnOpenParams) => {
-      this.debug("ws onopen", event);
-      this.handler.onConnect();
-    };
-    ws.onclose = (event: OnCloseParams) => {
-      this.debug("ws onclose:", event);
-      this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
-    };
-    ws.onerror = (event: OnErrorParams) => {
-      this.debug("ws onerror:", event);
-      this.handler.onWebsocketError(event.message, event.error);
-    };
-    ws.onmessage = (event: OnMessageParams) => {
-      this.receive(event.data);
-    };
-
-    // TODO fix this?
-    // ws.on("ping", this.handler.onPing);
-    // ws.on("pong", this.handler.onPong);
-
     return ws;
   }
 
