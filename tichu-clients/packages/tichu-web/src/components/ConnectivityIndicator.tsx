@@ -58,17 +58,18 @@ export const ConnectivityIndicatorConnected: FC<{
   React.useEffect(
     () => {
       console.log("Applying ConnectivityIndicatorConnected effect");
-      wsClient.registerOnOpen(() => {
+      wsClient.on("connect", () => {
         setWsConnected(true);
       });
-      wsClient.registerOnClose(() => {
+      wsClient.on("disconnect", () => {
         setWsConnected(false);
       });
-      wsClient.registerOnSend((msg: OutgoingMessage) => {
+      // TODO cancel schedule time outs if a new one comes in
+      wsClient.on("send", (msg: OutgoingMessage) => {
         setSending(ConnectivityColors.GREEN);
         setTimeout(() => setSending(ConnectivityColors.GREY), 200);
       });
-      wsClient.registerOnReceive(() => {
+      wsClient.on("receive", () => {
         setReceiving(ConnectivityColors.GREEN);
         setTimeout(() => setReceiving(ConnectivityColors.GREY), 200);
       });
