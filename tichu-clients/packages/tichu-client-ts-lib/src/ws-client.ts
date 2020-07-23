@@ -17,24 +17,22 @@ import {
   TichuWebSocketHandler,
   TichuWebSocketHandlerFactory,
 } from "./ws-handler";
+import {
+  Callback,
+  EventDispatcher,
+  EventParam,
+  EventType,
+  OnCloseParams,
+  OnErrorParams,
+  OnOpenParams,
+  OnReceiveParams,
+} from "./events";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
 export type WebSocketTypes = WebSocket | wsWebSocket;
 
-// Events used in websocket listeners are the common properties of browser websocket and the ws package's corresponding events,
-// here's some type definitions for them:
-type OnOpenParams = {};
-type OnCloseParams = {
-  code: number;
-  reason: string;
-  wasClean: boolean;
-};
-// browser Websocket does not have an ErrorEvent type; it's generic Event with type "error", no message or error object.
-type OnErrorParams = { message?: string; error?: any };
-// browser Websocket as `lastEventId` and `origin` properties in addition for MessageEvent, not sure what they're for
-type OnReceiveParams = { data: WebSocketData };
 // ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
-type WebSocketData = string;
+export type WebSocketData = string;
 
 /**
  * A function to callback when receiving a response to a particular message.
@@ -42,23 +40,10 @@ type WebSocketData = string;
 export type OnResponse = () => void;
 
 const NOOP = () => {};
-
-type OnOpen = (event: OnOpenParams) => void;
-type OnClose = (event: OnCloseParams) => void;
-type OnError = (event: OnErrorParams) => void;
-type OnReceive = (event: OnReceiveParams) => void;
-type OnSend = (msg: OutgoingMessage) => void;
-
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
+  private readonly eventDispatcher = new EventDispatcher();
   private webSocket: WebSocketTypes | undefined;
-
-  // event handlers
-  private onOpens: OnOpen[];
-  private onCloses: OnClose[];
-  private onErrors: OnError[];
-  private onReceives: OnReceive[];
-  private onSends: OnSend[];
 
   /**
    * Message IDs we sent and expect a response about.
@@ -71,54 +56,32 @@ export class WSTichuClient {
   ) {
     this.handler = handlerFactory();
 
-    // default event handlers
-    const defaultOnOpen = (event: OnOpenParams) => {
+    // default event handlers TODO i think we can now replace a large portion of ws-handler with this event dispatcher
+    this.eventDispatcher.on("connect", (event: OnOpenParams) => {
       this.debug("ws onopen", event);
       this.handler.onConnect();
-    };
-    this.onOpens = [defaultOnOpen];
-
-    const defaultOnClose = (event: OnCloseParams) => {
+    });
+    this.eventDispatcher.on("disconnect", (event: OnCloseParams) => {
       this.debug("ws onclose:", event);
       this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
-    };
-    this.onCloses = [defaultOnClose];
-
-    const defaultOnError = (event: OnErrorParams) => {
+    });
+    this.eventDispatcher.on("error", (event: OnErrorParams) => {
       this.debug("ws onerror:", event);
       this.handler.onWebsocketError(event.message, event.error);
-    };
-    this.onErrors = [defaultOnError];
-
-    const defaultOnReceive = (event: OnReceiveParams) => {
+    });
+    this.eventDispatcher.on("receive", (event: OnReceiveParams) => {
       this.receive(event.data);
-    };
-    this.onReceives = [defaultOnReceive];
-
-    this.onSends = [];
+    });
 
     // message tracker
     this.waitingForResponse = new Map<string, OnResponse>();
   }
 
-  registerOnOpen(onOpen: OnOpen) {
-    this.onOpens = [...this.onOpens, onOpen];
-  }
-
-  registerOnClose(onClose: OnClose) {
-    this.onCloses = [...this.onCloses, onClose];
-  }
-
-  registerOnError(onError: OnError) {
-    this.onErrors = [...this.onErrors, onError];
-  }
-
-  registerOnSend(onSend: OnSend) {
-    this.onSends = [...this.onSends, onSend];
-  }
-
-  registerOnReceive(onReceive: OnReceive) {
-    this.onReceives = [...this.onReceives, onReceive];
+  on<E extends EventType, P extends EventParam<E>>(
+    eventType: E,
+    callback: Callback<E, P>
+  ) {
+    this.eventDispatcher.on(eventType, callback);
   }
 
   // TODO move url (or room id...) to constructor
@@ -144,7 +107,7 @@ export class WSTichuClient {
     const msgJson = JSON.stringify(msg);
     this.debug("Sending", msg);
     this.ws().send(msgJson);
-    this.onSends.forEach((f) => f(msg));
+    this.eventDispatcher.dispatch("send", msg);
   };
 
   close = () => {
@@ -233,22 +196,19 @@ export class WSTichuClient {
   private webSocketSetup(url: string): WebSocketTypes {
     const ws = this.newWebsocket(url);
 
-    ws.onopen = (event: OnOpenParams) => {
-      this.onOpens.forEach((f) => f(event));
-    };
+    ws.onopen = (e: OnOpenParams) =>
+      this.eventDispatcher.dispatch("connect", e);
 
     ws.onclose = (e: OnCloseParams) => {
-      this.onCloses.forEach((f) => f(e));
+      this.eventDispatcher.dispatch("disconnect", e);
     };
 
     ws.onerror = (e: OnErrorParams) => {
-      this.onErrors.forEach((f) => f(e));
+      this.eventDispatcher.dispatch("error", e);
     };
 
     ws.onmessage = (e: OnReceiveParams) => {
-      console.log("onmessage:", e);
-      console.log("this.onReceives:", this.onReceives);
-      this.onReceives.forEach((f) => f(e));
+      this.eventDispatcher.dispatch("receive", e);
     };
 
     // browser websocket API doesn't support handling ping/pong
