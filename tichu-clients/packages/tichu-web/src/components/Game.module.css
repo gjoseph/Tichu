@@ -4,12 +4,6 @@
   border-radius: 5px 5px;
 }
 
-.otherPlayer {
-  color: grey;
-  padding: 2em;
-  border: 1px dotted grey;
-}
-
 .player {
   color: black;
   padding: 2em;
