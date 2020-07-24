@@ -8,13 +8,8 @@ import {
   SendFunction,
 } from "tichu-client-ts-lib";
 import { GameState } from "../model/GameState";
-
-/**
- * Represents another player at the table - hidden cards, etc.
- */
-const OtherPlayer: FC = () => {
-  return <div className={styles.otherPlayer}>this is another player</div>;
-};
+import { User } from "../model/User";
+import { OtherPlayer } from "./OtherPlayer";
 
 /**
  * Represents the player at the table
@@ -48,9 +43,9 @@ export const Game: FC<{ sendMessage: SendFunction; gameState: GameState }> = ({
 
   return (
     <div className={styles.game}>
-      <OtherPlayer />
-      <OtherPlayer />
-      <OtherPlayer />
+      <OtherPlayer user={new User("1", "Isa")} handCardCount={3} />
+      <OtherPlayer user={new User("2", "Mikayla")} handCardCount={10} />
+      <OtherPlayer user={new User("3", "Shane")} handCardCount={14} />
       <Player>
         {gameState.hand ? (
           <Hand sendCards={sendCards} cardsInHand={gameState.hand} />

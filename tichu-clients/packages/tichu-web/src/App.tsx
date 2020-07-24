@@ -130,7 +130,7 @@ const App: FC<{ websocketUrl: string }> = (props) => {
         {user ? (
           <>
             <div>
-              Hello, {user.name}
+              Hello, {user.displayName}
               <button onClick={logOut}>logout</button>
             </div>
             <Room user={user} websocketUrl={props.websocketUrl} />
