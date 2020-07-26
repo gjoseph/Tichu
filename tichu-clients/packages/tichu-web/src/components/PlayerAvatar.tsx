@@ -2,12 +2,9 @@ import { User } from "../model/User";
 import { Avatar, Badge, createStyles, Theme } from "@material-ui/core";
 import React, { FC } from "react";
 import styles from "./PlayerAvatar.module.css";
-import ColorHash from "color-hash";
 import { makeStyles } from "@material-ui/core/styles";
+import { stringToHslColor } from "../util";
 
-const colorHash = new ColorHash({
-  saturation: 1,
-});
 export const PlayerAvatar: FC<{
   user: User;
   presence?: "online" | "offline";
@@ -18,7 +15,7 @@ export const PlayerAvatar: FC<{
     presence ? styles[presence] : null,
     busy ? styles.pulse : null,
   ].join(" ");
-  const colour = user.displayName ? colorHash.hex(user.displayName) : "#ccc";
+  const colour = user.displayName ? stringToHslColor(user.displayName) : "#ccc";
   // Learn how to parameterise this so we don't need to recompute everytime
   // .. or just ditch both and learn how to hash a name into a set of 20 colour class names
   // ... and the contrastText function
