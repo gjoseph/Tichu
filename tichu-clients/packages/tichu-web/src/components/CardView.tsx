@@ -2,10 +2,13 @@ import React, { FC } from "react";
 import { Card, CardSuit, NormalCard } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import styles from "./Card.module.css";
-import {classes} from "../util";
+import { classes } from "../util";
+
+type CardSize = "small" | "regular";
 
 interface CardViewProps {
   card: Card;
+  size?: CardSize;
   handleSelect: (isSelected: boolean, card: Card) => void;
 }
 
@@ -15,6 +18,7 @@ interface CardViewProps {
 export const CardView: FC<CardViewProps> = ({
   card,
   handleSelect,
+  size = "regular",
 }: CardViewProps) => {
   const [isSelected, setIsSelected] = React.useState(false);
 
@@ -37,7 +41,9 @@ export const CardView: FC<CardViewProps> = ({
   };
   const cssClass = classes(
     isSelected ? styles.selected : "",
-    styles.card
+    styles.card,
+    styles.front,
+    styles[size]
   );
   return (
     <div className={cssClass} onClick={onClick}>

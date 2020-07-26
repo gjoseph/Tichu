@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { PlayerAvatar } from "./PlayerAvatar";
 import { User } from "../model/User";
+import { Paper } from "@material-ui/core";
+import { CardBacks } from "./CardSet";
 
 /**
  * Represents another player at the table - hidden cards, etc.
@@ -12,9 +14,10 @@ interface OtherPlayerProps {
 
 export const OtherPlayer: FC<OtherPlayerProps> = (props: OtherPlayerProps) => {
   return (
-    <div>
+    <Paper elevation={3}>
       <PlayerAvatar user={props.user} />
-      <span>{props.user.displayName}</span>
-    </div>
+      <CardBacks count={props.handCardCount} />
+      has {props.handCardCount} card in their hand
+    </Paper>
   );
 };

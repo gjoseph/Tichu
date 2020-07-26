@@ -1,7 +1,8 @@
 import React from "react";
+import { CardBack } from "../components/CardBack";
 import { CardView } from "../components/CardView";
 import { cardFromName } from "tichu-client-ts-lib";
-import { action, actions } from "@storybook/addon-actions";
+import { actions } from "@storybook/addon-actions";
 
 export default {
   title: "Single cards",
@@ -16,8 +17,12 @@ export const MahJong = () => <CardView card={cardFromName("*1")} {...events} />;
 export const _4Red = () => <CardView card={cardFromName("R4")} {...events} />;
 export const _7Green = () => <CardView card={cardFromName("G7")} {...events} />;
 export const _10Black = () => (
-  <CardView card={cardFromName("K0")} {...events} />
+  <CardView card={cardFromName("K0")} {...events} size="regular" />
 );
 export const _JackBlue = () => (
-  <CardView card={cardFromName("BJ")} {...events} />
+  <CardView card={cardFromName("BJ")} {...events} size="small" />
 );
+_JackBlue.story = { name: "Jack Blue (small)" };
+
+export const BackOfCard = () => <CardBack size="small" />;
+BackOfCard.story = { name: "Back of card (small)" };
