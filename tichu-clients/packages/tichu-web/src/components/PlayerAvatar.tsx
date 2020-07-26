@@ -3,18 +3,18 @@ import { Avatar, Badge, createStyles, Theme } from "@material-ui/core";
 import React, { FC } from "react";
 import styles from "./PlayerAvatar.module.css";
 import { makeStyles } from "@material-ui/core/styles";
-import { stringToHslColor } from "../util";
+import { classes, stringToHslColor } from "../util";
 
 export const PlayerAvatar: FC<{
   user: User;
   presence?: "online" | "offline";
   busy?: boolean;
 }> = ({ user, presence, busy = false }) => {
-  const cssClass = [
+  const cssClass = classes(
     styles.avatarBadge,
     presence ? styles[presence] : null,
-    busy ? styles.pulse : null,
-  ].join(" ");
+    busy ? styles.pulse : null
+  );
   const colour = user.displayName ? stringToHslColor(user.displayName) : "#ccc";
   // Learn how to parameterise this so we don't need to recompute everytime
   // .. or just ditch both and learn how to hash a name into a set of 20 colour class names
