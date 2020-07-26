@@ -46,3 +46,16 @@ export const Busy = () => {
     </>
   );
 };
+
+export const NameDependentBackgroundColor = () => (
+  <>
+    <PlayerAvatar user={new User("abc-def", "Alex Quinn")} />
+    <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
+    Same initials but different name, should be different color:
+    <PlayerAvatar user={new User("abc-def", "Arnold Quartzenegger")} />
+    But is consistent if same name
+    <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
+    Fallback to grey if no name:
+    <PlayerAvatar user={new User("abc-def")} />
+  </>
+);
