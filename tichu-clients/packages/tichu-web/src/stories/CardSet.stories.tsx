@@ -1,5 +1,5 @@
 import React from "react";
-import { CardSet } from "../components/CardSet";
+import { CardBacks, CardSet } from "../components/CardSet";
 import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { actions } from "@storybook/addon-actions";
 
@@ -19,4 +19,10 @@ export const _14Cards = () => {
   return <CardSet cards={rnd} {...events} />;
 };
 
-export const All_Cards = () => <CardSet cards={AllCards} {...events} />;
+export const All_Cards = () => (
+  <CardSet cards={AllCards} {...events} cardSize="small" />
+);
+All_Cards.story = { name: "All Cards (small)" };
+
+export const _3_Backs = () => <CardBacks count={3} />;
+export const _14_Backs = () => <CardBacks count={14} />;
