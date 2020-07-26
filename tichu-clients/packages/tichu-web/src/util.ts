@@ -16,3 +16,14 @@ export const stringToHslColor = (
   const h = hash % 360;
   return "hsl(" + h + ", " + saturation + "%, " + lightness + "%)";
 };
+
+export const classes = (...classNames: (string | null | undefined)[]) => {
+  return (
+    classNames
+      // Trim (if s is truthy)
+      .map((s) => s?.trim())
+      // Remove non-truthy strings
+      .filter((s) => s)
+      .join(" ")
+  );
+};

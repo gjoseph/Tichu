@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Card, CardSuit, NormalCard } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import styles from "./Card.module.css";
+import {classes} from "../util";
 
 interface CardViewProps {
   card: Card;
@@ -34,8 +35,10 @@ export const CardView: FC<CardViewProps> = ({
     setIsSelected(newValue);
     handleSelect(newValue, card);
   };
-
-  const cssClass = (isSelected ? styles.selected : "") + " " + styles.card;
+  const cssClass = classes(
+    isSelected ? styles.selected : "",
+    styles.card
+  );
   return (
     <div className={cssClass} onClick={onClick}>
       <span className={styles.cardShortName} style={{ color: color }}>
