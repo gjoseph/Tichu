@@ -13,16 +13,27 @@ interface CardSetProps {
   handleSelect: (isSelected: boolean, card: Card) => void;
 }
 
-const CardPosition: FC<{
+interface WithPositionProps {
   idx: number;
-  cardSize: CardSize;
-  children: React.ReactNode;
-}> = ({ idx, cardSize, children }) => {
-  const space = idx * (cardSize === "small" ? 2 : 6);
+  size: CardSize;
+}
+
+const withPosition = <P extends object>(
+  Component: React.ComponentType<P>
+): React.FC<P & WithPositionProps> => ({
+  idx,
+  size,
+  ...props
+}: WithPositionProps) => {
+  const space = idx * (size === "small" ? 2 : 6);
   return (
-    <div style={{ transform: `translate(${space}em, 0)` }}>{children}</div>
+    <div style={{ transform: `translate(${space}em, 0)` }}>
+      <Component size={size} {...(props as P)} />
+    </div>
   );
 };
+const PositionedCardView = withPosition(CardView);
+const PositionedCardBack = withPosition(CardBack);
 
 export const CardSet: FC<CardSetProps> = ({
   cards,
