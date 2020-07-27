@@ -9,25 +9,26 @@ export default {
 };
 const events = actions("handleSelect");
 
-export const _3Cards = () => {
+export const _3Cards_Flat = () => {
   const cards = [cardFromName("*D"), cardFromName("GJ"), cardFromName("K6")];
-  return <CardSet cards={cards} {...events} />;
+  return <CardSet cards={cards} style="flat" {...events} />;
 };
 
-export const _5Cards = () => {
+export const _5Cards_Fanned = () => {
   const rnd = [...AllCards].sort(() => Math.random() - 0.5).slice(0, 5);
-  return <CardSet cards={rnd} {...events} />;
+  return <CardSet cards={rnd} style="fanned" {...events} />;
 };
 
-export const _14Cards = () => {
+export const _14Cards_Stacked = () => {
   const rnd = [...AllCards].sort(() => Math.random() - 0.5).slice(0, 14);
-  return <CardSet cards={rnd} {...events} />;
+  return <CardSet cards={rnd} style="stacked" {...events} />;
 };
 
 export const All_Cards = () => (
-  <CardSet cards={AllCards} {...events} cardSize="small" />
+  <CardSet cards={AllCards} cardSize="small" style="stacked" {...events} />
 );
-All_Cards.story = { name: "All Cards (small)" };
+All_Cards.story = { name: "All Cards (small, stacked)" };
 
-export const _3_Backs = () => <CardBacks count={3} />;
-export const _14_Backs = () => <CardBacks count={14} />;
+export const _3_Backs_Flat = () => <CardBacks count={3} style="flat" />;
+export const _7_Backs_Fanned = () => <CardBacks count={7} style="fanned" />;
+export const _14_Backs_Stack = () => <CardBacks count={14} style="stacked" />;
