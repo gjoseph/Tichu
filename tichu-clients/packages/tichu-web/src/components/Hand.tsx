@@ -43,7 +43,11 @@ export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
 
   return (
     <div>
-      <CardSet handleSelect={handleSelect} cards={props.cardsInHand} />
+      <CardSet
+        handleSelect={handleSelect}
+        cards={props.cardsInHand}
+        style="fanned"
+      />
       <SendButton handleClick={handleSend} enabled={selectedCards.length > 0} />
       <p>Selected cards: {selectedCards.map((c) => c.name).join(", ")}</p>
     </div>
