@@ -35,23 +35,34 @@ const withPosition = <P extends object>(
 const PositionedCardView = withPosition(CardView);
 const PositionedCardBack = withPosition(CardBack);
 
-export const CardSet: FC<CardSetProps> = ({
-  cards,
-  handleSelect,
+const CardSetContainer: FC<{ cardSize?: CardSize }> = ({
   cardSize = "regular",
+  children,
 }) => {
   const classNames = classes(
     styles.cardSet,
     cardSize === "small" ? styles.smallSet : styles.regularSet
   );
+  return <div className={classNames}>{children}</div>;
+};
+
+export const CardSet: FC<CardSetProps> = ({
+  cards,
+  handleSelect,
+  cardSize = "regular",
+}) => {
   return (
-    <div className={classNames}>
+    <CardSetContainer cardSize={cardSize}>
       {cards.map((card, idx) => (
-        <CardPosition idx={idx} cardSize={cardSize} key={idx}>
-          <CardView card={card} size={cardSize} handleSelect={handleSelect} />
-        </CardPosition>
+        <PositionedCardView
+          key={idx}
+          idx={idx}
+          card={card}
+          size={cardSize}
+          handleSelect={handleSelect}
+        />
       ))}
-    </div>
+    </CardSetContainer>
   );
 };
 
@@ -59,17 +70,15 @@ export const CardBacks: FC<{ count: number; cardSize?: CardSize }> = ({
   count,
   cardSize = "small",
 }) => {
-  const classNames = classes(
-    styles.cardSet,
-    cardSize === "small" ? styles.smallSet : styles.regularSet
-  );
   return (
-    <div className={classNames}>
+    <CardSetContainer cardSize={cardSize}>
       {Array.from(new Array(count), (ignoreNull, idx) => (
-        <CardPosition idx={idx} cardSize={cardSize} key={idx}>
-          <CardBack size={cardSize} />
-        </CardPosition>
+        <PositionedCardBack
+          key={idx}
+          idx={idx}
+          size={cardSize}
+        />
       ))}
-    </div>
+    </CardSetContainer>
   );
 };
