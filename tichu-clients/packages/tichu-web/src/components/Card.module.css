@@ -2,12 +2,12 @@
 }
 
 .regularSet {
-  /* Give height to cover relative elements below*/
+  /* Give height to cover relative elements below -- TODO this isn't valid anymore since we fan the cards out */
   height: calc(15rem + 16px);
 }
 
 .smallSet {
-  /* Give height to cover relative elements below*/
+  /* Give height to cover relative elements below -- TODO this isn't valid anymore since we fan the cards out */
   height: calc(7.5rem + 6px);
 }
 

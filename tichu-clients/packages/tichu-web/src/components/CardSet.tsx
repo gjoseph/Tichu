@@ -15,6 +15,7 @@ interface CardSetProps {
 
 interface WithPositionProps {
   idx: number;
+  totalCount: number;
   size: CardSize;
 }
 
@@ -22,12 +23,22 @@ const withPosition = <P extends object>(
   Component: React.ComponentType<P>
 ): React.FC<P & WithPositionProps> => ({
   idx,
+  totalCount,
   size,
   ...props
 }: WithPositionProps) => {
-  const space = idx * (size === "small" ? 2 : 6);
+  // Not sure how best to name this -- this is the "centered index" where 0 is the middle element of the list
+  const midIdx = idx - (totalCount - 1) / 2;
+  const translateX = idx * (size === "small" ? 2 : 6);
+  const translateY = Math.abs(midIdx * midIdx * (size === "small" ? 0.1 : 0.3));
+  const rotation = midIdx * (size === "small" ? 2 : 6);
+  const styles = {
+    position: "absolute" as "absolute",
+    transformOrigin: "center",
+    transform: `translate(${translateX}em, ${translateY}em) rotate(${rotation}deg)`,
+  };
   return (
-    <div style={{ transform: `translate(${space}em, 0)` }}>
+    <div style={styles}>
       <Component size={size} {...(props as P)} />
     </div>
   );
@@ -57,6 +68,7 @@ export const CardSet: FC<CardSetProps> = ({
         <PositionedCardView
           key={idx}
           idx={idx}
+          totalCount={cards.length}
           card={card}
           size={cardSize}
           handleSelect={handleSelect}
@@ -76,6 +88,7 @@ export const CardBacks: FC<{ count: number; cardSize?: CardSize }> = ({
         <PositionedCardBack
           key={idx}
           idx={idx}
+          totalCount={count}
           size={cardSize}
         />
       ))}
