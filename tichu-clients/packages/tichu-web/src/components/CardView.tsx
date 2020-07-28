@@ -47,10 +47,10 @@ export const CardView: FC<CardViewProps> = ({
   );
   return (
     <div className={cssClass} onClick={onClick}>
-      <span className={styles.cardShortName} style={{ color: color }}>
+      <div className={styles.cardShortName} style={{ color: color }}>
         {card.shortName}
-      </span>
-      <span className={styles.cardName}>{card.name}</span>
+      </div>
+      <div className={styles.cardName}>{card.name}</div>
     </div>
   );
 };

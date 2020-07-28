@@ -11,22 +11,24 @@
   height: calc(7.5rem + 6px);
 }
 
-.small {
+.card {
+  user-select: none;
+}
+
+.card.small {
   width: 5rem;
   height: 7.5rem;
   border: 3px solid #333;
   border-radius: 10px;
+  font-size: 0.5rem;
 }
 
-.regular {
+.card.regular {
   width: 10rem;
   height: 15rem;
   border: 8px solid #333;
   border-radius: 30px;
-}
-
-.card {
-  user-select: none;
+  font-size: 1rem;
 }
 
 .card.front {
@@ -44,22 +46,24 @@
 
 .cardShortName {
   position: absolute;
-  top: 0px;
-  left: 8px;
+  height: 100%;
+  top: 0;
+  left: 10%;
   font-family: "Gill Sans", sans-serif;
   font-weight: bold;
-  font-size: 8ex;
+  font-size: 4em;
 }
 
 .cardName {
   position: absolute;
-  bottom: 0px;
-  left: 8px;
+  width: 100%;
+  bottom: 10%;
+  left: 20%;
   font-family: "Gill Sans", sans-serif;
   font-size: 2ex;
-  vertical-align: top;
+  vertical-align: bottom;
   transform: rotate(-90deg);
-  transform-origin: top left;
+  transform-origin: bottom left;
 }
 
 /* Generated using https://www.heropatterns.com */
