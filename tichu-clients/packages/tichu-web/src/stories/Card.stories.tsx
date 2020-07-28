@@ -1,28 +1,45 @@
+import { actions } from "@storybook/addon-actions";
+import { select, withKnobs } from "@storybook/addon-knobs";
 import React from "react";
+import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { CardBack } from "../components/CardBack";
 import { CardView } from "../components/CardView";
-import { cardFromName } from "tichu-client-ts-lib";
-import { actions } from "@storybook/addon-actions";
+import { sizeKnob } from "./knobs";
 
 export default {
   title: "Single cards",
   component: CardView,
+  decorators: [withKnobs],
 };
 
 const events = actions("handleSelect");
 
-// Potentially, we could use https://github.com/storybookjs/storybook/tree/master/addons/knobs
-// to add a card picker without duplicating the stories (alternative, using storyOf might enable some more dynamic story generation)
-export const MahJong = () => <CardView card={cardFromName("*1")} {...events} />;
-export const _4Red = () => <CardView card={cardFromName("R4")} {...events} />;
-export const _7Green = () => <CardView card={cardFromName("G7")} {...events} />;
-export const _10Black = () => (
-  <CardView card={cardFromName("K0")} {...events} size="regular" />
+export const MahJong = () => (
+  <CardView card={cardFromName("*1")} size={sizeKnob()} {...events} />
 );
-export const _JackBlue = () => (
-  <CardView card={cardFromName("BJ")} {...events} size="small" />
+export const Dog = () => (
+  <CardView card={cardFromName("*H")} size={sizeKnob()} {...events} />
 );
-_JackBlue.story = { name: "Jack Blue (small)" };
+export const Phoenix = () => (
+  <CardView card={cardFromName("*P")} size={sizeKnob()} {...events} />
+);
+export const Dragon = () => (
+  <CardView card={cardFromName("*D")} size={sizeKnob()} {...events} />
+);
 
-export const BackOfCard = () => <CardBack size="small" />;
-BackOfCard.story = { name: "Back of card (small)" };
+export const Card_Front = () => {
+  const cardName = select(
+    "Card",
+    AllCards.map((c) => c.shortName),
+    "*1"
+  );
+  return (
+    <CardView card={cardFromName(cardName)} size={sizeKnob()} {...events} />
+  );
+};
+Card_Front.story = { name: "Card Front (with knobs)" };
+
+export const Card_Back = () => {
+  return <CardBack size={sizeKnob()} {...events} />;
+};
+Card_Back.story = { name: "Card Back (with knobs)" };

@@ -1,34 +1,42 @@
-import React from "react";
-import { CardBacks, CardSet } from "../components/CardSet";
-import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { actions } from "@storybook/addon-actions";
+import { withKnobs } from "@storybook/addon-knobs";
+import React from "react";
+import { AllCards } from "tichu-client-ts-lib";
+import { CardBacks, CardSet } from "../components/CardSet";
+import { countKnob, sizeKnob, styleKnob } from "./knobs";
 
 export default {
   title: "Card Set",
   component: CardSet,
+  decorators: [withKnobs],
 };
 const events = actions("handleSelect");
 
-export const _3Cards_Flat = () => {
-  const cards = [cardFromName("*D"), cardFromName("GJ"), cardFromName("K6")];
-  return <CardSet cards={cards} style="flat" {...events} />;
+export const Card_Set = () => {
+  const cards = [...AllCards]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, countKnob(14));
+  return (
+    <CardSet
+      cards={cards}
+      cardSize={sizeKnob()}
+      style={styleKnob()}
+      {...events}
+    />
+  );
 };
 
-export const _5Cards_Fanned = () => {
-  const rnd = [...AllCards].sort(() => Math.random() - 0.5).slice(0, 5);
-  return <CardSet cards={rnd} style="fanned" {...events} />;
-};
-
-export const _14Cards_Stacked = () => {
-  const rnd = [...AllCards].sort(() => Math.random() - 0.5).slice(0, 14);
-  return <CardSet cards={rnd} style="stacked" {...events} />;
-};
-
-export const All_Cards = () => (
-  <CardSet cards={AllCards} cardSize="small" style="stacked" {...events} />
+export const Stack_of_56 = () => (
+  <CardSet cards={AllCards} cardSize={sizeKnob()} style="stacked" {...events} />
 );
-All_Cards.story = { name: "All Cards (small, stacked)" };
 
-export const _3_Backs_Flat = () => <CardBacks count={3} style="flat" />;
-export const _7_Backs_Fanned = () => <CardBacks count={7} style="fanned" />;
-export const _14_Backs_Stack = () => <CardBacks count={14} style="stacked" />;
+export const Card_Backs = () => {
+  return (
+    <CardBacks
+      count={countKnob(56)}
+      cardSize={sizeKnob()}
+      style={styleKnob()}
+      {...events}
+    />
+  );
+};
