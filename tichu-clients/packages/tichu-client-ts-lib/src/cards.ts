@@ -28,7 +28,7 @@ export enum CardSuit {
   Star,
 }
 
-enum SpecialCards {
+export enum SpecialCards {
   MahJong,
   Dog,
   Phoenix,
