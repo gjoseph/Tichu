@@ -12,6 +12,7 @@
 }
 
 .card {
+  position: absolute;
   user-select: none;
   border-radius: 15% / 10%;
   border-color: #333;
@@ -49,7 +50,7 @@
   position: absolute;
   height: 100%;
   top: 0;
-  left: 10%;
+  left: 5%;
   font-family: "Gill Sans", sans-serif;
   font-weight: bold;
   font-size: 4em;
@@ -58,13 +59,13 @@
 .cardName {
   position: absolute;
   width: 100%;
-  bottom: 10%;
-  left: 20%;
+  bottom: 0;
+  left: 5%;
   font-family: "Gill Sans", sans-serif;
   font-size: 2ex;
-  vertical-align: bottom;
+  vertical-align: top;
   transform: rotate(-90deg);
-  transform-origin: bottom left;
+  transform-origin: top left;
 }
 
 /* Generated using https://www.heropatterns.com */
