@@ -1,5 +1,11 @@
 import React, { FC } from "react";
-import { Card, CardSuit, NormalCard } from "tichu-client-ts-lib";
+import {
+  Card,
+  CardSuit,
+  NormalCard,
+  SpecialCard,
+  SpecialCards,
+} from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import styles from "./Card.module.css";
 import { classes } from "../util";
@@ -12,6 +18,37 @@ interface CardViewProps {
   handleSelect: (isSelected: boolean, card: Card) => void;
 }
 
+const colorFor = (card: Card) => {
+  if (card.type === "normal") {
+    return mapEnumValue((card as NormalCard).suit).with({
+      [CardSuit.Jade]: "#060",
+      [CardSuit.Sword]: "#000",
+      [CardSuit.Pagoda]: "#359",
+      [CardSuit.Star]: "#922",
+    });
+  } else {
+    return "#999";
+  }
+};
+
+const symbolFor = (card: Card): string => {
+  if (card.type === "normal") {
+    const nCard = card as NormalCard;
+    if (nCard.number > 10) {
+      return ["J", "Q", "K", "A"][nCard.number - 11]; // wooh untested magic
+    } else {
+      return nCard.number.toString();
+    }
+  } else {
+    return mapEnumValue((card as SpecialCard).special).with({
+      [SpecialCards.MahJong]: "1",
+      [SpecialCards.Dog]: "🐶",
+      [SpecialCards.Phoenix]: "🦚",
+      [SpecialCards.Dragon]: "🐉",
+    });
+  }
+};
+
 /**
  * I don't know how to prevent children elements - does it matter?
  */
@@ -21,18 +58,8 @@ export const CardView: FC<CardViewProps> = ({
   size = "regular",
 }: CardViewProps) => {
   const [isSelected, setIsSelected] = React.useState(false);
-
-  let color: string;
-  if (card.type === "normal") {
-    color = mapEnumValue((card as NormalCard).suit).with({
-      [CardSuit.Jade]: "#060",
-      [CardSuit.Sword]: "#000",
-      [CardSuit.Pagoda]: "#359",
-      [CardSuit.Star]: "#922",
-    });
-  } else {
-    color = "#999";
-  }
+  const color = colorFor(card);
+  const symbol = symbolFor(card);
 
   const onClick = () => {
     const newValue = !isSelected;
@@ -48,7 +75,7 @@ export const CardView: FC<CardViewProps> = ({
   return (
     <div className={cssClass} onClick={onClick}>
       <div className={styles.cardShortName} style={{ color: color }}>
-        {card.shortName}
+        {symbol}
       </div>
       <div className={styles.cardName}>{card.name}</div>
     </div>
