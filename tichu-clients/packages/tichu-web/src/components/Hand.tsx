@@ -2,13 +2,15 @@ import React, { FC } from "react";
 import { Card } from "tichu-client-ts-lib";
 import { CardSet } from "./CardSet";
 
-const SendButton: FC<{ enabled: boolean; handleClick: () => void }> = ({
-  enabled,
-  handleClick,
-}) => {
+const SendButton: FC<{
+  enabled: boolean;
+  cardCount: number;
+  handleClick: () => void;
+}> = ({ enabled, cardCount, handleClick }) => {
+  const text = cardCount > 0 ? "Send" : "Pass!";
   return (
     <button disabled={!enabled} onClick={handleClick}>
-      send
+      {text}
     </button>
   );
 };
@@ -47,8 +49,11 @@ export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
         handleSelect={handleSelect}
         cards={props.cardsInHand}
         style="fanned"
+      <SendButton
+        handleClick={handleSend}
+        enabled
+        cardCount={selectedCards.length}
       />
-      <SendButton handleClick={handleSend} enabled={selectedCards.length > 0} />
       <p>Selected cards: {selectedCards.map((c) => c.name).join(", ")}</p>
     </div>
   );
