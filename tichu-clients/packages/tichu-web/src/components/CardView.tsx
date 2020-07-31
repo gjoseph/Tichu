@@ -7,15 +7,17 @@ import {
   SpecialCards,
 } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
-import styles from "./Card.module.css";
 import { classes } from "../util";
+import styles from "./Card.module.css";
 
-type CardSize = "small" | "regular";
+export type OnCardClick = (card: Card) => void;
+export type CardSize = "small" | "regular";
 
 interface CardViewProps {
   card: Card;
+  selected: boolean; // TODO wonder if selected is anything than a css class that could be set by parent
   size?: CardSize;
-  handleSelect: (isSelected: boolean, card: Card) => void;
+  onClick: OnCardClick;
 }
 
 const colorFor = (card: Card) => {
@@ -54,26 +56,22 @@ const symbolFor = (card: Card): string => {
  */
 export const CardView: FC<CardViewProps> = ({
   card,
-  handleSelect,
+  selected,
+  onClick,
   size = "regular",
 }: CardViewProps) => {
-  const [isSelected, setIsSelected] = React.useState(false);
   const color = colorFor(card);
   const symbol = symbolFor(card);
 
-  const onClick = () => {
-    const newValue = !isSelected;
-    setIsSelected(newValue);
-    handleSelect(newValue, card);
-  };
+  const handleClick = () => onClick(card);
   const cssClass = classes(
-    isSelected ? styles.selected : "",
+    selected ? styles.selected : "",
     styles.card,
     styles.front,
     styles[size]
   );
   return (
-    <div className={cssClass} onClick={onClick}>
+    <div className={cssClass} onClick={handleClick}>
       <div className={styles.cardShortName} style={{ color: color }}>
         {symbol}
       </div>

@@ -1,4 +1,4 @@
-import { number, radios } from "@storybook/addon-knobs";
+import { boolean, number, radios } from "@storybook/addon-knobs";
 
 export const sizeKnob = () => {
   return radios("Size", { Small: "small", Regular: "regular" }, "regular");
@@ -19,4 +19,8 @@ export const countKnob = (max: number) => {
     max,
     step: 1,
   });
+};
+
+export const boolKnob = (label: string) => {
+  return boolean(label, false);
 };

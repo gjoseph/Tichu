@@ -1,19 +1,19 @@
 import React, { FC } from "react";
-import { CardBack } from "./CardBack";
-import { CardView } from "./CardView";
-import { Card } from "tichu-client-ts-lib";
-import styles from "./Card.module.css";
-import { classes } from "../util";
 import { visitEnumValue } from "ts-enum-util";
+import { classes } from "../util";
+import styles from "./Card.module.css";
+import { CardBack } from "./CardBack";
+import { CardView, OnCardClick } from "./CardView";
+import { SelectableCard } from "./Hand";
 
 type CardSize = "small" | "regular";
 type SetStyle = "flat" | "fanned" | "stacked";
 
 interface CardSetProps {
-  cards: Card[];
+  cards: SelectableCard[];
   cardSize?: CardSize;
   style: SetStyle;
-  handleSelect: (isSelected: boolean, card: Card) => void;
+  onCardClick: OnCardClick;
 }
 
 interface WithPositionProps {
@@ -93,7 +93,7 @@ const CardSetContainer: FC<{ cardSize?: CardSize }> = ({
 
 export const CardSet: FC<CardSetProps> = ({
   cards,
-  handleSelect,
+  onCardClick,
   cardSize = "regular",
   style,
 }) => {
@@ -105,9 +105,10 @@ export const CardSet: FC<CardSetProps> = ({
           idx={idx}
           totalCount={cards.length}
           card={card}
+          selected={card.selected}
           size={cardSize}
           style={style}
-          handleSelect={handleSelect}
+          onClick={onCardClick}
         />
       ))}
     </CardSetContainer>

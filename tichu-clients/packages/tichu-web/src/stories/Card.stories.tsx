@@ -4,26 +4,27 @@ import React from "react";
 import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { CardBack } from "../components/CardBack";
 import { CardView } from "../components/CardView";
-import { sizeKnob } from "./knobs";
+import { boolKnob, sizeKnob } from "./knobs";
 
 export default {
   title: "Single cards",
   component: CardView,
 };
 
-const events = actions("handleSelect");
+const events = actions("onClick");
+const knobs = () => ({ selected: boolKnob("Selected"), size: sizeKnob() });
 
 export const MahJong = () => (
-  <CardView card={cardFromName("*1")} size={sizeKnob()} {...events} />
+  <CardView card={cardFromName("*1")} {...knobs()} {...events} />
 );
 export const Dog = () => (
-  <CardView card={cardFromName("*H")} size={sizeKnob()} {...events} />
+  <CardView card={cardFromName("*H")} {...knobs()} {...events} />
 );
 export const Phoenix = () => (
-  <CardView card={cardFromName("*P")} size={sizeKnob()} {...events} />
+  <CardView card={cardFromName("*P")} {...knobs()} {...events} />
 );
 export const Dragon = () => (
-  <CardView card={cardFromName("*D")} size={sizeKnob()} {...events} />
+  <CardView card={cardFromName("*D")} {...knobs()} {...events} />
 );
 
 export const Card_Front = () => {
@@ -32,9 +33,7 @@ export const Card_Front = () => {
     AllCards.map((c) => c.shortName),
     "*1"
   );
-  return (
-    <CardView card={cardFromName(cardName)} size={sizeKnob()} {...events} />
-  );
+  return <CardView card={cardFromName(cardName)} {...knobs()} {...events} />;
 };
 Card_Front.story = { name: "Card Front (with knobs)" };
 

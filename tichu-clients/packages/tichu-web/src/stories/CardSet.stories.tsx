@@ -8,12 +8,13 @@ export default {
   title: "Card Set",
   component: CardSet,
 };
-const events = actions("handleSelect");
+const events = actions("onCardClick");
 
 export const Card_Set = () => {
   const cards = [...AllCards]
     .sort(() => Math.random() - 0.5)
-    .slice(0, countKnob(14));
+    .slice(0, countKnob(14))
+    .map((c) => ({ ...c, selected: false }));
   return (
     <CardSet
       cards={cards}
@@ -25,7 +26,12 @@ export const Card_Set = () => {
 };
 
 export const Stack_of_56 = () => (
-  <CardSet cards={AllCards} cardSize={sizeKnob()} style="stacked" {...events} />
+  <CardSet
+    cards={AllCards.map((c) => ({ ...c, selected: false }))}
+    cardSize={sizeKnob()}
+    style="stacked"
+    {...events}
+  />
 );
 
 export const Card_Backs = () => {
