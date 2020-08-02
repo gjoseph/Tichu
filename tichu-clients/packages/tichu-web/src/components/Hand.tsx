@@ -22,13 +22,16 @@ export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
   props
 ) => {
   const allUnselected = (cards: Card[]) => {
-    console.log("allUnselected()");
     return cards.map((c) => {
       return { ...c, selected: false };
     });
   };
 
   const [cards, setCards] = React.useState(allUnselected(props.cardsInHand));
+  // register dependency to props.cardsInHand to ensure re-render when it changes
+  React.useEffect(() => {
+    setCards(allUnselected(props.cardsInHand));
+  }, [props.cardsInHand]);
 
   const handleSelect = (card: Card) => {
     setCards((oldList) => {
