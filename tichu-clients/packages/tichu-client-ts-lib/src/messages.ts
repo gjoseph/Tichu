@@ -141,13 +141,3 @@ export class PlayerPlaysParam implements GameParam {
 
   private constructor(readonly cards: CardShortName[]) {}
 }
-
-// pass = play[]
-
-export enum Actions {
-  init = "init",
-  join = "join",
-  ready = "ready",
-  play = "play",
-  pass = "pass",
-}
