@@ -2,8 +2,16 @@ import { Card, CardShortName } from "./cards";
 import { UserId } from "./model";
 import { nanoid } from "nanoid";
 
+export type MessageType =
+  | "activity"
+  | "game"
+  | "status"
+  | "hand"
+  | "chat"
+  | "error";
+
 interface Message {
-  readonly messageType: "activity" | "game" | "hand" | "chat" | "error";
+  readonly messageType: MessageType;
 }
 
 // Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
@@ -40,6 +48,26 @@ export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
   ) {
     super(txId, forAction, actor, result, message);
   }
+}
+
+interface PlayerStatus {
+  id: UserId;
+  status: "ready" | "not-ready";
+  team: number; // TODO
+  cardsInHand: number;
+  cardsCollected: number;
+}
+
+// net.incongru.tichu.websocket.GameStatusMessage
+export class IncomingGameStatusMessage implements IncomingMessage {
+  readonly messageType = "status";
+
+  constructor(
+    readonly players: PlayerStatus[],
+    readonly currentPlayer: UserId,
+    // readonly currentPlay: ,
+    readonly playedCards: CardShortName[]
+  ) {}
 }
 
 export class IncomingHandMessage implements IncomingMessage {

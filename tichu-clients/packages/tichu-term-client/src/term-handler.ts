@@ -20,6 +20,7 @@ import {
 import { Log } from "./log";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
+import { IncomingGameStatusMessage } from "tichu-client-ts-lib/lib";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
   return new TerminalHandler(new Log());
@@ -88,6 +89,10 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(
       `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`
     );
+  }
+
+  handleStatusMessage(msg: IncomingGameStatusMessage) {
+    this.log.debug("Received status: " + msg);
   }
 
   handleHandMessage(msg: IncomingHandMessage) {

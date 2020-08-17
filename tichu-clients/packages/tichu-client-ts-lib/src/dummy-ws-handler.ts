@@ -20,6 +20,7 @@ export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
   handleChatMessage = NOOP;
   handleActivityMessage = NOOP;
   handleErrorMessage = NOOP;
+  handleStatusMessage = NOOP;
   handleHandMessage = NOOP;
 
   // ==== Game message visitors

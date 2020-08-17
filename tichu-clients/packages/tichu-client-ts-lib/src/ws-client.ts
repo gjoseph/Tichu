@@ -4,6 +4,7 @@ import {
   ErrorMessage,
   IncomingChatMessage,
   IncomingGameMessage,
+  IncomingGameStatusMessage,
   IncomingHandMessage,
   IncomingMessage,
   IncomingPlayerPlaysResponse,
@@ -128,6 +129,8 @@ export class WSTichuClient {
     visitEnumValue(msg.messageType).with({
       game: () =>
         this.handleGameMessage(msg as IncomingGameMessage, isResponse),
+      status: () =>
+        this.handler.handleStatusMessage(msg as IncomingGameStatusMessage),
       hand: () => this.handler.handleHandMessage(msg as IncomingHandMessage),
       chat: () => this.handler.handleChatMessage(msg as IncomingChatMessage),
       activity: () =>
