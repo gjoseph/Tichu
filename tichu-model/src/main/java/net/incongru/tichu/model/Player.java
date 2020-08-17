@@ -104,7 +104,7 @@ public class Player {
             return this.cards.stream().anyMatch(test);
         }
 
-        int size() {
+        public int size() {
             return this.cards.size();
         }
 
