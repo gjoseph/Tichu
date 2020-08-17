@@ -2,6 +2,7 @@ import {
   ActivityMessage,
   ErrorMessage,
   IncomingChatMessage,
+  IncomingGameStatusMessage,
   IncomingHandMessage,
   IncomingPlayerPlaysResponse,
   JoinResult,
@@ -42,6 +43,7 @@ export interface TichuWebSocketHandler {
   handleChatMessage(msg: IncomingChatMessage): void;
   handleActivityMessage(msg: ActivityMessage): void;
   handleErrorMessage(msg: ErrorMessage): void;
+  handleStatusMessage(msg: IncomingGameStatusMessage): void;
   handleHandMessage(msg: IncomingHandMessage): void;
 
   // ==== Game message visitors
