@@ -77,6 +77,10 @@ class TerminalHandler implements TichuWebSocketHandler {
     }
   }
 
+  // wsClient.on("chat", (IncomingChatMessage)=>{
+  //   this.log.chat(`${msg.from}: ${msg.content}`);
+  // });
+
   handleChatMessage(msg: IncomingChatMessage) {
     this.log.chat(`${msg.from}: ${msg.content}`);
   }

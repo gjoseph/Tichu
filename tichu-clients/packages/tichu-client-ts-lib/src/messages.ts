@@ -108,8 +108,8 @@ export class OutgoingChatMessage implements OutgoingMessage {
 }
 
 type ActivityType = "coco" | "disconnected";
-type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
-type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
+export type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
+export type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
 export type JoinResult =
   | "can-not-join-full-table"
   | "ok"
