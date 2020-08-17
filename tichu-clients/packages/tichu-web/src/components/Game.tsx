@@ -23,17 +23,24 @@ const Player: FC = (props) => {
   );
 };
 
+/**
+ * Placeholder for preference setting component
+ */
 const Prefs: FC = () => {
   return <div />;
 };
 
+/**
+ * Placeholder to display game statistics, score, ...
+ * @constructor
+ */
 const GameStats: FC = () => {
   return <div />;
 };
 
 export const Game: FC<{ sendMessage: SendFunction; gameState: GameState }> = ({
   sendMessage,
-  // this is a stupid prop
+  // TODO this is a stupid prop
   gameState,
 }) => {
   const sendCards = (cards: Card[]) => {

@@ -120,13 +120,15 @@ export class WSTichuClient {
 
     // there's gotta be a better way than just casting to string
     const msg = JSON.parse(data as string) as IncomingMessage;
-    // this.debug("Received", msg);
+    this.debug("Received", msg);
 
+    // TODO this will invoke the callback registered on send - should that move to after the message is actually processed?
     const isResponse = this.removeFromResponseQueue(msg);
 
     // Game messages are handled more specifically in handleGameMessage before being
     // delegated to handler - other simpler messages are delegated straightaway.
     visitEnumValue(msg.messageType).with({
+      // TODO instead of delegating to handler, fire events?
       game: () =>
         this.handleGameMessage(msg as IncomingGameMessage, isResponse),
       status: () =>
@@ -136,12 +138,15 @@ export class WSTichuClient {
       activity: () =>
         this.handler.handleActivityMessage(msg as ActivityMessage),
       error: () => this.handler.handleErrorMessage(msg as ErrorMessage),
+      // unknown messageType yield EnumValueVisitee.js:50 Uncaught Error: Unexpected value: undefined
     });
 
     this.handler.afterMessageProcessing(this.send);
   };
 
   private handleGameMessage(msg: IncomingGameMessage, isResponse: boolean) {
+    // TODO here could e.g fire a generic game event, visit the enum and fire more specific events
+
     visitEnumValue(msg.forAction).with({
       init: () => {},
       join: () => {
