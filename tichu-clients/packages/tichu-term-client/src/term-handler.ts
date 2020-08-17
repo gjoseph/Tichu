@@ -177,6 +177,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return promptPromiseAndUi as Promise<T>;
   };
 
+  // not convinced this works -- it doesn't "delete" the list of card prompts from screen at least..
   private closeCurrentPrompt() {
     // can't use ?. operator below because of the @ts-ignore statement ...
     if (this.currentPromptUi) {
