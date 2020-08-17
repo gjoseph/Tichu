@@ -1,7 +1,24 @@
-import { OutgoingMessage } from "./messages";
+import {
+  ActionType,
+  IncomingResult,
+  MessageType,
+  OutgoingMessage,
+} from "./messages";
 import { WebSocketData } from "./ws-client";
 
-export type EventType = "connect" | "disconnect" | "receive" | "send" | "error";
+export type EventType =
+  // Top-level events
+  | "connect"
+  | "disconnect"
+  | "receive"
+  | "send"
+  | "error"
+  // for eventType===receive:
+  | MessageType
+  // for messageType===game:
+  | ActionType
+  // for each actionType, we have more possible results:
+  | IncomingResult;
 
 export interface EventParam<T extends EventType> {}
 
