@@ -50,9 +50,17 @@ export const Game: FC<{ sendMessage: SendFunction; gameState: GameState }> = ({
 
   return (
     <div className={styles.game}>
-      <OtherPlayer user={new User("1", "Isa")} handCardCount={3} />
-      <OtherPlayer user={new User("2", "Mikayla")} handCardCount={10} />
-      <OtherPlayer user={new User("3", "Shane")} handCardCount={14} />
+      <div className={styles.otherPlayers}>
+        {gameState.otherPlayers.map((player, idx) => (
+          // TODO: lookup players?
+          <OtherPlayer
+            key={idx}
+            user={new User(player.id, player.id)}
+            handCardCount={player.cardsInHand}
+          />
+        ))}
+      </div>
+      <p>It's {gameState.currentPlayer}'s turn</p>
       <Player>
         {gameState.hand ? (
           <Hand sendCards={sendCards} cardsInHand={gameState.hand} />
