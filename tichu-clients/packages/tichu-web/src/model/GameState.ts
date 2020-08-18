@@ -1,5 +1,4 @@
-import { Card } from "tichu-client-ts-lib";
-import { User } from "./User";
+import { Card, UserId } from "tichu-client-ts-lib";
 
 enum GameStatus {
   WHAT,
@@ -7,10 +6,17 @@ enum GameStatus {
 
 export class GameState {
   readonly gameStatus: GameStatus = GameStatus.WHAT;
-  readonly player: User = new User("x", "xyz"); // this is already in app's state, maybe not needed here?
   constructor(
     // roundState? tableState?
-    readonly hand: Card[]
+    // currentPlayer only comes through net.incongru.tichu.action.impl.PlayerPlaysResponse#nextPlayer currently
+
+    readonly currentPlayer: UserId | undefined,
+    readonly hand: Array<Card>,
+    readonly otherPlayers: {
+      id: UserId;
+      cardsInHand: number;
+      cardsCollected: number;
+    }[]
   ) {}
 
   // maybe the below is in RoomState

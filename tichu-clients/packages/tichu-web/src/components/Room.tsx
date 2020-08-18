@@ -25,7 +25,9 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   const [roomState, setRoomState] = useState<RoomState>(
     new RoomState(RoomStatus.OPEN)
   );
-  const [gameState, setGameState] = useState<GameState>(new GameState([], []));
+  const [gameState, setGameState] = useState<GameState>(
+    new GameState(undefined, [], [])
+  );
 
   const [chatMessages, setChatMessages] = useState(new Array<ChatMessage>());
   const newChatMessage = (newMessage: ChatMessage) => {

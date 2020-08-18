@@ -1,4 +1,4 @@
-import { UserId } from "tichu-client-ts-lib";
+import { User } from "./User";
 
 export enum RoomStatus {
   OPEN,
@@ -9,22 +9,21 @@ export enum RoomStatus {
   FINISHED,
 }
 
-enum RoomUserStatus {
+enum RoomUserStatus { // TODO align this and server GameStatusMessage.PlayerState
   WATCHING,
   PLAYING,
 }
 
 class RoomUser {
   constructor(
+    readonly user: User,
     readonly status: RoomUserStatus,
-    readonly user: UserId,
     readonly team: undefined | 0 | 1
   ) {}
 }
 
 export class RoomState {
-  readonly users: RoomUser[] = [];
-  constructor(readonly status: RoomStatus) {}
+  constructor(readonly status: RoomStatus, readonly users: RoomUser[] = []) {}
 
   // Do we setup teams before a GameState?
 }

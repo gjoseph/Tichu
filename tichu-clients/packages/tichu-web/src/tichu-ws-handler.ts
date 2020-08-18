@@ -1,23 +1,24 @@
+import { OptionsObject, SnackbarKey, SnackbarMessage } from "notistack";
 import {
   ActivityMessage,
   Card,
   cardFromName,
   ErrorMessage,
   IncomingChatMessage,
+  IncomingGameStatusMessage,
   IncomingHandMessage,
   IncomingPlayerPlaysResponse,
   TichuWebSocketHandler,
   TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
-import { OptionsObject, SnackbarKey, SnackbarMessage } from "notistack";
+import { ActivityLogMessage } from "./components/ActivityLog";
 import { Log } from "./Log";
 import { GameState } from "./model/GameState";
 import { RoomState, RoomStatus } from "./model/RoomState";
-import { ActivityLogMessage } from "./components/ActivityLog";
 
 // Callbacks given by Room/Game
-type SetRoomState = (roomState: RoomState) => void;
-type SetGameState = (gameState: GameState) => void;
+type SetRoomState = (fn: (oldState: RoomState) => RoomState) => void; //SetRoomStateNewOnly & SetRoomStateOldToNew;
+type SetGameState = (fn: (oldState: GameState) => GameState) => void;
 type NewChatMessage = (newMessage: IncomingChatMessage) => void;
 type NewActivityLog = (newMessage: ActivityLogMessage) => void;
 
@@ -64,7 +65,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
   // ==== Websocket callbacks
   onConnect = () => {
     this.log.debug("Connected (press CTRL+C to quit)");
-    this.setRoomState(new RoomState(RoomStatus.CONNECTED));
+    this.setRoomState(() => new RoomState(RoomStatus.CONNECTED));
     this.notify("Connected !", {
       variant: "success",
     });
@@ -119,6 +120,16 @@ class ReactAppHandler implements TichuWebSocketHandler {
     );
   }
 
+  handleStatusMessage(msg: IncomingGameStatusMessage) {
+    this.log.debug("Received status", JSON.stringify(msg));
+
+    // TODO .filter() me out
+    this.setGameState(
+      (oldState: GameState) =>
+        new GameState(msg.currentPlayer, oldState.hand, msg.players)
+    );
+  }
+
   handleHandMessage(msg: IncomingHandMessage) {
     // TODO the below is copied from term-handler.ts and I have no memory what it means
     // msg has a txId but we don't really care while "fetching hand" isn't its own action
@@ -128,8 +139,12 @@ class ReactAppHandler implements TichuWebSocketHandler {
     //todo what// TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
     const cards: Card[] = msg.hand.cards.map(cardFromName);
 
-    // TODO this is completely wrong, this shouldn't set the whole state
-    this.setGameState(new GameState(cards));
+    // TODO this feels completely wrong, this shouldn't set the whole state
+    // as it is, a library like immerjs would help, but let's first try to extract state elsewhere instead
+    this.setGameState(
+      (oldState: GameState) =>
+        new GameState(oldState.currentPlayer, cards, oldState.otherPlayers)
+    );
   }
 
   // ==== Game message visitors
@@ -143,12 +158,12 @@ class ReactAppHandler implements TichuWebSocketHandler {
         if (isResponse) {
           this.debug("Waiting for others");
           this.notify("Welcome");
-          this.setRoomState(new RoomState(RoomStatus.NEED_PLAYERS));
+          this.setRoomState(() => new RoomState(RoomStatus.NEED_PLAYERS));
         }
       },
       "ok-table-is-now-full": () => {
         // this hinges on the fact we receive messages for other joiners
-        this.setRoomState(new RoomState(RoomStatus.WAIT_FOR_READY));
+        this.setRoomState(() => new RoomState(RoomStatus.WAIT_FOR_READY));
       },
     };
   };
@@ -165,7 +180,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
         this.debug("Let's get started!");
         // expecting each player to get a hand message now ...
         // see handleHandMessage
-        this.setRoomState(new RoomState(RoomStatus.PLAYING));
+        this.setRoomState(() => new RoomState(RoomStatus.PLAYING));
       },
     };
   };
@@ -176,7 +191,15 @@ class ReactAppHandler implements TichuWebSocketHandler {
   ) => {
     return {
       "next-player-goes": () => {
-        this.log.debug(`It's now ${msg.nextPlayer}'s turn`);
+        this.log.debug(
+          `${msg.actor} played, ${JSON.stringify(msg)}. It's now ${
+            msg.nextPlayer
+          }'s turn`
+        );
+        this.setGameState(
+          (oldState: GameState) =>
+            new GameState(msg.nextPlayer, oldState.hand, oldState.otherPlayers)
+        );
       },
       "trick-end": () => {
         // TODO Anyone will be table to trigger new-trick here, but maybe this should only be for the winning player?
