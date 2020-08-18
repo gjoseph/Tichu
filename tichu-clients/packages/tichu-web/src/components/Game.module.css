@@ -7,5 +7,23 @@
 .player {
   color: black;
   padding: 2em;
-  border: 1px solid darkblue;
+}
+
+.otherPlayers {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+}
+
+.otherPlayer {
+  margin: 1em;
+  width: calc(33% - 2em);
+}
+
+.otherPlayer:first-child {
+  transform: rotate(-20deg);
+}
+
+.otherPlayer:nth-child(3) {
+  transform: rotate(20deg);
 }
