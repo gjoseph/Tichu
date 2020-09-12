@@ -20,7 +20,7 @@
   "license": "",
   "devDependencies": {
     "@ava/typescript": "1.1.1",
-    "@liftr/tscov": "1.4.7",
+    "@liftr/tscov": "1.4.8",
     "@types/inquirer": "6.5.0",
     "@types/node": "13.13.2",
     "@types/ws": "7.2.6",
