@@ -10,7 +10,7 @@
     "husky": "4.2.5",
     "lerna": "3.22.1",
     "prettier": "2.2.1",
-    "pretty-quick": "2.0.1"
+    "pretty-quick": "2.0.2"
   },
   "scripts": {
     "postinstall": "lerna bootstrap && npm run setup-husky",
