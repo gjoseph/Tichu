@@ -1,0 +1,16 @@
+.connectivityIndicator {
+  font-family: "Pixel";
+  font-size: 8px;
+}
+.up,
+.down {
+  fill: rgb(216, 216, 216);
+}
+
+.down:hover {
+  fill: rgb(0, 120, 0);
+}
+
+.up:hover {
+  fill: rgb(180, 0, 0);
+}

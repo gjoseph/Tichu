@@ -19,8 +19,10 @@ import net.incongru.tichu.room.RoomGameContext;
 import net.incongru.tichu.room.RoomProvider;
 
 import javax.websocket.Session;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static net.incongru.tichu.websocket.SessionProvider.getUser;
 
@@ -83,6 +85,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
                 .from(getUser(session))
                 .content(incomingMessage.content())
+                .clientTxId(incomingMessage.clientTxId())
                 .build();
         sessions.broadcast(message);
     }
@@ -122,6 +125,30 @@ public class MessageHandlerImpl implements MessageHandler {
             final Game game = ctx.game();
             final Trick trick = game.currentRound().currentTrick();
             final Players players = game.players();
+
+            // every player's status, sent to everyone
+            final Collection<GameStatusMessage.PlayerStatus> playerStatuses = players.stream()
+                    .map(p -> {
+                        final GameStatusMessage.PlayerState playerState = p.isReady() ? GameStatusMessage.PlayerState.READY : GameStatusMessage.PlayerState.NOT_READY;
+                        return ImmutablePlayerStatus.builder()
+                                .id(p.id())
+                                .status(playerState)
+                                .team(-1) // TODO
+                                .cardsInHand(p.hand().size())
+                                .cardsCollected(p.wonCards().size())
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+            messageBundle.roomMessage(ImmutableGameStatusMessage.builder()
+                    .players(playerStatuses)
+                    .currentPlayer(trick.currentPlayer().id())
+                    // TODO enum?
+                    .play(trick.previousNonPass().play().name())
+                    // TODO
+                    .build());
+
+            // TODO does this need to be a separate message, or merge it with game state?
+            // own hand message for each player
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
                 final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()

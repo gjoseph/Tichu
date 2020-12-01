@@ -1,16 +1,48 @@
+import { actions } from "@storybook/addon-actions";
+import { withKnobs } from "@storybook/addon-knobs";
 import React from "react";
-import { CardSet } from "../components/CardSet";
-import { AllCards, cardFromName } from "tichu-client-ts-lib";
+import { AllCards } from "tichu-client-ts-lib";
+import { CardBacks, CardSet } from "../components/CardSet";
+import { countKnob, sizeKnob, styleKnob } from "./knobs";
 
 export default {
   title: "Card Set",
   component: CardSet,
+  decorators: [withKnobs],
+};
+const events = actions("onCardClick");
+
+export const Card_Set = () => {
+  const cards = [...AllCards]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, countKnob(14))
+    .map((c) => ({ ...c, selected: false }));
+  return (
+    <CardSet
+      cards={cards}
+      cardSize={sizeKnob()}
+      style={styleKnob()}
+      {...events}
+    />
+  );
 };
 
-export const _3Cards = () => (
+export const Stack_of_56 = () => (
   <CardSet
-    cards={[cardFromName("*D"), cardFromName("GJ"), cardFromName("K6")]}
+    cards={AllCards.map((c) => ({ ...c, selected: false }))}
+    cardSize={sizeKnob()}
+    style="stacked"
+    {...events}
   />
 );
 
-export const _14Cards = () => <CardSet cards={AllCards} />;
+export const Card_Backs = () => {
+  return (
+    <CardBacks
+      count={countKnob(56)}
+      cardSize={sizeKnob()}
+      style={styleKnob()}
+      {...events}
+    />
+  );
+};

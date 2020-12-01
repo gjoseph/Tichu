@@ -26,13 +26,13 @@ public class WebSocketServer {
         tomcat.setSilent(false);
         tomcat.setPort(8080);
 
-        final Context ctx = tomcat.addContext("", "/Users/gjoseph/Dev/Tichu/tichu-clients/tichu-web/");
+        final Context ctx = tomcat.addContext("", null);
         setupSecurity(ctx);
 
         Tomcat.addServlet(ctx, "default-servlet", new DefaultServlet());
-        ctx.addServletMappingDecoded("/index.html", "default-servlet");
-        ctx.addServletMappingDecoded("/style.css", "default-servlet");
-        ctx.addServletMappingDecoded("/websocket.js", "default-servlet");
+        // ctx.addServletMappingDecoded("/index.html", "default-servlet");
+        // ctx.addServletMappingDecoded("/style.css", "default-servlet");
+        // ctx.addServletMappingDecoded("/websocket.js", "default-servlet");
 
         // if mapping only to /index.html, then the websocket-filter doesn't kick in
         // http://mail-archives.apache.org/mod_mbox/tomcat-users/201911.mbox/%3cCAJ3=HkAvxeZn6hM1PLV6C9sZE9Dr-yXfJPjHenj1uwn7vB5GmA@mail.gmail.com%3e

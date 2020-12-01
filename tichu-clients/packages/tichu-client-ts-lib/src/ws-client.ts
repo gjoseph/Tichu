@@ -4,6 +4,7 @@ import {
   ErrorMessage,
   IncomingChatMessage,
   IncomingGameMessage,
+  IncomingGameStatusMessage,
   IncomingHandMessage,
   IncomingMessage,
   IncomingPlayerPlaysResponse,
@@ -17,47 +18,81 @@ import {
   TichuWebSocketHandler,
   TichuWebSocketHandlerFactory,
 } from "./ws-handler";
+import {
+  Callback,
+  EventDispatcher,
+  EventParam,
+  EventType,
+  OnCloseParams,
+  OnErrorParams,
+  OnOpenParams,
+  OnReceiveParams,
+} from "./events";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
 export type WebSocketTypes = WebSocket | wsWebSocket;
 
-// Events used in websocket listeners are the common properties of browser websocket and the ws package's corresponding events,
-// here's some type definitions for them:
-type OnOpenParams = {};
-type OnCloseParams = {
-  code: number;
-  reason: string;
-  wasClean: boolean;
-};
-// browser Websocket does not have an ErrorEvent type; it's generic Event with type "error", no message or error object.
-type OnErrorParams = { message?: string; error?: any };
-// browser Websocket as `lastEventId` and `origin` properties in addition for MessageEvent, not sure what they're for
-type OnMessageParams = { data: WebSocketData };
 // ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
-type WebSocketData = string;
+export type WebSocketData = string;
 
+/**
+ * A function to callback when receiving a response to a particular message.
+ */
+export type OnResponse = () => void;
+
+const NOOP = () => {};
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
+  private readonly eventDispatcher = new EventDispatcher();
   private webSocket: WebSocketTypes | undefined;
 
   /**
    * Message IDs we sent and expect a response about.
-   * TODO: for some reason, we only track these for game messages - should we track
-   * for all?
    */
-  private readonly waitingForAnswer: string[];
+  private readonly waitingForResponse: Map<string, OnResponse>;
 
   constructor(
     readonly bogusCredentials: string, // TODO
     handlerFactory: TichuWebSocketHandlerFactory
   ) {
-    this.handler = handlerFactory(this.send);
-    this.waitingForAnswer = [];
+    this.handler = handlerFactory();
+
+    // default event handlers TODO i think we can now replace a large portion of ws-handler with this event dispatcher
+    this.eventDispatcher.on("connect", (event: OnOpenParams) => {
+      this.debug("ws onopen", event);
+      this.handler.onConnect();
+    });
+    this.eventDispatcher.on("disconnect", (event: OnCloseParams) => {
+      this.debug("ws onclose:", event);
+      this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
+    });
+    this.eventDispatcher.on("error", (event: OnErrorParams) => {
+      this.debug("ws onerror:", event);
+      this.handler.onWebsocketError(event.message, event.error);
+    });
+    this.eventDispatcher.on("receive", (event: OnReceiveParams) => {
+      this.receive(event.data);
+    });
+
+    // message tracker
+    this.waitingForResponse = new Map<string, OnResponse>();
   }
 
-  connect(url: string) {
+  on<E extends EventType, P extends EventParam<E>>(
+    eventType: E,
+    callback: Callback<E, P>
+  ) {
+    this.eventDispatcher.on(eventType, callback);
+  }
+
+  // TODO move url (or room id...) to constructor
+  connect(url: string): WSTichuClient {
     this.webSocket = this.webSocketSetup(url);
     return this;
+  }
+
+  isConnected(): boolean {
+    return this.ws().readyState === WebSocket.OPEN;
   }
 
   // After connection, only actions should be play or pass
@@ -68,11 +103,12 @@ export class WSTichuClient {
   // https://www.npmjs.com/package/read has a timeout function which could also be interesting
   // https://www.npmjs.com/package/https-proxy-agent could be needed as well
 
-  send = (msg: OutgoingMessage) => {
-    this.waitingForAnswer.push(msg.txId); // Do we care for chat messages?
+  send = (msg: OutgoingMessage, onResponse: OnResponse = NOOP) => {
+    this.waitingForResponse.set(msg.txId, onResponse);
     const msgJson = JSON.stringify(msg);
-    this.debug(" Sending", msgJson);
+    this.debug("Sending", msg);
     this.ws().send(msgJson);
+    this.eventDispatcher.dispatch("send", msg);
   };
 
   close = () => {
@@ -86,63 +122,76 @@ export class WSTichuClient {
     const msg = JSON.parse(data as string) as IncomingMessage;
     this.debug("Received", msg);
 
-    // Game messages are handled more specifically here before being
-    // delegated to handler - other simpler messages are delegated straightaway.
-    if (msg.messageType === "game") {
-      this.handleGameMessage(msg as IncomingGameMessage);
-    } else if (msg.messageType === "hand") {
-      this.handler.handleHandMessage(msg as IncomingHandMessage);
-    } else if (msg.messageType === "chat") {
-      this.handler.handleChatMessage(msg as IncomingChatMessage);
-    } else if (msg.messageType === "activity") {
-      this.handler.handleActivityMessage(msg as ActivityMessage);
-    } else if (msg.messageType === "error") {
-      this.handler.handleErrorMessage(msg as ErrorMessage);
-    } else {
-      throw new Error("Unknown message type: " + msg.messageType);
-    }
+    // TODO this will invoke the callback registered on send - should that move to after the message is actually processed?
+    const isResponse = this.removeFromResponseQueue(msg);
 
-    this.handler.afterMessageProcessing();
+    // Game messages are handled more specifically in handleGameMessage before being
+    // delegated to handler - other simpler messages are delegated straightaway.
+    visitEnumValue(msg.messageType).with({
+      // TODO instead of delegating to handler, fire events?
+      game: () =>
+        this.handleGameMessage(msg as IncomingGameMessage, isResponse),
+      status: () =>
+        this.handler.handleStatusMessage(msg as IncomingGameStatusMessage),
+      hand: () => this.handler.handleHandMessage(msg as IncomingHandMessage),
+      chat: () => this.handler.handleChatMessage(msg as IncomingChatMessage),
+      activity: () =>
+        this.handler.handleActivityMessage(msg as ActivityMessage),
+      error: () => this.handler.handleErrorMessage(msg as ErrorMessage),
+      // unknown messageType yield EnumValueVisitee.js:50 Uncaught Error: Unexpected value: undefined
+    });
+
+    this.handler.afterMessageProcessing(this.send);
   };
 
-  private handleGameMessage(msg: IncomingGameMessage) {
-    // do we care for all messages ?
-    const idxCorrespondingRequest = this.waitingForAnswer.indexOf(msg.txId);
-    const isResponse = idxCorrespondingRequest >= 0;
-    if (isResponse) {
-      this.debug(
-        `Removing ${msg.txId} from message queue - remaining:`,
-        this.waitingForAnswer
-      );
-      // TODO add test for this
-      this.waitingForAnswer.splice(idxCorrespondingRequest, 1);
-    }
+  private handleGameMessage(msg: IncomingGameMessage, isResponse: boolean) {
+    // TODO here could e.g fire a generic game event, visit the enum and fire more specific events
 
-    switch (msg.forAction) {
-      case "init":
-        break;
-      case "join":
+    visitEnumValue(msg.forAction).with({
+      init: () => {},
+      join: () => {
         visitEnumValue(msg.result as JoinResult).with(
           this.handler.handleJoin(isResponse)
         );
-        break;
-      case "ready":
+      },
+      ready: () => {
         visitEnumValue(msg.result as PlayerIsReadyResult).with(
           this.handler.handleReady(isResponse)
         );
-        break;
-      case "new-trick":
+      },
+      "new-trick": () => {
         this.debug("What do we do here?"); // TODO
-        break;
-      case "play":
+      },
+      play: () => {
         const msg1 = msg as IncomingPlayerPlaysResponse;
         visitEnumValue(msg1.result as PlayResult).with(
           this.handler.handlePlayResult(isResponse, msg1)
         );
-        break;
-      default:
-        throw new Error("Unknown action: " + msg.forAction);
+      },
+    });
+  }
+
+  // TODO add tests -- likely needs to be moved out of this class
+  private removeFromResponseQueue(msg: IncomingMessage) {
+    if (!msg.txId) {
+      return false;
     }
+    const isResponse = this.waitingForResponse.has(msg.txId);
+    if (isResponse) {
+      this.debug(
+        `Removing ${msg.txId} from message queue - remaining:`,
+        this.waitingForResponse.keys()
+      );
+      // Invoke callback
+      this.waitingForResponse.get(msg.txId)!();
+      // Remove entry from queue
+      this.waitingForResponse.delete(msg.txId);
+      this.debug(
+        `Removed ${msg.txId} from message queue - remaining:`,
+        this.waitingForResponse.keys()
+      );
+    }
+    return isResponse;
   }
 
   private ws(): WebSocketTypes {
@@ -153,6 +202,31 @@ export class WSTichuClient {
   }
 
   private webSocketSetup(url: string): WebSocketTypes {
+    const ws = this.newWebsocket(url);
+
+    ws.onopen = (e: OnOpenParams) =>
+      this.eventDispatcher.dispatch("connect", e);
+
+    ws.onclose = (e: OnCloseParams) => {
+      this.eventDispatcher.dispatch("disconnect", e);
+    };
+
+    ws.onerror = (e: OnErrorParams) => {
+      this.eventDispatcher.dispatch("error", e);
+    };
+
+    ws.onmessage = (e: OnReceiveParams) => {
+      this.eventDispatcher.dispatch("receive", e);
+    };
+
+    // browser websocket API doesn't support handling ping/pong
+    // ws.on("ping", this.handler.onPing);
+    // ws.on("pong", this.handler.onPong);
+
+    return ws;
+  }
+
+  protected newWebsocket(url: string) {
     // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
     const userPass = `${this.bogusCredentials}:${this.bogusCredentials}`;
     // options don't exist in the browser js API for websocket, so we can't pass a header
@@ -166,24 +240,6 @@ export class WSTichuClient {
       ws = new wsWebSocket(url);
     }
     // TODO wtf are subprotocols
-
-    ws.onopen = (event: OnOpenParams) => this.handler.onConnect;
-    ws.onclose = (event: OnCloseParams) => {
-      this.handler.onConnectionClose(event.code, event.reason, event.wasClean);
-    };
-    ws.onerror = (event: OnErrorParams) => {
-      this.debug(event.message);
-      this.handler.onWebsocketError(event.message, event.error);
-    };
-
-    ws.onmessage = (event: OnMessageParams) => {
-      this.receive(event.data);
-    };
-
-    // TODO fix this?
-    // ws.on("ping", this.handler.onPing);
-    // ws.on("pong", this.handler.onPong);
-
     return ws;
   }
 

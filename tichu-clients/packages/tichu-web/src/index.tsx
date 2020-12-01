@@ -6,7 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App websocketUrl={"ws://localhost:8080/room/some-room-id"} />
   </React.StrictMode>,
   document.getElementById("root")
 );

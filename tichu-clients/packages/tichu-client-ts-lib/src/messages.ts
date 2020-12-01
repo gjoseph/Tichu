@@ -1,13 +1,21 @@
-import { Card } from "./cards";
+import { Card, CardShortName } from "./cards";
 import { UserId } from "./model";
 import { nanoid } from "nanoid";
 
+export type MessageType =
+  | "activity"
+  | "game"
+  | "status"
+  | "hand"
+  | "chat"
+  | "error";
+
 interface Message {
-  readonly messageType: "activity" | "game" | "hand" | "chat" | "error";
+  readonly messageType: MessageType;
 }
 
 // Some IncomingMessage have a txId (see impls), all OutgoingMessage have a txId
-export type IncomingMessage = Message;
+export type IncomingMessage = Message & { txId?: string };
 export type OutgoingMessage = Message & { txId: string };
 
 export class ActivityMessage implements IncomingMessage {
@@ -42,7 +50,25 @@ export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
   }
 }
 
-type CardShortName = string;
+interface PlayerStatus {
+  id: UserId;
+  status: "ready" | "not-ready";
+  team: number; // TODO
+  cardsInHand: number;
+  cardsCollected: number;
+}
+
+// net.incongru.tichu.websocket.GameStatusMessage
+export class IncomingGameStatusMessage implements IncomingMessage {
+  readonly messageType = "status";
+
+  constructor(
+    readonly players: PlayerStatus[],
+    readonly currentPlayer: UserId,
+    // readonly currentPlay: ,
+    readonly playedCards: CardShortName[]
+  ) {}
+}
 
 export class IncomingHandMessage implements IncomingMessage {
   readonly messageType = "hand";
@@ -82,8 +108,8 @@ export class OutgoingChatMessage implements OutgoingMessage {
 }
 
 type ActivityType = "coco" | "disconnected";
-type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
-type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
+export type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
+export type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
 export type JoinResult =
   | "can-not-join-full-table"
   | "ok"
@@ -133,15 +159,13 @@ export class PlayerIsReadyParam implements GameParam {
 export class PlayerPlaysParam implements GameParam {
   readonly type = "play";
 
-  constructor(readonly cards: Card[]) {}
-}
+  static fromShortNames(shortNames: CardShortName[]) {
+    return new PlayerPlaysParam(shortNames);
+  }
 
-// pass = play[]
+  static fromCards(fullObjects: Card[]) {
+    return new PlayerPlaysParam(fullObjects.map((c) => c.shortName));
+  }
 
-export enum Actions {
-  init = "init",
-  join = "join",
-  ready = "ready",
-  play = "play",
-  pass = "pass",
+  private constructor(readonly cards: CardShortName[]) {}
 }

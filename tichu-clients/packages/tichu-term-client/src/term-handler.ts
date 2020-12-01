@@ -20,11 +20,10 @@ import {
 import { Log } from "./log";
 import PromptUI from "inquirer/lib/ui/prompt";
 import inquirer from "inquirer";
+import { IncomingGameStatusMessage } from "tichu-client-ts-lib/lib";
 
-export const newTerminalHandler: TichuWebSocketHandlerFactory = (
-  send: SendFunction
-) => {
-  return new TerminalHandler(send, new Log());
+export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
+  return new TerminalHandler(new Log());
 };
 
 /**
@@ -35,7 +34,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
   private currentPromptUi: PromptUI | undefined;
 
-  constructor(readonly send: SendFunction, readonly log: Log) {}
+  constructor(readonly log: Log) {}
 
   // ==== Websocket callbacks
   onConnect = () => {
@@ -72,11 +71,15 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.closeCurrentPrompt();
   }
 
-  afterMessageProcessing() {
+  afterMessageProcessing(send: SendFunction) {
     if (this.nextPrompt) {
-      this.nextPrompt().then(this.send);
+      this.nextPrompt().then(send);
     }
   }
+
+  // wsClient.on("chat", (IncomingChatMessage)=>{
+  //   this.log.chat(`${msg.from}: ${msg.content}`);
+  // });
 
   handleChatMessage(msg: IncomingChatMessage) {
     this.log.chat(`${msg.from}: ${msg.content}`);
@@ -90,6 +93,10 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(
       `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`
     );
+  }
+
+  handleStatusMessage(msg: IncomingGameStatusMessage) {
+    this.log.debug("Received status: " + msg);
   }
 
   handleHandMessage(msg: IncomingHandMessage) {
@@ -170,6 +177,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return promptPromiseAndUi as Promise<T>;
   };
 
+  // not convinced this works -- it doesn't "delete" the list of card prompts from screen at least..
   private closeCurrentPrompt() {
     // can't use ?. operator below because of the @ts-ignore statement ...
     if (this.currentPromptUi) {
@@ -237,7 +245,9 @@ class TerminalHandler implements TichuWebSocketHandler {
       pageSize: 20,
     };
     return this.ask(question).then((answers: any) => {
-      return new OutgoingGameMessage(new PlayerPlaysParam(answers.cards));
+      return new OutgoingGameMessage(
+        PlayerPlaysParam.fromShortNames(answers.cards)
+      );
     });
   };
 
@@ -245,7 +255,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = (...msg: any) => {
+  debug = (...msg: any[]) => {
     const msgStr = msg
       .map((m: any) => {
         if (typeof m !== "string") {

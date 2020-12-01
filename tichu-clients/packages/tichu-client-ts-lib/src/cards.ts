@@ -1,7 +1,10 @@
+// Could be an enum for more type-safety - it's not like the rest of this class is meaningful outside Tichu anyway...
+export type CardShortName = string;
+
 interface CardBase {
   type: "normal" | "special"; // discriminator property
   name: string;
-  shortName: string;
+  shortName: CardShortName;
   scoreValue: number;
 }
 
@@ -25,7 +28,7 @@ export enum CardSuit {
   Star,
 }
 
-enum SpecialCards {
+export enum SpecialCards {
   MahJong,
   Dog,
   Phoenix,
