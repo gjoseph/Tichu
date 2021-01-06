@@ -40,6 +40,9 @@
       "last 1 safari version"
     ]
   },
+  "keywords": [],
+  "author": "",
+  "license": "",
   "devDependencies": {
     "@storybook/addon-actions": "5.3.21",
     "@storybook/addon-docs": "5.3.21",

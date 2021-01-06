@@ -21,10 +21,6 @@
   "keywords": [],
   "author": "",
   "license": "",
-  "engineStrict": true,
-  "engines": {
-    "node": ">=13.7.0"
-  },
   "devDependencies": {
     "@ava/typescript": "1.1.1",
     "@liftr/tscov": "1.4.7",
