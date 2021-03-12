@@ -1,0 +1,27 @@
+name: Tichu main build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Backend Build (Maven)
+        run: ./mvnw clean verify -B -V
+      - name: Frontend Build (Node)
+        working-directory: ./tichu-clients
+        run: nvm install && npm install && npm run build
+        shell: bash -l {0}
+      - name: Frontend Prettier Check
+        working-directory: ./tichu-clients
+        run: npm run prettier-check-all
+        shell: bash -l {0}
