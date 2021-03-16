@@ -2,6 +2,7 @@
   extends: ["config:base"],
   masterIssue: true,
   separateMinorPatch: true,
+  separateMultipleMajor: true,
   automerge: false,
   automergeType: "pr",
   // Wait 2 days after a release to create PR/branches
