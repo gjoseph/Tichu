@@ -1,7 +1,6 @@
 {
   "name": "tichu-clients-root",
   "private": true,
-  "engineStrict": true,
   "engines": {
     "node": "13.14.0",
     "npm": "6.14.5"
