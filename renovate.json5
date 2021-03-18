@@ -3,7 +3,8 @@
   masterIssue: true,
   separateMinorPatch: true,
   separateMultipleMajor: true,
-  automerge: false,
+  // Repo requires approval, so we safely enable auto-merges for all updates
+  automerge: true,
   automergeType: "pr",
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
@@ -12,11 +13,6 @@
     {
       packagePatterns: ["^net.incongru.tichu"],
       enabled: false
-    },
-    // Auto-merge patch updates (repo still requires an approval, so we could potentially do this for all updates
-    {
-      "updateTypes": ["patch"],
-      "automerge": true
     },
     // Java packages rules:
     {
