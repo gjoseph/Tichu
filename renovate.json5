@@ -12,36 +12,36 @@
     // Don't try to update/lookup self:
     {
       packagePatterns: ["^net.incongru.tichu"],
-      enabled: false
+      enabled: false,
     },
     // Java packages rules:
     {
       packagePatterns: ["^org.slf4j"],
-      groupName: "SLF4J packages"
+      groupName: "SLF4J packages",
     },
     {
       packagePatterns: ["^org.apache.tomcat.embed"],
-      groupName: "Tomcat packages"
+      groupName: "Tomcat packages",
     },
     {
       packagePatterns: ["^org.junit"],
-      groupName: "JUnit packages"
+      groupName: "JUnit packages",
     },
     {
       packagePatterns: ["^org.assertj"],
-      groupName: "AssertJ packages"
+      groupName: "AssertJ packages",
     },
     {
       packagePatterns: ["^org.mockito"],
-      groupName: "Mockito packages"
+      groupName: "Mockito packages",
     },
     {
       packagePatterns: ["^net.javacrumbs.json-unit"],
-      groupName: "JsonUnit packages"
+      groupName: "JsonUnit packages",
     },
     {
       packagePatterns: ["^com.tngtech.archunit"],
-      groupName: "ArchUnit packages"
-    }
-  ]
+      groupName: "ArchUnit packages",
+    },
+  ],
 }
