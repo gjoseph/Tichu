@@ -3,7 +3,9 @@
   masterIssue: true,
   separateMinorPatch: true,
   separateMultipleMajor: true,
-  // Repo requires approval, so we safely enable auto-merges for all updates
+  // default is documented to be 0, but empirically it seems to be ~30 ?
+  prConcurrentLimit: 0,
+  // Repo requires approval, so we can safely enable auto-merges for all updates
   automerge: true,
   automergeType: "pr",
   // Wait 2 days after a release to create PR/branches
