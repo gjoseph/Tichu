@@ -9,20 +9,24 @@ For information about the original game, see
 - [BGG entry about Tichu](https://boardgamegeek.com/boardgame/215/tichu)
 
 ## Code [![Main Build](https://github.com/gjoseph/Tichu/actions/workflows/main.yml/badge.svg)](https://github.com/gjoseph/Tichu/actions/workflows/main.yml?query=branch%3Amaster)
+
 Old Travis CI badge - ran out of free credits: [![Build Status](https://travis-ci.com/gjoseph/Tichu.svg?branch=master)](https://travis-ci.com/github/gjoseph/Tichu)
 Replacing Travis CI with Github Actions, let's see how that goes...
 
 ### Build
+
 ```
 ./mvnw clean verify
 ```
 
 ### Run
+
 Currently I just run `net.incongru.tichu.tomcat.WebSocketServer` from IntelliJ, so... TODO
 
 ### Notes
 
 This project currently consists of different modules:
+
 - `model`: models the game and rules,
 - `actions`: wraps the above in an action framework, which can be used by:
   - `simulator`: a module that provides a text file-based simulation of games, and serves as a test harness for the model
