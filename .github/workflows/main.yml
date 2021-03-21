@@ -4,7 +4,13 @@ on:
   push:
     branches: [master]
   pull_request:
+    # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
+    # Here we only run on open, so further pushes do not re-trigger, to avoid completely overloading CI
+    # TODO: alternatively, we could branches-ignore: [renovate/**] but that would need to be on the push event?
+    types: [opened]
     branches: [master]
+  # Enable manual triggers:
+  workflow_dispatch:
 
 jobs:
   build-backend:
