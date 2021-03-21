@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+cd tichu-clients
+npx --no-install pretty-quick --staged --check
