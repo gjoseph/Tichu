@@ -12,8 +12,8 @@
     "pretty-quick": "2.0.2"
   },
   "scripts": {
-    "postinstall": "lerna bootstrap && npm run setup-husky",
-    "setup-husky": "npm rebuild husky # much faster than the npm install --save-dev husky documented alternative",
+    "prepare": "cd .. && husky install tichu-clients/.husky",
+    "postinstall": "lerna bootstrap",
     "build": "lerna run --stream build",
     "test": "lerna run --stream test # ⚠️  tichu-web will run tests in watch mode when not on CI",
     "term-client": "lerna run --ignore tichu-web build && cd packages/tichu-term-client && npm run start",
@@ -21,11 +21,6 @@
     "web-storybook": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run storybook",
     "prettier-check-all": "prettier --check . # not using lerna here so we also check the root",
     "prettier-fix-all": "prettier --write . # not using lerna here so we also check the root"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged --check"
-    }
   },
   "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
   "prettier": {
