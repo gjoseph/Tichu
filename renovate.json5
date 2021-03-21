@@ -11,7 +11,7 @@
   automerge: true,
   automergeType: "pr",
   // Renovate will revise branches that are outdated by default,therefore only ever merging one branch per run. Make it only rebase if needed.
-  rebaseWhen: conflicted,
+  rebaseWhen: "conflicted",
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
   packageRules: [
