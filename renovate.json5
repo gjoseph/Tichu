@@ -5,6 +5,8 @@
   separateMultipleMajor: true,
   // default is documented to be 0, but empirically it seems to be ~30 ?
   prConcurrentLimit: 0,
+  // default is documented to be 0, but empirically it seems to be 2 ?
+  prHourlyLimit: 0,
   // Repo requires approval, so we can safely enable auto-merges for all updates
   automerge: true,
   automergeType: "pr",
