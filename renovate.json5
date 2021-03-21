@@ -10,12 +10,6 @@
   automergeType: "pr",
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
-  constraints: {
-    // Duplicate these versions from tichu-clients/package.json because Renovate doesn't apply those to submodules
-    // This could also be replaced by adding `engines` into every package.json, or perhaps with npm 7 and its workspaces?
-    node: "13.14.0",
-    npm: "6.14.5",
-  },
   packageRules: [
     // Don't try to update/lookup self:
     {
