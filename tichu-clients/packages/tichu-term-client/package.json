@@ -30,7 +30,7 @@
     "@liftr/tscov": "1.4.8",
     "@types/inquirer": "6.5.0",
     "@types/node": "13.13.47",
-    "@types/ws": "7.2.6",
+    "@types/ws": "7.2.9",
     "ava": "3.10.1",
     "typedoc": "0.17.8",
     "typescript": "3.9.7"
@@ -44,7 +44,7 @@
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.1",
     "tslib": "2.0.0",
-    "ws": "7.2.3"
+    "ws": "7.2.5"
   },
   "ava": {
     "typescript": {
