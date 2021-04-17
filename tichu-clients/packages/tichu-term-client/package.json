@@ -33,7 +33,7 @@
     "@types/ws": "7.4.0",
     "ava": "3.10.1",
     "typedoc": "0.17.8",
-    "typescript": "3.9.7"
+    "typescript": "3.9.9"
   },
   "dependencies": {
     "@types/fs-extra": "9.0.0",
