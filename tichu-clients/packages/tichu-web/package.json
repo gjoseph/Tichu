@@ -12,7 +12,7 @@
     "@types/react-dom": "16.9.8",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-scripts": "3.4.4",
+    "react-scripts": "4.0.3",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
     "typescript": "3.9.7"
