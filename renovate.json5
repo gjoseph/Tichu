@@ -15,6 +15,11 @@
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
   packageRules: [
+    // Auto-merge patch updates
+    {
+      updateTypes: ["patch"],
+      automerge: true,
+    },
     // Don't try to update/lookup self:
     {
       packagePatterns: ["^net.incongru.tichu"],
