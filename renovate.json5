@@ -7,12 +7,9 @@
   prConcurrentLimit: 0,
   // default is documented to be 0, but empirically it seems to be 2 ?
   prHourlyLimit: 0,
-  // Repo requires approval, so we can safely enable auto-merges for all updates
-  automerge: true,
   automergeType: "pr",
-  // Renovate will revise branches that are outdated by default,therefore only ever merging one branch per run. Make it only rebase if needed.
-  rebaseWhen: "conflicted",
-  // Wait 2 days after a release to create PR/branches
+  rebaseWhen: "behind-base-branch",
+  // Wait 2 days after a release to allow merging an update
   stabilityDays: 2,
   packageRules: [
     // Auto-merge patch updates
