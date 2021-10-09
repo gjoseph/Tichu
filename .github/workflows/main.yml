@@ -61,5 +61,4 @@ jobs:
       - name: Frontend Build (Node)
         run: npm install && npm run build
       - name: Frontend Prettier Check
-        working-directory: ./tichu-clients
         run: npm run prettier-check-all
