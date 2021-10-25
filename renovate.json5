@@ -7,7 +7,9 @@
   prConcurrentLimit: 0,
   // default is documented to be 0, but empirically it seems to be 2 ?
   prHourlyLimit: 0,
+  automerge: false,
   automergeType: "pr",
+  automergeStrategy: "merge-commit",
   rebaseWhen: "behind-base-branch",
   // Wait 2 days after a release to allow merging an update
   stabilityDays: 2,
