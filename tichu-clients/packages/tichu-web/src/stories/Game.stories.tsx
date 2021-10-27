@@ -1,7 +1,7 @@
 import React from "react";
 import { Game } from "../components/Game";
 import { actions } from "@storybook/addon-actions";
-import { Card, cardFromName } from "tichu-client-ts-lib";
+import { cardFromName } from "tichu-client-ts-lib";
 import { GameState } from "../model/GameState";
 
 export default {

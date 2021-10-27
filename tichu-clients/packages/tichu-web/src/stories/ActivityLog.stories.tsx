@@ -1,5 +1,4 @@
 import React from "react";
-import { action, actions } from "@storybook/addon-actions";
 import { ActivityLog } from "../components/ActivityLog";
 
 export default {
