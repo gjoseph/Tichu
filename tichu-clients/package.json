@@ -19,6 +19,7 @@
     "term-client": "lerna run --ignore tichu-web build && cd packages/tichu-term-client && npm run start",
     "web": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run start",
     "web-storybook": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run storybook",
+    "web-build-storybook": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run build-storybook",
     "prettier-check-all": "prettier --check . # not using lerna here so we also check the root",
     "prettier-fix-all": "prettier --write . # not using lerna here so we also check the root"
   },
