@@ -37,6 +37,11 @@ public class SessionProvider {
     private void sendMessage(Session session, OutgoingMessage message) {
         // Synchronising here for now -- see https://bz.apache.org/bugzilla/show_bug.cgi?id=56026
         synchronized (session) {
+            if (!session.isOpen()) {
+                // TODO
+                System.out.println("SESSION IS CLOSED = " + session);
+                return;
+            }
             session.getAsyncRemote().sendObject(message, result -> {
                 if (!result.isOK()) {
                     // TODO metrics and logs

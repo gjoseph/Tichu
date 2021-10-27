@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Backend Build (Maven)
+      - name: Backend Build
         run: ./mvnw clean verify -B -V
   build-clients:
     name: Build Clients/Frontend
@@ -58,7 +58,9 @@ jobs:
       # Override npm installed above with version specified in package.json
       - run: ./npm-setup.sh
       # Do our actual business
-      - name: Frontend Build (Node)
+      - name: Frontend Build
         run: npm install && npm run build
+      - name: Storybook Build # Because there may be bugs hiding here (and testing stories isn't something I'll do today)
+        run: npm run web-build-storybook
       - name: Frontend Prettier Check
         run: npm run prettier-check-all

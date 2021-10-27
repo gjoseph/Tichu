@@ -2,6 +2,7 @@ import {
   ActivityMessage,
   ErrorMessage,
   IncomingChatMessage,
+  IncomingGameStatusMessage,
   IncomingHandMessage,
   IncomingPlayerPlaysResponse,
   JoinResult,
@@ -12,12 +13,9 @@ import { EnumValueVisitorCore } from "ts-enum-util";
 import { SendFunction } from "./ws-client";
 
 /**
- * WSTichuClient calls this to get an implementation of TichuWebSocketHandler
- * and set it up with a `send` callback function.
+ * WSTichuClient calls this to get an implementation of TichuWebSocketHandler.
  */
-export type TichuWebSocketHandlerFactory = (
-  send: SendFunction
-) => TichuWebSocketHandler;
+export type TichuWebSocketHandlerFactory = () => TichuWebSocketHandler;
 
 export interface TichuWebSocketHandler {
   // ==== Websocket callbacks
@@ -36,11 +34,16 @@ export interface TichuWebSocketHandler {
 
   // ==== Message handling
   beforeMessageProcessing(): void;
-  afterMessageProcessing(): void;
+
+  /**
+   * The Handler can optionally elect to send a message, potentially as a reaction/response to the processed message.
+   */
+  afterMessageProcessing(send: SendFunction): void;
 
   handleChatMessage(msg: IncomingChatMessage): void;
   handleActivityMessage(msg: ActivityMessage): void;
   handleErrorMessage(msg: ErrorMessage): void;
+  handleStatusMessage(msg: IncomingGameStatusMessage): void;
   handleHandMessage(msg: IncomingHandMessage): void;
 
   // ==== Game message visitors
@@ -55,5 +58,5 @@ export interface TichuWebSocketHandler {
   ) => EnumValueVisitorCore<PlayResult, void>;
 
   // ==== Varia
-  debug: (...msg: any) => void;
+  debug: (...msg: any[]) => void;
 }

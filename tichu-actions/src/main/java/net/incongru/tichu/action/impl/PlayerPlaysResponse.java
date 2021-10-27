@@ -18,6 +18,7 @@ public class PlayerPlaysResponse extends SimpleResponse<PlayerPlaysResult> {
 
     // TODO or expose a PlayView instead? Is serialising Play as-is safe?
     // @JsonView might be an option?
+    // Also see net.incongru.tichu.websocket.GameStatusMessage#play
     public Play play() {
         return this.play;
     }
