@@ -17,7 +17,7 @@ export const OtherPlayer: FC<OtherPlayerProps> = (props: OtherPlayerProps) => {
   return (
     <Paper elevation={3} classes={{ root: styles.otherPlayer }}>
       <PlayerAvatar user={props.user} />
-      <CardBacks count={props.handCardCount} style="fanned" />
+      <CardBacks count={props.handCardCount} layout="fanned" />
       has {props.handCardCount} card in their hand
     </Paper>
   );

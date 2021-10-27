@@ -19,7 +19,7 @@ export const Card_Set = () => {
     <CardSet
       cards={cards}
       cardSize={sizeKnob()}
-      style={styleKnob()}
+      layout={styleKnob()}
       {...events}
     />
   );
@@ -29,7 +29,7 @@ export const Stack_of_56 = () => (
   <CardSet
     cards={AllCards.map((c) => ({ ...c, selected: false }))}
     cardSize={sizeKnob()}
-    style="stacked"
+    layout="stacked"
     {...events}
   />
 );
@@ -39,7 +39,7 @@ export const Card_Backs = () => {
     <CardBacks
       count={countKnob(56)}
       cardSize={sizeKnob()}
-      style={styleKnob()}
+      layout={styleKnob()}
       {...events}
     />
   );

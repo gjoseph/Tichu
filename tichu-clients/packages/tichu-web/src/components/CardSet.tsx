@@ -7,12 +7,12 @@ import { CardView, OnCardClick } from "./CardView";
 import { SelectableCard } from "./Hand";
 
 type CardSize = "small" | "regular";
-type SetStyle = "flat" | "fanned" | "stacked";
+type CardSetLayout = "flat" | "fanned" | "stacked";
 
 interface CardSetProps {
   cards: SelectableCard[];
   cardSize?: CardSize;
-  style: SetStyle;
+  layout: CardSetLayout;
   onCardClick: OnCardClick;
 }
 
@@ -20,11 +20,11 @@ interface WithPositionProps {
   idx: number;
   totalCount: number;
   size: CardSize;
-  style: SetStyle;
+  layout: CardSetLayout;
 }
 
 const calcTransform = (
-  style: SetStyle,
+  layout: CardSetLayout,
   size: CardSize,
   idx: number,
   totalCount: number
@@ -33,7 +33,7 @@ const calcTransform = (
   const midIdx = idx - (totalCount - 1) / 2;
   // Not sure these magic numbers will forever apply to all styles but it kinda works for now
   const sizeFactor = size === "small" ? 3 : 6;
-  return visitEnumValue(style).with({
+  return visitEnumValue(layout).with({
     flat: () => {
       const tx = idx * sizeFactor;
       const ty = 0;
@@ -62,10 +62,10 @@ const withPosition = <P extends object>(
   idx,
   totalCount,
   size,
-  style,
+  layout,
   ...props
 }: WithPositionProps) => {
-  const { tx, ty, rot } = calcTransform(style, size, idx, totalCount);
+  const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
   const styles = {
     position: "absolute" as "absolute", // typescript bug ? https://github.com/microsoft/TypeScript/issues/11465
     transformOrigin: "center",
@@ -95,7 +95,7 @@ export const CardSet: FC<CardSetProps> = ({
   cards,
   onCardClick,
   cardSize = "regular",
-  style,
+  layout,
 }) => {
   return (
     <CardSetContainer cardSize={cardSize}>
@@ -107,7 +107,7 @@ export const CardSet: FC<CardSetProps> = ({
           card={card}
           selected={card.selected}
           size={cardSize}
-          style={style}
+          layout={layout}
           onClick={onCardClick}
         />
       ))}
@@ -118,8 +118,8 @@ export const CardSet: FC<CardSetProps> = ({
 export const CardBacks: FC<{
   count: number;
   cardSize?: CardSize;
-  style: SetStyle;
-}> = ({ count, cardSize = "small", style }) => {
+  layout: CardSetLayout;
+}> = ({ count, cardSize = "small", layout }) => {
   return (
     <CardSetContainer cardSize={cardSize}>
       {Array.from(new Array(count), (ignoreNull, idx) => (
@@ -128,7 +128,7 @@ export const CardBacks: FC<{
           idx={idx}
           totalCount={count}
           size={cardSize}
-          style={style}
+          layout={layout}
         />
       ))}
     </CardSetContainer>

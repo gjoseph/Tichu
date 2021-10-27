@@ -55,7 +55,7 @@ export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
 
   return (
     <div>
-      <CardSet onCardClick={handleSelect} cards={cards} style="fanned" />
+      <CardSet onCardClick={handleSelect} cards={cards} layout="fanned" />
       <SendButton
         handleClick={handleSend}
         enabled
