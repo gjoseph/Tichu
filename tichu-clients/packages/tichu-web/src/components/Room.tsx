@@ -21,7 +21,7 @@ import { Game } from "./Game";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const [roomState, setRoomState] = useState<RoomState>(
     new RoomState(RoomStatus.OPEN)
   );
