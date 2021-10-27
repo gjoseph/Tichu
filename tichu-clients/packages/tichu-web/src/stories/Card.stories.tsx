@@ -1,5 +1,5 @@
 import { actions } from "@storybook/addon-actions";
-import { select, withKnobs } from "@storybook/addon-knobs";
+import { select } from "@storybook/addon-knobs";
 import React from "react";
 import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { CardBack } from "../components/CardBack";
@@ -9,7 +9,6 @@ import { sizeKnob } from "./knobs";
 export default {
   title: "Single cards",
   component: CardView,
-  decorators: [withKnobs],
 };
 
 const events = actions("handleSelect");
