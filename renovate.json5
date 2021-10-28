@@ -57,12 +57,12 @@
     {
       // https://github.com/npm/cli/issues/3948
       matchPackageNames: ["npm"],
-      allowedVersions: "!7.24.2",
+      allowedVersions: "!/7\.24\.2/",
     },
     {
       // https://github.com/lerna/lerna/issues/2845
       matchPackageNames: ["lerna"],
-      allowedVersions: "!4.0.0",
+      allowedVersions: "!/4\.0\.0/",
     },
   ],
 }
