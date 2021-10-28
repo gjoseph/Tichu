@@ -2,7 +2,7 @@
   "name": "tichu-clients-root",
   "private": true,
   "engines": {
-    "node": "14.18.1",
+    "node": "16.13.0",
     "npm": "7.24.1"
   },
   "devDependencies": {
