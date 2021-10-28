@@ -59,11 +59,40 @@
       packagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages",
     },
+    // Generated @types rules
+    {
+      packagePatterns: ["@types/fs-extra", "fs-extra"],
+      groupName: "fs-extra",
+    },
+    {
+      packagePatterns: ["@types/node", "node"],
+      groupName: "node",
+    },
+    {
+      packagePatterns: ["@types/ws", "ws"],
+      groupName: "ws",
+    },
+    {
+      packagePatterns: ["@types/inquirer", "inquirer"],
+      groupName: "inquirer",
+    },
+    {
+      packagePatterns: ["@types/jest", "jest"],
+      groupName: "jest",
+    },
+    {
+      packagePatterns: ["@types/react", "react"],
+      groupName: "react",
+    },
+    {
+      packagePatterns: ["@types/react-dom", "react-dom"],
+      groupName: "react-dom",
+    },
     // Bans:
     {
       // https://github.com/npm/cli/issues/3948
       matchPackageNames: ["npm"],
-      allowedVersions: "!/7\.24\.2/",
+      allowedVersions: "!/7.24.2/",
     },
   ],
 }
