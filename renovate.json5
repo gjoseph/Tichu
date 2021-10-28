@@ -19,6 +19,12 @@
       updateTypes: ["patch"],
       automerge: true,
     },
+    {
+      updateTypes: ["minor"],
+      automerge: true,
+      automergeType: "pr-comment",
+      automergeComment: "Go forth and merge this, Renovate 👍",
+    },
     // Don't try to update/lookup self:
     {
       packagePatterns: ["^net.incongru.tichu"],
