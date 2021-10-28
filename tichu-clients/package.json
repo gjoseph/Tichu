@@ -27,6 +27,7 @@
     "useTabs": false
   },
   "workspaces": [
-    "packages/tichu-client-ts-lib"
+    "packages/tichu-client-ts-lib",
+    "packages/tichu-term-client"
   ]
 }

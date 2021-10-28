@@ -4,7 +4,10 @@
   "description": "",
   "main": "./lib/index.js",
   "bin": {
-    "tichu": "./bin/index.js"
+    "tichu": "bin/index.js"
+  },
+  "directories": {
+    "lib": "lib"
   },
   "scripts": {
     "start": "npm run build && node lib/index.js",
