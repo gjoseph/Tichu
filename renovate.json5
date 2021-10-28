@@ -13,17 +13,17 @@
   rebaseWhen: "behind-base-branch",
   // Wait 2 days after a release to allow merging an update
   stabilityDays: 2,
+  // Add labels to PRs so we can sort them out
+  labels: [
+    "renovate-{{updateType}}",
+    "renovate-{{depType}}",
+    "renovate-{{datasource}}",
+  ],
   packageRules: [
     // Auto-merge patch updates
     {
       updateTypes: ["patch"],
       automerge: true,
-    },
-    {
-      updateTypes: ["minor"],
-      automerge: true,
-      automergeType: "pr-comment",
-      automergeComment: "Go forth and merge this, Renovate 👍",
     },
     // Don't try to update/lookup self:
     {
