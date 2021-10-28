@@ -28,6 +28,7 @@
   },
   "workspaces": [
     "packages/tichu-client-ts-lib",
-    "packages/tichu-term-client"
+    "packages/tichu-term-client",
+    "packages/tichu-web"
   ]
 }
