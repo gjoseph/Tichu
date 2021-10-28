@@ -4,6 +4,9 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
     "start": "npm run build && node lib/index.js",
     "build": "npm run clean:some && tsc --build && ava",

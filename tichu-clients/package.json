@@ -25,5 +25,8 @@
   "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
   "prettier": {
     "useTabs": false
-  }
+  },
+  "workspaces": [
+    "packages/tichu-client-ts-lib"
+  ]
 }
