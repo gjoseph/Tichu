@@ -70,6 +70,6 @@
     "@storybook/builder-webpack5": "6.3.10",
     "@storybook/manager-webpack5": "6.3.10",
     "@storybook/preset-create-react-app": "4.0.0",
-    "@storybook/react": "6.3.10"
+    "@storybook/react": "6.3.12"
   }
 }
