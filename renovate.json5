@@ -65,10 +65,5 @@
       matchPackageNames: ["npm"],
       allowedVersions: "!/7\.24\.2/",
     },
-    {
-      // https://github.com/lerna/lerna/issues/2845
-      matchPackageNames: ["lerna"],
-      allowedVersions: "!/4\.0\.0/",
-    },
   ],
 }
