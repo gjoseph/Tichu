@@ -7,24 +7,27 @@
   },
   "devDependencies": {
     "husky": "7.0.2",
-    "lerna": "3.22.1",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0"
   },
   "scripts": {
     "prepare": "cd .. && husky install tichu-clients/.husky",
-    "postinstall": "lerna bootstrap",
-    "build": "lerna run --stream build",
-    "test": "lerna run --stream test # ⚠️  tichu-web will run tests in watch mode when not on CI",
-    "term-client": "lerna run --ignore tichu-web build && cd packages/tichu-term-client && npm run start",
-    "web": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run start",
-    "web-storybook": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run storybook",
-    "web-build-storybook": "lerna run --ignore tichu-term-client build && cd packages/tichu-web && npm run build-storybook",
-    "prettier-check-all": "prettier --check . # not using lerna here so we also check the root",
-    "prettier-fix-all": "prettier --write . # not using lerna here so we also check the root"
+    "build": "npm run build -ws",
+    "test": "npm run test -ws # ⚠️ tichu-web will run tests in watch mode when not on CI",
+    "term-client": "npm run start -w tichu-term-client",
+    "web": "npm run start -w tichu-web",
+    "web-storybook": "npm run storybook -w tichu-web",
+    "web-build-storybook": "npm run build-storybook -w tichu-web",
+    "prettier-check-all": "prettier --check . # not using --workspaces here so we also check the root",
+    "prettier-fix-all": "prettier --write . # not using --workspaces here so we also check the root"
   },
   "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
   "prettier": {
     "useTabs": false
-  }
+  },
+  "workspaces": [
+    "packages/tichu-client-ts-lib",
+    "packages/tichu-term-client",
+    "packages/tichu-web"
+  ]
 }

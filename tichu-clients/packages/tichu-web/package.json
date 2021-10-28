@@ -2,6 +2,7 @@
   "name": "tichu-web",
   "version": "1.0.0",
   "private": true,
+  "description": "",
   "dependencies": {
     "@material-ui/core": "4.11.4",
     "@material-ui/icons": "4.9.1",
