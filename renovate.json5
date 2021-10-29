@@ -3,17 +3,17 @@
   masterIssue: true,
   separateMinorPatch: true,
   separateMultipleMajor: true,
-  // default is documented to be 0, but empirically it seems to be ~30 ?
-  prConcurrentLimit: 0,
-  // default is documented to be 0, but empirically it seems to be 2 ?
-  prHourlyLimit: 0,
   automerge: false,
   automergeType: "pr",
   automergeStrategy: "merge-commit",
   rebaseWhen: "behind-base-branch",
-  // Wait 2 days after a release to allow merging an update
+  // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
-  // Add labels to PRs so we can sort them out
+  prCreation: "not-pending",
+  // default is documented to be 0, but empirically it seems to be ~30 ?
+  prConcurrentLimit: 0,
+  // default is documented to be 0, but empirically it seems to be 2 ?
+  prHourlyLimit: 0,
   labels: [
     "renovate-{{updateType}}",
     "renovate-{{depType}}",
