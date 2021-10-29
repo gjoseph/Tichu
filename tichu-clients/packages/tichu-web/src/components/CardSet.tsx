@@ -56,27 +56,23 @@ const calcTransform = (
   });
 };
 
-const withPosition = <P extends object>(
-  Component: React.ComponentType<P>
-): React.FC<P & WithPositionProps> => ({
-  idx,
-  totalCount,
-  size,
-  layout,
-  ...props
-}: WithPositionProps) => {
-  const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
-  const styles = {
-    position: "absolute" as "absolute", // typescript bug ? https://github.com/microsoft/TypeScript/issues/11465
-    transformOrigin: "center",
-    transform: `translate(${tx}em, ${ty}em) rotate(${rot}deg)`,
+const withPosition =
+  <P extends object>(
+    Component: React.ComponentType<P>
+  ): React.FC<P & WithPositionProps> =>
+  ({ idx, totalCount, size, layout, ...props }: WithPositionProps) => {
+    const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
+    const styles = {
+      position: "absolute" as "absolute", // typescript bug ? https://github.com/microsoft/TypeScript/issues/11465
+      transformOrigin: "center",
+      transform: `translate(${tx}em, ${ty}em) rotate(${rot}deg)`,
+    };
+    return (
+      <div style={styles}>
+        <Component size={size} {...(props as P)} />
+      </div>
+    );
   };
-  return (
-    <div style={styles}>
-      <Component size={size} {...(props as P)} />
-    </div>
-  );
-};
 const PositionedCardView = withPosition(CardView);
 const PositionedCardBack = withPosition(CardBack);
 
