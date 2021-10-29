@@ -88,11 +88,5 @@
       packagePatterns: ["@types/react-dom", "react-dom"],
       groupName: "react-dom",
     },
-    // Bans:
-    {
-      // https://github.com/npm/cli/issues/3948
-      matchPackageNames: ["npm"],
-      allowedVersions: "!/7.24.2/",
-    },
   ],
 }
