@@ -59,7 +59,7 @@
   "license": "",
   "engines": {
     "node": "14.18.1",
-    "npm": "7.24.1"
+    "npm": "7.24.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "6.3.12",
