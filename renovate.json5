@@ -5,8 +5,8 @@
   separateMultipleMajor: true,
   automerge: false,
   automergeType: "pr",
-  // This is not actually supported by Renovate on github, so we need to disallow other merge types in the repo config
-  automergeStrategy: "merge-commit",
+  automergeStrategy: "merge-commit", // This is not actually supported by Renovate on GitHub, so we need to disallow other merge types in the repo config
+  platformAutomerge: true, // Let GitHub do the actual merging
   rebaseWhen: "behind-base-branch",
   // Wait 2 days after a release to create PR/branches
   stabilityDays: 2,
