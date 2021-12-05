@@ -33,7 +33,7 @@ renovateConfig.packageRules = packages
   .filter((value, index, self) => self.indexOf(value) === index)
   .filter((dep) => dep.includes("@types/"))
   .map((typesPackage) => ({
-    packagePatterns: [typesPackage, detypify(typesPackage)],
+    matchPackageNames: [typesPackage, detypify(typesPackage)],
     groupName: detypify(typesPackage),
   }));
 
@@ -42,3 +42,6 @@ fs.writeFileSync(
   JSON.stringify(renovateConfig, null, 2),
   "utf-8"
 );
+
+console.log("Done -- please run the following:");
+console.log("$(npm bin)/prettier --write ../renovate.json5");

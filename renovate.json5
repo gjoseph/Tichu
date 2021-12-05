@@ -28,65 +28,65 @@
     },
     // Don't try to update/lookup self:
     {
-      packagePatterns: ["^net.incongru.tichu"],
+      matchPackagePatterns: ["^net.incongru.tichu"],
       enabled: false,
     },
     // Java packages rules:
     {
-      packagePatterns: ["^org.slf4j"],
+      matchPackagePatterns: ["^org.slf4j"],
       groupName: "SLF4J packages",
     },
     {
-      packagePatterns: ["^org.apache.tomcat.embed"],
+      matchPackagePatterns: ["^org.apache.tomcat.embed"],
       groupName: "Tomcat packages",
     },
     {
-      packagePatterns: ["^org.junit"],
+      matchPackagePatterns: ["^org.junit"],
       groupName: "JUnit packages",
     },
     {
-      packagePatterns: ["^org.assertj"],
+      matchPackagePatterns: ["^org.assertj"],
       groupName: "AssertJ packages",
     },
     {
-      packagePatterns: ["^org.mockito"],
+      matchPackagePatterns: ["^org.mockito"],
       groupName: "Mockito packages",
     },
     {
-      packagePatterns: ["^net.javacrumbs.json-unit"],
+      matchPackagePatterns: ["^net.javacrumbs.json-unit"],
       groupName: "JsonUnit packages",
     },
     {
-      packagePatterns: ["^com.tngtech.archunit"],
+      matchPackagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages",
     },
     // Generated @types rules
     {
-      packagePatterns: ["@types/fs-extra", "fs-extra"],
+      matchPackageNames: ["@types/fs-extra", "fs-extra"],
       groupName: "fs-extra",
     },
     {
-      packagePatterns: ["@types/node", "node"],
+      matchPackageNames: ["@types/node", "node"],
       groupName: "node",
     },
     {
-      packagePatterns: ["@types/ws", "ws"],
+      matchPackageNames: ["@types/ws", "ws"],
       groupName: "ws",
     },
     {
-      packagePatterns: ["@types/inquirer", "inquirer"],
+      matchPackageNames: ["@types/inquirer", "inquirer"],
       groupName: "inquirer",
     },
     {
-      packagePatterns: ["@types/jest", "jest"],
+      matchPackageNames: ["@types/jest", "jest"],
       groupName: "jest",
     },
     {
-      packagePatterns: ["@types/react", "react"],
+      matchPackageNames: ["@types/react", "react"],
       groupName: "react",
     },
     {
-      packagePatterns: ["@types/react-dom", "react-dom"],
+      matchPackageNames: ["@types/react-dom", "react-dom"],
       groupName: "react-dom",
     },
   ],
