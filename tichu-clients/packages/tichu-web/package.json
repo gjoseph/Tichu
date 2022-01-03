@@ -21,6 +21,9 @@
     "ts-enum-util": "4.0.2",
     "typescript": "4.5.4"
   },
+  "optionalDependencies": {
+    "@emotion/styled": "^11.3.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -30,7 +33,10 @@
     "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "overrides": [
       {
         "files": [
