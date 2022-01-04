@@ -11,7 +11,9 @@ rm -rf package-lock.json \
 
 # Install root -- same command as Renovate uses.
 echo Running npm install ...
-npm install --ignore-scripts --no-audit --package-lock-only # --force may be needed to work around the cra5/sb6 shenanigans
+# --force may be needed to work around the cra5/sb6 shenanigans
+# --no-engine-strict is useful when updating node/npm
+npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
 
 # Reformat
 echo Making it pretty ...
