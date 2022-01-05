@@ -30,3 +30,6 @@ runs:
     - run: ./npm-setup.sh
       working-directory: ./tichu-clients
       shell: bash -l {0}
+    - run: npm install
+      working-directory: ./tichu-clients
+      shell: bash -l {0}
