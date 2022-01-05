@@ -17,7 +17,7 @@
     "term-client": "npm run start -w tichu-term-client",
     "web": "npm run start -w tichu-web",
     "web-storybook": "npm run storybook -w tichu-web",
-    "web-build-storybook": "npm run build-storybook -w tichu-web",
+    "web-build-storybook": "npm run build -w tichu-client-ts-lib && npm run build-storybook -w tichu-web",
     "prettier-check-all": "prettier --check . # not using --workspaces here so we also check the root",
     "prettier-fix-all": "prettier --write . # not using --workspaces here so we also check the root"
   },
