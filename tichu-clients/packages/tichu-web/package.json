@@ -25,9 +25,9 @@
     "@emotion/styled": "^11.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
@@ -68,6 +68,7 @@
     "npm": "8.3.0"
   },
   "devDependencies": {
+    "@craco/craco": "6.4.3",
     "@storybook/addon-actions": "6.4.9",
     "@storybook/addon-docs": "6.4.9",
     "@storybook/addon-knobs": "6.4.0",
