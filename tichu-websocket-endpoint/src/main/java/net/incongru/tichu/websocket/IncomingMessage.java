@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.annotation.Nonnull;
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,

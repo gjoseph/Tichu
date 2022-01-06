@@ -18,7 +18,7 @@ import net.incongru.tichu.room.Room;
 import net.incongru.tichu.room.RoomGameContext;
 import net.incongru.tichu.room.RoomProvider;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.incongru.tichu.action.ActionParam;
 import org.immutables.value.Value;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 
 @Value.Immutable
 @JsonSerialize(as = ImmutableGameActionMessage.class)
