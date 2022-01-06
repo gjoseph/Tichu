@@ -2,7 +2,7 @@ package net.incongru.tichu.websocket;
 
 import net.incongru.tichu.model.UserId;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 

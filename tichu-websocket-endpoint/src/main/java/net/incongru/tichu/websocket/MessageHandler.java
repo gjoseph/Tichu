@@ -1,6 +1,6 @@
 package net.incongru.tichu.websocket;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import java.util.Optional;
 
 // TODO this could become websocket-jsr356-agnostic if the 1st param was not Session but something agnostic

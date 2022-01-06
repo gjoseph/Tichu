@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.immutables.value.Value;
 
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 
 @Value.Immutable
 @JsonSerialize(as = ImmutableIncomingChatMessage.class)
