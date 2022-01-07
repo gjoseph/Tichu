@@ -8,7 +8,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "npm run build && node lib/index.js",
     "build": "npm run clean:some && tsc --build && ava",
     "clean:some": "rm -rf ./lib ./docs",
     "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
