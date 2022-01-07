@@ -93,8 +93,7 @@ export class WSTichuClient {
   }
 
   isConnected(): boolean {
-    // TODO term client doesn't have readyState
-    return this.ws().readyState === WebSocket.OPEN;
+    return this.ws().isConnected();
   }
 
   // After connection, only actions should be play or pass

@@ -13,7 +13,9 @@ import {
  * b) hides the minor differences between the two
  */
 // export type WebSocketTypes = Omit<WebSocket, "dispatchEvent" | "binaryType" | "onerror">;// can't manage to reference the type of "ws" here (used to do WebSocket|wsLib.WebSocket); it's compatible enough but doesn't have the dispatchEvent method
-export type WebSocketTypes = WebSocket | WSLibWrapper;
+export type WebSocketTypes = (WebSocket | WSLibWrapper) & {
+  isConnected: () => boolean;
+};
 
 export const newWebsocket = (url: string, bogusCredentials: string) => {
   // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
@@ -24,7 +26,7 @@ export const newWebsocket = (url: string, bogusCredentials: string) => {
 
   let ws: WebSocketTypes;
   if (typeof WebSocket !== "undefined") {
-    ws = new WebSocket(url);
+    ws = new BrowserWSWrapper(url);
   } else {
     ws = new WSLibWrapper(url);
   }
@@ -32,11 +34,17 @@ export const newWebsocket = (url: string, bogusCredentials: string) => {
   return ws;
 };
 
+class BrowserWSWrapper extends WebSocket {
+  isConnected = () => {
+    return this.readyState === WebSocket.OPEN;
+  };
+}
+
 class WSLibWrapper {
   private readonly wsLibWS;
   constructor(readonly address: string) {
-    const wsLib = require("ws");
-    this.wsLibWS = new wsLib.WebSocket(address);
+    const wsLibModule = require("ws");
+    this.wsLibWS = new wsLibModule.WebSocket(address);
   }
 
   onopen = (e: OnOpenParams) => {
@@ -74,8 +82,9 @@ class WSLibWrapper {
     this.wsLibWS.close();
   };
 
-  // TODO how to keep this up to date? Or add a wrapper for browser ws as well, and turn this into a method
-  readyState = 99; // readyState = () => this.wsLibWS.readyState;
+  isConnected = () => {
+    return this.wsLibWS.readyState === WebSocket.OPEN; // we can only only assume this is standard per the protocol, so using the dom constant should be fine here
+  };
 
   private extendEvent<E extends EventParam<T>, T extends EventType>(e: E) {
     return { ...e, target: this.wsLibWS };
