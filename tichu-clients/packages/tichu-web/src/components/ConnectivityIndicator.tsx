@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { OutgoingMessage, WSTichuClient } from "tichu-client-ts-lib";
+import { WSTichuClient } from "tichu-client-ts-lib";
 import { useNetworkAvailability } from "../react-utils";
 import styles from "./ConnectivityIndicator.module.css";
 
@@ -65,7 +65,7 @@ export const ConnectivityIndicatorConnected: FC<{
         setWsConnected(false);
       });
       // TODO cancel schedule time outs if a new one comes in
-      wsClient.on("send", (msg: OutgoingMessage) => {
+      wsClient.on("send", () => {
         setSending(ConnectivityColors.GREEN);
         setTimeout(() => setSending(ConnectivityColors.GREY), 200);
       });

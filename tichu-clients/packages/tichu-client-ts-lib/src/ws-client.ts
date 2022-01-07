@@ -1,4 +1,3 @@
-import wsWebSocket from "ws";
 import {
   ActivityMessage,
   ErrorMessage,
@@ -27,10 +26,11 @@ import {
   OnErrorParams,
   OnOpenParams,
   OnReceiveParams,
+  OnSendParams,
 } from "./events";
+import { newWebsocket, WebSocketTypes } from "./ws-impl-wrapper";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
-export type WebSocketTypes = WebSocket | wsWebSocket;
 
 // ws supports string | Buffer | ArrayBuffer | Buffer[] -- not sure if/how to deal with binary messages, and if that's useful
 export type WebSocketData = string;
@@ -41,6 +41,7 @@ export type WebSocketData = string;
 export type OnResponse = () => void;
 
 const NOOP = () => {};
+
 export class WSTichuClient {
   private readonly handler: TichuWebSocketHandler;
   private readonly eventDispatcher = new EventDispatcher();
@@ -92,7 +93,7 @@ export class WSTichuClient {
   }
 
   isConnected(): boolean {
-    return this.ws().readyState === WebSocket.OPEN;
+    return this.ws().isConnected();
   }
 
   // After connection, only actions should be play or pass
@@ -108,7 +109,7 @@ export class WSTichuClient {
     const msgJson = JSON.stringify(msg);
     this.debug("Sending", msg);
     this.ws().send(msgJson);
-    this.eventDispatcher.dispatch("send", msg);
+    this.eventDispatcher.dispatch("send", { message: msg } as OnSendParams);
   };
 
   close = () => {
@@ -202,7 +203,7 @@ export class WSTichuClient {
   }
 
   private webSocketSetup(url: string): WebSocketTypes {
-    const ws = this.newWebsocket(url);
+    const ws = newWebsocket(url, this.bogusCredentials);
 
     ws.onopen = (e: OnOpenParams) =>
       this.eventDispatcher.dispatch("connect", e);
@@ -223,23 +224,6 @@ export class WSTichuClient {
     // ws.on("ping", this.handler.onPing);
     // ws.on("pong", this.handler.onPong);
 
-    return ws;
-  }
-
-  protected newWebsocket(url: string) {
-    // for now, pass==user -- we'll want to get rid of basic auth -- https://auth0.com/docs/integrations/using-auth0-to-secure-a-cli
-    const userPass = `${this.bogusCredentials}:${this.bogusCredentials}`;
-    // options don't exist in the browser js API for websocket, so we can't pass a header
-    // doing this for now -- will need to use proper tokens/tickets
-    url = url.replace("://", `://${userPass}@`);
-
-    let ws: WebSocketTypes;
-    if (typeof WebSocket !== "undefined") {
-      ws = new WebSocket(url);
-    } else {
-      ws = new wsWebSocket(url);
-    }
-    // TODO wtf are subprotocols
     return ws;
   }
 

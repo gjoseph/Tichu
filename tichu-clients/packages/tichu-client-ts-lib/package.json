@@ -8,7 +8,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "npm run build && node lib/index.js",
     "build": "npm run clean:some && tsc --build && ava",
     "clean:some": "rm -rf ./lib ./docs",
     "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
@@ -30,7 +29,7 @@
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
     "@types/node": "16.11.19",
-    "@types/ws": "7.4.7",
+    "@types/ws": "8.2.2",
     "ava": "4.0.0",
     "typedoc": "0.22.10",
     "typescript": "4.5.4"
@@ -43,7 +42,7 @@
     "tslib": "2.3.1"
   },
   "optionalDependencies": {
-    "ws": "7.5.6"
+    "ws": "8.4.0"
   },
   "ava": {
     "typescript": {
