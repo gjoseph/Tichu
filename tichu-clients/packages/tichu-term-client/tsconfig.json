@@ -15,5 +15,5 @@
     "resolveJsonModule": true,
     "importHelpers": true
   },
-  "exclude": ["node_modules", "lib", "templates"]
+  "exclude": ["node_modules", "lib", "templates", "**/ws-browser-wrapper"]
 }
