@@ -28,7 +28,7 @@
   "devDependencies": {
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
-    "@types/node": "16.11.24",
+    "@types/node": "16.11.25",
     "@types/ws": "8.2.2",
     "ava": "4.0.1",
     "typedoc": "0.22.11",
