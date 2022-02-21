@@ -37,7 +37,7 @@
   "dependencies": {
     "@types/fs-extra": "9.0.13",
     "fs-extra": "10.0.0",
-    "nanoid": "3.2.0",
+    "nanoid": "3.3.1",
     "ts-enum-util": "4.0.2",
     "tslib": "2.3.1"
   },
