@@ -23,7 +23,7 @@
   "license": "",
   "engines": {
     "node": "16.14.2",
-    "npm": "8.5.1"
+    "npm": "8.5.5"
   },
   "devDependencies": {
     "@ava/typescript": "3.0.1",
