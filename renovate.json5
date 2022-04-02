@@ -82,12 +82,13 @@
       groupName: "jest",
     },
     {
-      matchPackageNames: ["@types/react", "react"],
+      matchPackageNames: [
+        "@types/react",
+        "@types/react-dom",
+        "react",
+        "react-dom",
+      ],
       groupName: "react",
-    },
-    {
-      matchPackageNames: ["@types/react-dom", "react-dom"],
-      groupName: "react-dom",
     },
   ],
 }
