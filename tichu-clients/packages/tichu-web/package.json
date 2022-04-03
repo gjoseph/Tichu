@@ -69,14 +69,14 @@
   },
   "devDependencies": {
     "@craco/craco": "7.0.0-alpha.3",
-    "@storybook/addon-actions": "6.4.19",
-    "@storybook/addon-docs": "6.4.19",
+    "@storybook/addon-actions": "6.4.20",
+    "@storybook/addon-docs": "6.4.20",
     "@storybook/addon-knobs": "6.4.0",
-    "@storybook/addon-links": "6.4.19",
-    "@storybook/addons": "6.4.19",
-    "@storybook/builder-webpack5": "6.4.19",
-    "@storybook/manager-webpack5": "6.4.19",
+    "@storybook/addon-links": "6.4.20",
+    "@storybook/addons": "6.4.20",
+    "@storybook/builder-webpack5": "6.4.20",
+    "@storybook/manager-webpack5": "6.4.20",
     "@storybook/preset-create-react-app": "4.1.0",
-    "@storybook/react": "6.4.19"
+    "@storybook/react": "6.4.20"
   }
 }
