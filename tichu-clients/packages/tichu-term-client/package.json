@@ -43,7 +43,7 @@
     "commander": "9.1.0",
     "fs-extra": "10.0.1",
     "inquirer": "8.2.4",
-    "kleur": "4.1.4",
+    "kleur": "4.1.5",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
     "tslib": "2.3.1",
