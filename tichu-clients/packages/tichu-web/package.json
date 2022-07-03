@@ -68,7 +68,7 @@
     "npm": "8.5.5"
   },
   "devDependencies": {
-    "@craco/craco": "7.0.0-alpha.3",
+    "@craco/craco": "7.0.0-alpha.7",
     "@storybook/addon-actions": "6.4.22",
     "@storybook/addon-docs": "6.4.22",
     "@storybook/addon-knobs": "6.4.0",
