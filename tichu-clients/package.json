@@ -2,8 +2,8 @@
   "name": "tichu-clients-root",
   "private": true,
   "engines": {
-    "node": "16.14.2",
-    "npm": "8.5.5"
+    "node": "16.16.0",
+    "npm": "8.14.0"
   },
   "devDependencies": {
     "husky": "7.0.4",
