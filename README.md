@@ -10,9 +10,6 @@ For information about the original game, see
 
 ## Code [![Main Build](https://github.com/gjoseph/Tichu/actions/workflows/main.yml/badge.svg)](https://github.com/gjoseph/Tichu/actions/workflows/main.yml?query=branch%3Amaster)
 
-Old Travis CI badge - ran out of free credits: [![Build Status](https://travis-ci.com/gjoseph/Tichu.svg?branch=master)](https://travis-ci.com/github/gjoseph/Tichu)
-Replacing Travis CI with Github Actions, let's see how that goes...
-
 ### Build
 
 ```
