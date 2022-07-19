@@ -34,20 +34,20 @@
     "@types/inquirer": "8.2.1",
     "@types/node": "16.11.45",
     "@types/ws": "8.5.3",
-    "ava": "4.1.0",
-    "typedoc": "0.22.18",
-    "typescript": "4.6.4"
+    "ava": "4.3.1",
+    "typedoc": "0.23.8",
+    "typescript": "4.7.4"
   },
   "dependencies": {
     "@types/fs-extra": "9.0.13",
-    "commander": "9.1.0",
-    "fs-extra": "10.0.1",
-    "inquirer": "8.2.4",
+    "commander": "9.4.0",
+    "fs-extra": "10.1.0",
+    "inquirer": "9.0.1",
     "kleur": "4.1.5",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
-    "tslib": "2.3.1",
-    "ws": "8.5.0"
+    "tslib": "2.4.0",
+    "ws": "8.8.1"
   },
   "ava": {
     "typescript": {
