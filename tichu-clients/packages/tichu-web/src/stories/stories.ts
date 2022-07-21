@@ -10,3 +10,10 @@ export const makeStory = (
   theStory.argTypes = argTypes;
   return theStory;
 };
+
+export const disableControls = {
+  controls: {
+    hideNoControlsWarning: true,
+    include: [],
+  },
+};

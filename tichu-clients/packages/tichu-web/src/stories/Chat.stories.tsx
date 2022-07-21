@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Chat, ChatMessage } from "../components/Chat";
 import { actions } from "@storybook/addon-actions";
+import { disableControls, makeStory } from "./stories";
+import { Args, Meta } from "@storybook/react";
 
 export default {
   title: "Chat",
   component: Chat,
-};
+  parameters: disableControls,
+} as Meta;
 
 const events = actions("sendChatMessage");
 const sampleMessages: ChatMessage[] = [
@@ -39,19 +42,19 @@ const longSampleChat: ChatMessage[] = dup(
   dup(dup(dup(dup(dup(dup(dup(dup(dup(sampleMessages)))))))))
 );
 
-export const ChatOpenEmpty = () => {
+export const ChatOpenEmpty = makeStory((args: Args) => {
   return <Chat chatMessages={[]} {...events} />;
-};
+});
 
-export const ChatOpen = () => {
+export const ChatOpen = makeStory((args: Args) => {
   return <Chat chatMessages={sampleMessages} {...events} />;
-};
+});
 
-export const ChatOpenLong = () => {
+export const ChatOpenLong = makeStory((args: Args) => {
   return <Chat chatMessages={longSampleChat} {...events} />;
-};
+});
 
-export const SendNewMessage = () => {
+export const SendNewMessage = makeStory((args: Args) => {
   const [chatMessages, setChatMessages] = useState(
     new Array<ChatMessage>({
       from: "Storybook",
@@ -75,4 +78,4 @@ export const SendNewMessage = () => {
   };
 
   return <Chat chatMessages={chatMessages} sendChatMessage={newChatMessage} />;
-};
+});
