@@ -14,7 +14,6 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-storysource",
-    "@storybook/addon-knobs",
   ],
   typescript: {
     check: true, // type-check stories during Storybook build
