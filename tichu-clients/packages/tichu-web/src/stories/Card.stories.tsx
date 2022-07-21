@@ -1,43 +1,84 @@
 import { actions } from "@storybook/addon-actions";
-import { select } from "@storybook/addon-knobs";
 import React from "react";
 import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { CardBack } from "../components/CardBack";
 import { CardView } from "../components/CardView";
-import { boolKnob, sizeKnob } from "./knobs";
+import { Args, Meta } from "@storybook/react";
+import { makeStory } from "./stories";
 
 export default {
   title: "Single cards",
   component: CardView,
-};
+  parameters: {
+    controls: {
+      include: ["cardName", "size", "selected"],
+    },
+  },
+  args: {
+    size: "regular",
+    selected: false,
+  },
+} as Meta;
 
 const events = actions("onClick");
-const knobs = () => ({ selected: boolKnob("Selected"), size: sizeKnob() });
 
-export const MahJong = () => (
-  <CardView card={cardFromName("*1")} {...knobs()} {...events} />
-);
-export const Dog = () => (
-  <CardView card={cardFromName("*H")} {...knobs()} {...events} />
-);
-export const Phoenix = () => (
-  <CardView card={cardFromName("*P")} {...knobs()} {...events} />
-);
-export const Dragon = () => (
-  <CardView card={cardFromName("*D")} {...knobs()} {...events} />
-);
+export const MahJong = makeStory((args: Args) => (
+  <CardView
+    card={cardFromName("*1")}
+    selected={args.selected}
+    size={args.size}
+    {...events}
+  />
+));
+export const Dog = makeStory((args: Args) => (
+  <CardView
+    card={cardFromName("*H")}
+    selected={args.selected}
+    size={args.size}
+    {...events}
+  />
+));
+export const Phoenix = makeStory((args: Args) => (
+  <CardView
+    card={cardFromName("*P")}
+    selected={args.selected}
+    size={args.size}
+    {...events}
+  />
+));
+export const Dragon = makeStory((args: Args) => (
+  <CardView
+    card={cardFromName("*D")}
+    selected={args.selected}
+    size={args.size}
+    {...events}
+  />
+));
 
-export const Card_Front = () => {
-  const cardName = select(
-    "Card",
-    AllCards.map((c) => c.shortName),
-    "*1"
-  );
-  return <CardView card={cardFromName(cardName)} {...knobs()} {...events} />;
-};
-Card_Front.story = { name: "Card Front (with knobs)" };
+export const Card_Front = makeStory(
+  (args: Args) => {
+    return (
+      <CardView
+        card={cardFromName(args.cardName)}
+        selected={args.selected}
+        size={args.size}
+        {...events}
+      />
+    );
+  },
+  {
+    cardName: "B3",
+  },
+  {
+    cardName: {
+      control: "select",
+      options: ["Card", ...AllCards.map((c) => c.shortName), "*1"],
+    },
+  }
+);
+Card_Front.story = { name: "Card Front (with controls)" };
 
-export const Card_Back = () => {
-  return <CardBack size={sizeKnob()} {...events} />;
-};
-Card_Back.story = { name: "Card Back (with knobs)" };
+export const Card_Back = makeStory((args: Args) => {
+  return <CardBack size={args.size} {...events} />;
+});
+Card_Back.story = { name: "Card Back (with controls)" };
