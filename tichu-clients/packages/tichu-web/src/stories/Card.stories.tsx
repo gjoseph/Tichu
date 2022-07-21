@@ -76,9 +76,9 @@ export const Card_Front = makeStory(
     },
   }
 );
-Card_Front.story = { name: "Card Front (with controls)" };
+Card_Front.storyName = "Card Front (with controls)";
 
 export const Card_Back = makeStory((args: Args) => {
   return <CardBack size={args.size} {...events} />;
 });
-Card_Back.story = { name: "Card Back (with controls)" };
+Card_Back.storyName = "Card Back (with controls)";
