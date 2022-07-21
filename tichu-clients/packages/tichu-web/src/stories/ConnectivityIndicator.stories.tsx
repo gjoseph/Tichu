@@ -3,13 +3,16 @@ import {
   ConnectivityColors,
   ConnectivityIndicator,
 } from "../components/ConnectivityIndicator";
+import { Args, Meta } from "@storybook/react";
+import { disableControls, makeStory } from "./stories";
 
 export default {
   title: "Connectivity Indicator",
   component: ConnectivityIndicator,
-};
+  parameters: disableControls,
+} as Meta;
 
-export const SimpleStates = () => (
+export const SimpleStates = makeStory((args: Args) => (
   <div style={{ width: "100px" }}>
     <ConnectivityIndicator wsConnected={false} networkConnected={false} />
     <hr />
@@ -33,7 +36,7 @@ export const SimpleStates = () => (
       down={ConnectivityColors.RED}
     />
   </div>
-);
+));
 
 /*
 Tried using jest-websocket-mock but that didn't seem to work, without importing a whole lot of other test dependencies.

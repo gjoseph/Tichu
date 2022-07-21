@@ -1,14 +1,17 @@
 import React from "react";
 import { PlayerAvatar } from "../components/PlayerAvatar";
 import { User } from "../model/User";
+import { Args, Meta } from "@storybook/react";
+import { disableControls, makeStory } from "./stories";
 
 export default {
   title: "Player Avatar",
   component: PlayerAvatar,
-};
+  parameters: disableControls,
+} as Meta;
 
 const cq = new User("abc-def", "Charlie Quinn");
-export const AvatarsOrInitials = () => (
+export const AvatarsOrInitials = makeStory((args: Args) => (
   <>
     Known avatar:
     <PlayerAvatar user={new User("abc-def", "Alex", "/cat.jpg")} />
@@ -17,9 +20,9 @@ export const AvatarsOrInitials = () => (
     Fallback to default avatar if no name:
     <PlayerAvatar user={new User("abc-def")} />
   </>
-);
+));
 
-export const OnlineOffline = () => {
+export const OnlineOffline = makeStory((args: Args) => {
   return (
     <>
       Unspecified:
@@ -30,9 +33,9 @@ export const OnlineOffline = () => {
       <PlayerAvatar user={cq} presence="online" />
     </>
   );
-};
+});
 
-export const Busy = () => {
+export const Busy = makeStory((args: Args) => {
   return (
     <>
       Offline busy:
@@ -45,9 +48,9 @@ export const Busy = () => {
       <PlayerAvatar user={cq} presence="online" busy={false} />
     </>
   );
-};
+});
 
-export const NameDependentBackgroundColor = () => (
+export const NameDependentBackgroundColor = makeStory((args: Args) => (
   <>
     <PlayerAvatar user={new User("abc-def", "Alex Quinn")} />
     <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
@@ -58,4 +61,4 @@ export const NameDependentBackgroundColor = () => (
     Fallback to grey if no name:
     <PlayerAvatar user={new User("abc-def")} />
   </>
-);
+));
