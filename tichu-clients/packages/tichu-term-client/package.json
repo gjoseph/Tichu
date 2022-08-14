@@ -32,7 +32,7 @@
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
     "@types/inquirer": "9.0.0",
-    "@types/node": "16.11.47",
+    "@types/node": "16.11.48",
     "@types/ws": "8.5.3",
     "ava": "4.3.1",
     "typedoc": "0.23.10",
