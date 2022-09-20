@@ -42,7 +42,7 @@
     "@types/fs-extra": "9.0.13",
     "commander": "9.4.0",
     "fs-extra": "10.1.0",
-    "inquirer": "9.1.1",
+    "inquirer": "9.1.2",
     "kleur": "4.1.5",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
