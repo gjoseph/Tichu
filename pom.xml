@@ -245,7 +245,7 @@
                                     <version>[11,)</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>[3.8.3]</version>
+                                    <version>[3.9.0]</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
