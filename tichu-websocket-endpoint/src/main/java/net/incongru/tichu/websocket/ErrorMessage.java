@@ -7,7 +7,6 @@ import net.incongru.tichu.model.UserId;
 import org.immutables.value.Value;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**
