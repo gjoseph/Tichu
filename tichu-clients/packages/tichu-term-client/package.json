@@ -29,7 +29,7 @@
     "npm": "8.14.0"
   },
   "devDependencies": {
-    "@ava/typescript": "3.0.1",
+    "@ava/typescript": "4.1.0",
     "@liftr/tscov": "2.0.0",
     "@types/inquirer": "9.0.3",
     "@types/node": "16.11.68",
