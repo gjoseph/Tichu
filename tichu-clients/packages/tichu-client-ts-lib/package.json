@@ -42,7 +42,7 @@
     "tslib": "2.4.1"
   },
   "optionalDependencies": {
-    "ws": "8.8.1"
+    "ws": "8.17.1"
   },
   "ava": {
     "typescript": {
