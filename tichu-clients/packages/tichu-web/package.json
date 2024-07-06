@@ -6,9 +6,9 @@
   "dependencies": {
     "@material-ui/core": "4.12.4",
     "@material-ui/icons": "4.11.3",
-    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/jest-dom": "5.17.0",
     "@testing-library/react": "12.1.5",
-    "@testing-library/user-event": "14.4.3",
+    "@testing-library/user-event": "14.5.2",
     "@types/jest": "28.1.8",
     "@types/node": "16.11.68",
     "@types/react": "17.0.53",
