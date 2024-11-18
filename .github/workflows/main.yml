@@ -1,8 +1,8 @@
-name: Tichu main build
+name: Tichu build
 
 on:
   push:
-    branches: [master, reuse-github-workflow-in-frontend-setup]
+    branches: [master]
   pull_request:
     # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
     # With types: [opened], we only run on open, so further pushes do not re-trigger, to avoid completely overloading CI
@@ -44,33 +44,29 @@ jobs:
           cache: "maven"
       - name: Backend Build
         run: ./mvnw clean verify -B -V
-  build-clients:
-    name: Build Clients/Frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./tichu-clients
-        # Some of the commands below need this shell setup -- https://github.com/actions/virtual-environments/issues/4#issuecomment-600025775
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/workflows/frontend-setup
-      - name: Frontend Build
-        run: npm run build
-      - name: Frontend Prettier Check
-        run: npm run prettier-check-all
 
-  # Because there may be bugs hiding here (and testing stories isn't something I'll do today)
-  build-storybook:
-    name: Build Storybook
+  build-frontend:
+    name: Frontend ${{ matrix.npm-command }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # continue other jobs if one in matrix fails
+      matrix:
+        npm-command: [
+          "build",
+          "prettier-check-all",
+          "web-build-storybook" # we want to build storybook to ensure it continues working, while we have no tests for it
+        ]
     defaults:
       run:
         working-directory: ./tichu-clients
-        # Some of the commands below need this shell setup -- https://github.com/actions/virtual-environments/issues/4#issuecomment-600025775
-        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/workflows/frontend-setup
-      - name: Storybook Build
-        run: npm run web-build-storybook
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: './.tool-versions'
+          cache: 'npm'
+          cache-dependency-path: './tichu-clients/package-lock.json'
+      # Override npm installed above with version specified in package.json
+      - run: ./npm-setup.sh
+      - run: npm install
+      - run: npm run ${{ matrix.npm-command }}

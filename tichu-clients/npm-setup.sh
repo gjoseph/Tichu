@@ -1,1 +1,1 @@
- npm install -g npm@$(node -p -e 'require("./package").engines.npm')
+npm install -g npm@$(node -p -e 'require("./package").engines.npm')
