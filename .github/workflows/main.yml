@@ -15,18 +15,28 @@ on:
 
 jobs:
   build-backend:
-    strategy:
-      matrix:
-        java: ["11", "17", "21"]
-    name: Build Backend (Java ${{ matrix.java }})
+    name: Backend w/ Java ${{ matrix.java-version }} ${{ matrix.java-distrib }} ${{ matrix.experimental && '🧪' || '📍' }}
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }} # if experimental, don't fail the whole job
+    strategy:
+      fail-fast: true # cancel other jobs if one in matrix fails
+      matrix:
+        # the first item in the versions list exists only to match .tool-versions
+        java-version: ["21.0.5+11.0.LTS", "21", "23"]
+        java-distrib: ["temurin"]
+        experimental: [false]
+        include:
+          # graalvm doesn't have 23 yet?
+          - java-version: 21
+            java-distrib: graalvm
+            experimental: true
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Java 11
-        uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
+        name: Set up Java environment
         with:
-          java-version: "${{ matrix.java }}"
-          distribution: "temurin"
+          java-version: "${{ matrix.java-version }}"
+          distribution: "${{ matrix.java-distrib }}"
           cache: "maven"
       - name: Backend Build
         run: ./mvnw clean verify -B -V
