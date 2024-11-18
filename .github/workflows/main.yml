@@ -17,7 +17,7 @@ jobs:
   build-backend:
     strategy:
       matrix:
-        java: ["11", "17"]
+        java: ["11", "17", "21"]
     name: Build Backend (Java ${{ matrix.java }})
     runs-on: ubuntu-latest
     steps:
