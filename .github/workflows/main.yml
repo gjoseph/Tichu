@@ -1,8 +1,8 @@
-name: Tichu main build
+name: Tichu build
 
 on:
   push:
-    branches: [master, reuse-github-workflow-in-frontend-setup]
+    branches: [master]
   pull_request:
     # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
     # With types: [opened], we only run on open, so further pushes do not re-trigger, to avoid completely overloading CI
@@ -15,48 +15,58 @@ on:
 
 jobs:
   build-backend:
-    strategy:
-      matrix:
-        java: ["11", "17"]
-    name: Build Backend (Java ${{ matrix.java }})
+    name: Backend w/ Java ${{ matrix.java-version }} ${{ matrix.java-distrib }} ${{ matrix.experimental && '🧪' || '📍' }}
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }} # if experimental, don't fail the whole job
+    strategy:
+      fail-fast: true # cancel other jobs if one in matrix fails
+      matrix:
+        # the first item in the versions list exists only to match .tool-versions
+        java-version: ["21.0.5+11.0.LTS", "21"]
+        java-distrib: ["temurin"]
+        experimental: [false]
+        include:
+          # not sure why 23 doesn't build yet, issue with immutables maybe
+          - java-version: 23
+            java-distrib: temurin
+            experimental: true
+          # graalvm doesn't have 23 yet?
+          - java-version: 21
+            java-distrib: graalvm
+            experimental: true
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Java 11
-        uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
+        name: Set up Java environment
         with:
-          java-version: "${{ matrix.java }}"
-          distribution: "temurin"
+          java-version: "${{ matrix.java-version }}"
+          distribution: "${{ matrix.java-distrib }}"
           cache: "maven"
       - name: Backend Build
         run: ./mvnw clean verify -B -V
-  build-clients:
-    name: Build Clients/Frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./tichu-clients
-        # Some of the commands below need this shell setup -- https://github.com/actions/virtual-environments/issues/4#issuecomment-600025775
-        shell: bash -l {0}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/workflows/frontend-setup
-      - name: Frontend Build
-        run: npm run build
-      - name: Frontend Prettier Check
-        run: npm run prettier-check-all
 
-  # Because there may be bugs hiding here (and testing stories isn't something I'll do today)
-  build-storybook:
-    name: Build Storybook
+  build-frontend:
+    name: Frontend ${{ matrix.npm-command }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # continue other jobs if one in matrix fails
+      matrix:
+        npm-command: [
+          "build",
+          "prettier-check-all",
+          "web-build-storybook" # we want to build storybook to ensure it continues working, while we have no tests for it
+        ]
     defaults:
       run:
         working-directory: ./tichu-clients
-        # Some of the commands below need this shell setup -- https://github.com/actions/virtual-environments/issues/4#issuecomment-600025775
-        shell: bash -l {0}
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/workflows/frontend-setup
-      - name: Storybook Build
-        run: npm run web-build-storybook
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: './.tool-versions'
+          cache: 'npm'
+          cache-dependency-path: './tichu-clients/package-lock.json'
+      # Override npm installed above with version specified in package.json
+      - run: ./npm-setup.sh
+      - run: npm install
+      - run: npm run ${{ matrix.npm-command }}
