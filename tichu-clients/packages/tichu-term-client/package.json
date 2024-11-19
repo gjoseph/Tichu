@@ -25,29 +25,29 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "16.16.0",
-    "npm": "8.14.0"
+    "node": "22.11.0",
+    "npm": "10.9.0"
   },
   "devDependencies": {
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
     "@types/inquirer": "9.0.3",
-    "@types/node": "16.11.68",
-    "@types/ws": "8.5.4",
+    "@types/node": "22.9.0",
+    "@types/ws": "8.5.13",
     "ava": "4.3.3",
     "typedoc": "0.23.26",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   },
   "dependencies": {
-    "@types/fs-extra": "9.0.13",
+    "@types/fs-extra": "11.0.4",
     "commander": "10.0.0",
-    "fs-extra": "10.1.0",
+    "fs-extra": "11.2.0",
     "inquirer": "9.1.4",
     "kleur": "4.1.5",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
     "tslib": "2.4.1",
-    "ws": "8.8.1"
+    "ws": "8.17.1"
   },
   "ava": {
     "typescript": {

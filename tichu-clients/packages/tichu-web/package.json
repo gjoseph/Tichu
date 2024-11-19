@@ -10,7 +10,7 @@
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "14.4.3",
     "@types/jest": "28.1.8",
-    "@types/node": "16.11.68",
+    "@types/node": "22.9.0",
     "@types/react": "17.0.53",
     "@types/react-dom": "17.0.19",
     "notistack": "2.0.8",
@@ -19,7 +19,7 @@
     "react-scripts": "5.0.1",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.0.2",
-    "typescript": "4.7.4"
+    "typescript": "4.9.5"
   },
   "optionalDependencies": {
     "@emotion/styled": "^11.3.0"
@@ -64,8 +64,8 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "16.16.0",
-    "npm": "8.14.0"
+    "node": "22.11.0",
+    "npm": "10.9.0"
   },
   "devDependencies": {
     "@craco/craco": "7.0.0",
