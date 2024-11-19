@@ -18,7 +18,7 @@ import {
   TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
 import { Log } from "./log";
-import PromptUI from "inquirer/lib/ui/prompt";
+import PromptsRunner from "inquirer/dist/commonjs/ui/prompt";
 import inquirer from "inquirer";
 import { IncomingGameStatusMessage } from "tichu-client-ts-lib/lib";
 
@@ -32,7 +32,7 @@ export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
  */
 class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
-  private currentPromptUi: PromptUI | undefined;
+  private currentPromptUi: PromptsRunner<any> | undefined;
 
   constructor(readonly log: Log) {}
 
@@ -178,12 +178,10 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   // not convinced this works -- it doesn't "delete" the list of card prompts from screen at least..
+  // ⤴️ that was with inquirer 9 or older.
+  // with 12, we should really use the new api and use https://github.com/SBoudrias/Inquirer.js/tree/main#canceling-prompt
   private closeCurrentPrompt() {
-    // can't use ?. operator below because of the @ts-ignore statement ...
-    if (this.currentPromptUi) {
-      // @ts-ignore : close() is protected but we really want to call it ...
-      this.currentPromptUi.close();
-    }
+    this.currentPromptUi?.close();
   }
 
   private promptForJoin = () => {
