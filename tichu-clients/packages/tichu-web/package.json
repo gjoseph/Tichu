@@ -29,8 +29,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "storybook": "storybook dev -p 9009 -s public",
-    "build-storybook": "storybook build -s public"
+    "storybook": "storybook dev -p 9009",
+    "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [

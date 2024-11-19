@@ -16,6 +16,7 @@ module.exports = {
     getAbsolutePath("@storybook/addon-storysource"),
     "@chromatic-com/storybook",
   ],
+  staticDirs: ["../public"],
 
   typescript: {
     // type-check stories during Storybook build
