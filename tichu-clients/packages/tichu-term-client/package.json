@@ -31,7 +31,6 @@
   "devDependencies": {
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
-    "@types/inquirer": "9.0.7",
     "@types/node": "22.9.0",
     "@types/ws": "8.5.13",
     "ava": "4.3.3",
