@@ -10,7 +10,7 @@
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "14.4.3",
     "@types/jest": "28.1.8",
-    "@types/node": "16.11.68",
+    "@types/node": "16.18.119",
     "@types/react": "17.0.53",
     "@types/react-dom": "17.0.19",
     "notistack": "2.0.8",
@@ -64,7 +64,7 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "16.16.0",
+    "node": "16.20.2",
     "npm": "8.14.0"
   },
   "devDependencies": {
