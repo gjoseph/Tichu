@@ -46,16 +46,16 @@ jobs:
         run: ./mvnw clean verify -B -V
 
   build-frontend:
-    name: Frontend ${{ matrix.npm-command }}
+    name: Frontend ${{ matrix.npm-command }} 📍
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false # continue other jobs if one in matrix fails
       matrix:
         npm-command: [
-          "build",
-          "prettier-check-all",
-          "web-build-storybook" # we want to build storybook to ensure it continues working, while we have no tests for it
-        ]
+            "build",
+            "prettier-check-all",
+            "web-build-storybook", # we want to build storybook to ensure it continues working, while we have no tests for it
+          ]
     defaults:
       run:
         working-directory: ./tichu-clients
@@ -63,9 +63,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version-file: './.tool-versions'
-          cache: 'npm'
-          cache-dependency-path: './tichu-clients/package-lock.json'
+          node-version-file: "./.tool-versions"
+          cache: "npm"
+          cache-dependency-path: "./tichu-clients/package-lock.json"
       # Override npm installed above with version specified in package.json
       - run: ./npm-setup.sh
       - run: npm install
