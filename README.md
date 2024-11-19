@@ -8,7 +8,7 @@ For information about the original game, see
 - [Fata Morgana's website](https://www.fatamorgana.ch/fatamorgana/default.asp)
 - [BGG entry about Tichu](https://boardgamegeek.com/boardgame/215/tichu)
 
-## Code [![Main Build](https://github.com/gjoseph/Tichu/actions/workflows/main.yml/badge.svg)](https://github.com/gjoseph/Tichu/actions/workflows/main.yml?query=branch%3Amaster)
+## Code [![Main Build](https://github.com/gjoseph/Tichu/actions/workflows/main.yml/badge.svg)](https://github.com/gjoseph/Tichu/actions/workflows/main.yml?query=branch%3Amain)
 
 ### Build
 
