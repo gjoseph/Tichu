@@ -2,14 +2,14 @@ name: Tichu build
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     # By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
     # With types: [opened], we only run on open, so further pushes do not re-trigger, to avoid completely overloading CI
     # types: [opened]
     # Unfortunately, manual triggers do not propagate to PR checks :|
     # TODO: alternatively, we could branches-ignore: [renovate/**] but that would need to be on the push event?
-    branches: [master]
+    branches: [main]
   # Enable manual triggers:
   workflow_dispatch:
 
