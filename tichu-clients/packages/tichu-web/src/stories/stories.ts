@@ -1,11 +1,11 @@
-import { Args, ArgTypes, Story } from "@storybook/react";
+import { Args, ArgTypes, StoryFn } from "@storybook/react";
 
 export const makeStory = (
-  storyFn: Story,
+  storyFn: StoryFn,
   args: Partial<Args> | undefined = undefined,
   argTypes: Partial<ArgTypes<Args>> | undefined = undefined
-): Story => {
-  const theStory: Story = storyFn;
+): StoryFn => {
+  const theStory: StoryFn = storyFn;
   theStory.args = args;
   theStory.argTypes = argTypes;
   return theStory;

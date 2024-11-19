@@ -1,21 +1,38 @@
+import { dirname, join } from "path";
 const webpack = require("webpack");
 module.exports = {
-  core: {
-    builder: "webpack5",
-  },
   webpackFinal: async (config) => {
     // see craco.config.js
     config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^ws$/ }));
     return config;
   },
-  stories: ["../src/**/*.stories.@(ts|tsx|js|jsx|mdx)"],
+
+  stories: ["../src/**/*.@(mdx|stories.@(ts|tsx|js|jsx))"],
+
   addons: [
-    "@storybook/preset-create-react-app",
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-storysource",
+    getAbsolutePath("@storybook/preset-create-react-app"),
+    getAbsolutePath("@storybook/addon-links"),
+    getAbsolutePath("@storybook/addon-essentials"),
+    getAbsolutePath("@storybook/addon-storysource"),
+    "@chromatic-com/storybook",
   ],
+  staticDirs: ["../public"],
+
   typescript: {
-    check: true, // type-check stories during Storybook build
+    // type-check stories during Storybook build
+    check: true,
+
+    reactDocgen: "react-docgen-typescript",
   },
+
+  framework: {
+    name: getAbsolutePath("@storybook/react-webpack5"),
+    options: {},
+  },
+
+  docs: {},
 };
+
+function getAbsolutePath(value) {
+  return dirname(require.resolve(join(value, "package.json")));
+}
