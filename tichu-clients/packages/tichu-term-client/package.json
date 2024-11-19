@@ -25,14 +25,14 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "16.16.0",
+    "node": "18.20.5",
     "npm": "8.14.0"
   },
   "devDependencies": {
     "@ava/typescript": "3.0.1",
     "@liftr/tscov": "2.0.0",
     "@types/inquirer": "9.0.3",
-    "@types/node": "16.11.68",
+    "@types/node": "18.19.64",
     "@types/ws": "8.5.4",
     "ava": "4.3.3",
     "typedoc": "0.23.26",
