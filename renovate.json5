@@ -60,6 +60,12 @@
       matchPackagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages",
     },
+    {
+      matchPackagePatterns: ["^com.google.guava"],
+      // this will help Renovate correctly pickup the -jre variant instead of -android,
+      // while leaving the door open for Guava to remove or change their -jre suffix in the future
+      allowedVersions: "!/-android$/",
+    },
     // Generated @types rules
     {
       matchPackageNames: ["@types/fs-extra", "fs-extra"],
