@@ -31,40 +31,49 @@
       matchPackagePatterns: ["^net.incongru.tichu"],
       enabled: false,
     },
+    // Group Maven and Maven-Wrapper upgrades
+    {
+      matchManagers: ["maven", "maven-wrapper"],
+      groupName: "Maven",
+    },
     // Java packages rules:
     {
-      matchPackagePatterns: ["^org.slf4j"],
-      groupName: "SLF4J packages",
-    },
-    {
-      matchPackagePatterns: ["^org.apache.tomcat.embed"],
-      groupName: "Tomcat packages",
-    },
-    {
-      matchPackagePatterns: ["^org.junit"],
-      groupName: "JUnit packages",
-    },
-    {
-      matchPackagePatterns: ["^org.assertj"],
-      groupName: "AssertJ packages",
-    },
-    {
-      matchPackagePatterns: ["^org.mockito"],
-      groupName: "Mockito packages",
-    },
-    {
-      matchPackagePatterns: ["^net.javacrumbs.json-unit"],
-      groupName: "JsonUnit packages",
+      matchPackagePatterns: ["^com.google.guava"],
+      // this will help Renovate correctly pickup the -jre variant instead of -android,
+      // while leaving the door open for Guava to remove or change their -jre suffix in the future
+      allowedVersions: "!/-android$/",
     },
     {
       matchPackagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages",
     },
     {
-      matchPackagePatterns: ["^com.google.guava"],
-      // this will help Renovate correctly pickup the -jre variant instead of -android,
-      // while leaving the door open for Guava to remove or change their -jre suffix in the future
-      allowedVersions: "!/-android$/",
+      matchPackagePatterns: ["^net.javacrumbs.json-unit"],
+      groupName: "JsonUnit packages",
+    },
+    {
+      matchPackagePatterns: ["^org.apache.tomcat.embed"],
+      groupName: "Tomcat packages",
+    },
+    {
+      matchPackagePatterns: ["^org.assertj"],
+      groupName: "AssertJ packages",
+    },
+    {
+      matchPackagePatterns: ["^org.junit"],
+      groupName: "JUnit packages",
+    },
+    {
+      matchPackagePatterns: ["^org.apache.maven.plugins"],
+      groupName: "Maven plugins",
+    },
+    {
+      matchPackagePatterns: ["^org.mockito"],
+      groupName: "Mockito packages",
+    },
+    {
+      matchPackagePatterns: ["^org.slf4j"],
+      groupName: "SLF4J packages",
     },
     // Generated @types rules
     {
