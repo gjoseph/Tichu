@@ -33,7 +33,7 @@
     },
     // Group Maven and Maven-Wrapper upgrades
     {
-      matchManagers: ["maven", "maven-wrapper"],
+      matchManagers: ["maven-wrapper"],
       groupName: "Maven",
     },
     // Java packages rules:
