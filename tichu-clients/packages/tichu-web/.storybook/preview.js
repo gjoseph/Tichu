@@ -12,3 +12,4 @@ export const parameters = {
     grid: { cellSize: 10, cellAmount: 10, offsetX: 16, offsetY: 16 },
   },
 };
+export const tags = ["autodocs"];

@@ -2,7 +2,7 @@ import { actions } from "@storybook/addon-actions";
 import React from "react";
 import { AllCards } from "tichu-client-ts-lib";
 import { CardBacks, CardSet } from "../components/CardSet";
-import { Args, Meta, Story } from "@storybook/react";
+import { Args, Meta, StoryFn } from "@storybook/react";
 import { countControl } from "./controls";
 import { makeStory } from "./stories";
 
@@ -27,7 +27,7 @@ export default {
 
 const events = actions("onCardClick");
 
-export const Card_Set: Story = makeStory((args: Args) => {
+export const Card_Set: StoryFn = makeStory((args: Args) => {
   const cards = [...AllCards]
     .sort(() => Math.random() - 0.5)
     .slice(0, args.cardCount)
@@ -63,7 +63,7 @@ export const Stack_of_56 = makeStory(
   }
 );
 
-export const Card_Backs: Story = makeStory((args: Args) => {
+export const Card_Backs: StoryFn = makeStory((args: Args) => {
   return (
     <CardBacks
       count={args.cardCount}

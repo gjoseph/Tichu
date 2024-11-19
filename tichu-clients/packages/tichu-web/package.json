@@ -29,8 +29,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "storybook": "storybook dev -p 9009 -s public",
+    "build-storybook": "storybook build -s public"
   },
   "eslintConfig": {
     "extends": [
@@ -68,15 +68,15 @@
     "npm": "10.9.0"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "3.2.2",
     "@craco/craco": "7.0.0",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-docs": "8.4.4",
     "@storybook/addon-essentials": "8.4.4",
     "@storybook/addon-links": "8.4.4",
     "@storybook/addon-storysource": "8.4.4",
-    "@storybook/builder-webpack5": "8.4.4",
-    "@storybook/manager-webpack5": "6.5.16",
     "@storybook/preset-create-react-app": "8.4.4",
-    "@storybook/react": "8.4.4"
+    "@storybook/react": "8.4.4",
+    "@storybook/react-webpack5": "8.4.4"
   }
 }
