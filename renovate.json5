@@ -48,6 +48,10 @@
       groupName: "ArchUnit packages",
     },
     {
+      matchPackagePatterns: ["^jakarta.websocket"],
+      groupName: "Jakarta Websocket packages",
+    },
+    {
       matchPackagePatterns: ["^net.javacrumbs.json-unit"],
       groupName: "JsonUnit packages",
     },
