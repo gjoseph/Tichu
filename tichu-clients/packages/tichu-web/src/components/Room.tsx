@@ -1,4 +1,4 @@
-import { useSnackbar } from "notistack";
+import { useNotifications } from '@toolpad/core/useNotifications';
 import React, { FC, useCallback, useEffect, useState } from "react";
 import {
   JoinParam,
@@ -12,7 +12,7 @@ import { visitEnumValue } from "ts-enum-util";
 import { GameState } from "../model/GameState";
 import { RoomState, RoomStatus } from "../model/RoomState";
 import { User } from "../model/User";
-import { newReactHandler } from "../tichu-ws-handler";
+import {newReactHandler, ToolpadNotifier} from "../tichu-ws-handler";
 import { ActivityLog, ActivityLogMessage } from "./ActivityLog";
 import { Button } from "./Button";
 import { Chat, ChatMessage } from "./Chat";
@@ -21,7 +21,7 @@ import { Game } from "./Game";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
-  const { enqueueSnackbar } = useSnackbar();
+  const notifications:  = useNotifications();
   const [roomState, setRoomState] = useState<RoomState>(
     new RoomState(RoomStatus.OPEN)
   );
@@ -51,7 +51,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       new WSTichuClient(
         props.user.id,
         newReactHandler(
-          enqueueSnackbar,
+            new ToolpadNotifier(notifications),
           setRoomState,
           setGameState,
           // TODO so for example this and all other callbacks could be set by the listening components now?
@@ -62,9 +62,9 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
         )
       ).connect(props.websocketUrl)
     );
-    // Still unsure why enqueueSnackbar needs to be a dep, but not newMessage
+    // Still unsure why notifications/enqueueSnackbar needs to be a dep, but not newMessage
     // TODO read https://overreacted.io/a-complete-guide-to-useeffect/ again
-  }, [props.websocketUrl, props.user, enqueueSnackbar]);
+  }, [props.websocketUrl, props.user, notifications]);
 
   useEffect(() => {
     connect();

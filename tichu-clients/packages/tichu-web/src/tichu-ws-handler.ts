@@ -1,4 +1,3 @@
-import { OptionsObject, SnackbarKey, SnackbarMessage } from "notistack";
 import {
   ActivityMessage,
   Card,
@@ -22,10 +21,27 @@ type SetGameState = (fn: (oldState: GameState) => GameState) => void;
 type NewChatMessage = (newMessage: IncomingChatMessage) => void;
 type NewActivityLog = (newMessage: ActivityLogMessage) => void;
 
-type Notifier = (
-  message: SnackbarMessage,
-  options?: OptionsObject
-) => SnackbarKey;
+type NotificationSeverity = "warning" | "info";
+type NotificationOptions = {
+  severity: NotificationSeverity,
+  autoHideDuration: number,
+}
+
+export interface Notifier {
+  send(message: string, options?: NotificationOptions): SnackbarKey
+}
+
+export class ToolpadNotifier implements Notifier {
+
+  constructor(private notifications) {
+  }
+
+  send(message: string, options?: NotificationOptions): SnackbarKey {
+    return undefined;
+  }
+
+
+}
 
 export const newReactHandler: (
   notify: Notifier,
