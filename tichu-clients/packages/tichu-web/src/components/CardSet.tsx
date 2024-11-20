@@ -76,10 +76,10 @@ const withPosition =
 const PositionedCardView = withPosition(CardView);
 const PositionedCardBack = withPosition(CardBack);
 
-const CardSetContainer: FC<{ cardSize?: CardSize }> = ({
-  cardSize = "regular",
-  children,
-}) => {
+const CardSetContainer: FC<{
+  cardSize?: CardSize;
+  children?: React.ReactNode;
+}> = ({ cardSize = "regular", children }) => {
   const classNames = classes(
     styles.cardSet,
     cardSize === "small" ? styles.smallSet : styles.regularSet
