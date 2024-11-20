@@ -1,4 +1,3 @@
-import { OptionsObject, SnackbarKey, SnackbarMessage } from "notistack";
 import {
   ActivityMessage,
   Card,
@@ -15,17 +14,13 @@ import { ActivityLogMessage } from "./components/ActivityLog";
 import { Log } from "./Log";
 import { GameState } from "./model/GameState";
 import { RoomState, RoomStatus } from "./model/RoomState";
+import { Notifier } from "./notifications";
 
 // Callbacks given by Room/Game
 type SetRoomState = (fn: (oldState: RoomState) => RoomState) => void; //SetRoomStateNewOnly & SetRoomStateOldToNew;
 type SetGameState = (fn: (oldState: GameState) => GameState) => void;
 type NewChatMessage = (newMessage: IncomingChatMessage) => void;
 type NewActivityLog = (newMessage: ActivityLogMessage) => void;
-
-type Notifier = (
-  message: SnackbarMessage,
-  options?: OptionsObject,
-) => SnackbarKey;
 
 export const newReactHandler: (
   notify: Notifier,
@@ -66,8 +61,8 @@ class ReactAppHandler implements TichuWebSocketHandler {
   onConnect = () => {
     this.log.debug("Connected (press CTRL+C to quit)");
     this.setRoomState(() => new RoomState(RoomStatus.CONNECTED));
-    this.notify("Connected !", {
-      variant: "success",
+    this.notify.send("Connected !", {
+      severity: "info",
     });
   };
 
@@ -77,8 +72,8 @@ class ReactAppHandler implements TichuWebSocketHandler {
         wasClean ? "clean" : "dirty"
       })`,
     );
-    this.notify("Disconnected", {
-      variant: "warning",
+    this.notify.send("Disconnected", {
+      severity: "warning",
     });
   };
 
@@ -157,7 +152,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
       ok: () => {
         if (isResponse) {
           this.debug("Waiting for others");
-          this.notify("Welcome");
+          this.notify.send("Welcome");
           this.setRoomState(() => new RoomState(RoomStatus.NEED_PLAYERS));
         }
       },

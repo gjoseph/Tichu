@@ -1,4 +1,4 @@
-import { SnackbarProvider } from "notistack";
+import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import React, { FC } from "react";
 import { Room } from "./components/Room";
 import { User } from "./model/User";
@@ -13,7 +13,7 @@ const App: FC<{ websocketUrl: string }> = (props) => {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3}>
+        <NotificationsProvider>
           {user ? (
             <>
               <div>
@@ -25,7 +25,7 @@ const App: FC<{ websocketUrl: string }> = (props) => {
           ) : (
             <DummyUsernameInput setUser={setUser} />
           )}
-        </SnackbarProvider>
+        </NotificationsProvider>
       </ThemeProvider>
     </div>
   );
