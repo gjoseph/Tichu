@@ -13,6 +13,7 @@ import styles from "./Card.module.css";
 export type OnCardClick = (card: Card) => void;
 export type CardSize = "small" | "regular";
 
+// no children elements in CardView
 interface CardViewProps {
   card: Card;
   selected: boolean; // TODO wonder if selected is anything than a css class that could be set by parent
@@ -51,9 +52,6 @@ const symbolFor = (card: Card): string => {
   }
 };
 
-/**
- * I don't know how to prevent children elements - does it matter?
- */
 export const CardView: FC<CardViewProps> = ({
   card,
   selected,

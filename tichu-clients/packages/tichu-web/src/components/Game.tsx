@@ -14,7 +14,7 @@ import { OtherPlayer } from "./OtherPlayer";
 /**
  * Represents the player at the table
  */
-const Player: FC = (props) => {
+const Player: FC<{ children?: React.ReactNode }> = (props) => {
   return (
     <div className={styles.player}>
       This is me
