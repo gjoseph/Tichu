@@ -4,11 +4,14 @@
   "private": true,
   "description": "",
   "dependencies": {
-    "@material-ui/core": "4.12.4",
-    "@material-ui/icons": "4.11.3",
+    "@emotion/react": "11.13.5",
+    "@mui/icons-material": "6.1.8",
+    "@mui/material": "6.1.8",
+    "@mui/styles": "6.1.8",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "14.4.3",
+    "@toolpad/core": "0.9.0",
     "@types/jest": "28.1.8",
     "@types/node": "22.9.0",
     "@types/react": "18.3.12",
@@ -22,7 +25,7 @@
     "typescript": "5.6.3"
   },
   "optionalDependencies": {
-    "@emotion/styled": "^11.3.0"
+    "@emotion/styled": "11.13.5"
   },
   "scripts": {
     "start": "craco start",
