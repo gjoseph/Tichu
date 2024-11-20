@@ -39,7 +39,7 @@
     "fs-extra": "11.2.0",
     "nanoid": "5.0.8",
     "ts-enum-util": "4.0.2",
-    "tslib": "2.4.1"
+    "tslib": "2.8.1"
   },
   "optionalDependencies": {
     "ws": "8.17.1"
