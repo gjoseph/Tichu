@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { PlayerAvatar } from "./PlayerAvatar";
 import { User } from "../model/User";
-import { Paper } from "@material-ui/core";
+import { Paper } from "@mui/material";
 import { CardBacks } from "./CardSet";
 import styles from "./Game.module.css";
 
