@@ -1,6 +1,6 @@
 import { IncomingChatMessage, OnResponse } from "tichu-client-ts-lib";
 import React, { FC, FormEvent, useState } from "react";
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress } from "@mui/material";
 // import styles from "./Chat.module.css";
 
 // The component's model will likely be different from the actual websocket messages:

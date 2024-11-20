@@ -1,8 +1,9 @@
 import { User } from "../model/User";
-import { Avatar, Badge, createStyles, Theme } from "@material-ui/core";
+import { Avatar, Badge, Theme } from "@mui/material";
+import createStyles from "@mui/styles/createStyles";
 import React, { FC } from "react";
 import styles from "./PlayerAvatar.module.css";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { classes, stringToHslColor } from "../util";
 
 export const PlayerAvatar: FC<{
@@ -30,7 +31,7 @@ export const PlayerAvatar: FC<{
   return (
     <div className={cssClass}>
       <Badge
-        overlap="circle"
+        overlap="circular"
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "right",
