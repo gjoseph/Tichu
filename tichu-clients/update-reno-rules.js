@@ -26,8 +26,8 @@ renovateConfig.packageRules = packages
   .map((path) => require(path))
   .map((package) =>
     Object.keys(package.dependencies || {}).concat(
-      ...Object.keys(package.devDependencies || {})
-    )
+      ...Object.keys(package.devDependencies || {}),
+    ),
   )
   .reduce((acc, cur) => [...acc, ...cur], [])
   .filter((value, index, self) => self.indexOf(value) === index)
@@ -40,7 +40,7 @@ renovateConfig.packageRules = packages
 fs.writeFileSync(
   renovatePath,
   JSON.stringify(renovateConfig, null, 2),
-  "utf-8"
+  "utf-8",
 );
 
 console.log("Done -- please run the following:");

@@ -14,7 +14,7 @@ export const PlayerAvatar: FC<{
   const cssClass = classes(
     styles.avatarBadge,
     presence ? styles[presence] : null,
-    busy ? styles.pulse : null
+    busy ? styles.pulse : null,
   );
   const colour = user.displayName ? stringToHslColor(user.displayName) : "#ccc";
   // TODO Learn how to parameterise this so we don't need to recompute everytime
@@ -26,7 +26,7 @@ export const PlayerAvatar: FC<{
         color: theme.palette.getContrastText(colour),
         backgroundColor: colour,
       },
-    })
+    }),
   )();
   return (
     <div className={cssClass}>

@@ -39,7 +39,7 @@ const dup = (a: any[]) => {
 };
 
 const longSampleChat: ChatMessage[] = dup(
-  dup(dup(dup(dup(dup(dup(dup(dup(dup(sampleMessages)))))))))
+  dup(dup(dup(dup(dup(dup(dup(dup(dup(sampleMessages))))))))),
 );
 
 export const ChatOpenEmpty = makeStory((args: Args) => {
@@ -60,7 +60,7 @@ export const SendNewMessage = makeStory((args: Args) => {
       from: "Storybook",
       content: "Go on, type and send a message below...",
       messageType: "chat",
-    })
+    }),
   );
   const newChatMessage = (newMessage: string, callback: () => void) => {
     // create simulation of delay between sending the message to server and reception of message back

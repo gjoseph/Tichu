@@ -60,7 +60,7 @@ export const Stack_of_56 = makeStory(
     cardCount: {
       control: false,
     },
-  }
+  },
 );
 
 export const Card_Backs: StoryFn = makeStory((args: Args) => {

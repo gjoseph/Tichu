@@ -42,7 +42,7 @@ const SimuRoom: React.FC = () => {
       { id: "abc", cardsInHand: 3, cardsCollected: 10 },
       { id: "def", cardsInHand: 10, cardsCollected: 0 },
       { id: "ghi", cardsInHand: 1, cardsCollected: 20 },
-    ]
+    ],
   );
   const [gameState, setGameState] = React.useState(init);
   const handleClick = () =>
@@ -51,8 +51,8 @@ const SimuRoom: React.FC = () => {
         new GameState(
           oldState.currentPlayer,
           [cardFromName("*P"), cardFromName("GJ"), cardFromName("K6")],
-          []
-        )
+          [],
+        ),
     );
   return (
     <>

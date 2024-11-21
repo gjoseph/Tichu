@@ -5,7 +5,7 @@ export class User {
   constructor(
     readonly id: UserId,
     readonly displayName?: string,
-    readonly avatarUrl?: string
+    readonly avatarUrl?: string,
   ) {}
 
   initials(): string | null {

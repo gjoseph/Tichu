@@ -3,7 +3,7 @@ import { ActivityLogMessage } from "./components/ActivityLog";
 export class Log {
   constructor(
     readonly isDebug: boolean,
-    readonly newActivityLog: (newMessage: ActivityLogMessage) => void
+    readonly newActivityLog: (newMessage: ActivityLogMessage) => void,
   ) {}
 
   error(...msg: any[]) {

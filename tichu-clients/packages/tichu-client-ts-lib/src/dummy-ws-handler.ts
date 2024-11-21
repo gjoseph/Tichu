@@ -41,7 +41,7 @@ export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
 
   handlePlayResult = (
     isResponse: boolean,
-    msg: IncomingPlayerPlaysResponse
+    msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
       "next-player-goes": NOOP,

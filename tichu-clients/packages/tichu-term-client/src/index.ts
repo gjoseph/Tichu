@@ -14,7 +14,7 @@ program
   .option("-u, --user <userId>", "your name... until we figure auth out")
   .requiredOption(
     "-r, --room <roomId>",
-    "the room id... until we figure out an API to list available rooms"
+    "the room id... until we figure out an API to list available rooms",
   );
 
 program

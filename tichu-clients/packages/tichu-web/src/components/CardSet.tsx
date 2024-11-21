@@ -27,7 +27,7 @@ const calcTransform = (
   layout: CardSetLayout,
   size: CardSize,
   idx: number,
-  totalCount: number
+  totalCount: number,
 ) => {
   // Not sure how best to name this -- this is the "centered index" where 0 is the middle element of the list
   const midIdx = idx - (totalCount - 1) / 2;
@@ -58,7 +58,7 @@ const calcTransform = (
 
 const withPosition =
   <P extends object>(
-    Component: React.ComponentType<P>
+    Component: React.ComponentType<P>,
   ): React.FC<P & WithPositionProps> =>
   ({ idx, totalCount, size, layout, ...props }: WithPositionProps) => {
     const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
@@ -82,7 +82,7 @@ const CardSetContainer: FC<{
 }> = ({ cardSize = "regular", children }) => {
   const classNames = classes(
     styles.cardSet,
-    cardSize === "small" ? styles.smallSet : styles.regularSet
+    cardSize === "small" ? styles.smallSet : styles.regularSet,
   );
   return <div className={classNames}>{children}</div>;
 };

@@ -19,7 +19,7 @@ export type SelectableCard = Card & { selected: boolean };
 type SendCardsFunction = (cards: Card[]) => void;
 
 export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
-  props
+  props,
 ) => {
   const allUnselected = (cards: Card[]) => {
     return cards.map((c) => {
