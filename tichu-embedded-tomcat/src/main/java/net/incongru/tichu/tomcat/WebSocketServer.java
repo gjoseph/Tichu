@@ -74,7 +74,7 @@ public class WebSocketServer {
 
             @Override
             protected Principal getPrincipal(String username) {
-                return new GenericPrincipal(username, "wtf should this password be doing here", Collections.singletonList("tichu-player-role"));
+                return new GenericPrincipal(username, Collections.singletonList("tichu-player-role"));
             }
         });
     }
