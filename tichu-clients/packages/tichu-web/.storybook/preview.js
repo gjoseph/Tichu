@@ -1,3 +1,6 @@
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import React from "react";
+
 export const parameters = {
   // actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -13,3 +16,17 @@ export const parameters = {
   },
 };
 export const tags = ["autodocs"];
+
+const muiTheme = createTheme();
+
+const preview /*: Preview*/ = {
+  // rename to preview.tsx ?
+  decorators: [
+    (Story) => (
+      <ThemeProvider theme={muiTheme}>
+        {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
+};
