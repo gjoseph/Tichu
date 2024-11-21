@@ -17,7 +17,7 @@ export const PlayerAvatar: FC<{
     busy ? styles.pulse : null
   );
   const colour = user.displayName ? stringToHslColor(user.displayName) : "#ccc";
-  // Learn how to parameterise this so we don't need to recompute everytime
+  // TODO Learn how to parameterise this so we don't need to recompute everytime
   // .. or just ditch both and learn how to hash a name into a set of 20 colour class names
   // ... and the contrastText function
   const colourStyles = makeStyles((theme: Theme) =>

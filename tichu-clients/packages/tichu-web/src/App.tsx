@@ -3,25 +3,30 @@ import React, { FC } from "react";
 import { Room } from "./components/Room";
 import { User } from "./model/User";
 import { useStoredState } from "./react-utils";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme();
 
 const App: FC<{ websocketUrl: string }> = (props) => {
   const [user, setUser, logOut] = useStoredState<User>("tichu.user");
 
   return (
     <div className="App">
-      <SnackbarProvider maxSnack={3}>
-        {user ? (
-          <>
-            <div>
-              Hello, {user.displayName}
-              <button onClick={logOut}>logout</button>
-            </div>
-            <Room user={user} websocketUrl={props.websocketUrl} />
-          </>
-        ) : (
-          <DummyUsernameInput setUser={setUser} />
-        )}
-      </SnackbarProvider>
+      <ThemeProvider theme={theme}>
+        <SnackbarProvider maxSnack={3}>
+          {user ? (
+            <>
+              <div>
+                Hello, {user.displayName}
+                <button onClick={logOut}>logout</button>
+              </div>
+              <Room user={user} websocketUrl={props.websocketUrl} />
+            </>
+          ) : (
+            <DummyUsernameInput setUser={setUser} />
+          )}
+        </SnackbarProvider>
+      </ThemeProvider>
     </div>
   );
 };

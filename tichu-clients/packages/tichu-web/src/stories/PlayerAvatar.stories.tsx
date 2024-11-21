@@ -52,13 +52,25 @@ export const Busy = makeStory((args: Args) => {
 
 export const NameDependentBackgroundColor = makeStory((args: Args) => (
   <>
-    <PlayerAvatar user={new User("abc-def", "Alex Quinn")} />
-    <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
-    Same initials but different name, should be different color:
-    <PlayerAvatar user={new User("abc-def", "Arnold Quartzenegger")} />
-    But is consistent if same name
-    <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
-    Fallback to grey if no name:
-    <PlayerAvatar user={new User("abc-def")} />
+    <div>
+      Alex Quinn: <PlayerAvatar user={new User("abc-def", "Alex Quinn")} />
+    </div>
+    <div>
+      Charlie Jules:{" "}
+      <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
+    </div>
+    <div>
+      Arnold Quartzenegger // same initials but different name, should be
+      different color:
+      <PlayerAvatar user={new User("abc-def", "Arnold Quartzenegger")} />
+    </div>
+    <div>
+      Charlie Jules // is consistent if same name
+      <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
+    </div>
+    <div>
+      Fallback to grey if no name:
+      <PlayerAvatar user={new User("abc-def")} />
+    </div>
   </>
 ));
