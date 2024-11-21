@@ -54,7 +54,7 @@ export class WSTichuClient {
 
   constructor(
     readonly bogusCredentials: string, // TODO
-    handlerFactory: TichuWebSocketHandlerFactory
+    handlerFactory: TichuWebSocketHandlerFactory,
   ) {
     this.handler = handlerFactory();
 
@@ -81,7 +81,7 @@ export class WSTichuClient {
 
   on<E extends EventType, P extends EventParam<E>>(
     eventType: E,
-    callback: Callback<E, P>
+    callback: Callback<E, P>,
   ) {
     this.eventDispatcher.on(eventType, callback);
   }
@@ -152,12 +152,12 @@ export class WSTichuClient {
       init: () => {},
       join: () => {
         visitEnumValue(msg.result as JoinResult).with(
-          this.handler.handleJoin(isResponse)
+          this.handler.handleJoin(isResponse),
         );
       },
       ready: () => {
         visitEnumValue(msg.result as PlayerIsReadyResult).with(
-          this.handler.handleReady(isResponse)
+          this.handler.handleReady(isResponse),
         );
       },
       "new-trick": () => {
@@ -166,7 +166,7 @@ export class WSTichuClient {
       play: () => {
         const msg1 = msg as IncomingPlayerPlaysResponse;
         visitEnumValue(msg1.result as PlayResult).with(
-          this.handler.handlePlayResult(isResponse, msg1)
+          this.handler.handlePlayResult(isResponse, msg1),
         );
       },
     });
@@ -181,7 +181,7 @@ export class WSTichuClient {
     if (isResponse) {
       this.debug(
         `Removing ${msg.txId} from message queue - remaining:`,
-        this.waitingForResponse.keys()
+        this.waitingForResponse.keys(),
       );
       // Invoke callback
       this.waitingForResponse.get(msg.txId)!();
@@ -189,7 +189,7 @@ export class WSTichuClient {
       this.waitingForResponse.delete(msg.txId);
       this.debug(
         `Removed ${msg.txId} from message queue - remaining:`,
-        this.waitingForResponse.keys()
+        this.waitingForResponse.keys(),
       );
     }
     return isResponse;

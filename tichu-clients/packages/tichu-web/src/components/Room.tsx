@@ -23,10 +23,10 @@ type PossibleWSTichuClient = WSTichuClient | undefined;
 export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   const { enqueueSnackbar } = useSnackbar();
   const [roomState, setRoomState] = useState<RoomState>(
-    new RoomState(RoomStatus.OPEN)
+    new RoomState(RoomStatus.OPEN),
   );
   const [gameState, setGameState] = useState<GameState>(
-    new GameState(undefined, [], [])
+    new GameState(undefined, [], []),
   );
 
   const [chatMessages, setChatMessages] = useState(new Array<ChatMessage>());
@@ -38,7 +38,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   };
 
   const [activityLog, setActivityLog] = useState(
-    new Array<ActivityLogMessage>()
+    new Array<ActivityLogMessage>(),
   );
   const newActivity = (newAct: ActivityLogMessage) => {
     setActivityLog((current) => [...current, newAct]);
@@ -58,9 +58,9 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
           // using on("message") and filtering on the message type
           // which we should maybe do in ws-client
           newChatMessage,
-          newActivity
-        )
-      ).connect(props.websocketUrl)
+          newActivity,
+        ),
+      ).connect(props.websocketUrl),
     );
     // Still unsure why enqueueSnackbar needs to be a dep, but not newMessage
     // TODO read https://overreacted.io/a-complete-guide-to-useeffect/ again

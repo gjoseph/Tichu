@@ -9,7 +9,7 @@ const root = createRoot(container!);
 root.render(
   <React.StrictMode>
     <App websocketUrl={"ws://localhost:8080/room/some-room-id"} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want your app to work offline and load faster, you can change

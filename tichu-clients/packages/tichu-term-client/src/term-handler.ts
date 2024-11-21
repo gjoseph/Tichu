@@ -47,7 +47,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.control(
       `Disconnected (code: ${code}, reason: "${reason}", ${
         wasClean ? "clean" : "dirty"
-      })`
+      })`,
     );
     process.exit();
   };
@@ -91,7 +91,7 @@ class TerminalHandler implements TichuWebSocketHandler {
 
   handleErrorMessage(msg: ErrorMessage) {
     this.log.error(
-      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`
+      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`,
     );
   }
 
@@ -147,7 +147,7 @@ class TerminalHandler implements TichuWebSocketHandler {
 
   handlePlayResult = (
     isResponse: boolean,
-    msg: IncomingPlayerPlaysResponse
+    msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
       "next-player-goes": () => {
@@ -244,7 +244,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     };
     return this.ask(question).then((answers: any) => {
       return new OutgoingGameMessage(
-        PlayerPlaysParam.fromShortNames(answers.cards)
+        PlayerPlaysParam.fromShortNames(answers.cards),
       );
     });
   };

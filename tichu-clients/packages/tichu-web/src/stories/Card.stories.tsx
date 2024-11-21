@@ -74,7 +74,7 @@ export const Card_Front = makeStory(
       control: "select",
       options: ["Card", ...AllCards.map((c) => c.shortName), "*1"],
     },
-  }
+  },
 );
 Card_Front.storyName = "Card Front (with controls)";
 

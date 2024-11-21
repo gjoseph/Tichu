@@ -13,11 +13,11 @@ import React from "react";
  */
 export function useStoredState<T>(
   key: string,
-  defaultValue?: T | (() => T | undefined) | undefined
+  defaultValue?: T | (() => T | undefined) | undefined,
 ): [
   T | undefined,
   React.Dispatch<React.SetStateAction<T | undefined>>,
-  () => void
+  () => void,
 ] {
   const [value, setValue] = React.useState<T | undefined>(() => {
     const stickyValue = window.localStorage.getItem(key);
@@ -28,7 +28,7 @@ export function useStoredState<T>(
         return JSON.parse(stickyValue);
       } catch (e) {
         console.error(
-          `Could not parse value for ${key}: ${stickyValue}: ${e}, restoring defaults.`
+          `Could not parse value for ${key}: ${stickyValue}: ${e}, restoring defaults.`,
         );
         window.localStorage.removeItem(key);
       }

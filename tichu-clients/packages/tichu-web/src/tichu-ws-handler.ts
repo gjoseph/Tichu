@@ -24,7 +24,7 @@ type NewActivityLog = (newMessage: ActivityLogMessage) => void;
 
 type Notifier = (
   message: SnackbarMessage,
-  options?: OptionsObject
+  options?: OptionsObject,
 ) => SnackbarKey;
 
 export const newReactHandler: (
@@ -32,13 +32,13 @@ export const newReactHandler: (
   setRoomState: SetRoomState,
   setGameState: SetGameState,
   newChatMessage: NewChatMessage,
-  newActivityLog: NewActivityLog
+  newActivityLog: NewActivityLog,
 ) => TichuWebSocketHandlerFactory = (
   notify,
   setRoomState,
   setGameState,
   newChatMessage,
-  newActivityLog
+  newActivityLog,
 ) => {
   return () => {
     return new ReactAppHandler(
@@ -47,7 +47,7 @@ export const newReactHandler: (
       setGameState,
       newChatMessage,
       newActivityLog,
-      new Log(true, newActivityLog)
+      new Log(true, newActivityLog),
     );
   };
 };
@@ -59,7 +59,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     readonly setGameState: SetGameState,
     readonly newChatMessage: NewChatMessage,
     readonly newActivityLog: NewActivityLog,
-    readonly log: Log
+    readonly log: Log,
   ) {}
 
   // ==== Websocket callbacks
@@ -75,7 +75,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     this.log.debug(
       `Disconnected (code: ${code}, reason: "${reason}", ${
         wasClean ? "clean" : "dirty"
-      })`
+      })`,
     );
     this.notify("Disconnected", {
       variant: "warning",
@@ -116,7 +116,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
 
   handleErrorMessage(msg: ErrorMessage) {
     this.log.error(
-      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`
+      `Error caused by ${msg.actor} - contact us with this reference: ${msg.traceId} (txId: ${msg.txId})`,
     );
   }
 
@@ -126,7 +126,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     // TODO .filter() me out
     this.setGameState(
       (oldState: GameState) =>
-        new GameState(msg.currentPlayer, oldState.hand, msg.players)
+        new GameState(msg.currentPlayer, oldState.hand, msg.players),
     );
   }
 
@@ -143,7 +143,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     // as it is, a library like immerjs would help, but let's first try to extract state elsewhere instead
     this.setGameState(
       (oldState: GameState) =>
-        new GameState(oldState.currentPlayer, cards, oldState.otherPlayers)
+        new GameState(oldState.currentPlayer, cards, oldState.otherPlayers),
     );
   }
 
@@ -187,18 +187,18 @@ class ReactAppHandler implements TichuWebSocketHandler {
 
   handlePlayResult = (
     isResponse: boolean,
-    msg: IncomingPlayerPlaysResponse
+    msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
       "next-player-goes": () => {
         this.log.debug(
           `${msg.actor} played, ${JSON.stringify(msg)}. It's now ${
             msg.nextPlayer
-          }'s turn`
+          }'s turn`,
         );
         this.setGameState(
           (oldState: GameState) =>
-            new GameState(msg.nextPlayer, oldState.hand, oldState.otherPlayers)
+            new GameState(msg.nextPlayer, oldState.hand, oldState.otherPlayers),
         );
       },
       "trick-end": () => {

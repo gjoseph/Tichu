@@ -6,7 +6,7 @@ export const stringToHslColor = (
   s: string,
   // TODO i've had nicer results with 80, 50 and hash<<9, but not sure why
   saturation: number = 80,
-  lightness: number = 80
+  lightness: number = 80,
 ) => {
   let hash = 0;
   for (let i = 0; i < s.length; i++) {

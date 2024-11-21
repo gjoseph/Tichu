@@ -16,7 +16,7 @@ export class GameState {
       id: UserId;
       cardsInHand: number;
       cardsCollected: number;
-    }[]
+    }[],
   ) {}
 
   // maybe the below is in RoomState

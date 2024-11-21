@@ -75,7 +75,7 @@ export const ConnectivityIndicatorConnected: FC<{
       });
     },
     // re-run this effect is wsClient changes
-    [wsClient]
+    [wsClient],
   );
   return (
     <ConnectivityIndicator

@@ -47,7 +47,7 @@ export interface OnSendParams extends EventParam<"send"> {
 }
 
 export type Callback<E extends EventType, P extends EventParam<E>> = (
-  param: P
+  param: P,
 ) => void;
 
 export class EventDispatcher {
@@ -69,7 +69,7 @@ export class EventDispatcher {
   // when EventType was an enum
   on<E extends EventType, P extends EventParam<E>>(
     eventType: E,
-    callback: Callback<E, P>
+    callback: Callback<E, P>,
   ) {
     const current = this.listenersFor(eventType);
     // @ts-ignore // TODO
@@ -83,7 +83,7 @@ export class EventDispatcher {
   }
 
   private listenersFor<E extends EventType, P extends EventParam<E>>(
-    eventType: E
+    eventType: E,
   ): Callback<E, P>[] {
     return this.listeners.get(eventType) || [];
   }

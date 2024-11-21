@@ -66,7 +66,7 @@ export const CardView: FC<CardViewProps> = ({
     selected ? styles.selected : "",
     styles.card,
     styles.front,
-    styles[size]
+    styles[size],
   );
   return (
     <div className={cssClass} onClick={handleClick}>

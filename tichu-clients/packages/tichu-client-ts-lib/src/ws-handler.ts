@@ -50,11 +50,11 @@ export interface TichuWebSocketHandler {
   // isResponse is really "isResponseFromCurrentPlayer" but yikes that's long
   handleJoin: (isResponse: boolean) => EnumValueVisitorCore<JoinResult, void>;
   handleReady: (
-    isResponse: boolean
+    isResponse: boolean,
   ) => EnumValueVisitorCore<PlayerIsReadyResult, void>;
   handlePlayResult: (
     isResponse: boolean,
-    msg: IncomingPlayerPlaysResponse
+    msg: IncomingPlayerPlaysResponse,
   ) => EnumValueVisitorCore<PlayResult, void>;
 
   // ==== Varia

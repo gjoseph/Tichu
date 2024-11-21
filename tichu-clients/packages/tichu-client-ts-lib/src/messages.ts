@@ -21,7 +21,10 @@ export type OutgoingMessage = Message & { txId: string };
 export class ActivityMessage implements IncomingMessage {
   readonly messageType = "activity";
 
-  constructor(readonly actor: UserId, readonly activity: ActivityType) {}
+  constructor(
+    readonly actor: UserId,
+    readonly activity: ActivityType,
+  ) {}
 }
 
 export class IncomingGameMessage implements IncomingMessage {
@@ -32,7 +35,7 @@ export class IncomingGameMessage implements IncomingMessage {
     readonly forAction: ActionType,
     readonly actor: UserId,
     readonly result: IncomingResult, // depends on action, server impls are net.incongru.tichu.action.ActionResponse.Result
-    readonly message: ActionResultMessage
+    readonly message: ActionResultMessage,
   ) {}
 }
 
@@ -44,7 +47,7 @@ export class IncomingPlayerPlaysResponse extends IncomingGameMessage {
     readonly result: IncomingResult,
     readonly message: ActionResultMessage,
     // readonly  play: Play,
-    readonly nextPlayer: UserId
+    readonly nextPlayer: UserId,
   ) {
     super(txId, forAction, actor, result, message);
   }
@@ -66,7 +69,7 @@ export class IncomingGameStatusMessage implements IncomingMessage {
     readonly players: PlayerStatus[],
     readonly currentPlayer: UserId,
     // readonly currentPlay: ,
-    readonly playedCards: CardShortName[]
+    readonly playedCards: CardShortName[],
   ) {}
 }
 
@@ -75,14 +78,17 @@ export class IncomingHandMessage implements IncomingMessage {
 
   constructor(
     readonly txId: string,
-    readonly hand: { cards: CardShortName[] }
+    readonly hand: { cards: CardShortName[] },
   ) {}
 }
 
 export class IncomingChatMessage implements IncomingMessage {
   readonly messageType = "chat";
 
-  constructor(readonly from: UserId, readonly content: string) {}
+  constructor(
+    readonly from: UserId,
+    readonly content: string,
+  ) {}
 }
 
 export class ErrorMessage implements IncomingMessage {
@@ -91,20 +97,26 @@ export class ErrorMessage implements IncomingMessage {
   constructor(
     readonly actor: UserId,
     readonly txId: string,
-    readonly traceId: string
+    readonly traceId: string,
   ) {}
 }
 
 export class OutgoingGameMessage implements OutgoingMessage {
   readonly messageType = "game";
 
-  constructor(readonly action: GameParam, readonly txId: string = nanoid()) {}
+  constructor(
+    readonly action: GameParam,
+    readonly txId: string = nanoid(),
+  ) {}
 }
 
 export class OutgoingChatMessage implements OutgoingMessage {
   readonly messageType = "chat";
 
-  constructor(readonly content: string, readonly txId: string = nanoid()) {}
+  constructor(
+    readonly content: string,
+    readonly txId: string = nanoid(),
+  ) {}
 }
 
 type ActivityType = "coco" | "disconnected";
