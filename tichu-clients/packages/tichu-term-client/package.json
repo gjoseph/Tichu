@@ -33,7 +33,7 @@
     "@liftr/tscov": "2.0.0",
     "@types/node": "22.9.1",
     "@types/ws": "8.5.13",
-    "ava": "4.3.3",
+    "ava": "5.3.1",
     "typedoc": "0.26.11",
     "typescript": "5.6.3"
   },
