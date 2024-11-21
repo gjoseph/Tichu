@@ -87,11 +87,7 @@
     },
     // Node packages
     {
-      matchPackagePatterns: ["^@ava/", "^ava$"],
-      groupName: "Ava packages",
-    },
-    {
-      matchPackagePatterns: ["^@material-ui/", "^@mui/"],
+      matchPackagePatterns: ["^@material-ui", "^@mui"],
       groupName: "Material UI packages",
     },
     // Generated @types rules
