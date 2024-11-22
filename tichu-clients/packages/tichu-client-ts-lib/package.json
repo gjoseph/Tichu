@@ -26,7 +26,7 @@
     "npm": "10.9.1"
   },
   "devDependencies": {
-    "@ava/typescript": "3.0.1",
+    "@ava/typescript": "4.1.0",
     "@liftr/tscov": "2.0.0",
     "@types/node": "22.9.1",
     "@types/ws": "8.5.13",
