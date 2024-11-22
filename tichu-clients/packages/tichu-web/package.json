@@ -82,6 +82,6 @@
     "@storybook/react-webpack5": "8.4.5"
   },
   "overrides": {
-    "react-refresh": "0.11.0"
+    "react-refresh": "0.14.2"
   }
 }
