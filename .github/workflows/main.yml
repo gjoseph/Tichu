@@ -53,6 +53,7 @@ jobs:
       matrix:
         npm-command: [
             "build",
+            "test", # while tichu-client-ts-lib and tichu-term-client use ava and run tests after compiling main code, that's not the case for tichu-web, so running test additionally here
             "prettier-check-all",
             "web-build-storybook", # we want to build storybook to ensure it continues working, while we have no tests for it
           ]
