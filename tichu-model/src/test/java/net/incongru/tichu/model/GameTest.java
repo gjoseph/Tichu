@@ -55,18 +55,18 @@ class GameTest {
     void totalScoreCount() {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
-        game.finishRound(new FakeRound(game, ImmutableScore.of(20, 80)));
-        game.finishRound(new FakeRound(game, ImmutableScore.of(50, 50)));
-        game.finishRound(new FakeRound(game, ImmutableScore.of(30, 70)));
+        game.finishRound(new FakeRound(game, new Score(20, 80)));
+        game.finishRound(new FakeRound(game, new Score(50, 50)));
+        game.finishRound(new FakeRound(game, new Score(30, 70)));
 
-        assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(100, 200));
+        assertThat(game.globalScore()).isEqualTo(new Score(100, 200));
     }
 
     @Test
     void scoreWithNoRoundPlayedShouldSimplyBeZeroZero() {
         final Players players = samplePlayers();
         final Game game = new Game(players, new TichuRules());
-        assertThat(game.globalScore()).isEqualTo(ImmutableScore.of(0, 0));
+        assertThat(game.globalScore()).isEqualTo(new Score(0, 0));
     }
 
     private static class FakeRound extends Round {
