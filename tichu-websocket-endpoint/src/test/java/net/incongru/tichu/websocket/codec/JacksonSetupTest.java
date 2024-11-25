@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import net.incongru.tichu.action.ActionParam;
-import net.incongru.tichu.action.param.ImmutableCheatDealParam;
+import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
@@ -86,7 +86,7 @@ class JacksonSetupTest {
     @Test
     @Disabled("https://github.com/FasterXML/jackson-databind/issues/436")
     void rejectSerOfUnregisteredActionParamType() {
-        final ActionParam cheat = ImmutableCheatDealParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final ActionParam cheat = new CheatDealParam(Set.of(DeckConstants.Star_Ace, DeckConstants.B2));
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(cheat);
 
         assertThatThrownBy(() -> {
