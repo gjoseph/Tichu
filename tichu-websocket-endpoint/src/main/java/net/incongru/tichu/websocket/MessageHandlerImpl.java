@@ -4,7 +4,6 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
-import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.DefaultActionFactory;
 import net.incongru.tichu.action.impl.NewTrickResult;
 import net.incongru.tichu.action.impl.PlayerIsReadyResult;
@@ -95,7 +94,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
         final UserId user = getUser(session);
         final ActionParam actionParam = gameActionMessage.action();
-        final ActionParam.WithActor withActor = ImmutableWithActor.builder().actor(user).param(actionParam).build();
+        final ActionParam.WithActor withActor = new ActionParam.WithActor(user, actionParam);
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
