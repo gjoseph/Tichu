@@ -63,47 +63,47 @@ class JacksonCodecTest {
     }
 
     static Stream<Arguments> canEncodeSubtypesOfOutgoingMessages() {
+        // temporary message
+        // Cards aren't quoted?
+        // This is pbly a temporary shape for play!?
         return Stream.of(
                 arguments(new OutgoingChatMessage(UserId.of("dummy"), "hello", "<random-id>"),
                         "{messageType:'chat', from:'dummy', content: 'hello', txId: '<random-id>'}"),
-                arguments(new GameActionResultMessage(
-                                "<random-id>",
-                                new SimpleResponse<>(
-                                        UserId.of("dummy"),
-                                        Action.ActionType.JOIN,
-                                        JoinTableResult.OK_TABLE_IS_NOW_FULL
-                                )),
-                        "{" +
-                        "  txId: '<random-id>', " +
-                        "  messageType: 'game', " +
-                        "  forAction: 'join', " +
-                        "  actor: 'dummy', " +
-                        "  result: 'ok-table-is-now-full', " +
-                        "  message: 'JOIN was OK_TABLE_IS_NOW_FULL'" + // temporary message
-                        " }"),
                 arguments(new GameActionResultMessage("<random-id>",
-                                new PlayerPlaysResponse(
-                                        UserId.of("dummy-1"),
-                                        new Play.PlayResult(
-                                                new Pair.Factory().is(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)),
-                                                Play.PlayResult.Result.NEXTGOES,
-                                                "woop"
-                                        ),
-                                        UserId.of("dummy-2"),
-                                        new ActionResponse.Message("test")
-                                )),
-                        "{" +
-                        "  txId: '<random-id>', " +
-                        "  messageType: 'game', " +
-                        "  forAction: 'play', " +
-                        "  actor: 'dummy-1', " +
-                        "  nextPlayer: 'dummy-2', " +
-                        "  result: 'next-player-goes', " +
-                        "  message: 'test', " +
-                        // Cards aren't quoted?
-                        // This is pbly a temporary shape for play!?
-                        "  play: { bomb: false, cards: ['KA', 'RA'] }" +
-                        " }")
+                        new SimpleResponse<>(
+                                UserId.of("dummy"),
+                                Action.ActionType.JOIN,
+                                JoinTableResult.OK_TABLE_IS_NOW_FULL
+                        )), """
+                         {
+                         txId: '<random-id>',
+                         messageType: 'game',
+                         forAction: 'join',
+                         actor: 'dummy',
+                         result: 'ok-table-is-now-full',
+                         message: 'JOIN was OK_TABLE_IS_NOW_FULL'
+                        }"""),
+                arguments(new GameActionResultMessage("<random-id>",
+                        new PlayerPlaysResponse(
+                                UserId.of("dummy-1"),
+                                new Play.PlayResult(
+                                        new Pair.Factory().is(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)),
+                                        Play.PlayResult.Result.NEXTGOES,
+                                        "woop"
+                                ),
+                                UserId.of("dummy-2"),
+                                new ActionResponse.Message("test")
+                        )), """
+                        {
+                          txId: '<random-id>',
+                          messageType: 'game',
+                          forAction: 'play',
+                          actor: 'dummy-1',
+                          nextPlayer: 'dummy-2',
+                          result: 'next-player-goes',
+                          message: 'test',
+                          play: { bomb: false, cards: ['KA', 'RA'] }
+                         }""")
         );
     }
 
