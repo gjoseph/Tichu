@@ -71,11 +71,11 @@ public class MessageHandlerImpl implements MessageHandler {
         final String traceId = UUID.randomUUID().toString();
         System.out.println(String.format("Exception [%s]: %s ", traceId, throwable));
         throwable.printStackTrace();
-        final ErrorMessage message = ImmutableErrorMessage.builder()
-                .actor(getUser(session))
-                .traceId(traceId)
-                .clientTxId(clientTxId)
-                .build();
+        final ErrorMessage message = new ErrorMessage(
+                clientTxId,
+                getUser(session),
+                traceId
+        );
         // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
         sessions.broadcast(message);
     }
