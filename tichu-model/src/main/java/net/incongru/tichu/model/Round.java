@@ -48,7 +48,7 @@ public class Round {
             throw new IllegalStateException("Can't announce!?");
         }
         // TODO check if this player already announced
-        announces.add(ImmutableAnnounced.of(player, announce));
+        announces.add(new Announced(player, announce));
     }
 
     public Trick currentTrick() {
