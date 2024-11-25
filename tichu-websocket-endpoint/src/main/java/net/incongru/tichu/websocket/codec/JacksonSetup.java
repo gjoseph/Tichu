@@ -35,9 +35,9 @@ import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Set;
 
-class JacksonSetup {
+public class JacksonSetup {
 
-    static ObjectMapper setupJacksonMapper() {
+    public static ObjectMapper setupJacksonMapper() {
         final SimpleModule m = new SimpleModule();
 
         // Mixins to support custom serialisation of our non-javabean classes
