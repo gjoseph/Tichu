@@ -152,10 +152,10 @@ public class MessageHandlerImpl implements MessageHandler {
             // own hand message for each player
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
-                final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
-                        .clientTxId(actionMessage.clientTxId())
-                        .hand(hand)
-                        .build();
+                final PlayerHandMessage playerHandMessage = new PlayerHandMessage(
+                        actionMessage.clientTxId(),
+                        hand
+                );
                 messageBundle.userMessage(p.id(), playerHandMessage);
             });
         }

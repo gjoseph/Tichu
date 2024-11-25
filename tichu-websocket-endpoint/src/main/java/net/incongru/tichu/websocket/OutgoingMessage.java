@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = ImmutableGameActionResultMessage.class, name = "game"),
         // perhaps this should actually be part of ImmutableGameActionResultMessage
         @JsonSubTypes.Type(value = GameStatusMessage.class, name = "status"),
-        @JsonSubTypes.Type(value = ImmutablePlayerHandMessage.class, name = "hand"),
+        @JsonSubTypes.Type(value = PlayerHandMessage.class, name = "hand"),
         @JsonSubTypes.Type(value = ErrorMessage.class, name = "error"),
         @JsonSubTypes.Type(value = RoomActivityMessage.class, name = "activity")
 })
