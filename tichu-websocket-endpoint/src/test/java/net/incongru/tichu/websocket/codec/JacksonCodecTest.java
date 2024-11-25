@@ -12,7 +12,6 @@ import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.GameActionMessage;
 import net.incongru.tichu.websocket.GameActionResultMessage;
-import net.incongru.tichu.websocket.ImmutableGameActionMessage;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
 import net.incongru.tichu.websocket.OutgoingChatMessage;
@@ -115,7 +114,7 @@ class JacksonCodecTest {
         final String rewritten = codec.encode(parsed);
         assertThatJson(input).isEqualTo(rewritten);
 
-        final ImmutableGameActionMessage initialObj = ImmutableGameActionMessage.builder().clientTxId("<random-incoming-id>").action(sampleGameParam()).build();
+        final GameActionMessage initialObj = new GameActionMessage("<random-incoming-id>", sampleGameParam());
         final String serialised = codec.encode(initialObj);
         final IncomingMessage deserialised = codec.decode(serialised);
         assertEquals(initialObj, deserialised);
