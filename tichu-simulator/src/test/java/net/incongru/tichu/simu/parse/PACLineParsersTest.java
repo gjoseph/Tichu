@@ -1,6 +1,5 @@
 package net.incongru.tichu.simu.parse;
 
-import net.incongru.tichu.model.ImmutableScore;
 import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -135,8 +134,8 @@ class PACLineParsersTest {
 
     static Stream<Arguments> recognisesExpectRoundTeamScores() {
         return Stream.of(
-                arguments("expect round score to be 80:20", ImmutableScore.of(80, 20)),
-                arguments("expect round score 20:80", ImmutableScore.of(20, 80))
+                arguments("expect round score to be 80:20", new Score(80, 20)),
+                arguments("expect round score 20:80", new Score(20, 80))
         );
     }
 
@@ -149,8 +148,8 @@ class PACLineParsersTest {
 
     static Stream<Arguments> recognisesExpectTotalTeamScores() {
         return Stream.of(
-                arguments("expect total score to be 100:200", ImmutableScore.of(100, 200)),
-                arguments("expect total score 450:300", ImmutableScore.of(450, 300))
+                arguments("expect total score to be 100:200", new Score(100, 200)),
+                arguments("expect total score 450:300", new Score(450, 300))
         );
     }
 

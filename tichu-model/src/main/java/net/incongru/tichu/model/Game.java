@@ -94,8 +94,8 @@ public class Game {
     public Score globalScore() {
         return finishedRounds.stream()
                 .map(FinishedRound::getScore)
-                .reduce((score1, score2) -> ImmutableScore.of(score1.getTeam1() + score2.getTeam1(), score1.getTeam2() + score2.getTeam2()))
-                .orElse(ImmutableScore.of(0, 0));
+                .reduce((score1, score2) -> new Score(score1.team1() + score2.team1(), score1.team2() + score2.team2()))
+                .orElse(new Score(0, 0));
     }
 
     static public class FinishedRound {

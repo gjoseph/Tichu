@@ -1,7 +1,6 @@
 package net.incongru.tichu.websocket;
 
 import net.incongru.tichu.model.UserId;
-import org.immutables.value.Value;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,30 +18,24 @@ class AddressedMessages {
     }
 
     public void userMessage(UserId userId, OutgoingMessage message) {
-        messages.add(new ImmutableAddressedMessage(userId, message));
+        messages.add(new AddressedMessage(userId, message));
     }
 
     public void roomMessage(OutgoingMessage message) {
-        messages.add(new ImmutableAddressedMessage(null, message));
+        messages.add(new AddressedMessage(null, message));
     }
 
     public List<AddressedMessage> getMessages() {
         return messages;
     }
 
-    @Value.Immutable
-    @Value.Style(of = "new")
-    interface AddressedMessage {
-        /**
-         * The recipient for a particular message, null if the message should be sent to all users in the room.
-         * TODO: maybe we want stronger typing for "room message", and maybe a single-user message still needs to be scoped to a room (if they play in multiple rooms)
-         */
-        @Value.Parameter
-        @Nullable
-        UserId recipient();
-
-        @Value.Parameter
-        @Nonnull
-        OutgoingMessage message();
+    /**
+     * @param recipient The recipient for a particular message, null if the message should be sent to all users in the room.
+     *                                   TODO: maybe we want stronger typing for "room message", and maybe a single-user message still needs to be scoped to a room (if they play in multiple rooms)
+     */
+    record AddressedMessage(
+            @Nullable UserId recipient,
+            @Nonnull OutgoingMessage message
+    ) {
     }
 }

@@ -20,11 +20,11 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionResponse;
-import net.incongru.tichu.action.param.ImmutableInitialiseGameParam;
-import net.incongru.tichu.action.param.ImmutableJoinTableParam;
-import net.incongru.tichu.action.param.ImmutableNewTrickParam;
-import net.incongru.tichu.action.param.ImmutablePlayerIsReadyParam;
-import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
+import net.incongru.tichu.action.param.InitialiseGameParam;
+import net.incongru.tichu.action.param.JoinTableParam;
+import net.incongru.tichu.action.param.NewTrickParam;
+import net.incongru.tichu.action.param.PlayerIsReadyParam;
+import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Player;
@@ -53,11 +53,11 @@ class JacksonSetup {
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
-        m.registerSubtypes(new NamedType(ImmutableInitialiseGameParam.class, kebab(Action.ActionType.INIT)));
-        m.registerSubtypes(new NamedType(ImmutableJoinTableParam.class, kebab(Action.ActionType.JOIN)));
-        m.registerSubtypes(new NamedType(ImmutableNewTrickParam.class, kebab(Action.ActionType.NEW_TRICK))); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(ImmutablePlayerIsReadyParam.class, kebab(Action.ActionType.READY)));
-        m.registerSubtypes(new NamedType(ImmutablePlayerPlaysParam.class, kebab(Action.ActionType.PLAY)));
+        m.registerSubtypes(new NamedType(InitialiseGameParam.class, kebab(Action.ActionType.INIT)));
+        m.registerSubtypes(new NamedType(JoinTableParam.class, kebab(Action.ActionType.JOIN)));
+        m.registerSubtypes(new NamedType(NewTrickParam.class, kebab(Action.ActionType.NEW_TRICK))); // TODO should not need this one?
+        m.registerSubtypes(new NamedType(PlayerIsReadyParam.class, kebab(Action.ActionType.READY)));
+        m.registerSubtypes(new NamedType(PlayerPlaysParam.class, kebab(Action.ActionType.PLAY)));
 
         // All enums should be serialised in kebab-case
         // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?

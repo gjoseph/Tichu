@@ -1,6 +1,5 @@
 package net.incongru.tichu.simu.parse;
 
-import net.incongru.tichu.model.ImmutableScore;
 import net.incongru.tichu.model.Score;
 import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
@@ -98,6 +97,6 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
         }
         int score1 = Integer.parseInt(matcher.group(1));
         int score2 = Integer.parseInt(matcher.group(2));
-        return ImmutableScore.of(score1, score2);
+        return new Score(score1, score2);
     }
 }

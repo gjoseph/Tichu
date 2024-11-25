@@ -1,19 +1,11 @@
 package net.incongru.tichu.action.param;
 
 import net.incongru.tichu.action.ActionParam;
-import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.model.UserId;
-import org.immutables.value.Value;
 
-@Value.Immutable
-public interface JoinTableParam extends ActionParam {
+public record JoinTableParam(int team) implements ActionParam {
 
-    int team();
-
-    static WithActor<JoinTableParam> withActor(UserId player, int team) {
-        return ImmutableWithActor.<JoinTableParam>builder()
-                .actor(player)
-                .param(ImmutableJoinTableParam.builder().team(team).build())
-                .build();
+    public static WithActor<JoinTableParam> withActor(UserId player, int team) {
+        return new WithActor<>(player, new JoinTableParam(team));
     }
 }

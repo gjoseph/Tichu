@@ -2,32 +2,55 @@ package net.incongru.tichu.simu;
 
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
-import org.immutables.value.Value;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Describes the simulation.
  */
-@Value.Immutable
-public interface Simulation {
-    List<ActionAndCommands> actionAndCommands();
+public record Simulation(
+        List<ActionAndCommands> actionAndCommands
+) {
+    public record ActionAndCommands(
+            ActionParam.WithActor actionParam,
+            List<PostActionCommand> commands
+    ) {
 
-    @Value.Immutable
-    interface ActionAndCommands {
-        ActionParam.WithActor actionParam();
+        public static Builder builder() {
+            return new Builder();
+        }
 
-        List<PostActionCommand> commands();
+        public static class Builder {
+            private ActionParam.WithActor actionParam;
+            private List<PostActionCommand> commands = new ArrayList<>();
+
+            public Builder actionParam(ActionParam.WithActor actionParam) {
+                this.actionParam = actionParam;
+                return this;
+            }
+
+            public Builder addCommand(PostActionCommand command) {
+                this.commands.add(command);
+                return this;
+            }
+
+            public ActionAndCommands buildWithDefaultCommand(PostActionCommand defaultCommand) {
+                if (commands.isEmpty()) {
+                    return new ActionAndCommands(actionParam, Collections.singletonList(defaultCommand));
+                } else {
+                    return new ActionAndCommands(actionParam, commands);
+                }
+            }
+        }
     }
 
-    interface PostActionCommand {
-        /**
-         * @throws PostActionCommandException
-         */
-        void exec(SimulatedGameContext ctx, ActionResponse response);
+    public interface PostActionCommand {
+        void exec(SimulatedGameContext ctx, ActionResponse response) throws PostActionCommandException;
     }
 
-    class PostActionCommandException extends RuntimeException {
+    public static class PostActionCommandException extends RuntimeException {
         public PostActionCommandException(String format, Object... args) {
             super(String.format(format, args));
         }

@@ -4,7 +4,6 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
-import net.incongru.tichu.action.ImmutableWithActor;
 import net.incongru.tichu.action.impl.DefaultActionFactory;
 import net.incongru.tichu.action.impl.NewTrickResult;
 import net.incongru.tichu.action.impl.PlayerIsReadyResult;
@@ -20,6 +19,7 @@ import net.incongru.tichu.room.RoomProvider;
 
 import jakarta.websocket.Session;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,21 +45,19 @@ public class MessageHandlerImpl implements MessageHandler {
 
         roomProvider.getRoom(roomId).enter(user);
 
-        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
-                .actor(getUser(session))
-                .activity(RoomActivityMessage.RoomActivity.CONNECTED)
-                .build();
+        final OutgoingMessage msg = new RoomActivityMessage(
+                getUser(session),
+                RoomActivityMessage.RoomActivity.CONNECTED);
 
-//        sessions.broadcast(roomId, message);
+        // sessions.broadcast(roomId, message);
         sessions.broadcast(msg);
     }
 
     @Override
     public void closeSession(Session session, String roomId) {
-        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
-                .actor(getUser(session))
-                .activity(RoomActivityMessage.RoomActivity.DISCONNECTED)
-                .build();
+        final OutgoingMessage msg = new RoomActivityMessage(
+                getUser(session),
+                RoomActivityMessage.RoomActivity.DISCONNECTED);
         // roomProvider.getRoom(roomId).leave(user);
         sessions.remove(session);
         sessions.broadcast(msg);
@@ -71,22 +69,21 @@ public class MessageHandlerImpl implements MessageHandler {
         final String traceId = UUID.randomUUID().toString();
         System.out.println(String.format("Exception [%s]: %s ", traceId, throwable));
         throwable.printStackTrace();
-        final ErrorMessage message = ImmutableErrorMessage.builder()
-                .actor(getUser(session))
-                .traceId(traceId)
-                .clientTxId(clientTxId)
-                .build();
+        final ErrorMessage message = new ErrorMessage(
+                clientTxId,
+                getUser(session),
+                traceId
+        );
         // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
         sessions.broadcast(message);
     }
 
     @Override
     public void handle(Session session, String roomId, IncomingChatMessage incomingMessage) {
-        final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
-                .from(getUser(session))
-                .content(incomingMessage.content())
-                .clientTxId(incomingMessage.clientTxId())
-                .build();
+        final OutgoingChatMessage message = new OutgoingChatMessage(
+                getUser(session),
+                incomingMessage.content(),
+                incomingMessage.clientTxId());
         sessions.broadcast(message);
     }
 
@@ -97,7 +94,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
         final UserId user = getUser(session);
         final ActionParam actionParam = gameActionMessage.action();
-        final ActionParam.WithActor withActor = ImmutableWithActor.builder().actor(user).param(actionParam).build();
+        final ActionParam.WithActor withActor = new ActionParam.WithActor(user, actionParam);
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
@@ -114,10 +111,9 @@ public class MessageHandlerImpl implements MessageHandler {
         final AddressedMessages messageBundle = new AddressedMessages();
         // Actual result should probably be only sent to actor
         // Other table members just receive a log/view of it?
-        messageBundle.roomMessage(ImmutableGameActionResultMessage.builder()
-                .clientTxId(actionMessage.clientTxId())
-                .result(actionResponse)
-                .build());
+        messageBundle.roomMessage(new GameActionResultMessage(
+                actionMessage.clientTxId(),
+                actionResponse));
 
         if (actionResponse.result() == PlayerIsReadyResult.OK_STARTED
             || actionResponse.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
@@ -130,31 +126,33 @@ public class MessageHandlerImpl implements MessageHandler {
             final Collection<GameStatusMessage.PlayerStatus> playerStatuses = players.stream()
                     .map(p -> {
                         final GameStatusMessage.PlayerState playerState = p.isReady() ? GameStatusMessage.PlayerState.READY : GameStatusMessage.PlayerState.NOT_READY;
-                        return ImmutablePlayerStatus.builder()
-                                .id(p.id())
-                                .status(playerState)
-                                .team(-1) // TODO
-                                .cardsInHand(p.hand().size())
-                                .cardsCollected(p.wonCards().size())
-                                .build();
+                        return new GameStatusMessage.PlayerStatus(
+                                p.id(),
+                                playerState,
+                                -1, // team TODO
+                                p.hand().size(),
+                                p.wonCards().size()
+                        );
                     })
                     .collect(Collectors.toList());
-            messageBundle.roomMessage(ImmutableGameStatusMessage.builder()
-                    .players(playerStatuses)
-                    .currentPlayer(trick.currentPlayer().id())
+            GameStatusMessage message = new GameStatusMessage(
+                    playerStatuses,
+                    trick.currentPlayer().id(),
                     // TODO enum?
-                    .play(trick.previousNonPass().play().name())
+                    trick.previousNonPass().play().name(),
                     // TODO
-                    .build());
+                    Collections.emptyList()
+            );
+            messageBundle.roomMessage(message);
 
             // TODO does this need to be a separate message, or merge it with game state?
             // own hand message for each player
             players.stream().forEach(p -> {
                 final Player.Hand hand = p.hand();
-                final PlayerHandMessage playerHandMessage = ImmutablePlayerHandMessage.builder()
-                        .clientTxId(actionMessage.clientTxId())
-                        .hand(hand)
-                        .build();
+                final PlayerHandMessage playerHandMessage = new PlayerHandMessage(
+                        actionMessage.clientTxId(),
+                        hand
+                );
                 messageBundle.userMessage(p.id(), playerHandMessage);
             });
         }

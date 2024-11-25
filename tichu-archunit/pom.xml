@@ -72,11 +72,6 @@
             <artifactId>archunit-junit5</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- only because we've enabled the annotation processor for immutables in parent pom -->
-        <dependency>
-            <groupId>org.immutables</groupId>
-            <artifactId>value</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
