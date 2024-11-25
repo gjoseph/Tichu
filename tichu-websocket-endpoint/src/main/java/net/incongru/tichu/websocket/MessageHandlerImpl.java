@@ -20,6 +20,7 @@ import net.incongru.tichu.room.RoomProvider;
 
 import jakarta.websocket.Session;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -128,22 +129,24 @@ public class MessageHandlerImpl implements MessageHandler {
             final Collection<GameStatusMessage.PlayerStatus> playerStatuses = players.stream()
                     .map(p -> {
                         final GameStatusMessage.PlayerState playerState = p.isReady() ? GameStatusMessage.PlayerState.READY : GameStatusMessage.PlayerState.NOT_READY;
-                        return ImmutablePlayerStatus.builder()
-                                .id(p.id())
-                                .status(playerState)
-                                .team(-1) // TODO
-                                .cardsInHand(p.hand().size())
-                                .cardsCollected(p.wonCards().size())
-                                .build();
+                        return new GameStatusMessage.PlayerStatus(
+                                p.id(),
+                                playerState,
+                                -1, // team TODO
+                                p.hand().size(),
+                                p.wonCards().size()
+                        );
                     })
                     .collect(Collectors.toList());
-            messageBundle.roomMessage(ImmutableGameStatusMessage.builder()
-                    .players(playerStatuses)
-                    .currentPlayer(trick.currentPlayer().id())
+            GameStatusMessage message = new GameStatusMessage(
+                    playerStatuses,
+                    trick.currentPlayer().id(),
                     // TODO enum?
-                    .play(trick.previousNonPass().play().name())
+                    trick.previousNonPass().play().name(),
                     // TODO
-                    .build());
+                    Collections.emptyList()
+            );
+            messageBundle.roomMessage(message);
 
             // TODO does this need to be a separate message, or merge it with game state?
             // own hand message for each player
