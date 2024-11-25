@@ -1,19 +1,16 @@
 {
-  extends: ["config:base"],
+  extends: ["config:recommended"],
   dependencyDashboard: true,
   separateMinorPatch: true,
   separateMultipleMajor: true,
   automerge: false,
   automergeType: "pr",
-  automergeStrategy: "merge-commit", // This is not actually supported by Renovate on GitHub, so we need to disallow other merge types in the repo config
-  platformAutomerge: true, // Let GitHub do the actual merging
+  automergeStrategy: "merge-commit",
+  platformAutomerge: true,
   rebaseWhen: "behind-base-branch",
-  // Wait 2 days after a release to create PR/branches
-  stabilityDays: 2,
+  minimumReleaseAge: "2 days",
   prCreation: "not-pending",
-  // default is documented to be 0, but empirically it seems to be ~30 ?
   prConcurrentLimit: 0,
-  // default is documented to be 0, but empirically it seems to be 2 ?
   prHourlyLimit: 0,
   labels: [
     "renovate-{{updateType}}",
@@ -23,13 +20,13 @@
   packageRules: [
     // Auto-merge patch updates
     {
-      updateTypes: ["patch"],
+      matchUpdateTypes: ["patch"],
       automerge: true,
     },
-    // Don't try to update/lookup self:
     {
-      matchPackagePatterns: ["^net.incongru.tichu"],
+      // Don't try to update/lookup self:
       enabled: false,
+      matchPackageNames: ["/^net.incongru.tichu/"],
     },
     // Group Maven and Maven-Wrapper upgrades
     {
@@ -38,46 +35,44 @@
     },
     // Java packages rules:
     {
-      matchPackagePatterns: ["^com.google.guava"],
-      // this will help Renovate correctly pickup the -jre variant instead of -android,
-      // while leaving the door open for Guava to remove or change their -jre suffix in the future
       allowedVersions: "!/-android$/",
+      matchPackageNames: ["/^com.google.guava/"],
     },
     {
-      matchPackagePatterns: ["^com.tngtech.archunit"],
       groupName: "ArchUnit packages",
+      matchPackageNames: ["/^com.tngtech.archunit/"],
     },
     {
-      matchPackagePatterns: ["^jakarta.websocket"],
       groupName: "Jakarta Websocket packages",
+      matchPackageNames: ["/^jakarta.websocket/"],
     },
     {
-      matchPackagePatterns: ["^net.javacrumbs.json-unit"],
       groupName: "JsonUnit packages",
+      matchPackageNames: ["/^net.javacrumbs.json-unit/"],
     },
     {
-      matchPackagePatterns: ["^org.apache.tomcat.embed"],
       groupName: "Tomcat packages",
+      matchPackageNames: ["/^org.apache.tomcat.embed/"],
     },
     {
-      matchPackagePatterns: ["^org.assertj"],
       groupName: "AssertJ packages",
+      matchPackageNames: ["/^org.assertj/"],
     },
     {
-      matchPackagePatterns: ["^org.junit"],
       groupName: "JUnit packages",
+      matchPackageNames: ["/^org.junit/"],
     },
     {
-      matchPackagePatterns: ["^org.apache.maven.plugins"],
       groupName: "Maven plugins",
+      matchPackageNames: ["/^org.apache.maven.plugins/"],
     },
     {
-      matchPackagePatterns: ["^org.mockito"],
       groupName: "Mockito packages",
+      matchPackageNames: ["/^org.mockito/"],
     },
     {
-      matchPackagePatterns: ["^org.slf4j"],
       groupName: "SLF4J packages",
+      matchPackageNames: ["/^org.slf4j/"],
     },
     // Node & npm - both in package.json and .tool-versions
     {
@@ -87,38 +82,38 @@
     },
     // Node packages
     {
-      matchPackagePatterns: ["^@material-ui/", "^@mui/"],
       groupName: "Material UI packages",
+      matchPackageNames: ["/^@material-ui//", "/^@mui//"],
     },
     // Generated @types rules
     {
-      matchPackageNames: ["@types/fs-extra", "fs-extra"],
       groupName: "fs-extra",
+      matchPackageNames: ["@types/fs-extra", "fs-extra"]
     },
     {
-      matchPackageNames: ["@types/node", "node"],
       groupName: "node",
+      matchPackageNames: ["@types/node", "node"]
     },
     {
-      matchPackageNames: ["@types/ws", "ws"],
       groupName: "ws",
+      matchPackageNames: ["@types/ws", "ws"]
     },
     {
-      matchPackageNames: ["@types/inquirer", "inquirer"],
       groupName: "inquirer",
+      matchPackageNames: ["@types/inquirer", "inquirer"]
     },
     {
-      matchPackageNames: ["@types/jest", "jest"],
       groupName: "jest",
+      matchPackageNames: ["@types/jest", "jest"]
     },
     {
+      groupName: "react",
       matchPackageNames: [
         "@types/react",
         "@types/react-dom",
         "react",
         "react-dom",
       ],
-      groupName: "react",
     },
   ],
 }
