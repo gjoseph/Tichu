@@ -45,21 +45,19 @@ public class MessageHandlerImpl implements MessageHandler {
 
         roomProvider.getRoom(roomId).enter(user);
 
-        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
-                .actor(getUser(session))
-                .activity(RoomActivityMessage.RoomActivity.CONNECTED)
-                .build();
+        final OutgoingMessage msg = new RoomActivityMessage(
+                getUser(session),
+                RoomActivityMessage.RoomActivity.CONNECTED);
 
-//        sessions.broadcast(roomId, message);
+        // sessions.broadcast(roomId, message);
         sessions.broadcast(msg);
     }
 
     @Override
     public void closeSession(Session session, String roomId) {
-        final OutgoingMessage msg = ImmutableRoomActivityMessage.builder()
-                .actor(getUser(session))
-                .activity(RoomActivityMessage.RoomActivity.DISCONNECTED)
-                .build();
+        final OutgoingMessage msg = new RoomActivityMessage(
+                getUser(session),
+                RoomActivityMessage.RoomActivity.DISCONNECTED);
         // roomProvider.getRoom(roomId).leave(user);
         sessions.remove(session);
         sessions.broadcast(msg);
