@@ -12,8 +12,8 @@ import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.GameActionMessage;
+import net.incongru.tichu.websocket.GameActionResultMessage;
 import net.incongru.tichu.websocket.ImmutableGameActionMessage;
-import net.incongru.tichu.websocket.ImmutableGameActionResultMessage;
 import net.incongru.tichu.websocket.ImmutableOutgoingChatMessage;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
@@ -66,14 +66,13 @@ class JacksonCodecTest {
         return Stream.of(
                 arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").clientTxId("<random-id>").build(),
                         "{messageType:'chat', from:'dummy', content: 'hello', txId: '<random-id>'}"),
-                arguments(ImmutableGameActionResultMessage.builder()
-                                .clientTxId("<random-id>")
-                                .result(new SimpleResponse<>(
+                arguments(new GameActionResultMessage(
+                                "<random-id>",
+                                new SimpleResponse<>(
                                         UserId.of("dummy"),
                                         Action.ActionType.JOIN,
                                         JoinTableResult.OK_TABLE_IS_NOW_FULL
-                                ))
-                                .build(),
+                                )),
                         "{" +
                         "  txId: '<random-id>', " +
                         "  messageType: 'game', " +
@@ -82,9 +81,8 @@ class JacksonCodecTest {
                         "  result: 'ok-table-is-now-full', " +
                         "  message: 'JOIN was OK_TABLE_IS_NOW_FULL'" + // temporary message
                         " }"),
-                arguments(ImmutableGameActionResultMessage.builder()
-                                .clientTxId("<random-id>")
-                                .result(new PlayerPlaysResponse(
+                arguments(new GameActionResultMessage("<random-id>",
+                                new PlayerPlaysResponse(
                                         UserId.of("dummy-1"),
                                         new Play.PlayResult(
                                                 new Pair.Factory().is(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)),
@@ -93,7 +91,7 @@ class JacksonCodecTest {
                                         ),
                                         UserId.of("dummy-2"),
                                         new ActionResponse.Message("test")
-                                )).build(),
+                                )),
                         "{" +
                         "  txId: '<random-id>', " +
                         "  messageType: 'game', " +

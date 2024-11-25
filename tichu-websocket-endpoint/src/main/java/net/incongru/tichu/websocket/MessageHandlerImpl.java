@@ -113,10 +113,9 @@ public class MessageHandlerImpl implements MessageHandler {
         final AddressedMessages messageBundle = new AddressedMessages();
         // Actual result should probably be only sent to actor
         // Other table members just receive a log/view of it?
-        messageBundle.roomMessage(ImmutableGameActionResultMessage.builder()
-                .clientTxId(actionMessage.clientTxId())
-                .result(actionResponse)
-                .build());
+        messageBundle.roomMessage(new GameActionResultMessage(
+                actionMessage.clientTxId(),
+                actionResponse));
 
         if (actionResponse.result() == PlayerIsReadyResult.OK_STARTED
             || actionResponse.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
