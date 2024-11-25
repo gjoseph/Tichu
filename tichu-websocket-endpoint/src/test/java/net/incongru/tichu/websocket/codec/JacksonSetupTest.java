@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.param.CheatDealParam;
-import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.UserId;
@@ -76,7 +75,7 @@ class JacksonSetupTest {
 
     @Test
     void canSerValidActionParam() throws JsonProcessingException {
-        final PlayerPlaysParam play = ImmutablePlayerPlaysParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.B2)).build();
+        final PlayerPlaysParam play = new PlayerPlaysParam(Set.of(DeckConstants.Star_Ace, DeckConstants.B2));
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(play);
         assertThatJson(objectMapper.writeValueAsString(actionParamWrapper))
                 .when(Option.IGNORING_ARRAY_ORDER)

@@ -5,7 +5,6 @@ import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.impl.JoinTableResult;
 import net.incongru.tichu.action.impl.PlayerPlaysResponse;
 import net.incongru.tichu.action.impl.SimpleResponse;
-import net.incongru.tichu.action.param.ImmutablePlayerPlaysParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.UserId;
@@ -123,6 +122,6 @@ class JacksonCodecTest {
     }
 
     private static PlayerPlaysParam sampleGameParam() {
-        return ImmutablePlayerPlaysParam.builder().cards(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace)).build();
+        return new PlayerPlaysParam(Set.of(DeckConstants.Star_Ace, DeckConstants.Sword_Ace));
     }
 }
