@@ -81,11 +81,10 @@ public class MessageHandlerImpl implements MessageHandler {
 
     @Override
     public void handle(Session session, String roomId, IncomingChatMessage incomingMessage) {
-        final OutgoingChatMessage message = ImmutableOutgoingChatMessage.builder()
-                .from(getUser(session))
-                .content(incomingMessage.content())
-                .clientTxId(incomingMessage.clientTxId())
-                .build();
+        final OutgoingChatMessage message = new OutgoingChatMessage(
+                getUser(session),
+                incomingMessage.content(),
+                incomingMessage.clientTxId());
         sessions.broadcast(message);
     }
 

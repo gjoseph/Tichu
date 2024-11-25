@@ -10,9 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "messageType"
 )
 @JsonSubTypes({
-        // We specify the type here using the Immutable* impls so serialising uses the correct name
-        // but we still need to also specify @JsonDeserialize(as) on the abstract types for deserialisation
-        @JsonSubTypes.Type(value = ImmutableOutgoingChatMessage.class, name = "chat"),
+        @JsonSubTypes.Type(value = OutgoingChatMessage.class, name = "chat"),
         @JsonSubTypes.Type(value = GameActionResultMessage.class, name = "game"),
         // perhaps this should actually be part of GameActionResultMessage
         @JsonSubTypes.Type(value = GameStatusMessage.class, name = "status"),

@@ -14,9 +14,9 @@ import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.websocket.GameActionMessage;
 import net.incongru.tichu.websocket.GameActionResultMessage;
 import net.incongru.tichu.websocket.ImmutableGameActionMessage;
-import net.incongru.tichu.websocket.ImmutableOutgoingChatMessage;
 import net.incongru.tichu.websocket.IncomingChatMessage;
 import net.incongru.tichu.websocket.IncomingMessage;
+import net.incongru.tichu.websocket.OutgoingChatMessage;
 import net.incongru.tichu.websocket.OutgoingMessage;
 import net.incongru.tichu.websocket.RoomEndpoint;
 import net.javacrumbs.jsonunit.core.Option;
@@ -64,7 +64,7 @@ class JacksonCodecTest {
 
     static Stream<Arguments> canEncodeSubtypesOfOutgoingMessages() {
         return Stream.of(
-                arguments(ImmutableOutgoingChatMessage.builder().from(UserId.of("dummy")).content("hello").clientTxId("<random-id>").build(),
+                arguments(new OutgoingChatMessage(UserId.of("dummy"), "hello", "<random-id>"),
                         "{messageType:'chat', from:'dummy', content: 'hello', txId: '<random-id>'}"),
                 arguments(new GameActionResultMessage(
                                 "<random-id>",
