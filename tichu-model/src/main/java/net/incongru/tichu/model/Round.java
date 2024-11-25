@@ -76,9 +76,7 @@ public class Round {
         if (!isDone()) {
             throw new IllegalStateException("Can't count announces made before the round is done");
         }
-        return announces.stream().map(announced -> {
-            return ImmutableAnnounceResult.of(announced.player(), announced.announce(), true /*TODO everybody wins*/);
-        }).collect(Collectors.toList());
+        return announces.stream().map(announced -> new AnnounceResult(announced.player(), announced.announce(), true /*TODO everybody wins*/)).collect(Collectors.toList());
     }
 
     protected void shuffleAndDeal() {
