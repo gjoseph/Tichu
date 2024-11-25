@@ -195,6 +195,9 @@
                         <release>21</release>
                         <source>21</source>
                         <target>21</target>
+                        <annotationProcessors>
+                            <processor>org.immutables.processor.ProxyProcessor</processor>
+                        </annotationProcessors>
                     </configuration>
                 </plugin>
                 <plugin>
