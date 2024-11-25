@@ -28,7 +28,7 @@ public class Trick {
         this.playersCycle = playersCycle;
         this.currentPlayer = playersCycle.next(); // we could probably get rid of `currentPlayer` and just use playersCycle.peek() ?
         this.plays = new LinkedList<>();
-        plays.add(ImmutablePlayed.of(null, Initial.INSTANCE));
+        plays.add(new Played(null, Initial.INSTANCE));
     }
 
     // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
@@ -64,7 +64,7 @@ public class Trick {
             return new Play.PlayResult(play, Play.PlayResult.Result.TOOWEAK, "can't play this after " + prevPlay.toString());
         }
 
-        plays.add(ImmutablePlayed.of(currentPlayer, play));
+        plays.add(new Played(currentPlayer, play));
         player.discard(cards);
         if (isDone()) {
             currentPlayer = null;
