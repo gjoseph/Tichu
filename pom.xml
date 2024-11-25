@@ -242,6 +242,12 @@
                             <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
                             <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
                         </annotationProcessors>
+                        <compilerArguments>
+                            <Xmaxerrs>10000</Xmaxerrs>
+                            <Xmaxwarns>10000</Xmaxwarns>
+                        </compilerArguments>
+                        <showWarnings>true</showWarnings>
+                        <verbose>true</verbose>
                     </configuration>
                 </plugin>
                 <plugin>
