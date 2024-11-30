@@ -3,7 +3,6 @@ package net.incongru.tichu.action.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Collection;
 import java.util.Collections;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;

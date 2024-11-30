@@ -1,51 +1,29 @@
 package net.incongru.tichu.model;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
-import static java.util.Comparator.nullsFirst;
-
+import com.google.common.base.Preconditions;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.nullsFirst;
+
 /**
  *
  */
-public class Card {
-
-    private final CardValue val;
-    private final CardSuit suit;
-
-    public Card(CardValue val, CardSuit suit) {
+public record Card(CardValue val, CardSuit suit) {
+    public Card {
         Objects.requireNonNull(val, "Card value can't be null");
         if (val.isSpecial()) {
-            throw new IllegalArgumentException(
+            Preconditions.checkState(
+                suit == null,
                 "Special cards don't have a suit"
             );
+        } else {
+            Objects.requireNonNull(suit, "Suit can't be null for " + val);
         }
-        Objects.requireNonNull(suit, "Suit can't be null");
-        this.val = val;
-        this.suit = suit;
-    }
-
-    public Card(CardValue val) {
-        Objects.requireNonNull(val, "Card value can't be null");
-        if (!val.isSpecial()) {
-            throw new IllegalArgumentException(
-                "Numbered/Figure cards require a suit"
-            );
-        }
-        this.val = val;
-        this.suit = null;
-    }
-
-    public CardValue getVal() {
-        return val;
-    }
-
-    public CardSuit getSuit() {
-        return suit;
     }
 
     public String name() {
@@ -57,28 +35,6 @@ public class Card {
             String.valueOf(val.isSpecial() ? '*' : suit.shortName()) +
             val.shortName()
         );
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Card card = (Card) o;
-        return Objects.equals(val, card.val) && Objects.equals(suit, card.suit);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(val, suit);
-    }
-
-    @Override
-    public String toString() {
-        return shortName();
     }
 
     public enum CardSuit {
@@ -228,11 +184,11 @@ public class Card {
     public static class Predicates {
 
         static Predicate<Card> is(CardSpecials value) {
-            return c -> c.getVal() == value;
+            return c -> c.val == value;
         }
 
         static Predicate<Card> is(CardNumbers value, CardSuit suit) {
-            return c -> c.getVal() == value && c.getSuit() == suit;
+            return c -> c.val == value && c.suit == suit;
         }
     }
 
@@ -245,11 +201,11 @@ public class Card {
             CardValue::playOrder
         ).thenComparing(CardValue::shortName);
         private static final Comparator<Card> PLAY_ORDER = comparing(
-            Card::getVal,
+            Card::val,
             V_PLAY_ORDER
         );
         private static final Comparator<Card> SUIT = comparing(
-            Card::getSuit,
+            Card::suit,
             nullsFirst(comparing(CardSuit::shortName))
         );
 

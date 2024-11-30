@@ -47,7 +47,7 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
 
             final Collection<Card.CardValue> values = Collections2.transform(
                 cards,
-                Card::getVal
+                Card::val
             );
             final Stream<Card.CardValue> distinct = values.stream().distinct();
             if (distinct.count() != 1) {

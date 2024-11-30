@@ -33,7 +33,7 @@ class CardTest {
             "7 of Pagoda",
             new Card(Card.CardNumbers.Seven, Card.CardSuit.Pagoda).name()
         );
-        assertEquals("Dragon", new Card(Card.CardSpecials.Dragon).name());
+        assertEquals("Dragon", new Card(Card.CardSpecials.Dragon, null).name());
     }
 
     @Test

@@ -67,24 +67,24 @@ public class DeckConstantsCodeGen {
         for (Card card : cards) {
             final String constName;
             final String constVal;
-            if (card.getVal().isSpecial()) {
-                constName = card.getVal().niceName();
+            if (card.val().isSpecial()) {
+                constName = card.val().niceName();
                 out.println(
-                    "            %s = new Card(Card.CardSpecials.%s),".formatted(
+                    "            %s = new Card(Card.CardSpecials.%s, null),".formatted(
                             constName,
-                            card.getVal()
+                            card.val()
                         )
                 );
             } else {
                 constName = "%s_%s".formatted(
-                        card.getSuit(),
-                        card.getVal().niceName()
+                        card.suit(),
+                        card.val().niceName()
                     );
                 out.println(
                     "            %s = new Card(Card.CardNumbers.%s, Card.CardSuit.%s),".formatted(
                             constName,
-                            card.getVal(),
-                            card.getSuit()
+                            card.val(),
+                            card.suit()
                         )
                 );
             }
@@ -94,7 +94,7 @@ public class DeckConstantsCodeGen {
             );
 
             // "10" cards have a 2-char shortnames like others, but we also want a nice constant
-            if (card.getVal().shortName() == '0') {
+            if (card.val().shortName() == '0') {
                 final String short10 = card.shortName().replace("0", "10");
                 out.println(
                     "            %s = %s,".formatted(short10, constName)
@@ -120,7 +120,7 @@ public class DeckConstantsCodeGen {
         );
         out.println("export const AllCards: Array<Card> = [");
         cards.forEach(card -> {
-            final boolean special = card.getVal().isSpecial();
+            final boolean special = card.val().isSpecial();
             out.print(
                 """
                 {
@@ -130,7 +130,7 @@ public class DeckConstantsCodeGen {
                 """.indent(2).formatted(
                         card.name(),
                         card.shortName(),
-                        card.getVal().scoreValue()
+                        card.val().scoreValue()
                     )
             );
             if (special) {
@@ -143,8 +143,8 @@ public class DeckConstantsCodeGen {
                     suit: CardSuit.%s,
                     number: %d,
                     """.indent(4).formatted(
-                            card.getSuit().name(),
-                            card.getVal().playOrder()
+                            card.suit().name(),
+                            card.val().playOrder()
                         )
                 );
             }
