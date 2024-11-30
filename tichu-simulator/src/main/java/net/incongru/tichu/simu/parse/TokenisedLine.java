@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 
 public class TokenisedLine {

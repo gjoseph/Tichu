@@ -4,8 +4,9 @@ import com.google.common.collect.Collections2;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardValue;
 
 /**
  * Abstract implementation of {@link Play} with N cards of the same value.\
@@ -16,9 +17,9 @@ import net.incongru.tichu.model.Play;
  */
 public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
 
-    protected final Card.CardValue value;
+    protected final CardValue value;
 
-    protected NSameValue(Set<Card> cards, Card.CardValue value) {
+    protected NSameValue(Set<Card> cards, CardValue value) {
         super(cards);
         this.value = value;
     }
@@ -45,21 +46,21 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
                 return null;
             }
 
-            final Collection<Card.CardValue> values = Collections2.transform(
+            final Collection<CardValue> values = Collections2.transform(
                 cards,
                 Card::val
             );
-            final Stream<Card.CardValue> distinct = values.stream().distinct();
+            final Stream<CardValue> distinct = values.stream().distinct();
             if (distinct.count() != 1) {
                 return null;
             }
 
-            final Card.CardValue value = values.stream().findFirst().get();
+            final CardValue value = values.stream().findFirst().get();
             return newPlay(cards, value);
         }
 
         protected abstract int expectedSize();
 
-        protected abstract P newPlay(Set<Card> cards, Card.CardValue value);
+        protected abstract P newPlay(Set<Card> cards, CardValue value);
     }
 }

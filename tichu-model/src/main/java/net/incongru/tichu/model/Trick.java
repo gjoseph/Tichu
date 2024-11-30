@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.function.Predicate;
+import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.Pass;
 import net.incongru.tichu.model.util.DeckConstants;

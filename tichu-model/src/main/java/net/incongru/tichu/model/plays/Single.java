@@ -1,13 +1,14 @@
 package net.incongru.tichu.model.plays;
 
-import static net.incongru.tichu.model.Card.CardSpecials.Dog;
-import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
-import static net.incongru.tichu.model.Card.CardSpecials.MahJong;
-import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
+import static net.incongru.tichu.model.card.CardSpecials.Dog;
+import static net.incongru.tichu.model.card.CardSpecials.Dragon;
+import static net.incongru.tichu.model.card.CardSpecials.MahJong;
+import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
 
 import com.google.common.base.Preconditions;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardValue;
 
 /**
  *
@@ -40,7 +41,7 @@ public class Single extends AbstractPlay<Single> {
             return false;
         }
 
-        final Card.CardValue otherCard = other.getCard().val();
+        final CardValue otherCard = other.getCard().val();
         if (card.val() == Phoenix && otherCard != Dragon) {
             return true;
         } else {

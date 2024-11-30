@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
+import net.incongru.tichu.model.card.Card;
 
 /**
  *
