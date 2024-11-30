@@ -36,15 +36,15 @@ public class Single extends AbstractPlay<Single> {
 
     @Override
     protected boolean canBePlayedAfterTypeSafe(Single other) {
-        if (card.getVal() == Dog || card.getVal() == MahJong) {
+        if (card.val() == Dog || card.val() == MahJong) {
             return false;
         }
 
-        final Card.CardValue otherCard = other.getCard().getVal();
-        if (card.getVal() == Phoenix && otherCard != Dragon) {
+        final Card.CardValue otherCard = other.getCard().val();
+        if (card.val() == Phoenix && otherCard != Dragon) {
             return true;
         } else {
-            return card.getVal().playOrder() > otherCard.playOrder();
+            return card.val().playOrder() > otherCard.playOrder();
         }
     }
 

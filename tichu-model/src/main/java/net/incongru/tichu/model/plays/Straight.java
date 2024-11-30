@@ -47,9 +47,7 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     private Collection<Card.CardValue> getCardValuesWithPhoenix() {
-        final Collection<Card.CardValue> values = Lists.newArrayList(
-            Collections2.transform(getCards(), Card::getVal)
-        );
+        final Collection<Card.CardValue> values = Lists.newArrayList(Collections2.transform(getCards(), card -> card.val()));
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
             values.add(phoenixSubstitute);
@@ -99,9 +97,7 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<Card.CardValue> values = Lists.newArrayList(
-                Collections2.transform(cards, Card::getVal)
-            );
+            final List<Card.CardValue> values = Lists.newArrayList(Collections2.transform(cards, Card::val));
             values.sort(Card.Comparators.V_BY_PLAY_ORDER);
 
             // Those are illegal in a street
@@ -149,13 +145,9 @@ public class Straight extends AbstractPlay<Straight> {
                 }
             }
 
-            final Card.CardSuit cardSuitTest = cards
-                .iterator()
-                .next()
-                .getSuit();
-            final boolean isBomb = cards
-                .stream()
-                .allMatch(card -> card.getSuit() == cardSuitTest);
+            Card card1 = cards.iterator().next();
+            final Card.CardSuit cardSuitTest = card1.suit();
+            final boolean isBomb = cards.stream().allMatch(card -> card.suit() == cardSuitTest);
 
             return new Straight(cards, sub, isBomb);
         }

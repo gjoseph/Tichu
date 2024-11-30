@@ -12,10 +12,7 @@ import java.util.function.Predicate;
 class Functions {
 
     static int score(Collection<Card> cards) {
-        return cards
-            .stream()
-            .mapToInt(card -> card.getVal().scoreValue())
-            .sum();
+        return cards.stream().mapToInt(card -> card.val().scoreValue()).sum();
     }
 
     /**

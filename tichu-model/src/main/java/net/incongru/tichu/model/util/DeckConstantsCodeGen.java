@@ -67,26 +67,12 @@ public class DeckConstantsCodeGen {
         for (Card card : cards) {
             final String constName;
             final String constVal;
-            if (card.getVal().isSpecial()) {
-                constName = card.getVal().niceName();
-                out.println(
-                    "            %s = new Card(Card.CardSpecials.%s),".formatted(
-                            constName,
-                            card.getVal()
-                        )
-                );
+            if (card.val().isSpecial()) {
+                constName = card.val().niceName();
+                constVal = " = new Card(Card.CardSpecials." + card.val() + ");";
             } else {
-                constName = "%s_%s".formatted(
-                        card.getSuit(),
-                        card.getVal().niceName()
-                    );
-                out.println(
-                    "            %s = new Card(Card.CardNumbers.%s, Card.CardSuit.%s),".formatted(
-                            constName,
-                            card.getVal(),
-                            card.getSuit()
-                        )
-                );
+                constName = card.suit() + "_" + card.val().niceName();
+                constVal = " = new Card(Card.CardNumbers." + card.val() + ", Card.CardSuit." + card.suit() + ");";
             }
             final String shortAlias = card.shortName().replace('*', '_');
             out.println(
@@ -94,11 +80,13 @@ public class DeckConstantsCodeGen {
             );
 
             // "10" cards have a 2-char shortnames like others, but we also want a nice constant
-            if (card.getVal().shortName() == '0') {
-                final String short10 = card.shortName().replace("0", "10");
-                out.println(
-                    "            %s = %s,".formatted(short10, constName)
-                );
+            if (card.val().shortName() == '0') {
+                out.println(prefix + card.shortName().replace("0", "10") + " = " + constName + ";");
+            }
+
+            // alt. name for Dog
+            if (card.val() == Card.CardSpecials.Dog) {
+                out.println(prefix + "Hound = Dog;");
             }
         }
         // alt. name for Dog
@@ -120,33 +108,18 @@ public class DeckConstantsCodeGen {
         );
         out.println("export const AllCards: Array<Card> = [");
         cards.forEach(card -> {
-            final boolean special = card.getVal().isSpecial();
-            out.print(
-                """
-                {
-                  name: "%s",
-                  shortName: "%s",
-                  scoreValue: %d,
-                """.indent(2).formatted(
-                        card.name(),
-                        card.shortName(),
-                        card.getVal().scoreValue()
-                    )
-            );
+            final boolean special = card.val().isSpecial();
+            out.append("    {\n")
+                    .append("        name: \"").append(card.name()).append("\",\n")
+                    .append("        shortName: \"").append(card.shortName()).append("\",\n")
+                    .append("        scoreValue: ").append(String.valueOf(card.val().scoreValue())).append(",\n");
             if (special) {
                 out.println(
                     "    special: SpecialCards.%s,".formatted(card.name())
                 );
             } else {
-                out.print(
-                    """
-                    suit: CardSuit.%s,
-                    number: %d,
-                    """.indent(4).formatted(
-                            card.getSuit().name(),
-                            card.getVal().playOrder()
-                        )
-                );
+                out.append("        suit: CardSuit.").append(card.suit().name()).append(",\n");
+                out.append("        number: ").append(String.valueOf(card.val().playOrder())).append(",\n");
             }
             out.print(
                 """
