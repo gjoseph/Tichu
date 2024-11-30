@@ -6,8 +6,8 @@ import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.model.card.Card;
 
 class TestGameContext extends AbstractGameContext {
 

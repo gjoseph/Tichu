@@ -1,5 +1,10 @@
 package net.incongru.tichu.model.util;
 
+import net.incongru.tichu.model.CardDeck;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardComparators;
+import net.incongru.tichu.model.card.CardSpecials;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -17,7 +22,7 @@ public class DeckConstantsCodeGen {
     // Generates code for DeckConstants
     public static void main(String[] args) throws IOException {
         // CardDeck shuffles, so we force order the cards here.
-        final Set<Card> cards = new TreeSet<>(Card.Comparators.BY_SUIT);
+        final Set<Card> cards = new TreeSet<>(CardComparators.BY_SUIT);
         final CardDeck deck = new CardDeck();
         cards.addAll(deck.allRemaining());
 
@@ -69,15 +74,10 @@ public class DeckConstantsCodeGen {
             final String constVal;
             if (card.val().isSpecial()) {
                 constName = card.val().niceName();
-                constVal = " = new Card(Card.CardSpecials." + card.val() + ");";
+                constVal = " = Card.of(CardSpecials." + card.val() + ");";
             } else {
                 constName = card.suit() + "_" + card.val().niceName();
-                constVal =
-                    " = new Card(Card.CardNumbers." +
-                    card.val() +
-                    ", Card.CardSuit." +
-                    card.suit() +
-                    ");";
+                constVal = " = Card.of(CardNumbers." + card.val() + ", CardSuit." + card.suit() + ");";
             }
             final String shortAlias = card.shortName().replace('*', '_');
             out.println(
@@ -96,7 +96,7 @@ public class DeckConstantsCodeGen {
             }
 
             // alt. name for Dog
-            if (card.val() == Card.CardSpecials.Dog) {
+            if (card.val() == CardSpecials.Dog) {
                 out.println(prefix + "Hound = Dog;");
             }
         }

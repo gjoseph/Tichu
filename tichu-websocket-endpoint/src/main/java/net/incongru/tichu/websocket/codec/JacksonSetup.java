@@ -28,10 +28,10 @@ import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.NewTrickParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 
 public class JacksonSetup {

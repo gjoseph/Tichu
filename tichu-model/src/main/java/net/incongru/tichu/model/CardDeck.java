@@ -1,6 +1,11 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.ImmutableSet;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardNumbers;
+import net.incongru.tichu.model.card.CardSpecials;
+import net.incongru.tichu.model.card.CardSuit;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,15 +23,13 @@ public class CardDeck {
     public CardDeck() {
         final Set<Card> cards = new LinkedHashSet<>();
         // Add CardNumbers
-        for (Card.CardNumbers cardNumbers : Card.CardNumbers.values()) {
-            for (Card.CardSuit color : Card.CardSuit.values()) {
-                cards.add(new Card(cardNumbers, color));
+        for (CardNumbers cardNumbers : CardNumbers.values()) {
+            for (CardSuit color : CardSuit.values()) {
+                cards.add(Card.of(cardNumbers, color));
             }
         }
         // Add CardSpecials
-        Arrays.stream(Card.CardSpecials.values()).forEach(s ->
-            cards.add(new Card(s, null))
-        );
+        Arrays.stream(CardSpecials.values()).forEach(s -> cards.add(Card.of(s)));
 
         this.cards = shuffle(cards);
     }

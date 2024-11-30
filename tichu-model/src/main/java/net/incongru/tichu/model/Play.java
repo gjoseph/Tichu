@@ -1,6 +1,8 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
+import net.incongru.tichu.model.card.Card;
+
 import java.util.List;
 import java.util.Set;
 

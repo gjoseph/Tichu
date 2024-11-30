@@ -1,5 +1,8 @@
 package net.incongru.tichu.simu.parse;
 
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.util.DeckConstants;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

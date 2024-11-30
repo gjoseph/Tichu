@@ -12,8 +12,8 @@ import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.NewTrickParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
 import net.incongru.tichu.action.param.PlayerPlaysParam;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.model.card.Card;
 
 class ActionLineParsers extends AbstractLineParsers<ActionParam.WithActor> {
 

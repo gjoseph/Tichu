@@ -1,5 +1,8 @@
 package net.incongru.tichu.model.plays;
 
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardValue;
+
 import java.util.Set;
 import net.incongru.tichu.model.Card;
 
@@ -8,7 +11,7 @@ import net.incongru.tichu.model.Card;
  */
 public class Pair extends NSameValue<Pair> {
 
-    private Pair(Set<Card> cards, Card.CardValue value) {
+    private Pair(Set<Card> cards, CardValue value) {
         super(cards, value);
     }
 
@@ -20,7 +23,7 @@ public class Pair extends NSameValue<Pair> {
         }
 
         @Override
-        protected Pair newPlay(Set<Card> cards, Card.CardValue value) {
+        protected Pair newPlay(Set<Card> cards, CardValue value) {
             return new Pair(cards, value);
         }
     }

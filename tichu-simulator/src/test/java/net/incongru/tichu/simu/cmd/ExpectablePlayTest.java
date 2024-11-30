@@ -1,5 +1,12 @@
 package net.incongru.tichu.simu.cmd;
 
+import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.TichuRules;
+import net.incongru.tichu.model.card.Card;
+import org.junit.jupiter.api.Test;
+
+import java.util.Set;
+
 import static net.incongru.tichu.model.util.DeckConstants.G2;
 import static net.incongru.tichu.model.util.DeckConstants.G5;
 import static net.incongru.tichu.model.util.DeckConstants.K2;

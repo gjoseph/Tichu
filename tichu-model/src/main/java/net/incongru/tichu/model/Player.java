@@ -1,6 +1,9 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
+import net.incongru.tichu.model.card.Card;
+
+import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
