@@ -1,5 +1,8 @@
 package net.incongru.tichu.model.util;
 
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.CardDeck;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -30,8 +33,8 @@ public class DeckConstantsCodeGen {
         );
 
         replaceCodeGenSectionInFile(
-            Path.of("tichu-clients/packages/tichu-client-ts-lib/src/cards.ts"),
-            generateTypescriptConstants(cards)
+                Path.of("tichu-clients/packages/tichu-client-ts-lib/src/cards.ts"),
+                generateTypescriptConstants(cards)
         );
     }
 
