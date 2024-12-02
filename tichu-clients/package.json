@@ -8,6 +8,7 @@
   "devDependencies": {
     "husky": "9.1.7",
     "prettier": "3.4.1",
+    "prettier-plugin-java": "2.6.5",
     "pretty-quick": "4.0.0"
   },
   "scripts": {
@@ -18,12 +19,8 @@
     "web": "npm run start -w tichu-web",
     "web-storybook": "npm run storybook -w tichu-web",
     "web-build-storybook": "npm run build -w tichu-client-ts-lib && npm run build-storybook -w tichu-web",
-    "prettier-check-all": "prettier --check . # not using --workspaces here so we also check the root",
-    "prettier-fix-all": "prettier --write . # not using --workspaces here so we also check the root"
-  },
-  "//": "Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708",
-  "prettier": {
-    "useTabs": false
+    "prettier-check-all": "prettier --check .. # not using --workspaces here so we also check the root",
+    "prettier-fix-all": "prettier --write .. # not using --workspaces here so we also check the root"
   },
   "workspaces": [
     "packages/tichu-client-ts-lib",

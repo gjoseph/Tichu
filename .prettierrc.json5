@@ -1,0 +1,15 @@
+// Also see .prettierignore -- https://github.com/prettier/prettier/issues/4708
+// For some dumb reason, the config file must be where the checked files are (so root),
+// while .prettierignore must be in the working directory (so tichu-clients for now)
+{
+  plugins: ["prettier-plugin-java"],
+  useTabs: false,
+  overrides: [
+    {
+      files: ["*.java"],
+      options: {
+        tabWidth: 4,
+      },
+    },
+  ],
+}
