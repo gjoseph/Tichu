@@ -1,13 +1,13 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-
 import java.util.Set;
+import net.incongru.tichu.model.Card;
 
 /**
  *
  */
 public class BombOf4 extends NSameValue<BombOf4> {
+
     private BombOf4(Set<Card> cards, Card.CardValue value) {
         super(cards, value);
     }
@@ -18,6 +18,7 @@ public class BombOf4 extends NSameValue<BombOf4> {
     }
 
     public static class Factory extends NSameValuesFactory<BombOf4> {
+
         @Override
         protected int expectedSize() {
             return 4;
@@ -28,5 +29,4 @@ public class BombOf4 extends NSameValue<BombOf4> {
             return new BombOf4(cards, value);
         }
     }
-
 }

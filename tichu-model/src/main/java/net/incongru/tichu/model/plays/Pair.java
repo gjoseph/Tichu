@@ -1,8 +1,7 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-
 import java.util.Set;
+import net.incongru.tichu.model.Card;
 
 /**
  *
@@ -25,5 +24,4 @@ public class Pair extends NSameValue<Pair> {
             return new Pair(cards, value);
         }
     }
-
 }

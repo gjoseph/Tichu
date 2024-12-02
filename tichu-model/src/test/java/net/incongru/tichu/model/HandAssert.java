@@ -1,10 +1,10 @@
 package net.incongru.tichu.model;
 
+import java.util.Set;
 import org.assertj.core.api.AbstractAssert;
 
-import java.util.Set;
-
 public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
+
     public static HandAssert assertThat(Player.Hand actual) {
         return new HandAssert(actual);
     }
@@ -20,7 +20,11 @@ public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
     public HandAssert containsOnly(Set<Card> cards) {
         contains(cards);
         if (cards.size() != actual.size()) {
-            failWithMessage("Expected cards to be <%s> but was <%s>", cards, actual.toDebugString());
+            failWithMessage(
+                "Expected cards to be <%s> but was <%s>",
+                cards,
+                actual.toDebugString()
+            );
         }
         return this;
     }
@@ -32,7 +36,11 @@ public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
     public HandAssert contains(Set<Card> cards) {
         isNotNull();
         if (!actual.hasAll(cards)) {
-            failWithMessage("Expected cards to contain <%s> but was <%s>", cards, actual.toDebugString());
+            failWithMessage(
+                "Expected cards to contain <%s> but was <%s>",
+                cards,
+                actual.toDebugString()
+            );
         }
         return this;
     }

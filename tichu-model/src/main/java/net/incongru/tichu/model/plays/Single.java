@@ -1,24 +1,27 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.base.Preconditions;
-import net.incongru.tichu.model.Card;
-
-import java.util.Set;
-
 import static net.incongru.tichu.model.Card.CardSpecials.Dog;
 import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.Card.CardSpecials.MahJong;
 import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
+import com.google.common.base.Preconditions;
+import java.util.Set;
+import net.incongru.tichu.model.Card;
+
 /**
  *
  */
 public class Single extends AbstractPlay<Single> {
+
     private final Card card;
 
     private Single(Set<Card> cards) {
         super(cards);
-        Preconditions.checkArgument(cards.size() == 1, "Should pass a single Card");
+        Preconditions.checkArgument(
+            cards.size() == 1,
+            "Should pass a single Card"
+        );
         this.card = cards.iterator().next();
     }
 
@@ -54,6 +57,5 @@ public class Single extends AbstractPlay<Single> {
             }
             return null;
         }
-
     }
 }

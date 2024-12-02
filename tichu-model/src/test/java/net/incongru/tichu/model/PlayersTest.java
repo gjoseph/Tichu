@@ -1,16 +1,16 @@
 package net.incongru.tichu.model;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Iterator;
-
 import static net.incongru.tichu.model.UserId.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Iterator;
+import org.junit.jupiter.api.Test;
+
 class PlayersTest {
+
     @Test
     void samePlayerCantJoinMultipleTimes() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -34,7 +34,7 @@ class PlayersTest {
         players.add(t1);
         players.add(t2);
 
-        final Player alex = new Player(of("Alex"));  // Quinn's team mate
+        final Player alex = new Player(of("Alex")); // Quinn's team mate
         final Player charlie = new Player(of("Charlie")); // Jules' team mate
         final Player jules = new Player(of("Jules")); // Charlie's team mate
         final Player quinn = new Player(of("Quinn")); // Alex's team mate
@@ -47,7 +47,9 @@ class PlayersTest {
         players.join(quinn, t1);
         players.stream().forEach(Player::setReady);
 
-        final Iterator<Player> it = players.cycleFrom(players.getPlayerById(of("Charlie")));
+        final Iterator<Player> it = players.cycleFrom(
+            players.getPlayerById(of("Charlie"))
+        );
         // Start at Charlie, team 2
         assertThat(it.next()).isEqualTo(charlie);
         // Next up should be a player from other team; which of the 2 will for now be determined by join order (i.e who joined team 1 after charlie joined)

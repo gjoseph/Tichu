@@ -1,7 +1,7 @@
 package net.incongru.tichu.model;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
+import javax.annotation.Nonnull;
 
 /**
  * A UserId represents a user's... id. It might well be an external system's ID provided by e.g. Auth0 or Okta,
@@ -10,6 +10,7 @@ import java.util.Objects;
  * TODO @see UserDetailsProvider
  */
 public class UserId {
+
     public static UserId of(String id) {
         return new UserId(id);
     }
@@ -35,8 +36,6 @@ public class UserId {
 
     @Override
     public String toString() {
-        return "UserId{" +
-               "id='" + id + '\'' +
-               '}';
+        return "UserId{" + "id='" + id + '\'' + '}';
     }
 }

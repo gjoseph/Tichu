@@ -1,25 +1,28 @@
 package net.incongru.tichu.model;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.nullsFirst;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.comparingInt;
-import static java.util.Comparator.nullsFirst;
-
 /**
  *
  */
 public class Card {
+
     private final CardValue val;
     private final CardSuit suit;
 
     public Card(CardValue val, CardSuit suit) {
         Objects.requireNonNull(val, "Card value can't be null");
         if (val.isSpecial()) {
-            throw new IllegalArgumentException("Special cards don't have a suit");
+            throw new IllegalArgumentException(
+                "Special cards don't have a suit"
+            );
         }
         Objects.requireNonNull(suit, "Suit can't be null");
         this.val = val;
@@ -29,7 +32,9 @@ public class Card {
     public Card(CardValue val) {
         Objects.requireNonNull(val, "Card value can't be null");
         if (!val.isSpecial()) {
-            throw new IllegalArgumentException("Numbered/Figure cards require a suit");
+            throw new IllegalArgumentException(
+                "Numbered/Figure cards require a suit"
+            );
         }
         this.val = val;
         this.suit = null;
@@ -48,7 +53,10 @@ public class Card {
     }
 
     public String shortName() {
-        return String.valueOf(val.isSpecial() ? '*' : suit.shortName()) + val.shortName();
+        return (
+            String.valueOf(val.isSpecial() ? '*' : suit.shortName()) +
+            val.shortName()
+        );
     }
 
     @Override
@@ -60,8 +68,7 @@ public class Card {
             return false;
         }
         Card card = (Card) o;
-        return Objects.equals(val, card.val) &&
-               Objects.equals(suit, card.suit);
+        return Objects.equals(val, card.val) && Objects.equals(suit, card.suit);
     }
 
     @Override
@@ -77,7 +84,11 @@ public class Card {
     public enum CardSuit {
         // K is BlacK (Blue exists), which conflicts with King :/
         // shortNames are the initials of colors rather than the actual name of the suit
-        Jade('G'), Sword('K'), Pagoda('B'), Star('R');
+        Jade('G'),
+        Sword('K'),
+        Pagoda('B'),
+        Star('R');
+
         final char shortName;
 
         CardSuit(char shortName) {
@@ -121,7 +132,10 @@ public class Card {
         Ace(0, 14);
 
         public static CardNumbers byPlayOrder(int playOrder) {
-            return Arrays.stream(values()).filter(c -> c.playOrder() == playOrder).findFirst().get();
+            return Arrays.stream(values())
+                .filter(c -> c.playOrder() == playOrder)
+                .findFirst()
+                .get();
         }
 
         final int scoreValue;
@@ -157,13 +171,16 @@ public class Card {
 
         @Override
         public char shortName() {
-            return (playOrder < 10 ? (char) (playOrder + '0') : playOrder == 10 ? '0' : name().charAt(0));
+            return (
+                playOrder < 10
+                    ? (char) (playOrder + '0')
+                    : playOrder == 10 ? '0' : name().charAt(0)
+            );
         }
     }
 
     // I wish enums could extend AbstractCardValue but they can't, hence the copy paste below.
     public enum CardSpecials implements CardValue {
-
         MahJong(0, 1, '1'),
         Dog(0, 1, 'H'), // Hund in German, D is for Dragon
         Phoenix(-25, -1, 'P'),
@@ -206,10 +223,10 @@ public class Card {
         public char shortName() {
             return shortName;
         }
-
     }
 
     public static class Predicates {
+
         static Predicate<Card> is(CardSpecials value) {
             return c -> c.getVal() == value;
         }
@@ -223,14 +240,25 @@ public class Card {
      * These comparators are probably consistent with equals()...
      */
     public static class Comparators {
-        private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(CardValue::playOrder).thenComparing(CardValue::shortName);
-        private static final Comparator<Card> PLAY_ORDER = comparing(Card::getVal, V_PLAY_ORDER);
-        private static final Comparator<Card> SUIT = comparing(Card::getSuit, nullsFirst(comparing(CardSuit::shortName)));
 
-        public static final Comparator<Card> BY_PLAY_ORDER = PLAY_ORDER.thenComparing(SUIT);
-        public static final Comparator<Card> BY_SUIT = SUIT.thenComparing(PLAY_ORDER);
-        public static final Comparator<CardValue> V_BY_PLAY_ORDER = V_PLAY_ORDER;
+        private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(
+            CardValue::playOrder
+        ).thenComparing(CardValue::shortName);
+        private static final Comparator<Card> PLAY_ORDER = comparing(
+            Card::getVal,
+            V_PLAY_ORDER
+        );
+        private static final Comparator<Card> SUIT = comparing(
+            Card::getSuit,
+            nullsFirst(comparing(CardSuit::shortName))
+        );
+
+        public static final Comparator<Card> BY_PLAY_ORDER =
+            PLAY_ORDER.thenComparing(SUIT);
+        public static final Comparator<Card> BY_SUIT = SUIT.thenComparing(
+            PLAY_ORDER
+        );
+        public static final Comparator<CardValue> V_BY_PLAY_ORDER =
+            V_PLAY_ORDER;
     }
-
-
 }

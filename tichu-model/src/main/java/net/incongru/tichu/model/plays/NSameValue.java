@@ -1,12 +1,11 @@
 package net.incongru.tichu.model.plays;
 
 import com.google.common.collect.Collections2;
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.Play;
-
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
 
 /**
  * Abstract implementation of {@link Play} with N cards of the same value.\
@@ -16,6 +15,7 @@ import java.util.stream.Stream;
  * @see BombOf4
  */
 public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
+
     protected final Card.CardValue value;
 
     protected NSameValue(Set<Card> cards, Card.CardValue value) {
@@ -25,8 +25,10 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
 
     @Override
     protected boolean canBePlayedAfterTypeSafe(P other) {
-        return other.getCards().size() == this.getCards().size() // Not very useful, since we check the class, but at least explicit
-               && other.value.playOrder() < this.value.playOrder();
+        return (
+            other.getCards().size() == this.getCards().size() && // Not very useful, since we check the class, but at least explicit
+            other.value.playOrder() < this.value.playOrder()
+        );
     }
 
     @Override
@@ -34,7 +36,8 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
         return name() + " of " + value + "s";
     }
 
-    public abstract static class NSameValuesFactory<P extends Play<P>> implements PlayFactory<P> {
+    public abstract static class NSameValuesFactory<P extends Play<P>>
+        implements PlayFactory<P> {
 
         @Override
         public P is(Set<Card> cards) {
@@ -42,7 +45,10 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
                 return null;
             }
 
-            final Collection<Card.CardValue> values = Collections2.transform(cards, Card::getVal);
+            final Collection<Card.CardValue> values = Collections2.transform(
+                cards,
+                Card::getVal
+            );
             final Stream<Card.CardValue> distinct = values.stream().distinct();
             if (distinct.count() != 1) {
                 return null;

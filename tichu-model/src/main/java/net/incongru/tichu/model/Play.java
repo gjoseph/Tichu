@@ -1,7 +1,6 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
-
 import java.util.List;
 import java.util.Set;
 
@@ -54,21 +53,37 @@ public interface Play<P extends Play> {
     }
 
     class PlayResult {
-        public enum Result {NEXTGOES, TRICK_END, TOOWEAK, NOTINHAND, INVALIDPLAY, INVALIDSTATE}
+
+        public enum Result {
+            NEXTGOES,
+            TRICK_END,
+            TOOWEAK,
+            NOTINHAND,
+            INVALIDPLAY,
+            INVALIDSTATE,
+        }
 
         private final Play play;
         private final Result result;
         private final String message; // TODO ditch message from here. Result is enough info for client/ui to generate a message.
 
         public PlayResult(Result result, String message) {
-            Preconditions.checkArgument(result == Result.NOTINHAND || result == Result.INVALIDSTATE, "Must specify a Play with result %s", result);
+            Preconditions.checkArgument(
+                result == Result.NOTINHAND || result == Result.INVALIDSTATE,
+                "Must specify a Play with result %s",
+                result
+            );
             this.play = null;
             this.result = result;
             this.message = message;
         }
 
         public PlayResult(Play play, Result result, String message) {
-            Preconditions.checkNotNull(play, "Must specify a Play with result %s", result);
+            Preconditions.checkNotNull(
+                play,
+                "Must specify a Play with result %s",
+                result
+            );
             this.play = play;
             this.result = result;
             this.message = message;

@@ -1,13 +1,13 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
-
 import java.util.Objects;
 
 /**
  *
  */
 public class Team {
+
     private final String name;
     private final Player[] players = new Player[2];
 
@@ -45,10 +45,16 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team{" +
-               "name='" + name + '\'' +
-               ", player1=" + players[0] +
-               ", player2=" + players[1] +
-               '}';
+        return (
+            "Team{" +
+            "name='" +
+            name +
+            '\'' +
+            ", player1=" +
+            players[0] +
+            ", player2=" +
+            players[1] +
+            '}'
+        );
     }
 }

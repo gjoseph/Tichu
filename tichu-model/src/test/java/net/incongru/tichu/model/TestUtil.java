@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import static net.incongru.tichu.model.UserId.of;
 
 class TestUtil {
+
     static Players samplePlayers() {
         final Players players = new Players();
         final Team t1 = new Team("t1");

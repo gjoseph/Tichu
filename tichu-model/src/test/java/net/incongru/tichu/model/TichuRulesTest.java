@@ -1,17 +1,5 @@
 package net.incongru.tichu.model;
 
-import com.google.common.collect.Sets;
-import net.incongru.tichu.model.plays.ConsecutivePairs;
-import net.incongru.tichu.model.plays.FullHouse;
-import net.incongru.tichu.model.plays.Initial;
-import net.incongru.tichu.model.plays.InvalidPlay;
-import net.incongru.tichu.model.plays.Pair;
-import net.incongru.tichu.model.plays.Single;
-import net.incongru.tichu.model.plays.Straight;
-import net.incongru.tichu.model.plays.Triple;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.B3;
 import static net.incongru.tichu.model.util.DeckConstants.B4;
@@ -64,6 +52,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.google.common.collect.Sets;
+import net.incongru.tichu.model.plays.ConsecutivePairs;
+import net.incongru.tichu.model.plays.FullHouse;
+import net.incongru.tichu.model.plays.Initial;
+import net.incongru.tichu.model.plays.InvalidPlay;
+import net.incongru.tichu.model.plays.Pair;
+import net.incongru.tichu.model.plays.Single;
+import net.incongru.tichu.model.plays.Straight;
+import net.incongru.tichu.model.plays.Triple;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 /**
  *
  */
@@ -82,10 +82,35 @@ class TichuRulesTest {
 
     @Test
     void bombIsSameColorStraight() {
-        Play sameColor4Straight = newPlay(Pagoda_4, Pagoda_5, Pagoda_6, Pagoda_7);
-        Play sameColor5Straight = newPlay(Pagoda_4, Pagoda_5, Pagoda_6, Pagoda_7, Pagoda_8);
-        Play diffColor5Straight = newPlay(Pagoda_4, Star_5, Pagoda_6, Sword_7, Pagoda_8);
-        Play sameColor7Straight = newPlay(Pagoda_4, Pagoda_5, Pagoda_6, Pagoda_7, Pagoda_8, Pagoda_9, Pagoda_10);
+        Play sameColor4Straight = newPlay(
+            Pagoda_4,
+            Pagoda_5,
+            Pagoda_6,
+            Pagoda_7
+        );
+        Play sameColor5Straight = newPlay(
+            Pagoda_4,
+            Pagoda_5,
+            Pagoda_6,
+            Pagoda_7,
+            Pagoda_8
+        );
+        Play diffColor5Straight = newPlay(
+            Pagoda_4,
+            Star_5,
+            Pagoda_6,
+            Sword_7,
+            Pagoda_8
+        );
+        Play sameColor7Straight = newPlay(
+            Pagoda_4,
+            Pagoda_5,
+            Pagoda_6,
+            Pagoda_7,
+            Pagoda_8,
+            Pagoda_9,
+            Pagoda_10
+        );
         final TichuRules rules = new TichuRules();
 
         assertThat(sameColor5Straight).isInstanceOf(Straight.class);
@@ -100,7 +125,13 @@ class TichuRulesTest {
 
     @Test
     void straightIsNotABombWithPhoenix() {
-        final Play play = newPlay(Pagoda_4, Pagoda_5, Phoenix, Pagoda_7, Pagoda_8);
+        final Play play = newPlay(
+            Pagoda_4,
+            Pagoda_5,
+            Phoenix,
+            Pagoda_7,
+            Pagoda_8
+        );
         assertThat(play).isInstanceOf(Straight.class);
         assertFalse(play.isBomb());
     }
@@ -123,63 +154,130 @@ class TichuRulesTest {
 
     @Test
     void basicValidStraights() {
-        assertThat(newPlay(Star_2, Sword_3, Pagoda_4, Jade_5, Star_6)).isInstanceOf(Straight.class);
+        assertThat(
+            newPlay(Star_2, Sword_3, Pagoda_4, Jade_5, Star_6)
+        ).isInstanceOf(Straight.class);
         // Start with MahJong (1)
-        assertThat(newPlay(MahJong, Star_2, Sword_3, Pagoda_4, Jade_5)).isInstanceOf(Straight.class);
+        assertThat(
+            newPlay(MahJong, Star_2, Sword_3, Pagoda_4, Jade_5)
+        ).isInstanceOf(Straight.class);
         // End with ace
-        assertThat(newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(Straight.class);
+        assertThat(
+            newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Star_Ace)
+        ).isInstanceOf(Straight.class);
     }
 
     // TODO should something log "hints" about why a play isn't match and possibly return it ?
     @Test
     void invalidStraights() {
-        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Sword_5)).isInstanceOf(InvalidPlay.class).withFailMessage("Not long enough (only 4 cards)");
-        assertThat(newPlay(Sword_2, Sword_3, Jade_3, Sword_4, Sword_5, Jade_6)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't have same cards (Sword3 and Jade3)");
-        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Star_6, Sword_7)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't skip (*5 is missing)");
+        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Sword_5))
+            .isInstanceOf(InvalidPlay.class)
+            .withFailMessage("Not long enough (only 4 cards)");
+        assertThat(newPlay(Sword_2, Sword_3, Jade_3, Sword_4, Sword_5, Jade_6))
+            .isInstanceOf(InvalidPlay.class)
+            .withFailMessage("Can't have same cards (Sword3 and Jade3)");
+        assertThat(newPlay(Sword_2, Sword_3, Sword_4, Star_6, Sword_7))
+            .isInstanceOf(InvalidPlay.class)
+            .withFailMessage("Can't skip (*5 is missing)");
     }
 
     @Test
     void canNotSubPhoenixForMahjongInStraight() {
         // since our nice Straight factory will attempt to place the phoenix as high as possible, we add alll possible cards
-        assertThat(newPlay(Phoenix, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
-                Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't sub Phoenix for mahjong");
+        assertThat(
+            newPlay(
+                Phoenix,
+                Sword_2,
+                Sword_3,
+                Sword_4,
+                Sword_5,
+                Star_6,
+                Star_7,
+                Star_8,
+                Star_9,
+                Star_10,
+                Star_Jack,
+                Star_Queen,
+                Star_King,
+                Star_Ace
+            )
+        )
+            .isInstanceOf(InvalidPlay.class)
+            .withFailMessage("Can't sub Phoenix for mahjong");
     }
 
     @Test
     void canNotUsePhoenixBeforeMahjongInStraight() {
         // since our nice Straight factory will attempt to place the phoenix as high as possible, we add alll possible cards
-        assertThat(newPlay(Phoenix, MahJong, Sword_2, Sword_3, Sword_4, Sword_5, Star_6, Star_7, Star_8, Star_9, Star_10,
-                Star_Jack, Star_Queen, Star_King, Star_Ace)).isInstanceOf(InvalidPlay.class).withFailMessage("Can't sub Phoenix for before mahjong");
+        assertThat(
+            newPlay(
+                Phoenix,
+                MahJong,
+                Sword_2,
+                Sword_3,
+                Sword_4,
+                Sword_5,
+                Star_6,
+                Star_7,
+                Star_8,
+                Star_9,
+                Star_10,
+                Star_Jack,
+                Star_Queen,
+                Star_King,
+                Star_Ace
+            )
+        )
+            .isInstanceOf(InvalidPlay.class)
+            .withFailMessage("Can't sub Phoenix for before mahjong");
     }
 
     @Test
     void straightStartingWithPhoenixMentionsIt() {
-        final Play s = newPlay(Phoenix, Star_Jack, Sword_Queen, Sword_King, Sword_Ace);
+        final Play s = newPlay(
+            Phoenix,
+            Star_Jack,
+            Sword_Queen,
+            Sword_King,
+            Sword_Ace
+        );
         assertThat(s).isInstanceOf(Straight.class);
         assertThat(s.describe())
-                .contains("Straight of 5, from 10 to Ace")
-                .contains("Phoenix")
-                .contains("for the 10");
+            .contains("Straight of 5, from 10 to Ace")
+            .contains("Phoenix")
+            .contains("for the 10");
     }
 
     @Test
     void straightEndingWithPhoenixMentionsIt() {
-        final Play s = newPlay(Star_10, Star_Jack, Sword_Queen, Sword_King, Phoenix);
+        final Play s = newPlay(
+            Star_10,
+            Star_Jack,
+            Sword_Queen,
+            Sword_King,
+            Phoenix
+        );
         assertThat(s).isInstanceOf(Straight.class);
         assertThat(s.describe())
-                .contains("Straight of 5, from 10 to Ace")
-                .contains("Phoenix")
-                .contains("for the Ace");
+            .contains("Straight of 5, from 10 to Ace")
+            .contains("Phoenix")
+            .contains("for the Ace");
     }
 
     @Test
     void straightWithPhoenixMentionsIt() {
-        final Play s = newPlay(Star_10, Star_Jack, Phoenix, Sword_King, Star_Ace);
+        final Play s = newPlay(
+            Star_10,
+            Star_Jack,
+            Phoenix,
+            Sword_King,
+            Star_Ace
+        );
         assertThat(s).isInstanceOf(Straight.class);
         assertThat(s.describe())
-                .contains("Straight of 5, from 10 to Ace")
-                .contains("Phoenix")
-                .contains("for the Queen");
+            .contains("Straight of 5, from 10 to Ace")
+            .contains("Phoenix")
+            .contains("for the Queen");
     }
 
     @Test
@@ -187,7 +285,13 @@ class TichuRulesTest {
         final Play s1 = newPlay(Sword_2, Pagoda_3, Phoenix, Pagoda_5, Pagoda_6);
         final Play s2 = newPlay(Sword_2, Pagoda_3, Pagoda_4, Pagoda_5, Phoenix);
         final Play s3 = newPlay(Phoenix, Sword_2, Pagoda_3, Pagoda_4, Pagoda_5);
-        final Play s4 = newPlay(Star_10, Star_Jack, Star_Queen, Star_King, Phoenix);
+        final Play s4 = newPlay(
+            Star_10,
+            Star_Jack,
+            Star_Queen,
+            Star_King,
+            Phoenix
+        );
         assertThat(s1).isInstanceOf(Straight.class);
         assertThat(s2).isInstanceOf(Straight.class);
         assertThat(s3).isInstanceOf(Straight.class);
@@ -197,8 +301,22 @@ class TichuRulesTest {
     @Test
     void canNotAddPhoenixAfterAceInStraight() {
         // since our nice Straight factory will attempt to place the phoenix before, we add alll possible cards
-        final Play s_wrong = newPlay(Star_2, Star_3, Star_4, Star_5, Star_6, Star_7, Star_8, Star_9, Star_10,
-                Star_Jack, Star_Queen, Star_King, Star_Ace, Phoenix);
+        final Play s_wrong = newPlay(
+            Star_2,
+            Star_3,
+            Star_4,
+            Star_5,
+            Star_6,
+            Star_7,
+            Star_8,
+            Star_9,
+            Star_10,
+            Star_Jack,
+            Star_Queen,
+            Star_King,
+            Star_Ace,
+            Phoenix
+        );
         assertThat(s_wrong).isInstanceOf(InvalidPlay.class);
     }
 
@@ -241,15 +359,34 @@ class TichuRulesTest {
         final TichuRules rules = new TichuRules();
         assertTrue(rules.canPlayAfter(newPlay(Pagoda_2), newPlay(Star_7)));
         assertFalse(rules.canPlayAfter(newPlay(Star_3), newPlay(Pagoda_2)));
-        assertFalse(rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)), "next play must be strictly higher");
+        assertFalse(
+            rules.canPlayAfter(newPlay(Star_2), newPlay(Pagoda_2)),
+            "next play must be strictly higher"
+        );
     }
 
     @Test
     void playOrderWithPairs() {
         final TichuRules rules = new TichuRules();
-        assertTrue(rules.canPlayAfter(newPlay(Pagoda_2, Star_2), newPlay(Sword_7, Star_7)));
-        assertFalse(rules.canPlayAfter(newPlay(Star_3, Sword_3), newPlay(Pagoda_2, Star_2)));
-        assertFalse(rules.canPlayAfter(newPlay(Star_2, Sword_2), newPlay(Pagoda_2, Jade_2)), "next pair must be strictly higher");
+        assertTrue(
+            rules.canPlayAfter(
+                newPlay(Pagoda_2, Star_2),
+                newPlay(Sword_7, Star_7)
+            )
+        );
+        assertFalse(
+            rules.canPlayAfter(
+                newPlay(Star_3, Sword_3),
+                newPlay(Pagoda_2, Star_2)
+            )
+        );
+        assertFalse(
+            rules.canPlayAfter(
+                newPlay(Star_2, Sword_2),
+                newPlay(Pagoda_2, Jade_2)
+            ),
+            "next pair must be strictly higher"
+        );
     }
 
     @Test
@@ -278,9 +415,15 @@ class TichuRulesTest {
     @Test
     @Disabled("We don't have a factory yet")
     void consecutivePairs() {
-        assertThat(newPlay(K2, B2, R3, B3)).isInstanceOf(ConsecutivePairs.class);
-        assertThat(newPlay(K2, B2, R4, B4)).isNotInstanceOf(ConsecutivePairs.class);
-        assertThat(newPlay(K2, B2, G3, R3, R4, B4)).isInstanceOf(ConsecutivePairs.class);
+        assertThat(newPlay(K2, B2, R3, B3)).isInstanceOf(
+            ConsecutivePairs.class
+        );
+        assertThat(newPlay(K2, B2, R4, B4)).isNotInstanceOf(
+            ConsecutivePairs.class
+        );
+        assertThat(newPlay(K2, B2, G3, R3, R4, B4)).isInstanceOf(
+            ConsecutivePairs.class
+        );
     }
 
     private Play newPlay(Card... cards) {
