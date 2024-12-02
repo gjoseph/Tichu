@@ -1,5 +1,10 @@
 package net.incongru.tichu.tomcat;
 
+import jakarta.servlet.http.HttpServlet;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Stream;
 import net.incongru.tichu.websocket.RoomEndpoint;
 import org.apache.catalina.Context;
 import org.apache.catalina.authenticator.BasicAuthenticator;
@@ -11,13 +16,6 @@ import org.apache.tomcat.util.descriptor.web.LoginConfig;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.apache.tomcat.websocket.server.WsSci;
-
-import jakarta.servlet.http.HttpServlet;
-import java.security.Principal;
-import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Stream;
-
 
 public class WebSocketServer {
 
@@ -36,14 +34,16 @@ public class WebSocketServer {
 
         // if mapping only to /index.html, then the websocket-filter doesn't kick in
         // http://mail-archives.apache.org/mod_mbox/tomcat-users/201911.mbox/%3cCAJ3=HkAvxeZn6hM1PLV6C9sZE9Dr-yXfJPjHenj1uwn7vB5GmA@mail.gmail.com%3e
-        Tomcat.addServlet(ctx, "ws-only", new HttpServlet() {
-        });
+        Tomcat.addServlet(ctx, "ws-only", new HttpServlet() {});
         ctx.addServletMappingDecoded(RoomEndpoint.PATH + "/*", "ws-only");
 
-        ctx.addServletContainerInitializer(new WsSci(), Set.of(
+        ctx.addServletContainerInitializer(
+            new WsSci(),
+            Set.of(
                 // Our "pojo" endpoint
                 RoomEndpoint.class
-        ));
+            )
+        );
 
         tomcat.getConnector(); // Triggers the creation of the default connector
         tomcat.start();
@@ -66,17 +66,22 @@ public class WebSocketServer {
     }
 
     private static void setupUserRealm(Context ctx) {
-        ctx.setRealm(new RealmBase() {
-            @Override
-            protected String getPassword(String username) {
-                return username;
-            }
+        ctx.setRealm(
+            new RealmBase() {
+                @Override
+                protected String getPassword(String username) {
+                    return username;
+                }
 
-            @Override
-            protected Principal getPrincipal(String username) {
-                return new GenericPrincipal(username, Collections.singletonList("tichu-player-role"));
+                @Override
+                protected Principal getPrincipal(String username) {
+                    return new GenericPrincipal(
+                        username,
+                        Collections.singletonList("tichu-player-role")
+                    );
+                }
             }
-        });
+        );
     }
 
     private static Iterable<String> appRoles() {
