@@ -12,14 +12,13 @@ import com.github.victools.jsonschema.generator.SchemaVersion;
 import com.github.victools.jsonschema.generator.TypeScope;
 import com.github.victools.jsonschema.module.jackson.JacksonModule;
 import com.github.victools.jsonschema.module.jackson.JsonSubTypesResolver;
-import net.incongru.tichu.websocket.IncomingMessage;
-import net.incongru.tichu.websocket.OutgoingMessage;
-import net.incongru.tichu.websocket.codec.JacksonSetup;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import net.incongru.tichu.websocket.IncomingMessage;
+import net.incongru.tichu.websocket.OutgoingMessage;
+import net.incongru.tichu.websocket.codec.JacksonSetup;
 
 /**
  * Jackson's own schema generator is unmaintained and doesn't seem to deal well with subtypes.
@@ -33,29 +32,54 @@ import java.nio.file.Path;
  * See shttps://victools.github.io/jsonschema-generator/
  */
 class SchemaGeneratorWithVictools {
+
     public static void main(String[] args) throws IOException {
         final ObjectMapper mapper = JacksonSetup.setupJacksonMapper();
-        final SchemaGeneratorConfigBuilder configBuilder = new SchemaGeneratorConfigBuilder(mapper,
+        final SchemaGeneratorConfigBuilder configBuilder =
+            new SchemaGeneratorConfigBuilder(
+                mapper,
                 SchemaVersion.DRAFT_6, // DRAFT_2020_12,
-                OptionPreset.PLAIN_JSON)
+                OptionPreset.PLAIN_JSON
+            )
                 .with(Option.EXTRA_OPEN_API_FORMAT_VALUES)
                 .without(Option.FLATTENED_ENUMS_FROM_TOSTRING)
                 .with(new JacksonModule());
 
-        configBuilder.forTypesInGeneral()
-                .withTitleResolver(TypeScope::getSimpleTypeDescription)
-                .withSubtypeResolver(new JsonSubTypesResolver());
+        configBuilder
+            .forTypesInGeneral()
+            .withTitleResolver(TypeScope::getSimpleTypeDescription)
+            .withSubtypeResolver(new JsonSubTypesResolver());
         final SchemaGeneratorConfig config = configBuilder.build();
 
         final SchemaGenerator gen = new SchemaGenerator(config);
-        writeSchema(mapper, gen, IncomingMessage.class, "Tichu - Incoming Messages", Path.of("victools-tichu-in-schema.json"));
-        writeSchema(mapper, gen, OutgoingMessage.class, "Tichu - Outgoing Messages", Path.of("victools-tichu-out-schema.json"));
+        writeSchema(
+            mapper,
+            gen,
+            IncomingMessage.class,
+            "Tichu - Incoming Messages",
+            Path.of("victools-tichu-in-schema.json")
+        );
+        writeSchema(
+            mapper,
+            gen,
+            OutgoingMessage.class,
+            "Tichu - Outgoing Messages",
+            Path.of("victools-tichu-out-schema.json")
+        );
     }
 
-    private static void writeSchema(ObjectMapper mapper, SchemaGenerator jsonSchemaGenerator, Class<?> clazz, String title, Path filePath) throws IOException {
+    private static void writeSchema(
+        ObjectMapper mapper,
+        SchemaGenerator jsonSchemaGenerator,
+        Class<?> clazz,
+        String title,
+        Path filePath
+    ) throws IOException {
         final JsonNode schema = jsonSchemaGenerator.generateSchema(clazz);
         // title, "JSON Schema for " + title);
-        final String schemaStr = mapper.writer(SerializationFeature.INDENT_OUTPUT).writeValueAsString(schema);
+        final String schemaStr = mapper
+            .writer(SerializationFeature.INDENT_OUTPUT)
+            .writeValueAsString(schema);
         Files.writeString(filePath, schemaStr, StandardCharsets.UTF_8);
     }
 }
