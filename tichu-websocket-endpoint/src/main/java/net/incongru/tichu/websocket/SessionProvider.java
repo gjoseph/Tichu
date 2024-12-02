@@ -1,10 +1,9 @@
 package net.incongru.tichu.websocket;
 
-import net.incongru.tichu.model.UserId;
-
 import jakarta.websocket.Session;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import net.incongru.tichu.model.UserId;
 
 public class SessionProvider {
 
@@ -19,11 +18,14 @@ public class SessionProvider {
         sessions.remove(session);
     }
 
-
     // TODO send to particular player _in a room_ (so a player could be in multiple rooms)
     void send(UserId userId, OutgoingMessage message) {
         // TODO not efficient at all obvs
-        final Session session = sessions.stream().filter(s -> getUser(s).equals(userId)).findFirst().orElseThrow();
+        final Session session = sessions
+            .stream()
+            .filter(s -> getUser(s).equals(userId))
+            .findFirst()
+            .orElseThrow();
         sendMessage(session, message);
     }
 
@@ -42,12 +44,14 @@ public class SessionProvider {
                 System.out.println("SESSION IS CLOSED = " + session);
                 return;
             }
-            session.getAsyncRemote().sendObject(message, result -> {
-                if (!result.isOK()) {
-                    // TODO metrics and logs
-                    result.getException().printStackTrace();
-                }
-            });
+            session
+                .getAsyncRemote()
+                .sendObject(message, result -> {
+                    if (!result.isOK()) {
+                        // TODO metrics and logs
+                        result.getException().printStackTrace();
+                    }
+                });
         }
     }
 

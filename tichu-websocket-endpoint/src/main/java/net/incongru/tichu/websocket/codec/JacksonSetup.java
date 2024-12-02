@@ -18,6 +18,9 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import java.io.IOException;
+import java.util.Set;
+import javax.annotation.Nonnull;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.InitialiseGameParam;
@@ -31,10 +34,6 @@ import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.util.DeckConstants;
 
-import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.util.Set;
-
 public class JacksonSetup {
 
     public static ObjectMapper setupJacksonMapper() {
@@ -44,8 +43,14 @@ public class JacksonSetup {
         m.setMixInAnnotation(Card.class, CardJacksonSupport.class);
         m.setMixInAnnotation(Player.Hand.class, HandJacksonSupport.class);
         m.setMixInAnnotation(UserId.class, UserIdJacksonSupport.class);
-        m.setMixInAnnotation(ActionResponse.class, ActionResultJacksonSupport.class);
-        m.setMixInAnnotation(ActionResponse.Message.class, MessageJacksonSupport.class);
+        m.setMixInAnnotation(
+            ActionResponse.class,
+            ActionResultJacksonSupport.class
+        );
+        m.setMixInAnnotation(
+            ActionResponse.Message.class,
+            MessageJacksonSupport.class
+        );
 
         // ActionParam support -- the mixin here is useless since we have @JsonTypeInfo on ActionParam
         // The fact that the annotation was needed to drive immutable to generate the right plumbing
@@ -53,55 +58,77 @@ public class JacksonSetup {
         // m.setMixInAnnotation(ActionParam.class, ActionParamJacksonMixin.class);
 
         // @JsonSubTypes equivalent - we could also do that on ActionParamJacksonMixin
-        m.registerSubtypes(new NamedType(InitialiseGameParam.class, kebab(Action.ActionType.INIT)));
-        m.registerSubtypes(new NamedType(JoinTableParam.class, kebab(Action.ActionType.JOIN)));
-        m.registerSubtypes(new NamedType(NewTrickParam.class, kebab(Action.ActionType.NEW_TRICK))); // TODO should not need this one?
-        m.registerSubtypes(new NamedType(PlayerIsReadyParam.class, kebab(Action.ActionType.READY)));
-        m.registerSubtypes(new NamedType(PlayerPlaysParam.class, kebab(Action.ActionType.PLAY)));
+        m.registerSubtypes(
+            new NamedType(
+                InitialiseGameParam.class,
+                kebab(Action.ActionType.INIT)
+            )
+        );
+        m.registerSubtypes(
+            new NamedType(JoinTableParam.class, kebab(Action.ActionType.JOIN))
+        );
+        m.registerSubtypes(
+            new NamedType(
+                NewTrickParam.class,
+                kebab(Action.ActionType.NEW_TRICK)
+            )
+        ); // TODO should not need this one?
+        m.registerSubtypes(
+            new NamedType(
+                PlayerIsReadyParam.class,
+                kebab(Action.ActionType.READY)
+            )
+        );
+        m.registerSubtypes(
+            new NamedType(PlayerPlaysParam.class, kebab(Action.ActionType.PLAY))
+        );
 
         // All enums should be serialised in kebab-case
         // https://github.com/FasterXML/jackson-databind/issues/2667 would probably offer a more performant version of this with caching?
         m.addSerializer(Enum.class, new EnumKebabSerializer());
 
         return JsonMapper.builder()
-                .enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-                .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
-                //TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
-                .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
-                .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
-                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-                .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
-                .serializationInclusion(JsonInclude.Include.NON_ABSENT)
-                .addModule(new Jdk8Module())
-                .addModule(m)
-                .build();
+            .enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+            .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
+            //TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
+            .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
+            .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
+            .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
+            .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
+            .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+            .addModule(new Jdk8Module())
+            .addModule(m)
+            .build();
     }
 
     @JsonDeserialize(using = CardDeserializer.class)
     abstract static class CardJacksonSupport {
 
-//    @JsonCreator -- does not work on mixins (https://github.com/FasterXML/jackson-databind/issues/1820)
-//    so we use a Serializer instead
-//    static Card byName(String cardName) {
-//        return DeckConstants.byName(cardName);
-//    }
+        //    @JsonCreator -- does not work on mixins (https://github.com/FasterXML/jackson-databind/issues/1820)
+        //    so we use a Serializer instead
+        //    static Card byName(String cardName) {
+        //        return DeckConstants.byName(cardName);
+        //    }
 
         @JsonValue
         abstract String shortName();
     }
 
     abstract static class HandJacksonSupport {
+
         @JsonProperty
         Set<Card> cards;
     }
 
     abstract static class UserIdJacksonSupport {
+
         @JsonValue
         String id;
     }
 
-    static interface ActionResultJacksonSupport<R extends ActionResponse.Result> {
-
+    static interface ActionResultJacksonSupport<
+        R extends ActionResponse.Result
+    > {
         @JsonGetter
         UserId actor();
 
@@ -123,6 +150,7 @@ public class JacksonSetup {
     }
 
     abstract static class MessageJacksonSupport {
+
         @JsonValue
         String message;
     }
@@ -140,12 +168,17 @@ public class JacksonSetup {
     }
 
     private static class EnumKebabSerializer extends StdSerializer<Enum> {
+
         public EnumKebabSerializer() {
             super(Enum.class);
         }
 
         @Override
-        public void serialize(Enum value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        public void serialize(
+            Enum value,
+            JsonGenerator jgen,
+            SerializerProvider provider
+        ) throws IOException {
             final String kebab = kebab(value);
             jgen.writeString(kebab);
         }

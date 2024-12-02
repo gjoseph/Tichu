@@ -1,9 +1,8 @@
 package net.incongru.tichu.websocket;
 
-import net.incongru.tichu.model.UserId;
-
-import javax.annotation.Nonnull;
 import java.util.Optional;
+import javax.annotation.Nonnull;
+import net.incongru.tichu.model.UserId;
 
 /**
  * {@link ErrorMessage}s have a trace ID which uniquely identifies the exception in logs.
@@ -14,9 +13,9 @@ import java.util.Optional;
  * @param actor The user whose message caused the exception.
  */
 public record ErrorMessage(
-        @Nonnull Optional<String> clientTxId,
-        // TODO could exceptions be caused without an actor?
-        @Nonnull UserId actor,
-        @Nonnull String traceId
-) implements OutgoingMessage {
-}
+    @Nonnull Optional<String> clientTxId,
+    // TODO could exceptions be caused without an actor?
+    @Nonnull UserId actor,
+    @Nonnull String traceId
+)
+    implements OutgoingMessage {}

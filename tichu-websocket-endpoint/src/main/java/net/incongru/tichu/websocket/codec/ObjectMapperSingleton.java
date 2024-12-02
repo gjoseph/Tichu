@@ -10,12 +10,9 @@ class ObjectMapperSingleton {
         mapper = JacksonSetup.setupJacksonMapper();
     }
 
-    private ObjectMapperSingleton() {
-    }
+    private ObjectMapperSingleton() {}
 
     static ObjectMapper get() {
         return mapper;
     }
-
-
 }

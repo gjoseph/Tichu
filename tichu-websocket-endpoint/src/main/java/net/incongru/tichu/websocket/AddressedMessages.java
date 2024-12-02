@@ -1,16 +1,16 @@
 package net.incongru.tichu.websocket;
 
-import net.incongru.tichu.model.UserId;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import net.incongru.tichu.model.UserId;
 
 /**
  * A collection of messages for each user in the game/room.
  */
 class AddressedMessages {
+
     private final List<AddressedMessage> messages;
 
     public AddressedMessages() {
@@ -34,8 +34,7 @@ class AddressedMessages {
      *                                   TODO: maybe we want stronger typing for "room message", and maybe a single-user message still needs to be scoped to a room (if they play in multiple rooms)
      */
     record AddressedMessage(
-            @Nullable UserId recipient,
-            @Nonnull OutgoingMessage message
-    ) {
-    }
+        @Nullable UserId recipient,
+        @Nonnull OutgoingMessage message
+    ) {}
 }
