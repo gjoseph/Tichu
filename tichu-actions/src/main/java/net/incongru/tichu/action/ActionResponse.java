@@ -1,16 +1,15 @@
 package net.incongru.tichu.action;
 
-import net.incongru.tichu.model.UserId;
-
-import javax.annotation.Nonnull;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import net.incongru.tichu.model.UserId;
 
 public interface ActionResponse<R extends ActionResponse.Result> {
     // Acting player should get a different log than everyone else
     // so this object can't be _exactly_ what we send back over the wire, filter it according to audience
-//        String publicLog(); // i18n? maybe use sthg like https://github.com/kohsuke/localizer
+    //        String publicLog(); // i18n? maybe use sthg like https://github.com/kohsuke/localizer
 
-//        String actorLog(); // i18n?
+    //        String actorLog(); // i18n?
 
     // TODO a generic Fail response? or is that sthg we'd do in a try/catch block elsewhere
 
@@ -29,6 +28,7 @@ public interface ActionResponse<R extends ActionResponse.Result> {
     }
 
     static class Message {
+
         private final String message;
 
         public Message(@Nonnull String message) {
@@ -50,10 +50,7 @@ public interface ActionResponse<R extends ActionResponse.Result> {
 
         @Override
         public String toString() {
-            return "Message{" +
-                   "message='" + message + '\'' +
-                   '}';
+            return "Message{" + "message='" + message + '\'' + '}';
         }
     }
-
 }

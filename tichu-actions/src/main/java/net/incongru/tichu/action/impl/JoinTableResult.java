@@ -4,7 +4,8 @@ import net.incongru.tichu.action.ActionResponse;
 
 public enum JoinTableResult implements ActionResponse.Result {
     CAN_NOT_JOIN_FULL_TABLE(false),
-    OK, OK_TABLE_IS_NOW_FULL;
+    OK,
+    OK_TABLE_IS_NOW_FULL;
 
     private final boolean success;
 

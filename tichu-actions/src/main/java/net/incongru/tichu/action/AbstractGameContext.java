@@ -5,6 +5,7 @@ import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 
 public abstract class AbstractGameContext implements GameContext {
+
     private final Object lock = new Object();
     private Game game;
 
@@ -12,7 +13,9 @@ public abstract class AbstractGameContext implements GameContext {
     public void newGame(Game game) {
         synchronized (this.lock) {
             if (this.game != null) {
-                throw new IllegalStateException("GameContext has already been initialised");
+                throw new IllegalStateException(
+                    "GameContext has already been initialised"
+                );
             }
             this.game = game;
         }
@@ -27,5 +30,4 @@ public abstract class AbstractGameContext implements GameContext {
     public Player player(UserId playerId) {
         return game().players().getPlayerById(playerId);
     }
-
 }

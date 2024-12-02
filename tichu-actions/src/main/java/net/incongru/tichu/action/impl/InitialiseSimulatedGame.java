@@ -1,5 +1,7 @@
 package net.incongru.tichu.action.impl;
 
+import java.util.List;
+import java.util.Set;
 import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.Game;
@@ -7,17 +9,13 @@ import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Round;
 import net.incongru.tichu.model.TichuRules;
 
-import java.util.List;
-import java.util.Set;
-
 /**
  * This initialises a simulated game, where cards aren't shuffled or dealt but rather explicitly distributed by another
  * action.
  */
 class InitialiseSimulatedGame extends InitialiseGame {
 
-    InitialiseSimulatedGame() {
-    }
+    InitialiseSimulatedGame() {}
 
     @Override
     protected Game newGame(Players players) {
@@ -37,6 +35,7 @@ class InitialiseSimulatedGame extends InitialiseGame {
     }
 
     static class SimulatedTichuRules extends TichuRules {
+
         private List<Card> controlledDeck;
 
         // TODO do we actually need this, since we dont... use the deck to deal?
@@ -65,7 +64,5 @@ class InitialiseSimulatedGame extends InitialiseGame {
         public void controlledDeck(List<Card> controlledDeck) {
             this.controlledDeck = controlledDeck;
         }
-
     }
-
 }

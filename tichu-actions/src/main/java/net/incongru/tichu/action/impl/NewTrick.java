@@ -10,10 +10,16 @@ import net.incongru.tichu.model.Trick;
 class NewTrick implements Action<NewTrickParam, NewTrickResult> {
 
     @Override
-    public ActionResponse<NewTrickResult> exec(GameContext ctx, ActionParam.WithActor<NewTrickParam> param) {
+    public ActionResponse<NewTrickResult> exec(
+        GameContext ctx,
+        ActionParam.WithActor<NewTrickParam> param
+    ) {
         final Trick trick = ctx.game().currentRound().newTrick();
         ctx.log("New trick! %s", trick);
-        return new SimpleResponse<>(param.actor(), ActionType.NEW_TRICK, NewTrickResult.OK);
+        return new SimpleResponse<>(
+            param.actor(),
+            ActionType.NEW_TRICK,
+            NewTrickResult.OK
+        );
     }
-
 }

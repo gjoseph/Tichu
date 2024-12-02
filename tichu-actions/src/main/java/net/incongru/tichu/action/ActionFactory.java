@@ -5,7 +5,8 @@ package net.incongru.tichu.action;
  * Currently mostly exists so we can mock out this interface in tests.
  */
 public interface ActionFactory {
-
-    <P extends ActionParam> Action<P, ? extends ActionResponse.Result> actionFor(P param);
-
+    <P extends ActionParam> Action<
+        P,
+        ? extends ActionResponse.Result
+    > actionFor(P param);
 }

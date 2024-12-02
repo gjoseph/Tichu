@@ -6,11 +6,17 @@ import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.UserId;
 
 public class PlayerPlaysResponse extends SimpleResponse<PlayerPlaysResult> {
+
     private final Play play;
     private final UserId nextPlayer;
 
     @VisibleForTesting
-    public PlayerPlaysResponse(UserId actor, Play.PlayResult result, UserId nextPlayer, Message msg) {
+    public PlayerPlaysResponse(
+        UserId actor,
+        Play.PlayResult result,
+        UserId nextPlayer,
+        Message msg
+    ) {
         super(actor, Action.ActionType.PLAY, toResult(result.result()), msg);
         this.play = result.play();
         this.nextPlayer = nextPlayer;

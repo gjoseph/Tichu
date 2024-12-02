@@ -3,7 +3,8 @@ package net.incongru.tichu.action.impl;
 import net.incongru.tichu.action.ActionResponse;
 
 public enum PlayerIsReadyResult implements ActionResponse.Result {
-    OK, OK_STARTED;
+    OK,
+    OK_STARTED;
 
     private final boolean success;
 
