@@ -7,6 +7,7 @@ import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
 class ExpectNextPlayerToBe implements Simulation.PostActionCommand {
+
     private final UserId expectedPlayer;
 
     ExpectNextPlayerToBe(UserId expectedPlayer) {
@@ -22,8 +23,16 @@ class ExpectNextPlayerToBe implements Simulation.PostActionCommand {
         if (match) {
             ctx.log("Next player is %s, as expected.", expectedPlayer);
         } else {
-            ctx.log("Next player is %s, we expected it to be %s", nextPlayer, expectedPlayer);
-            throw new Simulation.PostActionCommandException("Next player is %s, we expected it to be %s", nextPlayer, expectedPlayer);
+            ctx.log(
+                "Next player is %s, we expected it to be %s",
+                nextPlayer,
+                expectedPlayer
+            );
+            throw new Simulation.PostActionCommandException(
+                "Next player is %s, we expected it to be %s",
+                nextPlayer,
+                expectedPlayer
+            );
         }
     }
 }

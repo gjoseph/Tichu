@@ -6,6 +6,7 @@ import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
 abstract class AbstractExpectScore implements Simulation.PostActionCommand {
+
     protected final Score expectedScore;
 
     AbstractExpectScore(Score expectedScore) {
@@ -19,8 +20,18 @@ abstract class AbstractExpectScore implements Simulation.PostActionCommand {
         if (match) {
             ctx.log("%s score was %s, as expected", scoreType(), expectedScore);
         } else {
-            ctx.log("%s score was %s, instead of the expected %s", scoreType(), score, expectedScore);
-            throw new Simulation.PostActionCommandException("%s score was %s, instead of the expected %s", scoreType(), score, expectedScore);
+            ctx.log(
+                "%s score was %s, instead of the expected %s",
+                scoreType(),
+                score,
+                expectedScore
+            );
+            throw new Simulation.PostActionCommandException(
+                "%s score was %s, instead of the expected %s",
+                scoreType(),
+                score,
+                expectedScore
+            );
         }
     }
 

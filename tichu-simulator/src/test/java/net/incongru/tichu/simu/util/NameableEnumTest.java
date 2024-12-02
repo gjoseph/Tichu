@@ -1,14 +1,13 @@
 package net.incongru.tichu.simu.util;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static net.incongru.tichu.simu.util.NameableEnum.allNamesOf;
 import static net.incongru.tichu.simu.util.NameableEnum.byName;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class NameableEnumTest {
 
@@ -31,18 +30,27 @@ class NameableEnumTest {
 
     @Test
     void allNamesLowercasesAllNames() {
-        assertThat(allNamesOf(SampleEnum.class).split("\\s*,\\s*"))
-                .containsExactlyInAnyOrder(
-                        "a", "b", "c",
-                        "foo", "fu",
-                        "bar", "tavern", "pub"
-                );
+        assertThat(
+            allNamesOf(SampleEnum.class).split("\\s*,\\s*")
+        ).containsExactlyInAnyOrder(
+            "a",
+            "b",
+            "c",
+            "foo",
+            "fu",
+            "bar",
+            "tavern",
+            "pub"
+        );
     }
 
     enum SampleEnum implements NameableEnum {
-        a, b, c,
+        a,
+        b,
+        c,
         foo("Fu"),
         BAR("tavern", "Pub");
+
         private final List<String> altNames;
 
         SampleEnum(String... altNames) {
@@ -54,5 +62,4 @@ class NameableEnumTest {
             return altNames;
         }
     }
-
 }

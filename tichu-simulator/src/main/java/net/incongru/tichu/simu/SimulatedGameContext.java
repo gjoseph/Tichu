@@ -13,5 +13,4 @@ public class SimulatedGameContext extends AbstractGameContext {
     public void log(String msg, Object... args) {
         System.out.println(String.format(msg, args));
     }
-
 }

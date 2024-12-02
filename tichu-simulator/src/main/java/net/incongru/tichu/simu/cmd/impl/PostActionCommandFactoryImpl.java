@@ -6,13 +6,16 @@ import net.incongru.tichu.simu.Simulation;
 import net.incongru.tichu.simu.cmd.PostActionCommandFactory;
 
 public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
+
     @Override
     public Simulation.PostActionCommand expectSuccess() {
         return new ExpectSuccess();
     }
 
     @Override
-    public Simulation.PostActionCommand expectPlayResult(PostActionCommandFactory.ExpectablePlayResult expectedPlayResult) {
+    public Simulation.PostActionCommand expectPlayResult(
+        PostActionCommandFactory.ExpectablePlayResult expectedPlayResult
+    ) {
         return new ExpectPlayResult(expectedPlayResult);
     }
 
@@ -22,7 +25,9 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectGameState(ExpectableGameState expectedGameState) {
+    public Simulation.PostActionCommand expectGameState(
+        ExpectableGameState expectedGameState
+    ) {
         return new ExpectGameState(expectedGameState);
     }
 
@@ -32,12 +37,16 @@ public class PostActionCommandFactoryImpl implements PostActionCommandFactory {
     }
 
     @Override
-    public Simulation.PostActionCommand expectWinTrick(String expectedPlayerName) {
+    public Simulation.PostActionCommand expectWinTrick(
+        String expectedPlayerName
+    ) {
         return new ExpectWinTrick(UserId.of(expectedPlayerName));
     }
 
     @Override
-    public Simulation.PostActionCommand expectNextPlayerToBe(String expectedPlayerName) {
+    public Simulation.PostActionCommand expectNextPlayerToBe(
+        String expectedPlayerName
+    ) {
         return new ExpectNextPlayerToBe(UserId.of(expectedPlayerName));
     }
 
