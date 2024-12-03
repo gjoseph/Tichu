@@ -5,14 +5,20 @@ import java.util.function.Predicate;
 
 class FunctionsBasedLineParser<T> implements LineParser<T> {
 
-    static <T> LineParser<T> simpleParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, T> function) {
+    static <T> LineParser<T> simpleParser(
+        Predicate<TokenisedLine> predicate,
+        Function<TokenisedLine, T> function
+    ) {
         return new FunctionsBasedLineParser<T>(predicate, function);
     }
 
     private final Predicate<TokenisedLine> predicate;
     private final Function<TokenisedLine, T> function;
 
-    FunctionsBasedLineParser(Predicate<TokenisedLine> predicate, Function<TokenisedLine, T> function) {
+    FunctionsBasedLineParser(
+        Predicate<TokenisedLine> predicate,
+        Function<TokenisedLine, T> function
+    ) {
         this.predicate = predicate;
         this.function = function;
     }
@@ -24,5 +30,4 @@ class FunctionsBasedLineParser<T> implements LineParser<T> {
     public T parse(TokenisedLine t) {
         return function.apply(t);
     }
-
 }

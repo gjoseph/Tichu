@@ -88,23 +88,23 @@
     // Generated @types rules
     {
       groupName: "fs-extra",
-      matchPackageNames: ["@types/fs-extra", "fs-extra"]
+      matchPackageNames: ["@types/fs-extra", "fs-extra"],
     },
     {
       groupName: "node",
-      matchPackageNames: ["@types/node", "node"]
+      matchPackageNames: ["@types/node", "node"],
     },
     {
       groupName: "ws",
-      matchPackageNames: ["@types/ws", "ws"]
+      matchPackageNames: ["@types/ws", "ws"],
     },
     {
       groupName: "inquirer",
-      matchPackageNames: ["@types/inquirer", "inquirer"]
+      matchPackageNames: ["@types/inquirer", "inquirer"],
     },
     {
       groupName: "jest",
-      matchPackageNames: ["@types/jest", "jest"]
+      matchPackageNames: ["@types/jest", "jest"],
     },
     {
       groupName: "react",

@@ -11,24 +11,29 @@ import net.incongru.tichu.model.Trick;
 
 class PlayerPlays implements Action<PlayerPlaysParam, PlayerPlaysResult> {
 
-    PlayerPlays() {
-    }
+    PlayerPlays() {}
 
     @Override
-    public ActionResponse<PlayerPlaysResult> exec(GameContext ctx, ActionParam.WithActor<PlayerPlaysParam> param) {
+    public ActionResponse<PlayerPlaysResult> exec(
+        GameContext ctx,
+        ActionParam.WithActor<PlayerPlaysParam> param
+    ) {
         final Player player = ctx.player(param.actor());
         final Trick trick = ctx.game().currentRound().currentTrick();
-        final Play.PlayResult playResult = trick.play(player, param.param().cards());
+        final Play.PlayResult playResult = trick.play(
+            player,
+            param.param().cards()
+        );
         // TODO -- this might not be accurate; trick-end doesn't mean there's no next player
         // ... the next player is whoever won the trick
         //
-        final boolean isTrickEnd = playResult.result() == Play.PlayResult.Result.TRICK_END;
+        final boolean isTrickEnd =
+            playResult.result() == Play.PlayResult.Result.TRICK_END;
         return new PlayerPlaysResponse(
-                param.actor(),
-                playResult,
-                isTrickEnd ? null : trick.currentPlayer().id(),
-                new ActionResponse.Message(playResult.message())
+            param.actor(),
+            playResult,
+            isTrickEnd ? null : trick.currentPlayer().id(),
+            new ActionResponse.Message(playResult.message())
         );
     }
-
 }

@@ -1,13 +1,13 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-
 import java.util.Set;
+import net.incongru.tichu.model.Card;
 
 /**
  *
  */
 public class ConsecutivePairs extends AbstractPlay<ConsecutivePairs> {
+
     private ConsecutivePairs(Set<Card> cards) {
         super(cards);
     }
@@ -23,6 +23,7 @@ public class ConsecutivePairs extends AbstractPlay<ConsecutivePairs> {
     }
 
     public static class Factory implements PlayFactory<ConsecutivePairs> {
+
         @Override
         public ConsecutivePairs is(Set<Card> cards) {
             throw new UnsupportedOperationException("Not implemented");

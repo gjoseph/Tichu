@@ -1,12 +1,5 @@
 package net.incongru.tichu.model;
 
-import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-
 import static net.incongru.tichu.model.util.DeckConstants.B0;
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.B5;
@@ -18,6 +11,12 @@ import static net.incongru.tichu.model.util.DeckConstants._D;
 import static net.incongru.tichu.model.util.DeckConstants._P;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -49,7 +48,11 @@ class FunctionsTest {
         assertThat(Functions.lastNMatches(dq, 3, i -> i > 5)).isFalse();
 
         // LinkedList is both Deque and List, so cast
-        assertThat(Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 3)).isTrue();
-        assertThat(Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 5)).isFalse();
+        assertThat(
+            Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 3)
+        ).isTrue();
+        assertThat(
+            Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 5)
+        ).isFalse();
     }
 }

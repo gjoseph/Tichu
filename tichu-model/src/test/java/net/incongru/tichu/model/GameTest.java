@@ -1,5 +1,11 @@
 package net.incongru.tichu.model;
 
+import static net.incongru.tichu.model.TestUtil.samplePlayers;
+import static net.incongru.tichu.model.UserId.of;
+import static org.assertj.core.api.Assertions.as;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.not;
+
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.assertj.core.api.SoftAssertions;
@@ -7,12 +13,6 @@ import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import static net.incongru.tichu.model.TestUtil.samplePlayers;
-import static net.incongru.tichu.model.UserId.of;
-import static org.assertj.core.api.Assertions.as;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
 
 @ExtendWith(SoftAssertionsExtension.class)
 class GameTest {
@@ -35,20 +35,33 @@ class GameTest {
     @Test
     void testBaseGameFlow(SoftAssertions softly) {
         final Game game = new Game(players, new TichuRules());
-        assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
+        assertThat(game).is(
+            new Condition<>(Game::isReadyToStart, "ready to start")
+        );
         final Round round = game.start();
         final Trick trick = round.start();
         assertThat(game)
-                .is(new Condition<>(Game::isStarted, "isStarted"))
-                .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
-                .extracting(Game::finishedRounds, as(InstanceOfAssertFactories.list(Game.FinishedRound.class)))
-                .hasSize(0);
+            .is(new Condition<>(Game::isStarted, "isStarted"))
+            .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
+            .extracting(
+                Game::finishedRounds,
+                as(InstanceOfAssertFactories.list(Game.FinishedRound.class))
+            )
+            .hasSize(0);
 
         // hands have been dealt
-        softly.assertThat(alex.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly.assertThat(charlie.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly.assertThat(jules.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly.assertThat(quinn.hand()).is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly
+            .assertThat(alex.hand())
+            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly
+            .assertThat(charlie.hand())
+            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly
+            .assertThat(jules.hand())
+            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly
+            .assertThat(quinn.hand())
+            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
     }
 
     @Test
@@ -70,6 +83,7 @@ class GameTest {
     }
 
     private static class FakeRound extends Round {
+
         private final Score fixedScore;
 
         public FakeRound(Game game, Score score) {

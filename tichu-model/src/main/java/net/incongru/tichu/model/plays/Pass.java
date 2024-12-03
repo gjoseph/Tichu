@@ -1,15 +1,15 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.Play;
-
 import java.util.Collections;
 import java.util.Set;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
 
 /**
  * Pass _is_ a {@link Play}
  */
 public class Pass extends AbstractPlay<Pass> {
+
     private Pass() {
         super(Collections.emptySet());
     }
@@ -32,6 +32,7 @@ public class Pass extends AbstractPlay<Pass> {
     }
 
     public static class Factory implements PlayFactory<Pass> {
+
         @Override
         public Pass is(Set<Card> cards) {
             return cards.isEmpty() ? new Pass() : null;

@@ -1,8 +1,5 @@
 package net.incongru.tichu.simu.parse;
 
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.util.DeckConstants;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,13 +7,18 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.util.DeckConstants;
 
 public class TokenisedLine {
+
     private final List<String> originalTokens;
     private List<String> consumedTokens;
 
     public TokenisedLine(String line) {
-        this.originalTokens = new ArrayList<>(Arrays.asList(line.split("\\s+")));
+        this.originalTokens = new ArrayList<>(
+            Arrays.asList(line.split("\\s+"))
+        );
         reset();
     }
 
@@ -40,7 +42,9 @@ public class TokenisedLine {
      * @return the matched value value, if any, or an empty Optional otherwise
      */
     Optional<String> peek(int i, Predicate<String> predicate) {
-        return i < count() && predicate.test(peek(i)) ? Optional.of(peek(i)) : Optional.empty();
+        return i < count() && predicate.test(peek(i))
+            ? Optional.of(peek(i))
+            : Optional.empty();
     }
 
     /**
@@ -73,7 +77,9 @@ public class TokenisedLine {
      * @return the popped value, if any, or an empty Optional otherwise
      */
     Optional<String> test(int i, Predicate<String> predicate) {
-        return i < count() && predicate.test(peek(i)) ? Optional.of(pop(i)) : Optional.empty();
+        return i < count() && predicate.test(peek(i))
+            ? Optional.of(pop(i))
+            : Optional.empty();
     }
 
     /**
@@ -93,8 +99,8 @@ public class TokenisedLine {
     Set<Card> remainderAsCards() {
         final String cardsStr = remainder();
         return Arrays.stream(cardsStr.split("\\s*,\\s*"))
-                .map(DeckConstants::byName)
-                .collect(Collectors.toSet());
+            .map(DeckConstants::byName)
+            .collect(Collectors.toSet());
     }
 
     /**

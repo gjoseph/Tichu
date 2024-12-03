@@ -4,6 +4,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 
 public class PathUtil {
+
     static Path file(String path) {
         return Path.of(path);
     }

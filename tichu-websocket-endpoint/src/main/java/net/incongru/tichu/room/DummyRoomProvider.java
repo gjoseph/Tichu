@@ -9,6 +9,7 @@ import net.incongru.tichu.model.TichuRules;
  * Fake room provider that just has a single room.
  */
 public class DummyRoomProvider implements RoomProvider {
+
     private final Room room;
 
     public DummyRoomProvider() {
@@ -19,15 +20,15 @@ public class DummyRoomProvider implements RoomProvider {
         room.gameContext().newGame(new Game(new Players(), new TichuRules()));
         room.gameContext().game().players().add(new Team("One"));
         room.gameContext().game().players().add(new Team("Two"));
-
-
         // for real ones:
         // GameContextFactory ctxFactory = RoomGameContext::new;
     }
 
     @Override
     public Room newRoom() {
-        throw new IllegalStateException("This RoomProvider only supports a single room");
+        throw new IllegalStateException(
+            "This RoomProvider only supports a single room"
+        );
     }
 
     @Override

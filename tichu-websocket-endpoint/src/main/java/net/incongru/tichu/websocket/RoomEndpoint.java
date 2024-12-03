@@ -1,7 +1,5 @@
 package net.incongru.tichu.websocket;
 
-import net.incongru.tichu.websocket.codec.JacksonCodec;
-
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
@@ -10,20 +8,23 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import java.util.Optional;
+import net.incongru.tichu.websocket.codec.JacksonCodec;
 
-@ServerEndpoint(value = RoomEndpoint.PATH + "/{roomId}",
-        decoders = RoomEndpoint.IncomingMessageCodec.class,
-        encoders = {RoomEndpoint.OutgoingMessageCodec.class},
-        configurator = EndpointConfigurator.class
+@ServerEndpoint(
+    value = RoomEndpoint.PATH + "/{roomId}",
+    decoders = RoomEndpoint.IncomingMessageCodec.class,
+    encoders = { RoomEndpoint.OutgoingMessageCodec.class },
+    configurator = EndpointConfigurator.class
 )
 public class RoomEndpoint {
+
     public static final String PATH = "/room";
 
-    public static class IncomingMessageCodec extends JacksonCodec<IncomingMessage> {
-    }
+    public static class IncomingMessageCodec
+        extends JacksonCodec<IncomingMessage> {}
 
-    public static class OutgoingMessageCodec extends JacksonCodec<OutgoingMessage> {
-    }
+    public static class OutgoingMessageCodec
+        extends JacksonCodec<OutgoingMessage> {}
 
     private final MessageHandler messageHandler;
 
@@ -37,11 +38,19 @@ public class RoomEndpoint {
     }
 
     @OnMessage
-    public void onMessage(Session session, @PathParam("roomId") String roomId, IncomingMessage incomingMessage) {
+    public void onMessage(
+        Session session,
+        @PathParam("roomId") String roomId,
+        IncomingMessage incomingMessage
+    ) {
         try {
             incomingMessage.accept(session, roomId, messageHandler);
         } catch (Exception e) {
-            messageHandler.handleError(session, Optional.of(incomingMessage.clientTxId()), e);
+            messageHandler.handleError(
+                session,
+                Optional.of(incomingMessage.clientTxId()),
+                e
+            );
         }
     }
 
@@ -54,5 +63,4 @@ public class RoomEndpoint {
     public void onError(Session session, Throwable throwable) {
         messageHandler.handleError(session, Optional.empty(), throwable);
     }
-
 }

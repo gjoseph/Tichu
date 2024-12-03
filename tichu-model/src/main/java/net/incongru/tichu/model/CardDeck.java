@@ -1,7 +1,6 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.ImmutableSet;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +12,7 @@ import java.util.Set;
  * All cards.
  */
 public class CardDeck {
+
     private final List<Card> cards;
 
     public CardDeck() {
@@ -24,7 +24,9 @@ public class CardDeck {
             }
         }
         // Add CardSpecials
-        Arrays.stream(Card.CardSpecials.values()).forEach(s -> cards.add(new Card(s)));
+        Arrays.stream(Card.CardSpecials.values()).forEach(s ->
+            cards.add(new Card(s))
+        );
 
         this.cards = shuffle(cards);
     }

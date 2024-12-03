@@ -1,5 +1,12 @@
 package net.incongru.tichu.model;
 
+import static net.incongru.tichu.model.Card.Predicates.is;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
 import net.incongru.tichu.model.plays.BombOf4;
 import net.incongru.tichu.model.plays.InvalidPlay;
 import net.incongru.tichu.model.plays.Pair;
@@ -8,19 +15,12 @@ import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
 
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import static net.incongru.tichu.model.Card.Predicates.is;
-
 /**
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
  * TODO a lot of the "rules" are actually encoded in the Trick class. Move them over here?
  */
 public class TichuRules {
+
     private final List<Play.PlayFactory> factories;
 
     public TichuRules() {
@@ -30,12 +30,12 @@ public class TichuRules {
     // If rules were to change, one would not only subclass TichuRules, but probably provide different factories too.
     protected List<Play.PlayFactory> makeFactories() {
         return Arrays.asList(
-                new Pass.Factory(),
-                new Single.Factory(),
-                new Pair.Factory(),
-                new Triple.Factory(),
-                new BombOf4.Factory(),
-                new Straight.Factory()
+            new Pass.Factory(),
+            new Single.Factory(),
+            new Pair.Factory(),
+            new Triple.Factory(),
+            new BombOf4.Factory(),
+            new Straight.Factory()
         );
     }
 
@@ -44,11 +44,17 @@ public class TichuRules {
     }
 
     public Player whoStarts(Players players) {
-        return players.stream().filter(hasMahjong).findFirst().orElseThrow(() -> new IllegalStateException("No player has the Mahjong!?"));
+        return players
+            .stream()
+            .filter(hasMahjong)
+            .findFirst()
+            .orElseThrow(() ->
+                new IllegalStateException("No player has the Mahjong!?")
+            );
     }
 
-    private static final Predicate<Player> hasMahjong =
-            player -> player.hand().has(is(Card.CardSpecials.MahJong));
+    private static final Predicate<Player> hasMahjong = player ->
+        player.hand().has(is(Card.CardSpecials.MahJong));
 
     @Nonnull
     public Play validate(Set<Card> cards) {
@@ -74,7 +80,9 @@ public class TichuRules {
 
     public boolean canPlayAfter(Play before, Play after) {
         if (!isValid(after)) {
-            throw new IllegalStateException("Learn the rules. Call isValid() before canPlayAfter().");
+            throw new IllegalStateException(
+                "Learn the rules. Call isValid() before canPlayAfter()."
+            );
         }
         return after.canBePlayedAfter(before);
     }
@@ -84,9 +92,12 @@ public class TichuRules {
             case tichu:
                 return player.hand().size() == 14;
             case bigTichu:
-                throw new UnsupportedOperationException("Big Tichu not supported yet");
-
+                throw new UnsupportedOperationException(
+                    "Big Tichu not supported yet"
+                );
         }
-        throw new IllegalStateException(announce + " is not a known Announce!?");
+        throw new IllegalStateException(
+            announce + " is not a known Announce!?"
+        );
     }
 }

@@ -1,13 +1,13 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-
 import java.util.Set;
+import net.incongru.tichu.model.Card;
 
 /**
  *
  */
 public class FullHouse extends AbstractPlay<FullHouse> {
+
     private FullHouse(Set<Card> set) {
         super(set);
     }

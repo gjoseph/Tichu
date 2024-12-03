@@ -1,28 +1,32 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import net.incongru.tichu.model.Card;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import static net.incongru.tichu.model.Card.CardNumbers.Ace;
 import static net.incongru.tichu.model.Card.CardNumbers.Two;
 import static net.incongru.tichu.model.Card.CardSpecials.Dog;
 import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
 
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import net.incongru.tichu.model.Card;
+
 /**
  *
  */
 public class Straight extends AbstractPlay<Straight> {
+
     private final Factory.SubstituteCardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
-    private Straight(Set<Card> cards, Factory.SubstituteCardValue phoenixSubstitute, boolean bombyBomb) {
+    private Straight(
+        Set<Card> cards,
+        Factory.SubstituteCardValue phoenixSubstitute,
+        boolean bombyBomb
+    ) {
         super(cards);
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;
@@ -43,7 +47,9 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     private Collection<Card.CardValue> getCardValuesWithPhoenix() {
-        final Collection<Card.CardValue> values = Lists.newArrayList(Collections2.transform(getCards(), Card::getVal));
+        final Collection<Card.CardValue> values = Lists.newArrayList(
+            Collections2.transform(getCards(), Card::getVal)
+        );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
             values.add(phoenixSubstitute);
@@ -53,24 +59,29 @@ public class Straight extends AbstractPlay<Straight> {
 
     @Override
     protected boolean canBePlayedAfterTypeSafe(Straight other) {
-        return other.size() == this.size() && this.getLowerBound().playOrder() > other.getLowerBound().playOrder();
+        return (
+            other.size() == this.size() &&
+            this.getLowerBound().playOrder() > other.getLowerBound().playOrder()
+        );
     }
 
     @Override
     public String describe() {
         final StringBuilder s = new StringBuilder();
-        s.append(name())
-                .append(" of ")
-                .append(size())
-                .append(", from ")
-                .append(getLowerBound().niceName())
-                .append(" to ")
-                .append(getHigherBound().niceName());
+        s
+            .append(name())
+            .append(" of ")
+            .append(size())
+            .append(", from ")
+            .append(getLowerBound().niceName())
+            .append(" to ")
+            .append(getHigherBound().niceName());
         if (phoenixSubstitute != null) {
-            s.append(" with a ")
-                    .append(Phoenix.niceName())
-                    .append(" substituting for the ")
-                    .append(phoenixSubstitute.niceName());
+            s
+                .append(" with a ")
+                .append(Phoenix.niceName())
+                .append(" substituting for the ")
+                .append(phoenixSubstitute.niceName());
         }
         return s.toString();
     }
@@ -88,7 +99,9 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<Card.CardValue> values = Lists.newArrayList(Collections2.transform(cards, Card::getVal));
+            final List<Card.CardValue> values = Lists.newArrayList(
+                Collections2.transform(cards, Card::getVal)
+            );
             values.sort(Card.Comparators.V_BY_PLAY_ORDER);
 
             // Those are illegal in a street
@@ -110,7 +123,9 @@ public class Straight extends AbstractPlay<Straight> {
                     continue;
                 }
                 // If we haven't "used" the phoenix yet, we can try to fit it in a gap
-                if (phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2) {
+                if (
+                    phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2
+                ) {
                     sub = new SubstituteCardValue(prev.playOrder() + 1);
                     phoenixIsAvail = false;
                     continue;
@@ -134,8 +149,13 @@ public class Straight extends AbstractPlay<Straight> {
                 }
             }
 
-            final Card.CardSuit cardSuitTest = cards.iterator().next().getSuit();
-            final boolean isBomb = cards.stream().allMatch(card -> card.getSuit() == cardSuitTest);
+            final Card.CardSuit cardSuitTest = cards
+                .iterator()
+                .next()
+                .getSuit();
+            final boolean isBomb = cards
+                .stream()
+                .allMatch(card -> card.getSuit() == cardSuitTest);
 
             return new Straight(cards, sub, isBomb);
         }

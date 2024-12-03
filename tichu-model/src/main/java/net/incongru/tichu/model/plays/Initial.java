@@ -1,19 +1,18 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Card;
-import net.incongru.tichu.model.Play;
-
 import java.util.Collections;
 import java.util.Set;
+import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.Play;
 
 /**
  * Null-pattern implementation of {@link Play} which is used as the "first" element of a {@link net.incongru.tichu.model.Trick}.
  */
 public final class Initial implements Play {
+
     public static Initial INSTANCE = new Initial();
 
-    private Initial() {
-    }
+    private Initial() {}
 
     @Override
     public Set<Card> getCards() {

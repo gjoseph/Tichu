@@ -1,7 +1,6 @@
 package net.incongru.tichu.model;
 
 import com.google.common.annotations.VisibleForTesting;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.List;
  * (TODO: the winning condition should be configurable per game)
  */
 public class Game {
+
     private final TichuRules rules;
     private final Players players;
     private final List<FinishedRound> finishedRounds;
@@ -25,11 +25,13 @@ public class Game {
     }
 
     public boolean isReadyToStart() {
-        return !started &&
-               currentRound == null &&
-               finishedRounds.isEmpty() &&
-               players().isComplete() &&
-               players().areAllReady();
+        return (
+            !started &&
+            currentRound == null &&
+            finishedRounds.isEmpty() &&
+            players().isComplete() &&
+            players().areAllReady()
+        );
     }
 
     public Round start() {
@@ -92,23 +94,34 @@ public class Game {
     }
 
     public Score globalScore() {
-        return finishedRounds.stream()
-                .map(FinishedRound::getScore)
-                .reduce((score1, score2) -> new Score(score1.team1() + score2.team1(), score1.team2() + score2.team2()))
-                .orElse(new Score(0, 0));
+        return finishedRounds
+            .stream()
+            .map(FinishedRound::getScore)
+            .reduce((score1, score2) ->
+                new Score(
+                    score1.team1() + score2.team1(),
+                    score1.team2() + score2.team2()
+                )
+            )
+            .orElse(new Score(0, 0));
     }
 
-    static public class FinishedRound {
+    public static class FinishedRound {
+
         private final List<AnnounceResult> announces;
         private final Score score;
         private final Player finishingPlayer;
 
         FinishedRound(Round round) {
-            this(round.announces(), round.score(), null);//TODO
+            this(round.announces(), round.score(), null); //TODO
         }
 
         @VisibleForTesting
-        FinishedRound(List<AnnounceResult> announces, Score score, Player finishingPlayer) {
+        FinishedRound(
+            List<AnnounceResult> announces,
+            Score score,
+            Player finishingPlayer
+        ) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;
@@ -118,5 +131,4 @@ public class Game {
             return score;
         }
     }
-
 }

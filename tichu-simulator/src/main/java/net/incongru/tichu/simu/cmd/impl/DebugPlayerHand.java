@@ -6,6 +6,7 @@ import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
 class DebugPlayerHand implements Simulation.PostActionCommand {
+
     private final UserId player;
 
     DebugPlayerHand(UserId player) {

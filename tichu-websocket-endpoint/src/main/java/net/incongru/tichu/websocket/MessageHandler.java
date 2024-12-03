@@ -12,7 +12,15 @@ interface MessageHandler {
     void handleError(Session session, Optional<String> clientTxId, Throwable e);
 
     // Visitor pattern below, see message implementations
-    void handle(Session session, String roomId, IncomingChatMessage incomingChatMessage);
+    void handle(
+        Session session,
+        String roomId,
+        IncomingChatMessage incomingChatMessage
+    );
 
-    void handle(Session session, String roomId, GameActionMessage gameActionMessage);
+    void handle(
+        Session session,
+        String roomId,
+        GameActionMessage gameActionMessage
+    );
 }

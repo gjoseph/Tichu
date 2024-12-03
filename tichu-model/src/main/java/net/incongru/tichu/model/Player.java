@@ -1,18 +1,18 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
-
-import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 
 /**
  *
  */
 public class Player {
+
     private final UserId id;
     private boolean ready = false;
     private final Hand hand = new Hand();
@@ -77,15 +77,22 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-               "id=" + id +
-               ", ready=" + ready +
-               ", hand=" + hand +
-               ", wonCards=" + wonCards +
-               '}';
+        return (
+            "Player{" +
+            "id=" +
+            id +
+            ", ready=" +
+            ready +
+            ", hand=" +
+            hand +
+            ", wonCards=" +
+            wonCards +
+            '}'
+        );
     }
 
     public static class Hand {
+
         private final Set<Card> cards = new LinkedHashSet<>();
 
         void clear() {
@@ -114,7 +121,9 @@ public class Player {
 
         void discard(Set<Card> cards) {
             if (!cards.containsAll(cards)) {
-                throw new IllegalStateException("Could not remove cards " + cards + " from player's hand");
+                throw new IllegalStateException(
+                    "Could not remove cards " + cards + " from player's hand"
+                );
             }
             // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
             // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
@@ -122,7 +131,9 @@ public class Player {
         }
 
         public String toDebugString() {
-            return this.cards.stream().map(Card::name).collect(Collectors.joining(", "));
+            return this.cards.stream()
+                .map(Card::name)
+                .collect(Collectors.joining(", "));
         }
     }
 }
