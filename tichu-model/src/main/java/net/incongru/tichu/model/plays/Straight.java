@@ -1,18 +1,5 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import net.incongru.tichu.model.card.Card;
-import net.incongru.tichu.model.card.CardComparators;
-import net.incongru.tichu.model.card.CardSuit;
-import net.incongru.tichu.model.card.CardValue;
-import net.incongru.tichu.model.card.SubstituteCardValue;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import static net.incongru.tichu.model.card.CardNumbers.Ace;
 import static net.incongru.tichu.model.card.CardNumbers.Two;
 import static net.incongru.tichu.model.card.CardSpecials.Dog;
@@ -22,30 +9,46 @@ import static net.incongru.tichu.model.card.SubstituteCardValue.substituteFor;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.Collection;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Collections;
 import java.util.Collections;
 import java.util.List;
 import java.util.List;
+import java.util.List;
+import java.util.Set;
 import java.util.Set;
 import java.util.Set;
 import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardComparators;
 import net.incongru.tichu.model.card.CardComparators;
 import net.incongru.tichu.model.card.CardNumbers;
 import net.incongru.tichu.model.card.CardSuit;
+import net.incongru.tichu.model.card.CardSuit;
 import net.incongru.tichu.model.card.CardValue;
+import net.incongru.tichu.model.card.CardValue;
+import net.incongru.tichu.model.card.SubstituteCardValue;
 
 /**
  *
  */
 public class Straight extends AbstractPlay<Straight> {
+
     private final CardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
-    private Straight(Set<Card> cards, CardValue phoenixSubstitute, boolean bombyBomb) {
+    private Straight(
+        Set<Card> cards,
+        CardValue phoenixSubstitute,
+        boolean bombyBomb
+    ) {
         super(cards);
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;
@@ -142,7 +145,9 @@ public class Straight extends AbstractPlay<Straight> {
                     continue;
                 }
                 // If we haven't "used" the phoenix yet, we can try to fit it in a gap
-                if (phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2) {
+                if (
+                    phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2
+                ) {
                     sub = substituteFor(prev.playOrder() + 1);
                     phoenixIsAvail = false;
                     continue;
@@ -175,5 +180,4 @@ public class Straight extends AbstractPlay<Straight> {
             return new Straight(cards, sub, isBomb);
         }
     }
-
 }

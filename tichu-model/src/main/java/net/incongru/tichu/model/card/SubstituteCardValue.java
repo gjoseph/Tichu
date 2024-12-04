@@ -9,7 +9,6 @@ import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
  * @see net.incongru.tichu.model.plays.Straight
  */
 public record SubstituteCardValue(CardValue sub) implements CardValue {
-
     // Convenience factory method for Straight, where we "calculate" a playOrder rather than get it from a card
     public static CardValue substituteFor(int playOrder) {
         return new SubstituteCardValue(CardNumbers.byPlayOrder(playOrder));
