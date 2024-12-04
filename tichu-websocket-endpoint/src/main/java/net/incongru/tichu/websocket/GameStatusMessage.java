@@ -1,13 +1,10 @@
 package net.incongru.tichu.websocket;
 
-
-import net.incongru.tichu.model.UserId;
-import net.incongru.tichu.model.card.Card;
-
 import java.util.Collection;
 import java.util.List;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.model.UserId;
+import net.incongru.tichu.model.card.Card;
 
 public record GameStatusMessage(
     Collection<PlayerStatus> players,

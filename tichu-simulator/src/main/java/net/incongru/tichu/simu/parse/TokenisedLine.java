@@ -1,8 +1,5 @@
 package net.incongru.tichu.simu.parse;
 
-import net.incongru.tichu.model.card.Card;
-import net.incongru.tichu.model.util.DeckConstants;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.util.DeckConstants;
 import net.incongru.tichu.model.util.DeckConstants;
 
 public class TokenisedLine {

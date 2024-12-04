@@ -1,15 +1,14 @@
 package net.incongru.tichu.model.plays;
 
+import java.util.Set;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardValue;
-
-import java.util.Set;
-import net.incongru.tichu.model.Card;
 
 /**
  *
  */
 public class Triple extends NSameValue<Triple> {
+
     private Triple(Set<Card> cards, CardValue value) {
         super(cards, value);
     }

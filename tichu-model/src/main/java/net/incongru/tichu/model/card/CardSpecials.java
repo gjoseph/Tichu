@@ -1,7 +1,6 @@
 package net.incongru.tichu.model.card;
 
 public enum CardSpecials implements CardValue {
-
     MahJong(0, 1, '1'),
     Dog(0, 1, 'H'), // Hund in German, D is for Dragon
     Phoenix(-25, -1, 'P'),
@@ -44,5 +43,4 @@ public enum CardSpecials implements CardValue {
     public char shortName() {
         return shortName;
     }
-
 }

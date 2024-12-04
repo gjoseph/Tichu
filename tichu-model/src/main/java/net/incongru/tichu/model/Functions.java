@@ -1,12 +1,11 @@
 package net.incongru.tichu.model;
 
 import com.google.common.collect.Iterators;
-import net.incongru.tichu.model.card.Card;
-
 import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
+import net.incongru.tichu.model.card.Card;
 
 /**
  *

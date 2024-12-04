@@ -1,18 +1,5 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import net.incongru.tichu.model.card.Card;
-import net.incongru.tichu.model.card.CardComparators;
-import net.incongru.tichu.model.card.CardNumbers;
-import net.incongru.tichu.model.card.CardSuit;
-import net.incongru.tichu.model.card.CardValue;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-
 import static net.incongru.tichu.model.card.CardNumbers.Ace;
 import static net.incongru.tichu.model.card.CardNumbers.Two;
 import static net.incongru.tichu.model.card.CardSpecials.Dog;
@@ -20,12 +7,22 @@ import static net.incongru.tichu.model.card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
 
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Lists;
 import java.util.Collection;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Collections;
 import java.util.List;
+import java.util.List;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
+import java.util.Set;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardComparators;
+import net.incongru.tichu.model.card.CardNumbers;
+import net.incongru.tichu.model.card.CardSuit;
+import net.incongru.tichu.model.card.CardValue;
 
 /**
  *
@@ -60,7 +57,9 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
-        final Collection<CardValue> values = Lists.newArrayList(Collections2.transform(getCards(), card -> card.val()));
+        final Collection<CardValue> values = Lists.newArrayList(
+            Collections2.transform(getCards(), card -> card.val())
+        );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
             values.add(phoenixSubstitute);
@@ -110,7 +109,9 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<CardValue> values = Lists.newArrayList(Collections2.transform(cards, Card::val));
+            final List<CardValue> values = Lists.newArrayList(
+                Collections2.transform(cards, Card::val)
+            );
             values.sort(CardComparators.V_BY_PLAY_ORDER);
 
             // Those are illegal in a street
@@ -160,7 +161,9 @@ public class Straight extends AbstractPlay<Straight> {
 
             Card card1 = cards.iterator().next();
             final CardSuit cardSuitTest = card1.suit();
-            final boolean isBomb = cards.stream().allMatch(card -> card.suit() == cardSuitTest);
+            final boolean isBomb = cards
+                .stream()
+                .allMatch(card -> card.suit() == cardSuitTest);
 
             return new Straight(cards, sub, isBomb);
         }

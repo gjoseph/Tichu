@@ -1,11 +1,5 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.collect.Sets;
-import net.incongru.tichu.model.card.Card;
-import org.junit.jupiter.api.Test;
-
-import java.util.Set;
-
 import static net.incongru.tichu.model.util.DeckConstants.Pagoda_10;
 import static net.incongru.tichu.model.util.DeckConstants.Pagoda_4;
 import static net.incongru.tichu.model.util.DeckConstants.Pagoda_5;
@@ -17,8 +11,11 @@ import static net.incongru.tichu.model.util.DeckConstants.Sword_4;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.collect.Sets;
+import com.google.common.collect.Sets;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
+import java.util.Set;
+import net.incongru.tichu.model.card.Card;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Test;
 
 class AbstractPlayTest {

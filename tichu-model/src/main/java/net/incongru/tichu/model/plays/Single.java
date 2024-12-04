@@ -1,19 +1,16 @@
 package net.incongru.tichu.model.plays;
 
-import com.google.common.base.Preconditions;
-import net.incongru.tichu.model.card.Card;
-import net.incongru.tichu.model.card.CardValue;
-
-import java.util.Set;
-
 import static net.incongru.tichu.model.card.CardSpecials.Dog;
 import static net.incongru.tichu.model.card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.card.CardSpecials.MahJong;
 import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Preconditions;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
+import java.util.Set;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardValue;
 
 /**
  *

@@ -1,12 +1,10 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Play;
-import net.incongru.tichu.model.card.Card;
-
 import java.util.Collections;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.card.Card;
 
 /**
  * Pass _is_ a {@link Play}

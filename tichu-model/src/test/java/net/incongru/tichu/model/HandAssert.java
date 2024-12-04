@@ -1,5 +1,6 @@
 package net.incongru.tichu.model;
 
+import java.util.Set;
 import net.incongru.tichu.model.card.Card;
 import org.assertj.core.api.AbstractAssert;
 

@@ -1,12 +1,10 @@
 package net.incongru.tichu.model.plays;
 
-import net.incongru.tichu.model.Play;
-import net.incongru.tichu.model.card.Card;
-
 import java.util.Collections;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.card.Card;
 
 /**
  * Null-pattern implementation of {@link Play} which is used as the "first" element of a {@link net.incongru.tichu.model.Trick}.

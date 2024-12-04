@@ -1,19 +1,5 @@
 package net.incongru.tichu.model;
 
-import com.google.common.collect.Sets;
-import net.incongru.tichu.model.card.Card;
-import net.incongru.tichu.model.card.CardNumbers;
-import net.incongru.tichu.model.plays.ConsecutivePairs;
-import net.incongru.tichu.model.plays.FullHouse;
-import net.incongru.tichu.model.plays.Initial;
-import net.incongru.tichu.model.plays.InvalidPlay;
-import net.incongru.tichu.model.plays.Pair;
-import net.incongru.tichu.model.plays.Single;
-import net.incongru.tichu.model.plays.Straight;
-import net.incongru.tichu.model.plays.Triple;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
 import static net.incongru.tichu.model.util.DeckConstants.B2;
 import static net.incongru.tichu.model.util.DeckConstants.B3;
 import static net.incongru.tichu.model.util.DeckConstants.B4;
@@ -67,15 +53,28 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.Sets;
+import com.google.common.collect.Sets;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardNumbers;
+import net.incongru.tichu.model.plays.ConsecutivePairs;
 import net.incongru.tichu.model.plays.ConsecutivePairs;
 import net.incongru.tichu.model.plays.FullHouse;
+import net.incongru.tichu.model.plays.FullHouse;
+import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.InvalidPlay;
+import net.incongru.tichu.model.plays.InvalidPlay;
+import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Pair;
 import net.incongru.tichu.model.plays.Single;
+import net.incongru.tichu.model.plays.Single;
+import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
+import net.incongru.tichu.model.plays.Triple;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Test;
 
 /**

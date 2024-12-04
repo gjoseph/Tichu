@@ -1,5 +1,12 @@
 package net.incongru.tichu.model;
 
+import static net.incongru.tichu.model.card.CardPredicates.is;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardSpecials;
 import net.incongru.tichu.model.plays.BombOf4;
@@ -9,14 +16,6 @@ import net.incongru.tichu.model.plays.Pass;
 import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import static net.incongru.tichu.model.card.CardPredicates.is;
 
 /**
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
@@ -56,8 +55,8 @@ public class TichuRules {
             );
     }
 
-    private static final Predicate<Player> hasMahjong =
-            player -> player.hand().has(is(CardSpecials.MahJong));
+    private static final Predicate<Player> hasMahjong = player ->
+        player.hand().has(is(CardSpecials.MahJong));
 
     @Nonnull
     public Play validate(Set<Card> cards) {
