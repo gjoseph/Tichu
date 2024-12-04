@@ -72,7 +72,12 @@ public class DeckConstantsCodeGen {
                 constVal = " = new Card(Card.CardSpecials." + card.val() + ");";
             } else {
                 constName = card.suit() + "_" + card.val().niceName();
-                constVal = " = new Card(Card.CardNumbers." + card.val() + ", Card.CardSuit." + card.suit() + ");";
+                constVal =
+                    " = new Card(Card.CardNumbers." +
+                    card.val() +
+                    ", Card.CardSuit." +
+                    card.suit() +
+                    ");";
             }
             final String shortAlias = card.shortName().replace('*', '_');
             out.println(
@@ -81,7 +86,13 @@ public class DeckConstantsCodeGen {
 
             // "10" cards have a 2-char shortnames like others, but we also want a nice constant
             if (card.val().shortName() == '0') {
-                out.println(prefix + card.shortName().replace("0", "10") + " = " + constName + ";");
+                out.println(
+                    prefix +
+                    card.shortName().replace("0", "10") +
+                    " = " +
+                    constName +
+                    ";"
+                );
             }
 
             // alt. name for Dog
@@ -109,17 +120,30 @@ public class DeckConstantsCodeGen {
         out.println("export const AllCards: Array<Card> = [");
         cards.forEach(card -> {
             final boolean special = card.val().isSpecial();
-            out.append("    {\n")
-                    .append("        name: \"").append(card.name()).append("\",\n")
-                    .append("        shortName: \"").append(card.shortName()).append("\",\n")
-                    .append("        scoreValue: ").append(String.valueOf(card.val().scoreValue())).append(",\n");
+            out
+                .append("    {\n")
+                .append("        name: \"")
+                .append(card.name())
+                .append("\",\n")
+                .append("        shortName: \"")
+                .append(card.shortName())
+                .append("\",\n")
+                .append("        scoreValue: ")
+                .append(String.valueOf(card.val().scoreValue()))
+                .append(",\n");
             if (special) {
                 out.println(
                     "    special: SpecialCards.%s,".formatted(card.name())
                 );
             } else {
-                out.append("        suit: CardSuit.").append(card.suit().name()).append(",\n");
-                out.append("        number: ").append(String.valueOf(card.val().playOrder())).append(",\n");
+                out
+                    .append("        suit: CardSuit.")
+                    .append(card.suit().name())
+                    .append(",\n");
+                out
+                    .append("        number: ")
+                    .append(String.valueOf(card.val().playOrder()))
+                    .append(",\n");
             }
             out.print(
                 """

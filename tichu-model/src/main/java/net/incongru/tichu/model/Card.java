@@ -1,7 +1,6 @@
 package net.incongru.tichu.model;
 
 import com.google.common.base.Preconditions;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
@@ -11,11 +10,13 @@ import java.util.function.Predicate;
  *
  */
 public record Card(CardValue val, CardSuit suit) {
-
     public Card {
         Objects.requireNonNull(val, "Card value can't be null");
         if (val.isSpecial()) {
-            Preconditions.checkState(suit == null, "Special cards don't have a suit");
+            Preconditions.checkState(
+                suit == null,
+                "Special cards don't have a suit"
+            );
         } else {
             Objects.requireNonNull(suit, "Suit can't be null for " + val);
         }
@@ -191,9 +192,18 @@ public record Card(CardValue val, CardSuit suit) {
      * These comparators are probably consistent with equals()...
      */
     public static class Comparators {
-        private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(CardValue::playOrder).thenComparing(CardValue::shortName);
-        private static final Comparator<Card> PLAY_ORDER = comparing(Card::val, V_PLAY_ORDER);
-        private static final Comparator<Card> SUIT = comparing(Card::suit, nullsFirst(comparing(CardSuit::shortName)));
+
+        private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(
+            CardValue::playOrder
+        ).thenComparing(CardValue::shortName);
+        private static final Comparator<Card> PLAY_ORDER = comparing(
+            Card::val,
+            V_PLAY_ORDER
+        );
+        private static final Comparator<Card> SUIT = comparing(
+            Card::suit,
+            nullsFirst(comparing(CardSuit::shortName))
+        );
 
         private static final Comparator<CardValue> V_PLAY_ORDER = comparingInt(
             CardValue::playOrder

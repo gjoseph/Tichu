@@ -21,9 +21,18 @@ class CardTest {
 
     @Test
     void cardNamesAreOkay() {
-        assertEquals("Ace of Sword", new Card(Card.CardNumbers.Ace, Card.CardSuit.Sword).name());
-        assertEquals("Queen of Star", new Card(Card.CardNumbers.Queen, Card.CardSuit.Star).name());
-        assertEquals("7 of Pagoda", new Card(Card.CardNumbers.Seven, Card.CardSuit.Pagoda).name());
+        assertEquals(
+            "Ace of Sword",
+            new Card(Card.CardNumbers.Ace, Card.CardSuit.Sword).name()
+        );
+        assertEquals(
+            "Queen of Star",
+            new Card(Card.CardNumbers.Queen, Card.CardSuit.Star).name()
+        );
+        assertEquals(
+            "7 of Pagoda",
+            new Card(Card.CardNumbers.Seven, Card.CardSuit.Pagoda).name()
+        );
         assertEquals("Dragon", new Card(Card.CardSpecials.Dragon, null).name());
     }
 
