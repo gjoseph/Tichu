@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import java.util.function.Predicate;
+import net.incongru.tichu.model.card.Card;
 
 /**
  *
@@ -12,10 +13,7 @@ import java.util.function.Predicate;
 class Functions {
 
     static int score(Collection<Card> cards) {
-        return cards
-            .stream()
-            .mapToInt(card -> card.getVal().scoreValue())
-            .sum();
+        return cards.stream().mapToInt(card -> card.val().scoreValue()).sum();
     }
 
     /**

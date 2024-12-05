@@ -1,8 +1,8 @@
 package net.incongru.tichu.model.plays;
 
 import java.util.Set;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.card.Card;
 
 /**
  * Null-pattern implementation for plays that are not valid.

@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import com.google.common.base.Preconditions;
 import java.util.List;
 import java.util.Set;
+import net.incongru.tichu.model.card.Card;
 
 /**
  * One card or set of cards that a player puts down. An empty set means the player passes.

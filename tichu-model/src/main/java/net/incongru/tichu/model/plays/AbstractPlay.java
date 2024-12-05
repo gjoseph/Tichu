@@ -2,8 +2,9 @@ package net.incongru.tichu.model.plays;
 
 import java.util.Collections;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
 import net.incongru.tichu.model.Play;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardComparators;
 
 /**
  *
@@ -44,7 +45,7 @@ public abstract class AbstractPlay<P extends Play> implements Play<P> {
     }
 
     protected Card smallestCard() {
-        return Collections.min(cards, Card.Comparators.BY_PLAY_ORDER);
+        return Collections.min(cards, CardComparators.BY_PLAY_ORDER);
     }
 
     @Override

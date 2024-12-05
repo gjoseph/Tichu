@@ -1,6 +1,6 @@
-package net.incongru.tichu.model;
+package net.incongru.tichu.model.card;
 
-import static net.incongru.tichu.model.Card.Comparators.BY_SUIT;
+import static net.incongru.tichu.model.card.CardComparators.BY_SUIT;
 import static net.incongru.tichu.model.util.DeckConstants.Dog;
 import static net.incongru.tichu.model.util.DeckConstants.Dragon;
 import static net.incongru.tichu.model.util.DeckConstants.Jade_Queen;
@@ -11,7 +11,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.common.collect.FluentIterable;
+import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.util.DeckConstants;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,17 +25,17 @@ class CardTest {
     void cardNamesAreOkay() {
         assertEquals(
             "Ace of Sword",
-            new Card(Card.CardNumbers.Ace, Card.CardSuit.Sword).name()
+            Card.of(CardNumbers.Ace, CardSuit.Sword).name()
         );
         assertEquals(
             "Queen of Star",
-            new Card(Card.CardNumbers.Queen, Card.CardSuit.Star).name()
+            Card.of(CardNumbers.Queen, CardSuit.Star).name()
         );
         assertEquals(
             "7 of Pagoda",
-            new Card(Card.CardNumbers.Seven, Card.CardSuit.Pagoda).name()
+            Card.of(CardNumbers.Seven, CardSuit.Pagoda).name()
         );
-        assertEquals("Dragon", new Card(Card.CardSpecials.Dragon).name());
+        assertEquals("Dragon", Card.of(CardSpecials.Dragon).name());
     }
 
     @Test
@@ -51,7 +53,7 @@ class CardTest {
         assertThat(
             FluentIterable.from(array).toSortedSet(BY_SUIT)
         ).containsOnly(array);
-        assertThat(
+        Assertions.assertThat(
             FluentIterable.from(new CardDeck().allRemaining()).toSortedList(
                 BY_SUIT
             )
@@ -65,22 +67,26 @@ class CardTest {
 
     @Test
     void predicates() {
-        assertThat(Card.Predicates.is(Card.CardSpecials.Dog)).accepts(Dog);
-        assertThat(Card.Predicates.is(Card.CardSpecials.Dog)).rejects(
+        assertThat(CardPredicates.is(CardSpecials.Dog)).accepts(Dog);
+        assertThat(CardPredicates.is(CardSpecials.Dog)).rejects(
             Jade_Queen,
             MahJong,
             Dragon,
             Phoenix
         );
 
-        assertThat(
-            Card.Predicates.is(Card.CardNumbers.Queen, Card.CardSuit.Jade)
-        ).accepts(Jade_Queen);
-        assertThat(
-            Card.Predicates.is(Card.CardNumbers.Queen, Card.CardSuit.Jade)
-        ).rejects(Sword_7, Dog, MahJong, Dragon, Phoenix);
+        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade)).accepts(
+            Jade_Queen
+        );
+        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade)).rejects(
+            Sword_7,
+            Dog,
+            MahJong,
+            Dragon,
+            Phoenix
+        );
 
-        assertThat(Card.Predicates.is(null)).rejects(Dog, Jade_Queen);
-        assertThat(Card.Predicates.is(null, null)).rejects(Dog, Jade_Queen);
+        assertThat(CardPredicates.is(null)).rejects(Dog, Jade_Queen);
+        assertThat(CardPredicates.is(null, null)).rejects(Dog, Jade_Queen);
     }
 }

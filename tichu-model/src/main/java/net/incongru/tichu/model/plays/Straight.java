@@ -1,10 +1,11 @@
 package net.incongru.tichu.model.plays;
 
-import static net.incongru.tichu.model.Card.CardNumbers.Ace;
-import static net.incongru.tichu.model.Card.CardNumbers.Two;
-import static net.incongru.tichu.model.Card.CardSpecials.Dog;
-import static net.incongru.tichu.model.Card.CardSpecials.Dragon;
-import static net.incongru.tichu.model.Card.CardSpecials.Phoenix;
+import static net.incongru.tichu.model.card.CardNumbers.Ace;
+import static net.incongru.tichu.model.card.CardNumbers.Two;
+import static net.incongru.tichu.model.card.CardSpecials.Dog;
+import static net.incongru.tichu.model.card.CardSpecials.Dragon;
+import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
+import static net.incongru.tichu.model.card.SubstituteCardValue.substituteFor;
 
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -12,19 +13,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import net.incongru.tichu.model.Card;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardComparators;
+import net.incongru.tichu.model.card.CardSuit;
+import net.incongru.tichu.model.card.CardValue;
 
 /**
  *
  */
 public class Straight extends AbstractPlay<Straight> {
 
-    private final Factory.SubstituteCardValue phoenixSubstitute;
+    private final CardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
     private Straight(
         Set<Card> cards,
-        Factory.SubstituteCardValue phoenixSubstitute,
+        CardValue phoenixSubstitute,
         boolean bombyBomb
     ) {
         super(cards);
@@ -36,19 +40,19 @@ public class Straight extends AbstractPlay<Straight> {
         return getCards().size();
     }
 
-    public Card.CardValue getLowerBound() {
-        final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
-        return Collections.min(values, Card.Comparators.V_BY_PLAY_ORDER);
+    public CardValue getLowerBound() {
+        final Collection<CardValue> values = getCardValuesWithPhoenix();
+        return Collections.min(values, CardComparators.V_BY_PLAY_ORDER);
     }
 
-    public Card.CardValue getHigherBound() {
-        final Collection<Card.CardValue> values = getCardValuesWithPhoenix();
-        return Collections.max(values, Card.Comparators.V_BY_PLAY_ORDER);
+    public CardValue getHigherBound() {
+        final Collection<CardValue> values = getCardValuesWithPhoenix();
+        return Collections.max(values, CardComparators.V_BY_PLAY_ORDER);
     }
 
-    private Collection<Card.CardValue> getCardValuesWithPhoenix() {
-        final Collection<Card.CardValue> values = Lists.newArrayList(
-            Collections2.transform(getCards(), Card::getVal)
+    private Collection<CardValue> getCardValuesWithPhoenix() {
+        final Collection<CardValue> values = Lists.newArrayList(
+            Collections2.transform(getCards(), card -> card.val())
         );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
@@ -99,10 +103,10 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<Card.CardValue> values = Lists.newArrayList(
-                Collections2.transform(cards, Card::getVal)
+            final List<CardValue> values = Lists.newArrayList(
+                Collections2.transform(cards, Card::val)
             );
-            values.sort(Card.Comparators.V_BY_PLAY_ORDER);
+            values.sort(CardComparators.V_BY_PLAY_ORDER);
 
             // Those are illegal in a street
             if (values.contains(Dog) || values.contains(Dragon)) {
@@ -111,12 +115,12 @@ public class Straight extends AbstractPlay<Straight> {
 
             // Keep track of what the Phoenix is substituted for
             boolean phoenixIsAvail = values.remove(Phoenix);
-            SubstituteCardValue sub = null;
+            CardValue sub = null;
 
             // starting at the second card, and compare it to previous... should do, right ?
             for (int i = 1; i < values.size(); i++) {
-                final Card.CardValue curr = values.get(i);
-                final Card.CardValue prev = values.get(i - 1);
+                final CardValue curr = values.get(i);
+                final CardValue prev = values.get(i - 1);
 
                 // Diff between previous and current card should be "1"
                 if (curr.playOrder() - prev.playOrder() == 1) {
@@ -126,7 +130,7 @@ public class Straight extends AbstractPlay<Straight> {
                 if (
                     phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2
                 ) {
-                    sub = new SubstituteCardValue(prev.playOrder() + 1);
+                    sub = substituteFor(prev.playOrder() + 1);
                     phoenixIsAvail = false;
                     continue;
                 }
@@ -136,64 +140,26 @@ public class Straight extends AbstractPlay<Straight> {
 
             // If phoenix hasn't been used, we use it for the highest possible position
             if (phoenixIsAvail) {
-                final Card.CardValue last = values.get(values.size() - 1);
-                final Card.CardValue first = values.get(0);
+                final CardValue last = values.get(values.size() - 1);
+                final CardValue first = values.get(0);
                 if (last == Ace && first.playOrder() > Two.playOrder()) {
                     // then we use it "before" the first card
-                    sub = new SubstituteCardValue(first.playOrder() - 1);
+                    sub = substituteFor(first.playOrder() - 1);
                 } else if (last.playOrder() < Ace.playOrder()) {
-                    sub = new SubstituteCardValue(last.playOrder() + 1);
+                    sub = substituteFor(last.playOrder() + 1);
                 } else {
                     // we have an unusable phoenix
                     return null;
                 }
             }
 
-            final Card.CardSuit cardSuitTest = cards
-                .iterator()
-                .next()
-                .getSuit();
+            Card card1 = cards.iterator().next();
+            final CardSuit cardSuitTest = card1.suit();
             final boolean isBomb = cards
                 .stream()
-                .allMatch(card -> card.getSuit() == cardSuitTest);
+                .allMatch(card -> card.suit() == cardSuitTest);
 
             return new Straight(cards, sub, isBomb);
-        }
-
-        private static class SubstituteCardValue implements Card.CardValue {
-
-            private final Card.CardValue substitutedValue;
-            private final int subPlayOrder;
-
-            public SubstituteCardValue(int playOrder) {
-                this.subPlayOrder = playOrder;
-                this.substitutedValue = Card.CardNumbers.byPlayOrder(playOrder);
-            }
-
-            @Override
-            public boolean isSpecial() {
-                return true;
-            }
-
-            @Override
-            public int scoreValue() {
-                return Phoenix.scoreValue();
-            }
-
-            @Override
-            public int playOrder() {
-                return subPlayOrder;
-            }
-
-            @Override
-            public String niceName() {
-                return substitutedValue.niceName();
-            }
-
-            @Override
-            public char shortName() {
-                return (char) ('0' + subPlayOrder);
-            }
         }
     }
 }

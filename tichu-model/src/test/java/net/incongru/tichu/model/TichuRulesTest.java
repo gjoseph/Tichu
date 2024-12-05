@@ -53,6 +53,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.common.collect.Sets;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardNumbers;
 import net.incongru.tichu.model.plays.ConsecutivePairs;
 import net.incongru.tichu.model.plays.FullHouse;
 import net.incongru.tichu.model.plays.Initial;
@@ -145,8 +147,8 @@ class TichuRulesTest {
 
         // assertThat(straight.getHigherBound(), equalTo(Pagoda_8);
         // assertThat(straight.getLowerBound(), equalTo(Star_3);
-        assertThat(straight.getHigherBound()).isEqualTo(Card.CardNumbers.Eight);
-        assertThat(straight.getLowerBound()).isEqualTo(Card.CardNumbers.Three);
+        assertThat(straight.getHigherBound()).isEqualTo(CardNumbers.Eight);
+        assertThat(straight.getLowerBound()).isEqualTo(CardNumbers.Three);
         assertThat(straight.size()).isEqualTo(6);
         assertThat(straight.name()).isEqualTo("Straight");
         assertThat(straight.describe()).isEqualTo("Straight of 6, from 3 to 8");

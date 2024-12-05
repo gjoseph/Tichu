@@ -1,12 +1,14 @@
 package net.incongru.tichu.model;
 
-import static net.incongru.tichu.model.Card.Predicates.is;
+import static net.incongru.tichu.model.card.CardPredicates.is;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import javax.annotation.Nonnull;
+import net.incongru.tichu.model.card.Card;
+import net.incongru.tichu.model.card.CardSpecials;
 import net.incongru.tichu.model.plays.BombOf4;
 import net.incongru.tichu.model.plays.InvalidPlay;
 import net.incongru.tichu.model.plays.Pair;
@@ -54,7 +56,7 @@ public class TichuRules {
     }
 
     private static final Predicate<Player> hasMahjong = player ->
-        player.hand().has(is(Card.CardSpecials.MahJong));
+        player.hand().has(is(CardSpecials.MahJong));
 
     @Nonnull
     public Play validate(Set<Card> cards) {
