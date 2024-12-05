@@ -29,10 +29,10 @@ public interface ActionResponse<R extends ActionResponse.Result> {
 
     static class Message {
 
-        private final String message;
+        private final String text;
 
-        public Message(@Nonnull String message) {
-            this.message = message;
+        public Message(@Nonnull String text) {
+            this.text = text;
         }
 
         @Override
@@ -40,17 +40,17 @@ public interface ActionResponse<R extends ActionResponse.Result> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Message message1 = (Message) o;
-            return Objects.equals(message, message1.message);
+            return Objects.equals(text, message1.text);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(message);
+            return Objects.hash(text);
         }
 
         @Override
         public String toString() {
-            return "Message{" + "message='" + message + '\'' + '}';
+            return "Message{" + "message='" + text + '\'' + '}';
         }
     }
 }

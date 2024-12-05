@@ -121,7 +121,7 @@ public class Player {
         }
 
         void discard(Set<Card> cards) {
-            if (!cards.containsAll(cards)) {
+            if (!hasAll(cards)) {
                 throw new IllegalStateException(
                     "Could not remove cards " + cards + " from player's hand"
                 );

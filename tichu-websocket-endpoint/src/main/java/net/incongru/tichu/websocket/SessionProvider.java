@@ -8,7 +8,7 @@ import net.incongru.tichu.model.UserId;
 public class SessionProvider {
 
     // TODO probably not efficient at all, since Tomcat's Session doesn't implement hashcode..
-    private Set<Session> sessions = new CopyOnWriteArraySet<>();
+    private final Set<Session> sessions = new CopyOnWriteArraySet<>();
 
     void register(Session session) {
         sessions.add(session);

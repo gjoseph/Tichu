@@ -48,7 +48,6 @@ import static net.incongru.tichu.model.util.DeckConstants.Sword_Ace;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_King;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_Queen;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -75,8 +74,12 @@ class TichuRulesTest {
     void bombIsFour7s() {
         final Play four7s = newPlay(Pagoda_7, Sword_7, Jade_7, Star_7);
         final Play three7s = newPlay(Pagoda_7, Sword_7, Jade_7);
-        assertEquals(four7s.getCards().size(), 4, "pre-flight");
-        assertEquals(three7s.getCards().size(), 3, "pre-flight");
+        assertThat(four7s.getCards())
+            .withFailMessage("pre-flight check")
+            .hasSize(4);
+        assertThat(three7s.getCards())
+            .withFailMessage("pre-flight check")
+            .hasSize(3);
 
         assertTrue(new TichuRules().isBomb(four7s));
         assertFalse(new TichuRules().isBomb(three7s));
@@ -173,14 +176,20 @@ class TichuRulesTest {
     @Test
     void invalidStraights() {
         assertThat(newPlay(Sword_2, Sword_3, Sword_4, Sword_5))
-            .isInstanceOf(InvalidPlay.class)
-            .withFailMessage("Not long enough (only 4 cards)");
+            .withFailMessage(
+                "Should have been invalid play -- not long enough (only 4 cards)"
+            )
+            .isInstanceOf(InvalidPlay.class);
         assertThat(newPlay(Sword_2, Sword_3, Jade_3, Sword_4, Sword_5, Jade_6))
-            .isInstanceOf(InvalidPlay.class)
-            .withFailMessage("Can't have same cards (Sword3 and Jade3)");
+            .withFailMessage(
+                "Should have been invalid play -- can't have same cards (Sword3 and Jade3)"
+            )
+            .isInstanceOf(InvalidPlay.class);
         assertThat(newPlay(Sword_2, Sword_3, Sword_4, Star_6, Sword_7))
-            .isInstanceOf(InvalidPlay.class)
-            .withFailMessage("Can't skip (*5 is missing)");
+            .withFailMessage(
+                "Should have been invalid play -- can't skip (*5 is missing)"
+            )
+            .isInstanceOf(InvalidPlay.class);
     }
 
     @Test
@@ -204,8 +213,8 @@ class TichuRulesTest {
                 Star_Ace
             )
         )
-            .isInstanceOf(InvalidPlay.class)
-            .withFailMessage("Can't sub Phoenix for mahjong");
+            .withFailMessage("Can't sub Phoenix for mahjong")
+            .isInstanceOf(InvalidPlay.class);
     }
 
     @Test
@@ -230,8 +239,8 @@ class TichuRulesTest {
                 Star_Ace
             )
         )
-            .isInstanceOf(InvalidPlay.class)
-            .withFailMessage("Can't sub Phoenix for before mahjong");
+            .withFailMessage("Can't sub Phoenix for before mahjong")
+            .isInstanceOf(InvalidPlay.class);
     }
 
     @Test
