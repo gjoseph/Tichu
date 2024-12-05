@@ -149,10 +149,11 @@ public class JacksonSetup {
         UserId nextPlayer();
     }
 
+    // See net.incongru.tichu.action.ActionResponse.Message
     abstract static class MessageJacksonSupport {
 
         @JsonValue
-        String message;
+        String text;
     }
 
     static class CardDeserializer extends FromStringDeserializer<Card> {
