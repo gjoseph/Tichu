@@ -83,7 +83,7 @@ public interface PostActionCommandFactory {
         // I'm writing all this stuff purely because I don't want to copy class names into the constructors of the enum lol
         private class ClassNamePredicate implements Predicate<Play> {
 
-            private Class clazz;
+            private final Class clazz;
 
             public ClassNamePredicate() {
                 final String className =
