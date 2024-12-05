@@ -171,15 +171,15 @@ public interface PostActionCommandFactory {
     }
 
     enum ExpectableGameState implements NameableEnum, Predicate<Game> {
-        Started(Game::isStarted),
-        NotStarted(not(Started.predicate), "not started"),
-        ReadyToStart(Game::isReadyToStart, "ready", "ready to start"),
-        NotReadyToStart(
-            not(ReadyToStart.predicate),
+        STARTED(Game::isStarted),
+        NOT_STARTED(not(STARTED.predicate), "not started"),
+        READY_TO_START(Game::isReadyToStart, "ready", "ready to start"),
+        NOT_READY_TO_START(
+            not(READY_TO_START.predicate),
             "not ready",
             "not ready to start"
         ),
-        Done(
+        DONE(
             game -> {
                 throw new IllegalStateException("Not implemented yet");
             },
@@ -188,8 +188,8 @@ public interface PostActionCommandFactory {
             "end",
             "ended"
         ),
-        NotDone(
-            not(ReadyToStart.predicate),
+        NOT_DONE(
+            not(READY_TO_START.predicate),
             "not done",
             "not over",
             "not end",

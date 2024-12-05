@@ -4,6 +4,6 @@ package net.incongru.tichu.model;
  *
  */
 enum Announce {
-    tichu,
-    bigTichu,
+    TICHU,
+    BIG_TICHU,
 }

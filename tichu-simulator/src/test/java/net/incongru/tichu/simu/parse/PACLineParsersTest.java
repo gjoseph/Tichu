@@ -128,27 +128,27 @@ class PACLineParsersTest {
         return Stream.of(
             arguments(
                 "expect game ready",
-                PostActionCommandFactory.ExpectableGameState.ReadyToStart
+                PostActionCommandFactory.ExpectableGameState.READY_TO_START
             ),
             arguments(
                 "expect game not ready",
-                PostActionCommandFactory.ExpectableGameState.NotReadyToStart
+                PostActionCommandFactory.ExpectableGameState.NOT_READY_TO_START
             ),
             arguments(
                 "expect game started",
-                PostActionCommandFactory.ExpectableGameState.Started
+                PostActionCommandFactory.ExpectableGameState.STARTED
             ),
             arguments(
                 "expect game not started",
-                PostActionCommandFactory.ExpectableGameState.NotStarted
+                PostActionCommandFactory.ExpectableGameState.NOT_STARTED
             ),
             arguments(
                 "expect game done",
-                PostActionCommandFactory.ExpectableGameState.Done
+                PostActionCommandFactory.ExpectableGameState.DONE
             ),
             arguments(
                 "expect game not ended",
-                PostActionCommandFactory.ExpectableGameState.NotDone
+                PostActionCommandFactory.ExpectableGameState.NOT_DONE
             )
         );
     }

@@ -91,9 +91,9 @@ public class TichuRules {
 
     public boolean canAnnounce(Player player, Announce announce) {
         switch (announce) {
-            case tichu:
+            case TICHU:
                 return player.hand().size() == 14;
-            case bigTichu:
+            case BIG_TICHU:
                 throw new UnsupportedOperationException(
                     "Big Tichu not supported yet"
                 );
