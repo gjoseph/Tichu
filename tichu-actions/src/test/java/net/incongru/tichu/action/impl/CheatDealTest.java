@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import com.google.common.collect.Sets;
 import java.util.Set;
-import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
+import net.incongru.tichu.context.GameContext;
 import net.incongru.tichu.model.HandAssert;
 import net.incongru.tichu.model.UserId;
 import org.assertj.core.api.Assertions;

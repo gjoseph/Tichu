@@ -1,4 +1,4 @@
-package net.incongru.tichu.action;
+package net.incongru.tichu.context;
 
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Player;

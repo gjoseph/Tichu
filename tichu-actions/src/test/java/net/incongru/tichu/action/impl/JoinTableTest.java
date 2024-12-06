@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
+import net.incongru.tichu.context.GameContext;
 import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.Test;
 

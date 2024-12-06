@@ -1,4 +1,4 @@
-package net.incongru.tichu.room;
+package net.incongru.tichu.context.room;
 
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Players;

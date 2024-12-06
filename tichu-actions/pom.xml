@@ -17,6 +17,10 @@
             <artifactId>tichu-model</artifactId>
         </dependency>
         <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-context</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>

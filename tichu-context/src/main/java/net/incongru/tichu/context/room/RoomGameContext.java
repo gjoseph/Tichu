@@ -1,6 +1,6 @@
-package net.incongru.tichu.room;
+package net.incongru.tichu.context.room;
 
-import net.incongru.tichu.action.AbstractGameContext;
+import net.incongru.tichu.context.AbstractGameContext;
 
 public class RoomGameContext extends AbstractGameContext {
 

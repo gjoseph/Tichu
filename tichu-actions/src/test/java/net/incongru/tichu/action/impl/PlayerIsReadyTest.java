@@ -8,11 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.google.common.collect.Sets;
-import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
+import net.incongru.tichu.context.GameContext;
 import net.incongru.tichu.model.UserId;
 import org.junit.jupiter.api.Test;
 

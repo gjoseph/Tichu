@@ -1,6 +1,6 @@
 package net.incongru.tichu.simu;
 
-import net.incongru.tichu.action.AbstractGameContext;
+import net.incongru.tichu.context.AbstractGameContext;
 
 public class SimulatedGameContext extends AbstractGameContext {
 
