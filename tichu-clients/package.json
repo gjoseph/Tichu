@@ -12,7 +12,7 @@
     "pretty-quick": "4.0.0"
   },
   "scripts": {
-    "prepare": "cd .. && husky install tichu-clients/.husky",
+    "prepare": "cd .. && husky tichu-clients/.husky",
     "build": "npm run build -ws",
     "test": "npm run test -ws # ⚠️ tichu-web will run tests in watch mode when not on CI",
     "term-client": "npm run start -w tichu-term-client",
