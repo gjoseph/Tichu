@@ -1,5 +1,7 @@
 package net.incongru.tichu.action;
 
+import net.incongru.tichu.context.GameContext;
+
 /**
  * @param <P> the type of {@link ActionParam} this action supports.
  * @see ActionFactory

@@ -1,11 +1,11 @@
 package net.incongru.tichu.action.impl;
 
 import java.util.Set;
-import net.incongru.tichu.action.AbstractGameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.action.param.PlayerIsReadyParam;
+import net.incongru.tichu.context.AbstractGameContext;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.card.Card;
 

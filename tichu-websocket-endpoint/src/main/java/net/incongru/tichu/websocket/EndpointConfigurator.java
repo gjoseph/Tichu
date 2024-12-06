@@ -1,8 +1,8 @@
 package net.incongru.tichu.websocket;
 
 import jakarta.websocket.server.ServerEndpointConfig;
-import net.incongru.tichu.room.DummyRoomProvider;
-import net.incongru.tichu.room.RoomProvider;
+import net.incongru.tichu.context.room.DummyRoomProvider;
+import net.incongru.tichu.context.room.RoomProvider;
 
 public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
 

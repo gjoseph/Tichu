@@ -1,4 +1,4 @@
-package net.incongru.tichu.room;
+package net.incongru.tichu.context.room;
 
 import java.util.LinkedList;
 import java.util.List;

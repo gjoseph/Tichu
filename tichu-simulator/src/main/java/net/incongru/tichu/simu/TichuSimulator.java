@@ -6,8 +6,8 @@ import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
 import net.incongru.tichu.action.ActionResponse;
-import net.incongru.tichu.action.GameContextFactory;
 import net.incongru.tichu.action.impl.SimulatedActionFactory;
+import net.incongru.tichu.context.GameContextFactory;
 import net.incongru.tichu.simu.parse.SimulationFileParser;
 
 /**

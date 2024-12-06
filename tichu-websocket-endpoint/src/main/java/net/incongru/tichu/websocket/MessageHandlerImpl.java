@@ -16,14 +16,14 @@ import net.incongru.tichu.action.impl.DefaultActionFactory;
 import net.incongru.tichu.action.impl.NewTrickResult;
 import net.incongru.tichu.action.impl.PlayerIsReadyResult;
 import net.incongru.tichu.action.impl.PlayerPlaysResult;
+import net.incongru.tichu.context.room.Room;
+import net.incongru.tichu.context.room.RoomGameContext;
+import net.incongru.tichu.context.room.RoomProvider;
 import net.incongru.tichu.model.Game;
 import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Trick;
 import net.incongru.tichu.model.UserId;
-import net.incongru.tichu.room.Room;
-import net.incongru.tichu.room.RoomGameContext;
-import net.incongru.tichu.room.RoomProvider;
 
 public class MessageHandlerImpl implements MessageHandler {
 

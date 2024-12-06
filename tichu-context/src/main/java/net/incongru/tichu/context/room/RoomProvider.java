@@ -1,4 +1,4 @@
-package net.incongru.tichu.room;
+package net.incongru.tichu.context.room;
 
 public interface RoomProvider {
     // a Room is sort of an extended GameContext (game, new game, players + observers, maybe)

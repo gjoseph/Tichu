@@ -1,4 +1,4 @@
-package net.incongru.tichu.action;
+package net.incongru.tichu.context;
 
 @FunctionalInterface
 public interface GameContextFactory<G extends GameContext> {
