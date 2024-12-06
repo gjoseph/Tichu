@@ -32,6 +32,15 @@
         </dependency>
         <dependency>
             <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-context</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
+            <artifactId>tichu-context</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-simulator</artifactId>
         </dependency>
         <dependency>
