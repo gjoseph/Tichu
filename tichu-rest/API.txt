@@ -1,0 +1,23 @@
+# A draft of the API i think we need  here
+# Ultimately this should be transformed into an OpenAPI  doc or whatever input AWS API gateway uses
+
+GET /room      # list rooms
+    ?available # list only rooms with available spots
+    ?filter    # filter by name
+    ?friendly  # filter by rooms with friends?
+    ?paging
+
+PUT /room      # create new room
+
+
+
+Room {
+ id: uuid
+ name: friendly name
+ allowObservers: boolean
+
+ players: [] {
+   id:
+   name:
+ }
+}
