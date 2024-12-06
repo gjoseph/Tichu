@@ -10,18 +10,19 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
+import net.incongru.tichu.model.Game;
 
 /**
  *
  */
-@Path("/game")
+@Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TichuResource {
 
-    private final Map<String, RegistratedGame> games;
+    private static final UnaryOperator<Game> NOOP = UnaryOperator.identity();
+    private final Map<GameId, Game> games;
 
     public TichuResource() {
         this.games = new LinkedHashMap<>();
@@ -31,11 +32,11 @@ public class TichuResource {
     @Path("/new")
     // TODO player should not be payload, but some sort of id gotten from session
     public Response newGame(PlayerId firstPlayer) {
-        final String uuid = UUID.randomUUID().toString();
-        final RegistratedGame game = new RegistratedGame(uuid);
-        game.getTable().sit(0, firstPlayer);
-        games.put(uuid, game);
-        return Response.ok(game).build();
+        final GameId id = GameId.newRandomId();
+        //        final Game game = new Game();
+        //        game.getTable().sit(0, firstPlayer);
+        //        games.put(id, game);
+        return Response.ok(/*game*/).build();
     }
 
     /**
@@ -52,7 +53,7 @@ public class TichuResource {
         PlayerId player
     ) {
         return getGameAnd(gameId, game -> {
-            game.getTable().sit(chair, player);
+            //      game.getTable().sit(chair, player);
             return game;
         });
     }
@@ -64,19 +65,16 @@ public class TichuResource {
     @GET
     @Path("/{gameId}")
     public Response view(@PathParam("gameId") String gameId) {
-        return getGameAnd(gameId, Function.identity());
+        return getGameAnd(gameId, NOOP);
     }
 
-    protected Response getGameAnd(
-        String gameId,
-        Function<RegistratedGame, RegistratedGame> function
-    ) {
-        final RegistratedGame game = games.get(gameId);
+    protected Response getGameAnd(String gameId, UnaryOperator<Game> op) {
+        final Game game = games.get(gameId);
         if (game == null) {
             return notFound();
         }
-        final RegistratedGame gamed = function.apply(game);
-        return Response.ok(gamed).build();
+        final Game game2 = op.apply(game);
+        return Response.ok(game2).build();
     }
 
     protected Response notFound() {
