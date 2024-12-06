@@ -7,6 +7,7 @@ import static net.incongru.tichu.model.card.CardSpecials.Dragon;
 import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
 import static net.incongru.tichu.model.card.SubstituteCardValue.substituteFor;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import java.util.Collection;
@@ -32,6 +33,10 @@ public class Straight extends AbstractPlay<Straight> {
         boolean bombyBomb
     ) {
         super(cards);
+        // TODO ensure there is a phoenix if phoenixSubstitute not null?
+        Preconditions.checkArgument(
+            phoenixSubstitute == null || cards.contains(Phoenix)
+        );
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;
     }
@@ -52,7 +57,7 @@ public class Straight extends AbstractPlay<Straight> {
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
         final Collection<CardValue> values = Lists.newArrayList(
-            Collections2.transform(getCards(), card -> card.val())
+            Collections2.transform(getCards(), Card::val)
         );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
