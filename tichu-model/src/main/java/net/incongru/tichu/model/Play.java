@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import java.util.List;
 import java.util.Set;
 import net.incongru.tichu.model.card.Card;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * One card or set of cards that a player puts down. An empty set means the player passes.
@@ -50,6 +51,7 @@ public interface Play<P extends Play> {
         /**
          * Returns a Play if the given cards are of that type, null otherwise.
          */
+        @Nullable
         P is(Set<Card> cards);
     }
 
@@ -64,10 +66,11 @@ public interface Play<P extends Play> {
             INVALIDSTATE,
         }
 
-        private final Play play;
+        private final @Nullable Play play;
         private final Result result;
         private final String message; // TODO ditch message from here. Result is enough info for client/ui to generate a message.
 
+        // TODO different. classes to avoid @NullablePlay
         public PlayResult(Result result, String message) {
             Preconditions.checkArgument(
                 result == Result.NOTINHAND || result == Result.INVALIDSTATE,
@@ -90,7 +93,7 @@ public interface Play<P extends Play> {
             this.message = message;
         }
 
-        public Play play() {
+        public @Nullable Play play() {
             return play;
         }
 

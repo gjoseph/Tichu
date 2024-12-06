@@ -11,6 +11,7 @@ import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardNumbers;
 import net.incongru.tichu.model.card.CardSpecials;
 import net.incongru.tichu.model.card.CardSuit;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * All cards.
@@ -34,7 +35,10 @@ public class CardDeck {
         this.cards = shuffle(cards);
     }
 
-    protected List<Card> shuffle(Set<Card> cards) {
+    protected List<Card> shuffle(
+        @UnderInitialization CardDeck this,
+        Set<Card> cards
+    ) {
         final ArrayList<Card> list = new ArrayList<>(cards);
         Collections.shuffle(list);
         return list;

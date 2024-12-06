@@ -16,6 +16,7 @@ import net.incongru.tichu.model.plays.Pass;
 import net.incongru.tichu.model.plays.Single;
 import net.incongru.tichu.model.plays.Straight;
 import net.incongru.tichu.model.plays.Triple;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * Models most (all?) rules of the game, such that, maybe, one day (...) we can make this an interface and swap out some rules. Whatever.
@@ -23,14 +24,16 @@ import net.incongru.tichu.model.plays.Triple;
  */
 public class TichuRules {
 
-    private final List<Play.PlayFactory> factories;
+    private final List<Play.PlayFactory<?>> factories;
 
     public TichuRules() {
         this.factories = makeFactories();
     }
 
     // If rules were to change, one would not only subclass TichuRules, but probably provide different factories too.
-    protected List<Play.PlayFactory> makeFactories() {
+    protected List<Play.PlayFactory<?>> makeFactories(
+        @UnderInitialization TichuRules this
+    ) {
         return Arrays.asList(
             new Pass.Factory(),
             new Single.Factory(),

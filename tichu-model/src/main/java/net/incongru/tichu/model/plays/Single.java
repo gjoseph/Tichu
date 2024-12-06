@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import java.util.Set;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardValue;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  *
@@ -52,7 +53,7 @@ public class Single extends AbstractPlay<Single> {
     public static class Factory implements PlayFactory<Single> {
 
         @Override
-        public Single is(Set<Card> cards) {
+        public @Nullable Single is(Set<Card> cards) {
             if (cards.size() == 1) {
                 return new Single(cards);
             }

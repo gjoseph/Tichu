@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Set;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.card.Card;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Pass _is_ a {@link Play}
@@ -34,7 +35,7 @@ public class Pass extends AbstractPlay<Pass> {
     public static class Factory implements PlayFactory<Pass> {
 
         @Override
-        public Pass is(Set<Card> cards) {
+        public @Nullable Pass is(Set<Card> cards) {
             return cards.isEmpty() ? new Pass() : null;
         }
     }

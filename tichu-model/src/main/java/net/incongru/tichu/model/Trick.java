@@ -11,6 +11,7 @@ import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.plays.Initial;
 import net.incongru.tichu.model.plays.Pass;
 import net.incongru.tichu.model.util.DeckConstants;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A trick is a series of {@link Play}s leading to one player collecting the cards played during the trick.
@@ -21,7 +22,7 @@ public class Trick {
     private final TichuRules rules;
     private final Deque<Played> plays;
     private final Iterator<Player> playersCycle;
-    private Player currentPlayer;
+    private @Nullable Player currentPlayer;
 
     public Trick(TichuRules rules, Iterator<Player> playersCycle) {
         this.rules = rules;
@@ -123,6 +124,7 @@ public class Trick {
             currentPlayer != null,
             "Trick is not done, but there is no current player, this should never happen"
         );
+        // we've checked it's not-null, not sure why checker isn't happy about this
         return currentPlayer;
     }
 

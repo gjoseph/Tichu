@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardValue;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Abstract implementation of {@link Play} with N cards of the same value.\
@@ -41,7 +42,7 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
         implements PlayFactory<P> {
 
         @Override
-        public P is(Set<Card> cards) {
+        public @Nullable P is(Set<Card> cards) {
             if (cards.size() != expectedSize()) {
                 return null;
             }

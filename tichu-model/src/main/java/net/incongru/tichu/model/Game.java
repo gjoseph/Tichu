@@ -4,6 +4,7 @@ import com.google.common.annotations.VisibleForTesting;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A Game is a series of {@link Round}s leading to one team winning by scoring 1000 points or more
@@ -15,8 +16,7 @@ public class Game {
     private final Players players;
     private final List<FinishedRound> finishedRounds;
     private boolean started;
-
-    private Round currentRound;
+    private @Nullable Round currentRound;
 
     public Game(Players players, TichuRules rules) {
         this.players = players;
@@ -110,7 +110,7 @@ public class Game {
 
         private final List<AnnounceResult> announces;
         private final Score score;
-        private final Player finishingPlayer;
+        private final @Nullable Player finishingPlayer;
 
         FinishedRound(Round round) {
             this(round.announces(), round.score(), null); //TODO

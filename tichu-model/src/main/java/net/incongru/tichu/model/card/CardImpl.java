@@ -2,8 +2,10 @@ package net.incongru.tichu.model.card;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.EnsuresNonNullIf;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
-record CardImpl(CardValue val, CardSuit suit) implements Card {
+record CardImpl(CardValue val, @Nullable CardSuit suit) implements Card {
     CardImpl {
         Objects.requireNonNull(val, "Card value can't be null");
         if (val.isSpecial()) {
@@ -20,6 +22,8 @@ record CardImpl(CardValue val, CardSuit suit) implements Card {
         return val.niceName() + (val.isSpecial() ? "" : " of " + suit);
     }
 
+    // "suit is never null if val.isSpecial is false"
+    // @EnsuresNonNullIf(expression="val.isSpecial()", result=true)
     public String shortName() {
         return (
             String.valueOf(val.isSpecial() ? '*' : suit.shortName()) +

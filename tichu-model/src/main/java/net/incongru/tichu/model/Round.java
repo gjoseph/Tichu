@@ -3,6 +3,7 @@ package net.incongru.tichu.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * A round is a series of {@link Trick}s leading to the playing of all cards and scoring.
@@ -11,7 +12,7 @@ public class Round {
 
     private final Game game;
     private final List<Announced> announces;
-    private Trick currentTrick;
+    private @Nullable Trick currentTrick;
 
     public Round(Game game) {
         this.game = game;
@@ -55,7 +56,7 @@ public class Round {
         announces.add(new Announced(player, announce));
     }
 
-    public Trick currentTrick() {
+    public @Nullable Trick currentTrick() {
         return currentTrick;
     }
 
