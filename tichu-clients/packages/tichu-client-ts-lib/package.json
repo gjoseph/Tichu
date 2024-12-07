@@ -52,5 +52,10 @@
       },
       "compile": false
     }
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended"
+    ]
   }
 }
