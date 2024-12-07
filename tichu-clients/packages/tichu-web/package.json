@@ -29,13 +29,17 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "test": "vitest",
+    "lint": "eslint src/",
     "storybook": "storybook dev -p 9009",
     "build-storybook": "storybook build"
   },
   "eslintConfig": {
     "extends": [
+      "eslint:recommended",
       "react-app",
-      "react-app/jest"
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier"
     ],
     "overrides": [
       {
@@ -78,9 +82,19 @@
     "@storybook/react": "8.4.5",
     "@storybook/react-webpack5": "8.4.5",
     "@vitejs/plugin-react": "4.3.4",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-config-react-app": "7.0.1",
+    "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "jsdom": "25.0.1",
     "vite": "6.0.1",
+    "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "4.3.0",
     "vitest": "2.1.8"
+  },
+  "/*": "these overrides only exist because we still unfortunately indirectly depend on CRA for eslint-config-react-app",
+  "overrides": {
+    "eslint-plugin-react": "7.37.2",
+    "eslint-plugin-react-hooks": "5.0.0"
   }
 }
