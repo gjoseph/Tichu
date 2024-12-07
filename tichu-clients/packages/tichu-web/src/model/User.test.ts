@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { User } from "./User";
 
 test("initials for simple 2 word name", () => {
