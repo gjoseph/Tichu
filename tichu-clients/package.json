@@ -26,8 +26,5 @@
     "packages/tichu-client-ts-lib",
     "packages/tichu-term-client",
     "packages/tichu-web"
-  ],
-  "overrides": {
-    "react-refresh": "0.14.2"
-  }
+  ]
 }
