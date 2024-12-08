@@ -16,7 +16,8 @@
     "tscov:d": "tscov --details",
     "publish-package": "npm run build && npm publish",
     "docs": "typedoc --out docs ./src",
-    "test": "npm run build"
+    "test": "npm run build",
+    "lint": "eslint src/"
   },
   "keywords": [],
   "author": "",
@@ -51,5 +52,10 @@
       },
       "compile": false
     }
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended"
+    ]
   }
 }

@@ -52,6 +52,7 @@ jobs:
       fail-fast: false # continue other jobs if one in matrix fails
       matrix:
         npm-command: [
+            "lint",
             "build",
             "test", # while tichu-client-ts-lib and tichu-term-client use ava and run tests after compiling main code, that's not the case for tichu-web, so running test additionally here
             "prettier-check-all",
