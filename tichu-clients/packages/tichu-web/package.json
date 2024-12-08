@@ -34,12 +34,25 @@
     "build-storybook": "storybook build"
   },
   "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": true
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
     "extends": [
       "eslint:recommended",
       "react-app",
+      "plugin:@typescript-eslint/recommended",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
       "prettier"
+    ],
+    "ignorePatterns": [
+      "build",
+      "lib",
+      "node_modules"
     ],
     "overrides": [
       {
