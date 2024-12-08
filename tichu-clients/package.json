@@ -28,6 +28,6 @@
     "packages/tichu-web"
   ],
   "overrides": {
-    "react-refresh": "0.14.2"
+    "react-refresh": "0.16.0"
   }
 }
