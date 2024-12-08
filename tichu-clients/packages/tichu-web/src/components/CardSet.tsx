@@ -60,6 +60,7 @@ const withPosition =
   <P extends object>(
     Component: React.ComponentType<P>,
   ): React.FC<P & WithPositionProps> =>
+  // eslint-disable-next-line react/display-name
   ({ idx, totalCount, size, layout, ...props }: WithPositionProps) => {
     const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
     const styles = {

@@ -60,7 +60,7 @@ export const Game: FC<{ sendMessage: SendFunction; gameState: GameState }> = ({
           />
         ))}
       </div>
-      <p>It's {gameState.currentPlayer}'s turn</p>
+      <p>It&apos;s {gameState.currentPlayer}&apos;s turn</p>
       <Player>
         {gameState.hand ? (
           <Hand sendCards={sendCards} cardsInHand={gameState.hand} />
