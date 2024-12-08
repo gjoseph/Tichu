@@ -57,6 +57,15 @@
     "overrides": [
       {
         "files": [
+          "**/*"
+        ],
+        "rules": {
+          "@typescript-eslint/no-empty-function": "warn",
+          "@typescript-eslint/no-inferrable-types": "off"
+        }
+      },
+      {
+        "files": [
           "**/*.stories.tsx"
         ],
         "rules": {

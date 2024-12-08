@@ -63,8 +63,9 @@ const withPosition =
   // eslint-disable-next-line react/display-name
   ({ idx, totalCount, size, layout, ...props }: WithPositionProps) => {
     const { tx, ty, rot } = calcTransform(layout, size, idx, totalCount);
+    type Position = "absolute"; // typescript bug ? https://github.com/microsoft/TypeScript/issues/11465 -- this type should be Property.Position but it's not available here, so just faking it
     const styles = {
-      position: "absolute" as "absolute", // typescript bug ? https://github.com/microsoft/TypeScript/issues/11465
+      position: "absolute" as Position,
       transformOrigin: "center",
       transform: `translate(${tx}em, ${ty}em) rotate(${rot}deg)`,
     };

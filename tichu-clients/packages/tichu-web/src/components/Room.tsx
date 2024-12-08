@@ -34,7 +34,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
     setChatMessages((currentMessages) => [...currentMessages, newMessage]);
   };
   const sentChatMessage = (text: string, onResponse: OnResponse) => {
-    wsClient!.send(new OutgoingChatMessage(text), onResponse);
+    wsClient?.send(new OutgoingChatMessage(text), onResponse);
   };
 
   const [activityLog, setActivityLog] = useState(
@@ -68,17 +68,20 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
 
   useEffect(() => {
     connect();
-    // Return a cleanup function
-    return () => {};
+    return () => {
+      /* nothing to do on cleanup */
+    };
   }, [connect]);
 
-  const justWatch = () => {};
+  const justWatch = () => {
+    /* do nothing */
+  };
   // TODO also better deal with absent wsClient
   const join = (teamId: number) => () => {
-    wsClient!.send(new OutgoingGameMessage(new JoinParam(teamId)));
+    wsClient?.send(new OutgoingGameMessage(new JoinParam(teamId)));
   };
   const ready = () => {
-    wsClient!.send(new OutgoingGameMessage(new PlayerIsReadyParam()));
+    wsClient?.send(new OutgoingGameMessage(new PlayerIsReadyParam()));
   };
   const game = visitEnumValue(roomState.status).with<JSX.Element>({
     [RoomStatus.OPEN]: () => <p>Trying to connect</p>,
