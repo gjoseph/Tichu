@@ -91,7 +91,7 @@
   "license": "",
   "engines": {
     "node": "22.12.0",
-    "npm": "10.9.1"
+    "npm": "10.9.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.2",
