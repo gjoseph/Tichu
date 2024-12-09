@@ -1,16 +1,10 @@
 import { dirname, join } from "path";
-const webpack = require("webpack");
 module.exports = {
-  webpackFinal: async (config) => {
-    // see craco.config.js
-    config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /^ws$/ }));
-    return config;
-  },
+  //  we'll likely need a way to exclude websocket ("ws") like we did with webpack/craco!?
 
   stories: ["../src/**/*.@(mdx|stories.@(ts|tsx|js|jsx))"],
 
   addons: [
-    getAbsolutePath("@storybook/preset-create-react-app"),
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-storysource"),
@@ -26,7 +20,7 @@ module.exports = {
   },
 
   framework: {
-    name: getAbsolutePath("@storybook/react-webpack5"),
+    name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
 
