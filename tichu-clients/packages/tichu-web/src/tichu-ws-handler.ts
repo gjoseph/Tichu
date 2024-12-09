@@ -217,5 +217,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = this.log.debug;
+  debug = (...msg: any[]) => {
+    this.log.debug(msg);
+  };
 }

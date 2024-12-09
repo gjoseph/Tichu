@@ -15,6 +15,7 @@
     "prepare": "cd .. && husky tichu-clients/.husky",
     "build": "npm run build -ws",
     "test": "npm run test -ws # ⚠️ tichu-web will run tests in watch mode when not on CI",
+    "lint": "npm run lint -w tichu-web # ⚠️ eslint not currently setup for other packages",
     "term-client": "npm run start -w tichu-term-client",
     "web": "npm run start -w tichu-web",
     "web-storybook": "npm run storybook -w tichu-web",
@@ -26,8 +27,5 @@
     "packages/tichu-client-ts-lib",
     "packages/tichu-term-client",
     "packages/tichu-web"
-  ],
-  "overrides": {
-    "react-refresh": "0.14.2"
-  }
+  ]
 }
