@@ -116,6 +116,6 @@
   "/*": "these overrides only exist because we still unfortunately indirectly depend on CRA for eslint-config-react-app",
   "overrides": {
     "eslint-plugin-react": "7.37.2",
-    "eslint-plugin-react-hooks": "5.0.0"
+    "eslint-plugin-react-hooks": "5.1.0"
   }
 }
