@@ -8,8 +8,8 @@
   automergeStrategy: "merge-commit",
   platformAutomerge: true,
   rebaseWhen: "behind-base-branch",
-  minimumReleaseAge: "2 days",
-  prCreation: "not-pending",
+  minimumReleaseAge: "3 days",
+  prCreation: "immediate",
   prConcurrentLimit: 0,
   prHourlyLimit: 0,
   labels: [
