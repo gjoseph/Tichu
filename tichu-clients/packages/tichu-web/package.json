@@ -108,7 +108,7 @@
     "eslint-config-react-app": "7.0.1",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "jsdom": "25.0.1",
-    "vite": "6.0.1",
+    "vite": "6.0.3",
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "4.3.0",
     "vitest": "2.1.8"
