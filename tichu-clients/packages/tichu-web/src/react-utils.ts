@@ -13,7 +13,7 @@ import React from "react";
  */
 export function useStoredState<T>(
   key: string,
-  defaultValue?: T | (() => T | undefined) | undefined,
+  defaultValue?: T | (() => T | undefined),
 ): [
   T | undefined,
   React.Dispatch<React.SetStateAction<T | undefined>>,
