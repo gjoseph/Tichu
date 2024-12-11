@@ -39,16 +39,25 @@
       "project": true
     },
     "plugins": [
+      "jsx-a11y",
+      "import",
+      "react",
+      "react-hooks",
       "@typescript-eslint"
     ],
     "extends": [
       "eslint:recommended",
-      "react-app",
-      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/recommended-type-checked",
+      "plugin:@typescript-eslint/stylistic-type-checked",
       "plugin:react/recommended",
       "plugin:react-hooks/recommended",
       "prettier"
     ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
     "ignorePatterns": [
       "build",
       "lib",
@@ -102,10 +111,12 @@
     "@storybook/addon-storysource": "8.4.7",
     "@storybook/react": "8.4.7",
     "@storybook/react-vite": "8.4.7",
+    "@typescript-eslint/eslint-plugin": "8.18.0",
     "@vitejs/plugin-react": "4.3.4",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.0",
-    "eslint-config-react-app": "7.0.1",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "eslint-plugin-react-hooks": "5.0.0",
