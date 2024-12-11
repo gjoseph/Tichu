@@ -12,7 +12,7 @@ export const ActivityLog: FC<{
   log: ActivityLogMessage[];
   showDebug?: boolean;
 }> = (props) => {
-  const [showDebug, setShowDebug] = useState(props.showDebug || false);
+  const [showDebug, setShowDebug] = useState(props.showDebug ?? false);
   return (
     <div>
       <h3>Activity log</h3>
