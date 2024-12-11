@@ -30,7 +30,7 @@ const events = actions("onCardClick");
 export const Card_Set: StoryFn = makeStory((args: Args) => {
   const cards = [...AllCards]
     .sort(() => Math.random() - 0.5)
-    .slice(0, args.cardCount)
+    .slice(0, args.cardCount as number)
     .map((c) => ({ ...c, selected: false }));
   return (
     <CardSet

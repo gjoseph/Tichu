@@ -1,7 +1,7 @@
 import React from "react";
 import { PlayerAvatar } from "../components/PlayerAvatar";
 import { User } from "../model/User";
-import { Args, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { disableControls, makeStory } from "./stories";
 
 export default {
@@ -11,7 +11,7 @@ export default {
 } as Meta;
 
 const cq = new User("abc-def", "Charlie Quinn");
-export const AvatarsOrInitials = makeStory((args: Args) => (
+export const AvatarsOrInitials = makeStory(() => (
   <>
     Known avatar:
     <PlayerAvatar user={new User("abc-def", "Alex", "/cat.jpg")} />
@@ -22,7 +22,7 @@ export const AvatarsOrInitials = makeStory((args: Args) => (
   </>
 ));
 
-export const OnlineOffline = makeStory((args: Args) => {
+export const OnlineOffline = makeStory(() => {
   return (
     <>
       Unspecified:
@@ -35,7 +35,7 @@ export const OnlineOffline = makeStory((args: Args) => {
   );
 });
 
-export const Busy = makeStory((args: Args) => {
+export const Busy = makeStory(() => {
   return (
     <>
       Offline busy:
@@ -50,7 +50,7 @@ export const Busy = makeStory((args: Args) => {
   );
 });
 
-export const NameDependentBackgroundColor = makeStory((args: Args) => (
+export const NameDependentBackgroundColor = makeStory(() => (
   <>
     <div>
       Alex Quinn: <PlayerAvatar user={new User("abc-def", "Alex Quinn")} />

@@ -4,7 +4,7 @@ import { actions } from "@storybook/addon-actions";
 import { cardFromName } from "tichu-client-ts-lib";
 import { GameState } from "../model/GameState";
 import { disableControls, makeStory } from "./stories";
-import { Args, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 
 export default {
   title: "Game",
@@ -14,7 +14,7 @@ export default {
 
 const events = actions("sendMessage");
 
-export const sample_Game = makeStory((args: Args) => {
+export const sample_Game = makeStory(() => {
   const hand = [cardFromName("*P"), cardFromName("GJ"), cardFromName("K6")];
   return (
     <Game
@@ -30,7 +30,7 @@ export const sample_Game = makeStory((args: Args) => {
   );
 });
 
-export const simulate_room = makeStory((args: Args) => {
+export const simulate_room = makeStory(() => {
   return <SimuRoom />;
 });
 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Chat, ChatMessage } from "../components/Chat";
 import { actions } from "@storybook/addon-actions";
 import { disableControls, makeStory } from "./stories";
-import { Args, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 
 export default {
   title: "Chat",
@@ -34,27 +34,27 @@ const sampleMessages: ChatMessage[] = [
   },
 ];
 
-const dup = (a: any[]) => {
+function dup<T>(a: T[]) {
   return [...a, ...a];
-};
+}
 
 const longSampleChat: ChatMessage[] = dup(
   dup(dup(dup(dup(dup(dup(dup(dup(dup(sampleMessages))))))))),
 );
 
-export const ChatOpenEmpty = makeStory((args: Args) => {
+export const ChatOpenEmpty = makeStory(() => {
   return <Chat chatMessages={[]} {...events} />;
 });
 
-export const ChatOpen = makeStory((args: Args) => {
+export const ChatOpen = makeStory(() => {
   return <Chat chatMessages={sampleMessages} {...events} />;
 });
 
-export const ChatOpenLong = makeStory((args: Args) => {
+export const ChatOpenLong = makeStory(() => {
   return <Chat chatMessages={longSampleChat} {...events} />;
 });
 
-export const SendNewMessage = makeStory((args: Args) => {
+export const SendNewMessage = makeStory(() => {
   const [chatMessages, setChatMessages] = useState(
     new Array<ChatMessage>({
       from: "Storybook",
