@@ -16,12 +16,13 @@ const SendButton: FC<{
 };
 
 export type SelectableCard = Card & { selected: boolean };
+type CardsToSelectableCards = (cards: Card[]) => SelectableCard[];
 type SendCardsFunction = (cards: Card[]) => void;
 
 export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
   props,
 ) => {
-  const allUnselected = (cards: Card[]) => {
+  const allUnselected: CardsToSelectableCards = (cards: Card[]) => {
     return cards.map((c) => {
       return { ...c, selected: false };
     });
@@ -34,7 +35,7 @@ export const Hand: FC<{ sendCards: SendCardsFunction; cardsInHand: Card[] }> = (
   }, [props.cardsInHand]);
 
   const handleSelect = (card: Card) => {
-    setCards((oldList) => {
+    setCards(() => {
       return cards.map((c) => {
         if (c.shortName === card.shortName) {
           c.selected = !c.selected;
