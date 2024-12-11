@@ -58,5 +58,5 @@ export interface TichuWebSocketHandler {
   ) => EnumValueVisitorCore<PlayResult, void>;
 
   // ==== Varia
-  debug: (...msg: any[]) => void;
+  debug: (...msg: unknown[]) => void;
 }

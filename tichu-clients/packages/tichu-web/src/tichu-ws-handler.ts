@@ -83,8 +83,8 @@ class ReactAppHandler implements TichuWebSocketHandler {
   };
 
   onWebsocketError = (msg?: string, err?: Error) => {
-    // no message or error object for browser websockets
-    this.log.debug("Websocket error");
+    // no message or error object were passed for browser websockets at the time of writing; logging them anyway in case that changes
+    this.log.debug("Websocket error", msg, err);
   };
 
   onPing = () => {
@@ -214,10 +214,10 @@ class ReactAppHandler implements TichuWebSocketHandler {
   };
 
   private logErrorNoPromptChange = (s: string) => () => {
-    this.log.error(`Yeah nah ${s}`);
+    this.log.error("Yeah nah", s);
   };
 
-  debug = (...msg: any[]) => {
-    this.log.debug(msg);
+  debug = (...msg: unknown[]) => {
+    this.log.debug(...msg);
   };
 }
