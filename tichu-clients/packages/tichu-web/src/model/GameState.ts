@@ -11,7 +11,7 @@ export class GameState {
     // currentPlayer only comes through net.incongru.tichu.action.impl.PlayerPlaysResponse#nextPlayer currently
 
     readonly currentPlayer: UserId | undefined,
-    readonly hand: Array<Card>,
+    readonly hand: Card[],
     readonly otherPlayers: {
       id: UserId;
       cardsInHand: number;

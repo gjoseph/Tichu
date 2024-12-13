@@ -3,7 +3,7 @@ import {
   ConnectivityColors,
   ConnectivityIndicator,
 } from "../components/ConnectivityIndicator";
-import { Args, Meta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { disableControls, makeStory } from "./stories";
 
 export default {
@@ -12,7 +12,7 @@ export default {
   parameters: disableControls,
 } as Meta;
 
-export const SimpleStates = makeStory((args: Args) => (
+export const SimpleStates = makeStory(() => (
   <div style={{ width: "100px" }}>
     <ConnectivityIndicator wsConnected={false} networkConnected={false} />
     <hr />

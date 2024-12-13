@@ -3,13 +3,16 @@ import styles from "./ActivityLog.module.css";
 
 // The component's model will likely be different from the actual websocket messages:
 // I expect we'll have a richer type for activity logs rather than a boolean for debug messages
-export type ActivityLogMessage = { message: string; debug: boolean };
+export interface ActivityLogMessage {
+  message: string;
+  debug: boolean;
+}
 
 export const ActivityLog: FC<{
   log: ActivityLogMessage[];
   showDebug?: boolean;
 }> = (props) => {
-  const [showDebug, setShowDebug] = useState(props.showDebug || false);
+  const [showDebug, setShowDebug] = useState(props.showDebug ?? false);
   return (
     <div>
       <h3>Activity log</h3>

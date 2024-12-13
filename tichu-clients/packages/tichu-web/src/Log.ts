@@ -6,7 +6,7 @@ export class Log {
     readonly newActivityLog: (newMessage: ActivityLogMessage) => void,
   ) {}
 
-  error(...msg: any[]) {
+  error(...msg: unknown[]) {
     console.error(...msg);
     this.newActivityLog({
       debug: true,
@@ -14,7 +14,7 @@ export class Log {
     });
   }
 
-  debug(...msg: any[]) {
+  debug(...msg: unknown[]) {
     if (this.isDebug) {
       console.debug(...msg);
       this.newActivityLog({

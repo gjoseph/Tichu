@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2023", // when we had es2019, we left a comment to say that: Node doesn't understand nullish coalescing or optional chaining, so instruct ts to transpile
-    "module": "commonjs",
+    "module": "nodenext",
     "lib": ["es2023", "dom"],
     "declaration": true,
     "declarationMap": true,
@@ -10,8 +10,8 @@
     "rootDir": "./src",
     "strict": true,
     "types": ["node", "fs-extra"],
-    "esModuleInterop": true,
-    "moduleResolution": "node",
+    "esModuleInterop": false,
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "importHelpers": true
   },

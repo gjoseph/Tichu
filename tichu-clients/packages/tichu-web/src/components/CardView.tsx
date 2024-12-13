@@ -1,11 +1,5 @@
 import React, { FC } from "react";
-import {
-  Card,
-  CardSuit,
-  NormalCard,
-  SpecialCard,
-  SpecialCards,
-} from "tichu-client-ts-lib";
+import { Card, CardSuit, SpecialCards } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import { classes } from "../util";
 import styles from "./Card.module.css";
@@ -23,7 +17,7 @@ interface CardViewProps {
 
 const colorFor = (card: Card) => {
   if (card.type === "normal") {
-    return mapEnumValue((card as NormalCard).suit).with({
+    return mapEnumValue(card.suit).with({
       [CardSuit.Jade]: "#060",
       [CardSuit.Sword]: "#000",
       [CardSuit.Pagoda]: "#359",
@@ -36,14 +30,13 @@ const colorFor = (card: Card) => {
 
 const symbolFor = (card: Card): string => {
   if (card.type === "normal") {
-    const nCard = card as NormalCard;
-    if (nCard.number > 10) {
-      return ["J", "Q", "K", "A"][nCard.number - 11]; // wooh untested magic
+    if (card.number > 10) {
+      return ["J", "Q", "K", "A"][card.number - 11]; // wooh untested magic
     } else {
-      return nCard.number.toString();
+      return card.number.toString();
     }
   } else {
-    return mapEnumValue((card as SpecialCard).special).with({
+    return mapEnumValue(card.special).with({
       [SpecialCards.MahJong]: "1",
       [SpecialCards.Dog]: "🐶",
       [SpecialCards.Phoenix]: "🦚",

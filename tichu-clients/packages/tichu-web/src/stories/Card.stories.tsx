@@ -59,7 +59,7 @@ export const Card_Front = makeStory(
   (args: Args) => {
     return (
       <CardView
-        card={cardFromName(args.cardName)}
+        card={cardFromName(args.cardName as string)}
         selected={args.selected}
         size={args.size}
         {...events}
