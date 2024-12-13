@@ -25,6 +25,6 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: false, // this is the default and I agree -- let's use explicit imports instead
-    setupFiles: "./src/test/setup.js",
+    setupFiles: "./src/test/setup.ts",
   },
 });
