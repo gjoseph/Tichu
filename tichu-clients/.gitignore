@@ -2,6 +2,7 @@
 node_modules/
 lib/
 build/
+dist/
 storybook-static/
 *.local
 *.log
