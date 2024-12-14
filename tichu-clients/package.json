@@ -20,6 +20,7 @@
     "web": "npm run start -w tichu-web",
     "web-storybook": "npm run storybook -w tichu-web",
     "web-build-storybook": "npm run build -w tichu-client-ts-lib && npm run build-storybook -w tichu-web",
+    "prettier-staged": "pretty-quick --staged --no-restage --write ..",
     "prettier-check-all": "prettier --check .. # not using --workspaces here so we also check the root",
     "prettier-fix-all": "prettier --write .. # not using --workspaces here so we also check the root"
   },
