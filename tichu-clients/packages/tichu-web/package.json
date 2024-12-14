@@ -33,57 +33,6 @@
     "storybook": "storybook dev -p 9009",
     "build-storybook": "storybook build"
   },
-  "eslintConfig": {
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-      "project": true
-    },
-    "plugins": [
-      "jsx-a11y",
-      "import",
-      "react",
-      "react-hooks",
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended-type-checked",
-      "plugin:@typescript-eslint/stylistic-type-checked",
-      "plugin:react/recommended",
-      "plugin:react-hooks/recommended",
-      "prettier"
-    ],
-    "settings": {
-      "react": {
-        "version": "detect"
-      }
-    },
-    "ignorePatterns": [
-      "build",
-      "lib",
-      "node_modules"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*"
-        ],
-        "rules": {
-          "@typescript-eslint/no-empty-function": "warn",
-          "@typescript-eslint/no-inferrable-types": "off"
-        }
-      },
-      {
-        "files": [
-          "**/*.stories.tsx"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off",
-          "@typescript-eslint/no-unsafe-assignment": "off"
-        }
-      }
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -105,6 +54,9 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.2",
+    "@eslint/compat": "1.2.4",
+    "@eslint/eslintrc": "2.1.4",
+    "@eslint/js": "8.57.1",
     "@storybook/addon-actions": "8.4.7",
     "@storybook/addon-docs": "8.4.7",
     "@storybook/addon-essentials": "8.4.7",
@@ -112,16 +64,17 @@
     "@storybook/addon-storysource": "8.4.7",
     "@storybook/react": "8.4.7",
     "@storybook/react-vite": "8.4.7",
-    "@typescript-eslint/eslint-plugin": "8.18.0",
     "@vitejs/plugin-react": "4.3.4",
-    "eslint": "8.57.1",
+    "eslint": "9.16.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.2",
     "eslint-plugin-react-compiler": "19.0.0-beta-df7b47d-20241124",
     "eslint-plugin-react-hooks": "5.1.0",
     "jsdom": "25.0.1",
+    "typescript-eslint": "8.18.0",
     "vite": "6.0.3",
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "4.3.0",
