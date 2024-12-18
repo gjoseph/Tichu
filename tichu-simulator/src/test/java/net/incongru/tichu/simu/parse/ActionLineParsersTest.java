@@ -19,9 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 import net.incongru.tichu.action.ActionFactory;
 import net.incongru.tichu.action.ActionParam;
@@ -121,23 +120,21 @@ class ActionLineParsersTest {
         ).isEqualTo(
             CheatDealParam.withActor(
                 UserId.of("quinn"),
-                new HashSet<>(
-                    Arrays.asList(
-                        MahJong,
-                        R2,
-                        B3,
-                        K4,
-                        G5,
-                        R6,
-                        B7,
-                        K8,
-                        G9,
-                        G10,
-                        BK,
-                        KK,
-                        GK,
-                        RA
-                    )
+                Set.of(
+                    MahJong,
+                    R2,
+                    B3,
+                    K4,
+                    G5,
+                    R6,
+                    B7,
+                    K8,
+                    G9,
+                    G10,
+                    BK,
+                    KK,
+                    GK,
+                    RA
                 )
             )
         );
@@ -150,9 +147,7 @@ class ActionLineParsersTest {
         ).isEqualTo(
             PlayerPlaysParam.withActor(
                 UserId.of("alex"),
-                new HashSet<>(
-                    Arrays.asList(MahJong, R2, B3, K4, G5, R6, B7, K8)
-                )
+                Set.of(MahJong, R2, B3, K4, G5, R6, B7, K8)
             )
         );
     }
