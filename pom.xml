@@ -340,12 +340,12 @@
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
                 <configuration>
+                    <configLocation>${maven.multiModuleProjectDirectory}/src/openrewrite/rewrite.yml</configLocation>
                     <failOnDryRunResults>true</failOnDryRunResults>
                     <failOnInvalidActiveRecipes>true</failOnInvalidActiveRecipes>
                     <exportDatatables>true</exportDatatables>
                     <activeRecipes>
-                        <recipe>org.openrewrite.java.migrate.UpgradeToJava21</recipe>
-                        <recipe>org.openrewrite.java.migrate.guava.NoGuavaJava21</recipe>
+                        <recipe>net.incongru.tichu.rewrite.RecipeBook</recipe>
                     </activeRecipes>
                 </configuration>
             </plugin>
