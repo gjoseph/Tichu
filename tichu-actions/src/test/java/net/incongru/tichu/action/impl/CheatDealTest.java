@@ -6,6 +6,8 @@ import static net.incongru.tichu.model.util.DeckConstants.B3;
 import static net.incongru.tichu.model.util.DeckConstants.G2;
 import static net.incongru.tichu.model.util.DeckConstants.G5;
 import static net.incongru.tichu.model.util.DeckConstants.MahJong;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -17,7 +19,6 @@ import net.incongru.tichu.action.param.InitialiseGameParam;
 import net.incongru.tichu.action.param.JoinTableParam;
 import net.incongru.tichu.model.HandAssert;
 import net.incongru.tichu.model.UserId;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class CheatDealTest {
         new JoinTable()
             .exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
 
-        Assertions.assertThatThrownBy(() -> {
+        assertThatThrownBy(() -> {
             new CheatDeal()
                 .exec(
                     ctx,
@@ -73,7 +74,7 @@ class CheatDealTest {
         new JoinTable()
             .exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
 
-        Assertions.assertThatCode(() -> {
+        assertThatCode(() -> {
             new CheatDeal()
                 .exec(
                     ctx,
