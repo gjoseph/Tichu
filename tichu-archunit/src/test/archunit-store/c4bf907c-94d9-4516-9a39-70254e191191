@@ -6,7 +6,6 @@ Constructor <net.incongru.tichu.model.card.CardImpl.<init>(net.incongru.tichu.mo
 Constructor <net.incongru.tichu.model.plays.Single.<init>(java.util.Set)> calls method <com.google.common.base.Preconditions.checkArgument(boolean, java.lang.Object)> in (Single.java:22)
 Method <net.incongru.tichu.action.impl.CheatDealTest.failsInNormalGame()> calls method <com.google.common.collect.Sets.newHashSet([Ljava.lang.Object;)> in (CheatDealTest.java:54)
 Method <net.incongru.tichu.action.impl.CheatDealTest.worksInSimulatedGame()> calls method <com.google.common.collect.Sets.newHashSet([Ljava.lang.Object;)> in (CheatDealTest.java:82)
-Method <net.incongru.tichu.action.impl.PlayerIsReadyTest.gameStartsWhenAllPlayersAreReady()> calls method <com.google.common.collect.Sets.newHashSet([Ljava.lang.Object;)> in (PlayerIsReadyTest.java:75)
 Method <net.incongru.tichu.model.CardDeck.allRemaining()> calls method <com.google.common.collect.ImmutableSet.copyOf(java.util.Collection)> in (CardDeck.java:48)
 Method <net.incongru.tichu.model.Functions.lastNMatches(java.util.Deque, int, java.util.function.Predicate)> calls method <com.google.common.collect.Iterators.all(java.util.Iterator, com.google.common.base.Predicate)> in (Functions.java:23)
 Method <net.incongru.tichu.model.Functions.lastNMatches(java.util.Deque, int, java.util.function.Predicate)> calls method <com.google.common.collect.Iterators.limit(java.util.Iterator, int)> in (Functions.java:24)
