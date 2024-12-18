@@ -43,7 +43,7 @@ jobs:
           distribution: "${{ matrix.java-distrib }}"
           cache: "maven"
       - name: Backend Build
-        run: ./mvnw clean verify -B -V
+        run: ./mvnw clean verify -B -V -Darchunit.freeze.store.default.allowStoreUpdate=false
 
   build-frontend:
     name: Frontend ${{ matrix.npm-command }} 📍

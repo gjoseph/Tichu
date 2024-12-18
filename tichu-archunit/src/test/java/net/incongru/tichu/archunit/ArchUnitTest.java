@@ -1,12 +1,15 @@
 package net.incongru.tichu.archunit;
 
 import static com.tngtech.archunit.core.domain.JavaModifier.ABSTRACT;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.constructors;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.members;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import com.tngtech.archunit.library.freeze.FreezingArchRule;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.model.Play;
 import net.incongru.tichu.model.plays.InvalidPlay;
@@ -77,4 +80,13 @@ class ArchUnitTest {
             .andShould()
             .beDeclaredInClassesThat()
             .arePackagePrivate();
+
+    @ArchTest
+    static final ArchRule avoid_using_Guava = FreezingArchRule.freeze(
+        noClasses()
+            .should()
+            .accessClassesThat()
+            .resideInAnyPackage("com.google.common..")
+            .as("avoid_using_Guava")
+    );
 }
