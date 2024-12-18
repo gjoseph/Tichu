@@ -44,6 +44,8 @@ jobs:
           cache: "maven"
       - name: Backend Build
         run: ./mvnw clean verify -B -V -Darchunit.freeze.store.default.allowStoreUpdate=false
+      - name: OpenRewriteCheck
+        run: ./mvnw rewrite:dryRun -DfailOnDryRunResults=true # Ensure no OpenRewrite rule/change hasn't been committed
 
   build-frontend:
     name: Frontend ${{ matrix.npm-command }} 📍

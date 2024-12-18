@@ -25,14 +25,14 @@ class SimulationFileParserTest {
             simu.actionAndCommands();
         assertThat(actionAndExpectations).hasSize(33);
         final ActionParam.WithActor actionParam = actionAndExpectations
-            .get(0)
+            .getFirst()
             .actionParam();
         assertThat(actionParam).isInstanceOf(ActionParam.WithActor.class);
         assertThat(actionParam.actor()).isEqualTo(UserId.of("dummy")); // actor id for this action is currently hardcoded in ActionLineParsers
         assertThat(actionParam.param()).isInstanceOf(InitialiseGameParam.class);
         final Simulation.ActionAndCommands last = Lists.reverse(
             actionAndExpectations
-        ).get(0);
+        ).getFirst();
         assertThat(last.actionParam()).isInstanceOf(
             ActionParam.WithActor.class
         );

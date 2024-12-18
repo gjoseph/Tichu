@@ -11,7 +11,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.google.common.collect.Sets;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
@@ -52,7 +53,7 @@ class CheatDealTest {
                     ctx,
                     CheatDealParam.withActor(
                         UserId.of("jules"),
-                        Sets.newHashSet(MahJong, B2)
+                        new HashSet<>(Arrays.asList(MahJong, B2))
                     )
                 );
         })
@@ -80,7 +81,7 @@ class CheatDealTest {
                     ctx,
                     CheatDealParam.withActor(
                         UserId.of("jules"),
-                        Sets.newHashSet(MahJong, B2)
+                        new HashSet<>(Arrays.asList(MahJong, B2))
                     )
                 );
         }).doesNotThrowAnyException();

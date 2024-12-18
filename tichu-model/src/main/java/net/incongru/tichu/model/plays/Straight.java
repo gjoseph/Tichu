@@ -8,7 +8,7 @@ import static net.incongru.tichu.model.card.CardSpecials.Phoenix;
 import static net.incongru.tichu.model.card.SubstituteCardValue.substituteFor;
 
 import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +51,7 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
-        final Collection<CardValue> values = Lists.newArrayList(
+        final Collection<CardValue> values = new ArrayList<>(
             Collections2.transform(getCards(), card -> card.val())
         );
         values.removeIf(v -> v == Phoenix);
@@ -103,7 +103,7 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<CardValue> values = Lists.newArrayList(
+            final List<CardValue> values = new ArrayList<>(
                 Collections2.transform(cards, Card::val)
             );
             values.sort(CardComparators.V_BY_PLAY_ORDER);
@@ -140,8 +140,8 @@ public class Straight extends AbstractPlay<Straight> {
 
             // If phoenix hasn't been used, we use it for the highest possible position
             if (phoenixIsAvail) {
-                final CardValue last = values.get(values.size() - 1);
-                final CardValue first = values.get(0);
+                final CardValue last = values.getLast();
+                final CardValue first = values.getFirst();
                 if (last == Ace && first.playOrder() > Two.playOrder()) {
                     // then we use it "before" the first card
                     sub = substituteFor(first.playOrder() - 1);

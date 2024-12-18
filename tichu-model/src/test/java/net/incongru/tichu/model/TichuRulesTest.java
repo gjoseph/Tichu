@@ -51,7 +51,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.Sets;
+import java.util.Arrays;
+import java.util.HashSet;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.card.CardNumbers;
 import net.incongru.tichu.model.plays.ConsecutivePairs;
@@ -438,6 +439,6 @@ class TichuRulesTest {
     }
 
     private Play newPlay(Card... cards) {
-        return new TichuRules().validate(Sets.newHashSet(cards));
+        return new TichuRules().validate(new HashSet<>(Arrays.asList(cards)));
     }
 }

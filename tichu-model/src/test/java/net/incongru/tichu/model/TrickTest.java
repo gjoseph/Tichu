@@ -7,8 +7,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.Sets;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import net.incongru.tichu.model.util.DeckConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -36,7 +37,9 @@ class TrickTest {
 
         // 1st player plays
         assertThat(
-            trick.play(alex, Sets.newHashSet(DeckConstants.B2)).result()
+            trick
+                .play(alex, new HashSet<>(Arrays.asList(DeckConstants.B2)))
+                .result()
         ).isEqualTo(Play.PlayResult.Result.NEXTGOES);
 
         // players 2 and 3 pass, we're not done yet
@@ -93,7 +96,9 @@ class TrickTest {
 
         // 1st player plays
         assertThat(
-            trick.play(alex, Sets.newHashSet(DeckConstants.B2)).result()
+            trick
+                .play(alex, new HashSet<>(Arrays.asList(DeckConstants.B2)))
+                .result()
         ).isEqualTo(Play.PlayResult.Result.NEXTGOES);
 
         // players 2 and 3 pass, we're not done yet
@@ -111,7 +116,9 @@ class TrickTest {
         );
         // player 4 plays another single, that's valid
         assertThat(
-            trick.play(quinn, Sets.newHashSet(DeckConstants.G5)).result()
+            trick
+                .play(quinn, new HashSet<>(Arrays.asList(DeckConstants.G5)))
+                .result()
         ).isEqualTo(Play.PlayResult.Result.NEXTGOES);
         assertFalse(trick.isDone());
     }

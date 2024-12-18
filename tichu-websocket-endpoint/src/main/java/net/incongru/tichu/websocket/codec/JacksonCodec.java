@@ -28,9 +28,9 @@ public abstract class JacksonCodec<T>
         final Type t = thisClass.getActualTypeArguments()[0];
         if (t instanceof Class) {
             this.type = (Class<T>) t;
-        } else if (t instanceof ParameterizedType) {
+        } else if (t instanceof ParameterizedType parameterizedType) {
             // Not sure this is the case
-            this.type = (Class<T>) ((ParameterizedType) t).getRawType();
+            this.type = (Class<T>) parameterizedType.getRawType();
         } else {
             throw new IllegalStateException("Can't determine type for " + this);
         }

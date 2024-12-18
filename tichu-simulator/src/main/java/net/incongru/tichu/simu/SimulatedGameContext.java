@@ -7,10 +7,10 @@ public class SimulatedGameContext extends AbstractGameContext {
     /**
      * Logs a message to the simulation.
      *
-     * @see String#format(String, Object...)
+     * @see String#formatted(Object...)
      */
     @Override
     public void log(String msg, Object... args) {
-        System.out.println(String.format(msg, args));
+        System.out.println(msg.formatted(args));
     }
 }
