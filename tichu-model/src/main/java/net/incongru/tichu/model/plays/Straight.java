@@ -52,7 +52,7 @@ public class Straight extends AbstractPlay<Straight> {
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
         final Collection<CardValue> values = new ArrayList<>(
-            Collections2.transform(getCards(), card -> card.val())
+            Collections2.transform(getCards(), Card::val)
         );
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
