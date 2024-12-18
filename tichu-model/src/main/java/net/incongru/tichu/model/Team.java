@@ -1,6 +1,5 @@
 package net.incongru.tichu.model;
 
-import com.google.common.base.Preconditions;
 import java.util.Objects;
 
 /**
@@ -12,7 +11,7 @@ public class Team {
     private final Player[] players = new Player[2];
 
     public Team(String name) {
-        Preconditions.checkNotNull(name, "Team name can't be null");
+        Objects.requireNonNull(name, "Team name can't be null");
         this.name = name;
     }
 

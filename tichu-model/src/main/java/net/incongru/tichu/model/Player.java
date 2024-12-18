@@ -1,8 +1,8 @@
 package net.incongru.tichu.model;
 
-import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class Player {
     private final Set<Card> wonCards = new LinkedHashSet<>();
 
     public Player(@Nonnull UserId id) {
-        Preconditions.checkNotNull(id, "Player name can't be null");
+        Objects.requireNonNull(id, "Player name can't be null");
         this.id = id;
         this.ready = false;
     }

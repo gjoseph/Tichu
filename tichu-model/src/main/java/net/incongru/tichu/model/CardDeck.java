@@ -41,7 +41,7 @@ public class CardDeck {
     }
 
     public Card take() {
-        return cards.remove(0);
+        return cards.removeFirst();
     }
 
     public Set<Card> allRemaining() {

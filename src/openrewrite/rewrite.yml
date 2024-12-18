@@ -1,0 +1,23 @@
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: net.incongru.tichu.rewrite.RecipeBook
+recipeList:
+  - org.openrewrite.java.migrate.UpgradeToJava21
+  - org.openrewrite.java.migrate.guava.NoGuavaJava21
+  - net.incongru.tichu.rewrite.RemoveJakartaAnnotationDependency
+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: net.incongru.tichu.rewrite.RemoveJakartaAnnotationDependency
+description: |
+  Somewhere in the depths of UpgradeToJava21 via Java8toJava11,
+  dependencies to jakarta.annotation:jakarta.annotation-api are
+  added because we use javax.annotation..*. Except, we only use
+  @Nonnull and @Nullable, which are _not_ in this jar. Since
+  individual recipes can't be disabled when they're declared
+  within others, here's a recipe that does the inverse.
+  See https://github.com/openrewrite/rewrite/discussions/4211
+recipeList:
+  - org.openrewrite.java.dependencies.RemoveDependency:
+      groupId: jakarta.annotation
+      artifactId: jakarta.annotation-api

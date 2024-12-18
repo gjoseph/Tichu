@@ -7,7 +7,7 @@ import static net.incongru.tichu.model.util.DeckConstants.MahJong;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
 import net.incongru.tichu.action.GameContext;
 import net.incongru.tichu.action.param.CheatDealParam;
 import net.incongru.tichu.action.param.InitialiseGameParam;
@@ -72,7 +72,7 @@ class PlayerIsReadyTest {
                 ctx,
                 CheatDealParam.withActor(
                     UserId.of("jules"),
-                    Sets.newHashSet(MahJong, B2)
+                    Set.of(MahJong, B2)
                 )
             );
 

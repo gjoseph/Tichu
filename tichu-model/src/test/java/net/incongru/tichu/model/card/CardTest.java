@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.google.common.collect.FluentIterable;
 import net.incongru.tichu.model.CardDeck;
 import net.incongru.tichu.model.util.DeckConstants;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,7 +52,7 @@ class CardTest {
         assertThat(
             FluentIterable.from(array).toSortedSet(BY_SUIT)
         ).containsOnly(array);
-        Assertions.assertThat(
+        assertThat(
             FluentIterable.from(new CardDeck().allRemaining()).toSortedList(
                 BY_SUIT
             )

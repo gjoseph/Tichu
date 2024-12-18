@@ -68,6 +68,6 @@ class TestGameContext extends AbstractGameContext {
 
     @Override
     public void log(String msg, Object... args) {
-        System.out.println(String.format(msg, args));
+        System.out.println(msg.formatted(args));
     }
 }

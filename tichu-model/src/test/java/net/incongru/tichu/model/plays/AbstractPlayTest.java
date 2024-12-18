@@ -10,7 +10,6 @@ import static net.incongru.tichu.model.util.DeckConstants.Pagoda_9;
 import static net.incongru.tichu.model.util.DeckConstants.Sword_4;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.google.common.collect.Sets;
 import java.util.Set;
 import net.incongru.tichu.model.card.Card;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class AbstractPlayTest {
 
     @Test
     void correctlyFindLowestCard() {
-        final Set<Card> cards = Sets.newHashSet(
+        final Set<Card> cards = Set.of(
             Pagoda_9,
             Pagoda_7,
             Sword_4,

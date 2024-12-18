@@ -56,7 +56,7 @@ public record Simulation(List<ActionAndCommands> actionAndCommands) {
     public static class PostActionCommandException extends RuntimeException {
 
         public PostActionCommandException(String format, Object... args) {
-            super(String.format(format, args));
+            super(format.formatted(args));
         }
     }
 }
