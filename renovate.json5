@@ -71,6 +71,14 @@
       matchPackageNames: ["/^org.mockito/"],
     },
     {
+      groupName: "OpenRewrite packages",
+      matchPackageNames: [
+        "/^org.openrewrite:/",
+        "/^org.openrewrite.rewrite:/",
+        "/^org.openrewrite.recipe:/",
+      ],
+    },
+    {
       groupName: "SLF4J packages",
       matchPackageNames: ["/^org.slf4j/"],
     },
