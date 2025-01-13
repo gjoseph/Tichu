@@ -18,7 +18,7 @@ import { Button } from "./Button";
 import { Chat, ChatMessage } from "./Chat";
 import { ConnectivityIndicatorConnected } from "./ConnectivityIndicator";
 import { Game } from "./Game";
-import { ToolpadNotifier } from "../notifications";
+import { withToolpad } from "../notifications";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
@@ -52,7 +52,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
       new WSTichuClient(
         props.user.id,
         newReactHandler(
-          new ToolpadNotifier(notifications),
+          withToolpad(notifications),
           setRoomState,
           setGameState,
           // TODO so for example this and all other callbacks could be set by the listening components now?

@@ -2,22 +2,33 @@
 // - only relevant-to-us options are exposed
 // - stacking / notification center works (currently we have a badge but can't see other notifs)
 // - dedupe notifications
+// - understand why toolpad doesn't export UseNotifications interface
+
+import {
+  CloseNotification,
+  ShowNotification,
+} from "@toolpad/core/useNotifications";
 
 type NotificationKey = string;
 type NotificationSeverity = "warning" | "info";
-type NotificationOptions = {
+
+interface NotificationOptions {
   severity: NotificationSeverity;
   autoHideDuration?: number;
-};
-
-export interface Notifier {
-  send(message: string, options?: NotificationOptions): NotificationKey;
 }
 
-export class ToolpadNotifier implements Notifier {
-  constructor(private notifications: /*UseNotification*/ any) {}
+export interface Notifier {
+  // eslint-disable-next-line @typescript-eslint/prefer-function-type
+  (message: string, options?: NotificationOptions): NotificationKey;
+}
 
-  send(message: string, options?: NotificationOptions): NotificationKey {
-    return this.notifications.show(message, options);
-  }
+export const withToolpad =
+  (notifications: UseNotifications): Notifier =>
+  (message: string, options?: NotificationOptions): NotificationKey => {
+    return notifications.show(message, options);
+  };
+
+export interface UseNotifications {
+  show: ShowNotification;
+  close: CloseNotification;
 }

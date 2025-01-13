@@ -61,7 +61,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
   onConnect = () => {
     this.log.debug("Connected (press CTRL+C to quit)");
     this.setRoomState(() => new RoomState(RoomStatus.CONNECTED));
-    this.notify.send("Connected !", {
+    this.notify("Connected !", {
       severity: "info",
     });
   };
@@ -72,7 +72,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
         wasClean ? "clean" : "dirty"
       })`,
     );
-    this.notify.send("Disconnected", {
+    this.notify("Disconnected", {
       severity: "warning",
     });
   };
@@ -152,7 +152,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
       ok: () => {
         if (isResponse) {
           this.debug("Waiting for others");
-          this.notify.send("Welcome");
+          this.notify("Welcome");
           this.setRoomState(() => new RoomState(RoomStatus.NEED_PLAYERS));
         }
       },
