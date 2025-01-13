@@ -84,7 +84,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   const ready = () => {
     wsClient?.send(new OutgoingGameMessage(new PlayerIsReadyParam()));
   };
-  const game = visitEnumValue(roomState.status).with<JSX.Element>({
+  const game = visitEnumValue(roomState.status).with<React.JSX.Element>({
     [RoomStatus.OPEN]: () => <p>Trying to connect</p>,
     [RoomStatus.CONNECTED]: () => (
       <>
