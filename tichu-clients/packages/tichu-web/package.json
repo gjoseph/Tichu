@@ -5,9 +5,9 @@
   "description": "",
   "dependencies": {
     "@emotion/react": "11.14.0",
-    "@mui/icons-material": "6.4.0",
-    "@mui/material": "6.4.0",
-    "@mui/styles": "6.4.0",
+    "@mui/icons-material": "6.4.1",
+    "@mui/material": "6.4.1",
+    "@mui/styles": "6.4.1",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.2.0",
     "@testing-library/user-event": "14.6.0",
