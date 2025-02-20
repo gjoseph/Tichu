@@ -24,7 +24,7 @@
   "license": "",
   "engines": {
     "node": "22.14.0",
-    "npm": "11.0.0"
+    "npm": "11.1.0"
   },
   "devDependencies": {
     "@ava/typescript": "5.0.0",
