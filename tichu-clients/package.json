@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "husky": "9.1.7",
-    "prettier": "3.4.2",
+    "prettier": "3.5.2",
     "prettier-plugin-java": "2.6.7",
     "pretty-quick": "4.0.0"
   },
