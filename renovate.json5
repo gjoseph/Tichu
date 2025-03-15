@@ -74,6 +74,7 @@
       groupName: "OpenRewrite packages",
       matchPackageNames: [
         "/^org.openrewrite:/",
+        "/^org.openrewrite.maven:/",
         "/^org.openrewrite.rewrite:/",
         "/^org.openrewrite.recipe:/",
       ],
