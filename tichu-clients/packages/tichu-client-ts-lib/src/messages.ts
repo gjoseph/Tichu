@@ -1,6 +1,5 @@
 import { Card, CardShortName } from "./cards";
 import { UserId } from "./model";
-// @ts-expect-error moduleResolution:nodenext issue 54523
 import { nanoid } from "nanoid";
 
 export type MessageType =
