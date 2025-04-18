@@ -3,7 +3,7 @@
   "private": true,
   "engines": {
     "node": "22.14.0",
-    "npm": "11.2.0"
+    "npm": "11.3.0"
   },
   "devDependencies": {
     "husky": "9.1.7",
