@@ -1,8 +1,8 @@
 package net.incongru.tichu.action;
 
 import java.util.Objects;
-import javax.annotation.Nonnull;
 import net.incongru.tichu.model.UserId;
+import org.jspecify.annotations.NonNull;
 
 public interface ActionResponse<R extends ActionResponse.Result> {
     // Acting player should get a different log than everyone else
@@ -31,7 +31,7 @@ public interface ActionResponse<R extends ActionResponse.Result> {
 
         private final String text;
 
-        public Message(@Nonnull String text) {
+        public Message(@NonNull String text) {
             this.text = text;
         }
 

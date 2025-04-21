@@ -2,9 +2,9 @@ package net.incongru.tichu.websocket;
 
 import java.util.LinkedList;
 import java.util.List;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.incongru.tichu.model.UserId;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A collection of messages for each user in the game/room.
@@ -35,6 +35,6 @@ class AddressedMessages {
      */
     record AddressedMessage(
         @Nullable UserId recipient,
-        @Nonnull OutgoingMessage message
+        @NonNull OutgoingMessage message
     ) {}
 }
