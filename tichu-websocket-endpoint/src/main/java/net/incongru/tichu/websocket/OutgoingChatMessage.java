@@ -1,8 +1,8 @@
 package net.incongru.tichu.websocket;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.annotation.Nonnull;
 import net.incongru.tichu.model.UserId;
+import org.jspecify.annotations.NonNull;
 
 /**
  * {@link OutgoingChatMessage}s always have a transaction ID, copied from the message they are re-broadcasting.
@@ -12,6 +12,6 @@ import net.incongru.tichu.model.UserId;
 public record OutgoingChatMessage(
     UserId from,
     String content,
-    @Nonnull @JsonProperty("txId") String clientTxId
+    @NonNull @JsonProperty("txId") String clientTxId
 )
     implements OutgoingMessage {}

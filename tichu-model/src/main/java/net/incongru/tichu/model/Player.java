@@ -6,8 +6,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
 import net.incongru.tichu.model.card.Card;
+import org.jspecify.annotations.NonNull;
 
 /**
  *
@@ -19,7 +19,7 @@ public class Player {
     private final Hand hand = new Hand();
     private final Set<Card> wonCards = new LinkedHashSet<>();
 
-    public Player(@Nonnull UserId id) {
+    public Player(@NonNull UserId id) {
         Objects.requireNonNull(id, "Player name can't be null");
         this.id = id;
         this.ready = false;

@@ -1,11 +1,11 @@
 package net.incongru.tichu.websocket;
 
-import javax.annotation.Nonnull;
 import net.incongru.tichu.model.UserId;
+import org.jspecify.annotations.NonNull;
 
 public record RoomActivityMessage(
-    @Nonnull UserId actor,
-    @Nonnull RoomActivity activity
+    @NonNull UserId actor,
+    @NonNull RoomActivity activity
 )
     implements OutgoingMessage {
     enum RoomActivity {

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import java.io.IOException;
 import java.util.Set;
-import javax.annotation.Nonnull;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.action.param.InitialiseGameParam;
@@ -33,6 +32,7 @@ import net.incongru.tichu.model.Player;
 import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
+import org.jspecify.annotations.NonNull;
 
 public class JacksonSetup {
 
@@ -185,7 +185,7 @@ public class JacksonSetup {
         }
     }
 
-    protected static String kebab(@Nonnull Enum<?> value) {
+    protected static String kebab(@NonNull Enum<?> value) {
         return value.name().toLowerCase().replace('_', '-');
     }
 }
