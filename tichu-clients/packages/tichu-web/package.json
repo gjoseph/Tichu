@@ -64,7 +64,7 @@
     "@storybook/addon-storysource": "8.6.12",
     "@storybook/react": "8.6.12",
     "@storybook/react-vite": "8.6.12",
-    "@vitejs/plugin-react": "4.4.0",
+    "@vitejs/plugin-react": "4.4.1",
     "eslint": "9.25.0",
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-import": "2.31.0",
