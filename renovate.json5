@@ -94,6 +94,17 @@
       groupName: "Material UI packages",
       matchPackageNames: ["/^@material-ui//", "/^@mui//"],
     },
+    {
+      groupName: "ESLint and ESLint plugins",
+      matchPackageNames: [
+        "@eslint/.*",
+        "eslint",
+        "eslint-.*",
+        "typescript-eslint",
+      ],
+      // the above probably has a fair bit of overlap with the below (which comes from https://docs.renovatebot.com/presets-monorepo/#monorepoeslint)
+      matchSourceUrls: ["https://github.com/eslint/eslint"],
+    },
     // Generated @types rules
     {
       groupName: "fs-extra",
