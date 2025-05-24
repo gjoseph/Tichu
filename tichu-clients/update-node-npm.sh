@@ -36,15 +36,13 @@ asdf current nodejs
 
 echo
 echo npm --version before1:
-which -a npm
-which -a npm | xargs --version
+which -a npm | xargs -I{} bash -c 'echo -n "{} "; {} --version'
 echo
 echo Updating npm to $NPM_VERSION ...
 npm install -g npm@$NPM_VERSION
 echo
 echo npm --version after1:
-which -a npm
-which -a npm | xargs --version
+which -a npm | xargs -I{} bash -c 'echo -n "{} "; {} --version'
 echo
 
 PACKAGE_JSON_FILES=(package.json $(find packages -name package.json))
@@ -60,8 +58,7 @@ done
 
 echo
 echo npm --version before2:
-which -a npm
-which -a npm | xargs --version
+which -a npm | xargs -I{} bash -c 'echo -n "{} "; {} --version'
 echo
 # we shouldn't have to do this, we've already done that on line 38
 echo Setting up npm as per .engine.npm
@@ -69,8 +66,7 @@ echo Setting up npm as per .engine.npm
 echo
 echo
 echo npm --version after2:
-which -a npm
-which -a npm | xargs --version
+which -a npm | xargs -I{} bash -c 'echo -n "{} "; {} --version'
 echo
 echo Refresh engine in lock file
 npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
