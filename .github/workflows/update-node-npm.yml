@@ -1,6 +1,9 @@
 name: Update node and npm versions
 
 on:
+  # temp while testing:
+  push:
+    branches: [automate-node-npm-updates]
   workflow_dispatch:
     inputs:
       nodeVersion:

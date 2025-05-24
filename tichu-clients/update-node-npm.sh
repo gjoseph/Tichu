@@ -29,7 +29,6 @@ else
   NPM_VERSION=$(npm view npm version)
 fi
 
-
 echo Setting nodejs to $NODE_VERSION ...
 asdf set -p nodejs "${NODE_VERSION}"
 asdf install nodejs
@@ -49,8 +48,16 @@ for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
     && mv temp.json $PACKAGE_JSON
 done
 
+echo npm --version before:
+npm --version
+echo
 echo Setting up npm as per .engine.npm
 ./npm-setup.sh
+echo
+echo
+echo npm --version after:
+npm --version
+echo
 echo Refresh engine in lock file
 npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
 echo Sanity check with npm install
