@@ -13,7 +13,7 @@
     "@testing-library/user-event": "14.6.1",
     "@toolpad/core": "0.15.0",
     "@types/node": "22.15.17",
-    "@types/react": "19.1.4",
+    "@types/react": "19.1.5",
     "@types/react-dom": "19.1.5",
     "react": "19.1.0",
     "react-dom": "19.1.0",
