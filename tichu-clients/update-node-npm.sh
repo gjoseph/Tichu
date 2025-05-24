@@ -34,8 +34,18 @@ asdf set -p nodejs "${NODE_VERSION}"
 asdf install nodejs
 asdf current nodejs
 
+echo
+echo npm --version before1:
+which -a npm
+which -a npm | xargs --version
+echo
 echo Updating npm to $NPM_VERSION ...
 npm install -g npm@$NPM_VERSION
+echo
+echo npm --version after1:
+which -a npm
+which -a npm | xargs --version
+echo
 
 PACKAGE_JSON_FILES=(package.json $(find packages -name package.json))
 echo Updating .engine in "${PACKAGE_JSON_FILES[@]}" ...
@@ -48,15 +58,19 @@ for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
     && mv temp.json $PACKAGE_JSON
 done
 
-echo npm --version before:
-npm --version
 echo
+echo npm --version before2:
+which -a npm
+which -a npm | xargs --version
+echo
+# we shouldn't have to do this, we've already done that on line 38
 echo Setting up npm as per .engine.npm
 ./npm-setup.sh
 echo
 echo
-echo npm --version after:
-npm --version
+echo npm --version after2:
+which -a npm
+which -a npm | xargs --version
 echo
 echo Refresh engine in lock file
 npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
