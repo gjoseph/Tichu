@@ -23,7 +23,7 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "22.15.0",
+    "node": "22.16.0",
     "npm": "11.3.0"
   },
   "devDependencies": {
