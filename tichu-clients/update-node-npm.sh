@@ -5,7 +5,7 @@ set -o nounset
 
 # ensure pwd = dir of $0
 dir0="$(dirname $0)"
-dir0_resolved="$(greadlink -f ${dir0})"
+dir0_resolved="$(readlink -f ${dir0})"
 cd "${dir0_resolved}"
 
 #echo Updating nodejs asdf plugin...
