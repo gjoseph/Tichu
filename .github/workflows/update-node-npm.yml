@@ -29,11 +29,9 @@ jobs:
       - name: Update node and npm versions in repo
         run: tichu-clients/update-node-npm.sh ${{ inputs.nodeVersion }} ${{ inputs.npmVersion }}
       - name: Refresh engine in lock file
-        run: npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
-      #echo Sanity check with npm install
-      #npm install
+        run: cd tichu-clients; npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
       - name: Run prettier check
-        run: npm run prettier-check-all
+        run: cd tichu-clients; npm run prettier-check-all
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         id: pr
