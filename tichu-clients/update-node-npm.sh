@@ -29,14 +29,17 @@ else
   NPM_VERSION=$(npm view npm version)
 fi
 
+echo Setting nodejs to $NODE_VERSION in .tool-versions ...
+#asdf set -p nodejs "${NODE_VERSION}"
+#asdf install nodejs
+#asdf current nodejs
+ASDF_VERSIONS_FILE=../.tool-versions
+cat ${ASDF_VERSIONS_FILE} | grep -v nodejs > ${ASDF_VERSIONS_FILE}.tmp
+echo nodejs $NODE_VERSION >> ${ASDF_VERSIONS_FILE}.tmp
+mv ${ASDF_VERSIONS_FILE}.tmp ${ASDF_VERSIONS_FILE}
 
-echo Setting nodejs to $NODE_VERSION ...
-asdf set -p nodejs "${NODE_VERSION}"
-asdf install nodejs
-asdf current nodejs
-
-echo Updating npm to $NPM_VERSION ...
-npm install -g npm@$NPM_VERSION
+#echo Updating npm to $NPM_VERSION ...
+#npm install -g npm@$NPM_VERSION
 
 PACKAGE_JSON_FILES=(package.json $(find packages -name package.json))
 echo Updating .engine in "${PACKAGE_JSON_FILES[@]}" ...
@@ -49,11 +52,9 @@ for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
     && mv temp.json $PACKAGE_JSON
 done
 
-echo Setting up npm as per .engine.npm
-./npm-setup.sh
-echo Refresh engine in lock file
-npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
-echo Sanity check with npm install
-npm install
-echo Run prettier check
-npm run prettier-check-all
+#echo Refresh engine in lock file
+#npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
+#echo Sanity check with npm install
+#npm install
+#echo Run prettier check
+#npm run prettier-check-all

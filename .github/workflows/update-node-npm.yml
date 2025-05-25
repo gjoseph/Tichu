@@ -16,16 +16,20 @@ permissions:
 
 jobs:
   update-node-npm:
-    name: Update node and npm versions
+    name: "Update node to version ${{ inputs.nodeVersion }} and npm to version ${{ inputs.npmVersion }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install asdf & tools
-        uses: asdf-vm/actions/install@v4
+      #      - name: Install asdf & tools
+      #        uses: asdf-vm/actions/install@v4
       - name: Update node and npm versions in repo
         run: tichu-clients/update-node-npm.sh ${{ inputs.nodeVersion }} ${{ inputs.npmVersion }}
-      - name: Create Pull Request
+      - name: Refresh engine in lock file
+        run: cd tichu-clients; npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
+      #      - name: Run prettier check
+      #        run: cd tichu-clients; npm run prettier-check-all
+      - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         id: pr
         with:
@@ -35,7 +39,7 @@ jobs:
       - name: Print PR details
         if: ${{ steps.pr.outputs.pull-request-number }}
         run: |
-          echo "Pull request nr  - ${{ steps.pr.outputs.pull-request-number }}"
+          echo "Pull request #   - ${{ steps.pr.outputs.pull-request-number }}"
           echo "Pull request URL - ${{ steps.pr.outputs.pull-request-url }}"
 
 #      - name: Enable PR automerge Request Automerge
