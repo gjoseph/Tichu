@@ -98,7 +98,8 @@
       groupName: "ESLint and ESLint plugins",
       matchPackageNames: [
         "@eslint/.*",
-        "eslint",
+        "^eslint$",
+        "^eslint/.*",
         "eslint-.*",
         "typescript-eslint",
       ],
