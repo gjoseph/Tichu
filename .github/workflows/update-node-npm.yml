@@ -1,6 +1,9 @@
 name: Update node and npm versions
 
 on:
+  # temp while testing:
+  push:
+    branches: [automate-node-npm-updates]
   workflow_dispatch:
     inputs:
       nodeVersion:
@@ -25,6 +28,9 @@ jobs:
         run: cd tichu-clients; npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
       #      - name: Run prettier check
       #        run: cd tichu-clients; npm run prettier-check-all
+      - name: Test token
+        run: echo ${{ secrets.GREG_GITBOT_TOKEN }} lol hoping github masks this by default
+
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
         id: pr
