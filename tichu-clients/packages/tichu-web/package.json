@@ -5,8 +5,8 @@
   "description": "",
   "dependencies": {
     "@emotion/react": "11.14.0",
-    "@mui/icons-material": "7.1.0",
-    "@mui/material": "7.1.0",
+    "@mui/icons-material": "7.1.1",
+    "@mui/material": "7.1.1",
     "@mui/styles": "6.4.8",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.3.0",
