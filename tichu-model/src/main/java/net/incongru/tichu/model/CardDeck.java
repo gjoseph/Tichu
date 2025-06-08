@@ -28,7 +28,8 @@ public class CardDeck {
             }
         }
         // Add CardSpecials
-        Arrays.stream(CardSpecials.values()).forEach(s -> cards.add(Card.of(s))
+        Arrays.stream(CardSpecials.values()).forEach(s ->
+            cards.add(Card.of(s))
         );
 
         this.cards = shuffle(cards);
