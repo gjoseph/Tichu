@@ -134,7 +134,8 @@ class JacksonSetupTest {
     @ParameterizedTest
     @MethodSource
     void rejectDeserOfUnregisteredActionParamType(String json) {
-        assertThatThrownBy(() -> objectMapper.readValue(json, ActionParam.class)
+        assertThatThrownBy(() ->
+            objectMapper.readValue(json, ActionParam.class)
         )
             .isInstanceOf(InvalidTypeIdException.class)
             .hasMessageContaining("Could not resolve type id");
