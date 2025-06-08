@@ -102,9 +102,8 @@
         "^eslint/.*",
         "eslint-.*",
         "typescript-eslint",
+        "vite-plugin-eslint",
       ],
-      // the above probably has a fair bit of overlap with the below (which comes from https://docs.renovatebot.com/presets-monorepo/#monorepoeslint)
-      matchSourceUrls: ["https://github.com/eslint/eslint"],
     },
     // Generated @types rules
     {
