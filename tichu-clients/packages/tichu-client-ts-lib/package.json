@@ -30,7 +30,7 @@
     "@ava/typescript": "5.0.0",
     "@types/node": "22.15.31",
     "@types/ws": "8.18.1",
-    "ava": "6.3.0",
+    "ava": "6.4.0",
     "typedoc": "0.28.5",
     "typescript": "5.8.3"
   },
