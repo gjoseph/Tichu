@@ -22,7 +22,7 @@
     "typescript": "5.8.3"
   },
   "optionalDependencies": {
-    "@emotion/styled": "11.14.0"
+    "@emotion/styled": "11.14.1"
   },
   "scripts": {
     "start": "vite",
