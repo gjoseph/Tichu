@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@ava/typescript": "6.0.0",
-    "@types/node": "22.15.34",
+    "@types/node": "22.15.35",
     "@types/ws": "8.18.1",
     "ava": "6.4.0",
     "typedoc": "0.28.7",
