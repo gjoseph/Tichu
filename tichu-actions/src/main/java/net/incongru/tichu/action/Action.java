@@ -5,7 +5,8 @@ package net.incongru.tichu.action;
  * @see ActionFactory
  */
 public interface Action<
-    P extends ActionParam, R extends ActionResponse.Result
+    P extends ActionParam,
+    R extends ActionResponse.Result
 > {
     // TODO add a description here or on param type
 

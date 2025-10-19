@@ -12,21 +12,31 @@ import net.incongru.tichu.model.card.Card;
 class TestGameContext extends AbstractGameContext {
 
     TestGameContext initialised() {
-        new InitialiseSimulatedGame()
-            .exec(this, InitialiseGameParam.withActor(UserId.of("alex")));
+        new InitialiseSimulatedGame().exec(
+            this,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
         return this;
     }
 
     TestGameContext withSamplePlayers() {
         // play order would be alex jules charlie quinn
-        new JoinTable()
-            .exec(this, JoinTableParam.withActor(UserId.of("alex"), 0)); // player 1 (team 1)
-        new JoinTable()
-            .exec(this, JoinTableParam.withActor(UserId.of("charlie"), 0)); // player 3 (team 1)
-        new JoinTable()
-            .exec(this, JoinTableParam.withActor(UserId.of("jules"), 1)); // player 2 (team 2)
-        new JoinTable()
-            .exec(this, JoinTableParam.withActor(UserId.of("quinn"), 1)); // player 4 (team 2)
+        new JoinTable().exec(
+            this,
+            JoinTableParam.withActor(UserId.of("alex"), 0)
+        ); // player 1 (team 1)
+        new JoinTable().exec(
+            this,
+            JoinTableParam.withActor(UserId.of("charlie"), 0)
+        ); // player 3 (team 1)
+        new JoinTable().exec(
+            this,
+            JoinTableParam.withActor(UserId.of("jules"), 1)
+        ); // player 2 (team 2)
+        new JoinTable().exec(
+            this,
+            JoinTableParam.withActor(UserId.of("quinn"), 1)
+        ); // player 4 (team 2)
         return this;
     }
 
@@ -37,30 +47,43 @@ class TestGameContext extends AbstractGameContext {
         Set<Card> forJules,
         Set<Card> forQuinn
     ) {
-        new CheatDeal()
-            .exec(this, CheatDealParam.withActor(UserId.of("alex"), forAlex));
-        new CheatDeal()
-            .exec(
-                this,
-                CheatDealParam.withActor(UserId.of("charlie"), forCharlie)
-            );
-        new CheatDeal()
-            .exec(this, CheatDealParam.withActor(UserId.of("jules"), forJules));
-        new CheatDeal()
-            .exec(this, CheatDealParam.withActor(UserId.of("quinn"), forQuinn));
+        new CheatDeal().exec(
+            this,
+            CheatDealParam.withActor(UserId.of("alex"), forAlex)
+        );
+        new CheatDeal().exec(
+            this,
+            CheatDealParam.withActor(UserId.of("charlie"), forCharlie)
+        );
+        new CheatDeal().exec(
+            this,
+            CheatDealParam.withActor(UserId.of("jules"), forJules)
+        );
+        new CheatDeal().exec(
+            this,
+            CheatDealParam.withActor(UserId.of("quinn"), forQuinn)
+        );
         return this;
     }
 
     // ideally shouldn't be able to call this if haven't set sample players...
     TestGameContext allReady() {
-        new PlayerIsReady()
-            .exec(this, PlayerIsReadyParam.withActor(UserId.of("alex")));
-        new PlayerIsReady()
-            .exec(this, PlayerIsReadyParam.withActor(UserId.of("charlie")));
-        new PlayerIsReady()
-            .exec(this, PlayerIsReadyParam.withActor(UserId.of("jules")));
-        new PlayerIsReady()
-            .exec(this, PlayerIsReadyParam.withActor(UserId.of("quinn")));
+        new PlayerIsReady().exec(
+            this,
+            PlayerIsReadyParam.withActor(UserId.of("alex"))
+        );
+        new PlayerIsReady().exec(
+            this,
+            PlayerIsReadyParam.withActor(UserId.of("charlie"))
+        );
+        new PlayerIsReady().exec(
+            this,
+            PlayerIsReadyParam.withActor(UserId.of("jules"))
+        );
+        new PlayerIsReady().exec(
+            this,
+            PlayerIsReadyParam.withActor(UserId.of("quinn"))
+        );
         return this;
     }
 

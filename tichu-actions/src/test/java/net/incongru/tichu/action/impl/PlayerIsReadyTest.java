@@ -21,14 +21,20 @@ class PlayerIsReadyTest {
     @Test
     void failsWithUnknownPlayer() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame()
-            .exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("jamie"), 0));
+        new InitialiseGame().exec(
+            ctx,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("jamie"), 0)
+        );
 
         assertThatThrownBy(() ->
-            new PlayerIsReady()
-                .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("ghost")))
+            new PlayerIsReady().exec(
+                ctx,
+                PlayerIsReadyParam.withActor(UserId.of("ghost"))
+            )
         )
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("ghost");
@@ -37,17 +43,25 @@ class PlayerIsReadyTest {
     @Test
     void holdYourHorsesMarkingYourselfReadyOnceIsEnough() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame()
-            .exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("jamie"), 0));
-        new PlayerIsReady()
-            .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("jamie")));
+        new InitialiseGame().exec(
+            ctx,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("jamie"), 0)
+        );
+        new PlayerIsReady().exec(
+            ctx,
+            PlayerIsReadyParam.withActor(UserId.of("jamie"))
+        );
         assertThat(ctx.player(UserId.of("jamie")).isReady()).isTrue();
 
         assertThatThrownBy(() ->
-            new PlayerIsReady()
-                .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("jamie")))
+            new PlayerIsReady().exec(
+                ctx,
+                PlayerIsReadyParam.withActor(UserId.of("jamie"))
+            )
         )
             .isInstanceOf(IllegalStateException.class)
             .hasMessageContaining("jamie");
@@ -56,43 +70,57 @@ class PlayerIsReadyTest {
     @Test
     void gameStartsWhenAllPlayersAreReady() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseSimulatedGame()
-            .exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
+        new InitialiseSimulatedGame().exec(
+            ctx,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("alex"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("charlie"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("jules"), 1)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("quinn"), 1)
+        );
 
-        new CheatDeal()
-            .exec(
-                ctx,
-                CheatDealParam.withActor(
-                    UserId.of("jules"),
-                    Set.of(MahJong, B2)
-                )
-            );
+        new CheatDeal().exec(
+            ctx,
+            CheatDealParam.withActor(UserId.of("jules"), Set.of(MahJong, B2))
+        );
 
         assertThat(ctx.game())
             .describedAs("Nobody is ready")
             .is(notReadyNorStarted);
-        new PlayerIsReady()
-            .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("alex")));
+        new PlayerIsReady().exec(
+            ctx,
+            PlayerIsReadyParam.withActor(UserId.of("alex"))
+        );
         assertThat(ctx.game())
             .describedAs("Should still not be ready with just 1 ready player")
             .is(notReadyNorStarted);
-        new PlayerIsReady()
-            .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("charlie")));
-        new PlayerIsReady()
-            .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("jules")));
+        new PlayerIsReady().exec(
+            ctx,
+            PlayerIsReadyParam.withActor(UserId.of("charlie"))
+        );
+        new PlayerIsReady().exec(
+            ctx,
+            PlayerIsReadyParam.withActor(UserId.of("jules"))
+        );
         assertThat(ctx.game())
             .describedAs("Should still not be ready with just 3 ready players")
             .is(notReadyNorStarted);
-        new PlayerIsReady()
-            .exec(ctx, PlayerIsReadyParam.withActor(UserId.of("quinn")));
+        new PlayerIsReady().exec(
+            ctx,
+            PlayerIsReadyParam.withActor(UserId.of("quinn"))
+        );
         assertThat(ctx.game())
             .describedAs("Should now be ready with all 4 ready players")
             .is(started);

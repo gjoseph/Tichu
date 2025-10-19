@@ -43,7 +43,7 @@ class PlayerPlaysTest {
                     Collections.emptySet()
                 )
             )
-        ).isErrorPlayResult(INVALID_PLAY/* TODO is this the right error ??*/);
+        ).isErrorPlayResult(INVALID_PLAY /* TODO is this the right error ??*/);
     }
 
     @Test

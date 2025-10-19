@@ -18,7 +18,8 @@ public class Round {
         this.announces = new ArrayList<>(4);
     }
 
-    public Trick start() { // TODO why return Trick ?
+    // TODO why return Trick ?
+    public Trick start() {
         shuffleAndDeal();
 
         Player firstPlayer = game.rules().whoStarts(game.players());
@@ -92,7 +93,7 @@ public class Round {
                 new AnnounceResult(
                     announced.player(),
                     announced.announce(),
-                    true/*TODO everybody wins*/
+                    true /*TODO everybody wins*/
                 )
             )
             .collect(Collectors.toList());

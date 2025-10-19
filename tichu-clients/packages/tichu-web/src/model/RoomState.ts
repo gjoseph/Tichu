@@ -9,7 +9,8 @@ export enum RoomStatus {
   FINISHED,
 }
 
-enum RoomUserStatus { // TODO align this and server GameStatusMessage.PlayerState
+// TODO align this and server GameStatusMessage.PlayerState
+enum RoomUserStatus {
   WATCHING,
   PLAYING,
 }

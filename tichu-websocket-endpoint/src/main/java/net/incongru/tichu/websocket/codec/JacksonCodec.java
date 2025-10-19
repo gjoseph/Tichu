@@ -23,8 +23,8 @@ public abstract class JacksonCodec<T>
     private final Class<T> type;
 
     public JacksonCodec() {
-        final ParameterizedType thisClass = (ParameterizedType) this.getClass()
-            .getGenericSuperclass();
+        final ParameterizedType thisClass =
+            (ParameterizedType) this.getClass().getGenericSuperclass();
         final Type t = thisClass.getActualTypeArguments()[0];
         if (t instanceof Class) {
             this.type = (Class<T>) t;

@@ -6,8 +6,7 @@ import org.jspecify.annotations.NonNull;
 public record RoomActivityMessage(
     @NonNull UserId actor,
     @NonNull RoomActivity activity
-)
-    implements OutgoingMessage {
+) implements OutgoingMessage {
     enum RoomActivity {
         CONNECTED,
         DISCONNECTED,

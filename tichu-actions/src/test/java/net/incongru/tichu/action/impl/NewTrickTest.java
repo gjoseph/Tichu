@@ -41,57 +41,47 @@ class NewTrickTest {
             .allReady();
         // play all the cards
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(
-                        UserId.of("alex"),
-                        Set.of(MahJong)
-                    )
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("alex"), Set.of(MahJong))
+            )
         ).isSuccessResult();
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(B2))
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(B2))
+            )
         ).isSuccessResult();
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of(B3))
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of(B3))
+            )
         ).isSuccessResult();
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("quinn"), Set.of(B4))
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("quinn"), Set.of(B4))
+            )
         ).isSuccessResult();
         // all players now explicitly pass
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("alex"), Set.of())
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("alex"), Set.of())
+            )
         ).isSuccessResult();
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("jules"), Set.of())
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("jules"), Set.of())
+            )
         ).isSuccessResult();
         assertThat(
-            new PlayerPlays()
-                .exec(
-                    ctx,
-                    PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of())
-                )
+            new PlayerPlays().exec(
+                ctx,
+                PlayerPlaysParam.withActor(UserId.of("charlie"), Set.of())
+            )
         ).isSuccessResult();
 
         assertThat(

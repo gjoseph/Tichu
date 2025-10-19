@@ -11,5 +11,4 @@ public record PlayerHandMessage(
     @NonNull @JsonProperty("txId") String clientTxId,
 
     Player.Hand hand
-)
-    implements OutgoingMessage {}
+) implements OutgoingMessage {}

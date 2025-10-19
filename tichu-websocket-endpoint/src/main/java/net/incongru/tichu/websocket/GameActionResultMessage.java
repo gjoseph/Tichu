@@ -13,5 +13,4 @@ import org.jspecify.annotations.NonNull;
 public record GameActionResultMessage(
     @NonNull @JsonProperty("txId") String clientTxId,
     @JsonUnwrapped ActionResponse result
-)
-    implements OutgoingMessage {}
+) implements OutgoingMessage {}

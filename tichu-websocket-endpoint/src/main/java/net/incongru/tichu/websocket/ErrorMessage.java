@@ -17,5 +17,4 @@ public record ErrorMessage(
     // TODO could exceptions be caused without an actor?
     @NonNull UserId actor,
     @NonNull String traceId
-)
-    implements OutgoingMessage {}
+) implements OutgoingMessage {}

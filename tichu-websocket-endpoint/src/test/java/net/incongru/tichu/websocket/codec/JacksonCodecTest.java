@@ -117,13 +117,12 @@ class JacksonCodecTest {
                     new PlayerPlaysResponse(
                         UserId.of("dummy-1"),
                         new Play.PlayResult(
-                            new Pair.Factory()
-                                .is(
-                                    Set.of(
-                                        DeckConstants.Star_Ace,
-                                        DeckConstants.Sword_Ace
-                                    )
-                                ),
+                            new Pair.Factory().is(
+                                Set.of(
+                                    DeckConstants.Star_Ace,
+                                    DeckConstants.Sword_Ace
+                                )
+                            ),
                             Play.PlayResult.Result.NEXTGOES,
                             "woop"
                         ),

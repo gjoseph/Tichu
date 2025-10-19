@@ -34,26 +34,35 @@ class CheatDealTest {
     @Test
     void failsInNormalGame() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame()
-            .exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
+        new InitialiseGame().exec(
+            ctx,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("alex"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("charlie"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("jules"), 1)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("quinn"), 1)
+        );
 
         assertThatThrownBy(() -> {
-            new CheatDeal()
-                .exec(
-                    ctx,
-                    CheatDealParam.withActor(
-                        UserId.of("jules"),
-                        Set.of(MahJong, B2)
-                    )
-                );
+            new CheatDeal().exec(
+                ctx,
+                CheatDealParam.withActor(
+                    UserId.of("jules"),
+                    Set.of(MahJong, B2)
+                )
+            );
         })
             .isInstanceOf(IllegalStateException.class)
             .hasMessageMatching("(?i).*can't cheat.*");
@@ -62,26 +71,35 @@ class CheatDealTest {
     @Test
     void worksInSimulatedGame() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseSimulatedGame()
-            .exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
-        new JoinTable()
-            .exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
+        new InitialiseSimulatedGame().exec(
+            ctx,
+            InitialiseGameParam.withActor(UserId.of("alex"))
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("alex"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("charlie"), 0)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("jules"), 1)
+        );
+        new JoinTable().exec(
+            ctx,
+            JoinTableParam.withActor(UserId.of("quinn"), 1)
+        );
 
         assertThatCode(() -> {
-            new CheatDeal()
-                .exec(
-                    ctx,
-                    CheatDealParam.withActor(
-                        UserId.of("jules"),
-                        Set.of(MahJong, B2)
-                    )
-                );
+            new CheatDeal().exec(
+                ctx,
+                CheatDealParam.withActor(
+                    UserId.of("jules"),
+                    Set.of(MahJong, B2)
+                )
+            );
         }).doesNotThrowAnyException();
     }
 
@@ -106,23 +124,21 @@ class CheatDealTest {
     @Test
     void tooLateIfGameReady() {
         // pre-deal some cards
-        new CheatDeal()
-            .exec(
-                ctx,
-                CheatDealParam.withActor(
-                    UserId.of("charlie"),
-                    Set.of(MahJong, B2, B3)
-                )
-            );
+        new CheatDeal().exec(
+            ctx,
+            CheatDealParam.withActor(
+                UserId.of("charlie"),
+                Set.of(MahJong, B2, B3)
+            )
+        );
         ctx.allReady();
 
         //
         assertThrows(IllegalStateException.class, () -> {
-            new CheatDeal()
-                .exec(
-                    ctx,
-                    CheatDealParam.withActor(UserId.of("alex"), Set.of(G2, G5))
-                );
+            new CheatDeal().exec(
+                ctx,
+                CheatDealParam.withActor(UserId.of("alex"), Set.of(G2, G5))
+            );
         });
     }
 
