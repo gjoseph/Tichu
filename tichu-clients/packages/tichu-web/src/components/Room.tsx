@@ -68,6 +68,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
   }, [props.websocketUrl, props.user, notifications]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     connect();
     return () => {
       /* nothing to do on cleanup */
