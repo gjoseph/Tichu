@@ -49,8 +49,8 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "22.16.0",
-    "npm": "11.4.2"
+    "node": "22.20.0",
+    "npm": "11.6.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.7",
