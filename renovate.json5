@@ -95,14 +95,17 @@
       matchPackageNames: ["/^@material-ui//", "/^@mui//"],
     },
     {
-      groupName: "ESLint and ESLint plugins",
+      groupName: "ESLint, Prettier, and plugins",
       matchPackageNames: [
-        "@eslint/.*",
-        "^eslint$",
-        "^eslint/.*",
-        "eslint-.*",
+        "@eslint/*",
+        "eslint",
+        "eslint/*",
+        "eslint-*",
         "typescript-eslint",
         "vite-plugin-eslint",
+        "prettier",
+        "prettier-plugin-java",
+        "pretty-quick",
       ],
     },
     // Generated @types rules
