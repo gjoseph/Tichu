@@ -13,7 +13,10 @@ import net.incongru.tichu.model.card.Card;
 class Functions {
 
     static int score(Collection<Card> cards) {
-        return cards.stream().mapToInt(card -> card.val().scoreValue()).sum();
+        return cards
+            .stream()
+            .mapToInt(card -> card.val().scoreValue())
+            .sum();
     }
 
     /**

@@ -33,7 +33,10 @@ class CheatDeal implements Action<CheatDealParam, CheatDealResult> {
             );
         }
         final Player player = ctx.player(param.actor());
-        param.param().cards().forEach(c -> player.deal(c));
+        param
+            .param()
+            .cards()
+            .forEach(c -> player.deal(c));
 
         return new SimpleResponse<>(
             param.actor(),

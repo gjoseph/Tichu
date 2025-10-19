@@ -13,5 +13,4 @@ public record OutgoingChatMessage(
     UserId from,
     String content,
     @NonNull @JsonProperty("txId") String clientTxId
-)
-    implements OutgoingMessage {}
+) implements OutgoingMessage {}

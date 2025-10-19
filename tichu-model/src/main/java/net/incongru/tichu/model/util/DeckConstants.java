@@ -186,8 +186,8 @@ public class DeckConstants {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(
                 "Can't access field values of " +
-                DeckConstants.class +
-                ", is this system too secure?",
+                    DeckConstants.class +
+                    ", is this system too secure?",
                 e
             );
         }

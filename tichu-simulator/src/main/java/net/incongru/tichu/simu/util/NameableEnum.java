@@ -28,10 +28,10 @@ public interface NameableEnum {
         // throw new LineParserException
         throw new IllegalArgumentException(
             name +
-            " is not a valid " +
-            enumClass.getSimpleName() +
-            ". Known values are: " +
-            allNamesOf(enumClass)
+                " is not a valid " +
+                enumClass.getSimpleName() +
+                ". Known values are: " +
+                allNamesOf(enumClass)
         );
     }
 

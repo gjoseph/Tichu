@@ -102,7 +102,9 @@ public class Players {
     }
 
     private Optional<Player> optGetPlayer(UserId id) {
-        return stream().filter(player -> player.id().equals(id)).findAny();
+        return stream()
+            .filter(player -> player.id().equals(id))
+            .findAny();
     }
 
     /**

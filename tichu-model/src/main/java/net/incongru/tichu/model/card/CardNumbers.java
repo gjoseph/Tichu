@@ -60,7 +60,9 @@ public enum CardNumbers implements CardValue {
         return (
             playOrder < 10
                 ? (char) (playOrder + '0')
-                : playOrder == 10 ? '0' : name().charAt(0)
+                : playOrder == 10
+                    ? '0'
+                    : name().charAt(0)
         );
     }
 }

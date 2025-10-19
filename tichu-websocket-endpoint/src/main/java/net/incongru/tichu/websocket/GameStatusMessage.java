@@ -12,8 +12,7 @@ public record GameStatusMessage(
     // current play type TODO not a String
     String play,
     List<Card> playedCards
-)
-    implements OutgoingMessage {
+) implements OutgoingMessage {
     record PlayerStatus(
         UserId id,
         PlayerState status,

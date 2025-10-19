@@ -18,8 +18,9 @@ class SimulationFileParserTest {
     @Test
     void sampleIsLoadable() {
         final Simulation simu = assertDoesNotThrow(() ->
-            new SimulationFileParser()
-                .parse(PathUtil.resource("/SampleScriptedGame.tichu"))
+            new SimulationFileParser().parse(
+                PathUtil.resource("/SampleScriptedGame.tichu")
+            )
         );
         final List<Simulation.ActionAndCommands> actionAndExpectations =
             simu.actionAndCommands();

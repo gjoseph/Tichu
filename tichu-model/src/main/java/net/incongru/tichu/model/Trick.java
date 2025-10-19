@@ -166,10 +166,10 @@ public class Trick {
     /**
      * A predicate that checks a play is neither a Pass or an "Initial".
      */
-    private static final Predicate<Play> NO_PASS_NOR_INITIAL =
-        ((Predicate<Play>) Pass.class::isInstance).or(
-                Initial.class::isInstance
-            ).negate();
-    private static final Predicate<Play> NO_PASS =
-        ((Predicate<Play>) Pass.class::isInstance).negate();
+    private static final Predicate<Play> NO_PASS_NOR_INITIAL = ((Predicate<
+            Play
+        >) Pass.class::isInstance).or(Initial.class::isInstance).negate();
+    private static final Predicate<Play> NO_PASS = ((Predicate<
+            Play
+        >) Pass.class::isInstance).negate();
 }
