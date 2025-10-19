@@ -39,7 +39,10 @@ renovateConfig.packageRules = packages
 
 fs.writeFileSync(
   renovatePath,
-  JSON.stringify(renovateConfig, null, 2),
+  j5.stringify(renovateConfig, {
+    space: 2,
+    quote: '"',
+  }),
   "utf-8",
 );
 
