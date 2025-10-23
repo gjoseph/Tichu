@@ -36,7 +36,7 @@ jobs:
       - name: Print PR details
         if: ${{ steps.pr.outputs.pull-request-number }}
         run: |
-          echo "Pull request #   - ${{ steps.pr.outputs.pull-request-number }}"
+          echo "Pull request     - #${{ steps.pr.outputs.pull-request-number }}"
           echo "Pull request URL - ${{ steps.pr.outputs.pull-request-url }}"
 
 #      - name: Enable PR automerge Request Automerge
