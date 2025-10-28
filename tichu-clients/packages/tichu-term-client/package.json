@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@types/fs-extra": "11.0.4",
-    "commander": "14.0.1",
+    "commander": "14.0.2",
     "fs-extra": "11.3.2",
     "inquirer": "12.10.0",
     "kleur": "4.1.5",
