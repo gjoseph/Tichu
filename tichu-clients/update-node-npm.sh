@@ -18,21 +18,22 @@ if [ "$#" -eq 2 ]; then
 else
   echo Working out latest versions...
   CURRENT=$(asdf current --no-header nodejs | awk '{print $2}')
-  CURRENT_MAJOR=$(echo "${CURRENT}" | grep -Eo '^(\d)+\.') # includes dot just for explicitness, asdf is happy with it
+  CURRENT_MAJOR=$(echo "${CURRENT}" | grep -Eo '^([0-9]+)\.') # includes dot just for explicitness, asdf is happy with it
   LATEST_ON_CURRENT_MAJOR=$(asdf latest nodejs "${CURRENT_MAJOR}")
   LATEST=$(asdf latest nodejs)
   echo Current nodejs: $CURRENT
   echo Latest nodejs on same major version as current: $LATEST_ON_CURRENT_MAJOR
   echo Latest nodejs: $LATEST
 
-  NODE_VERSION=$LATEST_ON_CURRENT_MAJOR
+  # NODE_VERSION=$LATEST_ON_CURRENT_MAJOR
+  NODE_VERSION=$LATEST
   NPM_VERSION=$(npm view npm version)
 fi
 
 echo Setting nodejs to $NODE_VERSION in .tool-versions ...
-#asdf set -p nodejs "${NODE_VERSION}"
-#asdf install nodejs
-#asdf current nodejs
+asdf set -p nodejs "${NODE_VERSION}"
+asdf install nodejs
+asdf current nodejs
 ASDF_VERSIONS_FILE=../.tool-versions
 cat ${ASDF_VERSIONS_FILE} | grep -v nodejs > ${ASDF_VERSIONS_FILE}.tmp
 echo nodejs $NODE_VERSION >> ${ASDF_VERSIONS_FILE}.tmp
