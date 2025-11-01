@@ -32,12 +32,12 @@ fi
 
 echo Setting nodejs to $NODE_VERSION in .tool-versions ...
 asdf set -p nodejs "${NODE_VERSION}"
-asdf install nodejs
-asdf current nodejs
-ASDF_VERSIONS_FILE=../.tool-versions
-cat ${ASDF_VERSIONS_FILE} | grep -v nodejs > ${ASDF_VERSIONS_FILE}.tmp
-echo nodejs $NODE_VERSION >> ${ASDF_VERSIONS_FILE}.tmp
-mv ${ASDF_VERSIONS_FILE}.tmp ${ASDF_VERSIONS_FILE}
+#asdf install nodejs
+#asdf current nodejs
+#ASDF_VERSIONS_FILE=../.tool-versions
+#cat ${ASDF_VERSIONS_FILE} | grep -v nodejs > ${ASDF_VERSIONS_FILE}.tmp
+#echo nodejs $NODE_VERSION >> ${ASDF_VERSIONS_FILE}.tmp
+#mv ${ASDF_VERSIONS_FILE}.tmp ${ASDF_VERSIONS_FILE}
 
 #echo Updating npm to $NPM_VERSION ...
 #npm install -g npm@$NPM_VERSION
