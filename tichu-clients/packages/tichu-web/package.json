@@ -77,6 +77,6 @@
     "vite": "7.1.12",
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "4.5.0",
-    "vitest": "4.0.12"
+    "vitest": "4.0.13"
   }
 }
