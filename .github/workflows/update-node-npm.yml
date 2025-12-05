@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       #      - name: Install asdf & tools
       #        uses: asdf-vm/actions/install@v4
       - name: Update node and npm versions in repo
