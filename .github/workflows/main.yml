@@ -35,7 +35,7 @@ jobs:
           - java-distrib: graalvm
             experimental: true
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-java@v5
         name: Set up Java environment
         with:
@@ -64,7 +64,7 @@ jobs:
       run:
         working-directory: ./tichu-clients
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: "./.tool-versions"
