@@ -50,7 +50,7 @@
   "license": "",
   "engines": {
     "node": "24.11.0",
-    "npm": "11.6.2"
+    "npm": "11.6.4"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "3.2.7",
