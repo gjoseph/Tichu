@@ -10,4 +10,7 @@ public class RoomGameContext extends AbstractGameContext {
         //  https://trello.com/c/YSsooILA/18-action-result-should-have-log
         System.out.println(msg.formatted(args));
     }
+
+    @Override
+    public void debug(String msg, Object... args) {}
 }

@@ -18,8 +18,8 @@ public class TichuSimulator {
     private final GameContextFactory<SimulatedGameContext> gameContextFactory;
     private final ActionFactory actionFactory;
 
-    public TichuSimulator() {
-        this.gameContextFactory = SimulatedGameContext::new;
+    public TichuSimulator(boolean consoleLog) {
+        this.gameContextFactory = () -> new SimulatedGameContext(consoleLog);
         this.actionFactory = new SimulatedActionFactory();
     }
 
@@ -30,15 +30,15 @@ public class TichuSimulator {
         for (Simulation.ActionAndCommands actionAndCommands : simu.actionAndCommands()) {
             final ActionParam.WithActor actionParam =
                 actionAndCommands.actionParam();
-            System.out.println("Executing action: " + actionParam);
+            ctx.log("Executing action: %s", actionParam);
             final Action action = actionFactory.actionFor(actionParam.param());
             final ActionResponse res = action.exec(ctx, actionParam);
-            System.out.println("Result: " + res);
+            ctx.log("Result: %s ", res);
             for (Simulation.PostActionCommand postActionCommand : actionAndCommands.commands()) {
-                System.out.println("PostActionCommand: " + postActionCommand);
+                ctx.log("PostActionCommand: %s", postActionCommand);
                 postActionCommand.exec(ctx, res);
             }
-            System.out.println();
+            ctx.log("-- End action-and-command");
         }
     }
 }

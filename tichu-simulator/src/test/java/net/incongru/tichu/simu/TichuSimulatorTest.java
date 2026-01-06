@@ -10,7 +10,7 @@ class TichuSimulatorTest {
     @Test
     void sampleIsExecutable() throws IOException {
         try {
-            new TichuSimulator().executeSimulation(
+            new TichuSimulator(false).executeSimulation(
                 PathUtil.resource("/SampleScriptedGame.tichu")
             );
         } catch (Simulation.PostActionCommandException e) {
