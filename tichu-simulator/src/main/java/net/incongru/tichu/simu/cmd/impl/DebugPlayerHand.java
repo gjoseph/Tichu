@@ -16,6 +16,6 @@ class DebugPlayerHand implements Simulation.PostActionCommand {
     @Override
     public void exec(SimulatedGameContext ctx, ActionResponse response) {
         final String hand = ctx.player(player).hand().toDebugString();
-        ctx.log("Debug: %s's cards: %s", player, hand);
+        ctx.debug("%s's cards: %s", player, hand);
     }
 }

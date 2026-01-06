@@ -95,7 +95,12 @@ public class JacksonSetup {
             .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
             .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
             .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
-            .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+            .defaultPropertyInclusion(
+                JsonInclude.Value.construct(
+                    JsonInclude.Include.NON_ABSENT,
+                    JsonInclude.Include.NON_ABSENT
+                )
+            )
             .addModule(new Jdk8Module())
             .addModule(m)
             .build();

@@ -4,6 +4,15 @@ import net.incongru.tichu.action.AbstractGameContext;
 
 public class SimulatedGameContext extends AbstractGameContext {
 
+    private final boolean consoleLog;
+
+    /**
+     * @param consoleLog Set to true for good ole console debugging in tests -- meanwhile, shush!
+     */
+    public SimulatedGameContext(boolean consoleLog) {
+        this.consoleLog = consoleLog;
+    }
+
     /**
      * Logs a message to the simulation.
      *
@@ -11,6 +20,13 @@ public class SimulatedGameContext extends AbstractGameContext {
      */
     @Override
     public void log(String msg, Object... args) {
-        System.out.println(msg.formatted(args));
+        if (consoleLog) {
+            System.out.println(msg.formatted(args));
+        }
+    }
+
+    @Override
+    public void debug(String msg, Object... args) {
+        this.log("[debug] " + msg, args);
     }
 }

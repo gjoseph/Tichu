@@ -12,4 +12,6 @@ public interface GameContext {
     Player player(UserId playerId);
 
     void log(String msg, Object... args);
+
+    void debug(String msg, Object... args);
 }

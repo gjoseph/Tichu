@@ -52,20 +52,24 @@
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-websocket-schema</artifactId>
         </dependency>
+        <!-- no test jar for tichu-websocket-schema so far:
         <dependency>
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-websocket-schema</artifactId>
             <type>test-jar</type>
         </dependency>
+        -->
         <dependency>
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-embedded-tomcat</artifactId>
         </dependency>
+        <!-- no test jar for tichu-embedded-tomcat so far:
         <dependency>
             <groupId>net.incongru.tichu</groupId>
             <artifactId>tichu-embedded-tomcat</artifactId>
             <type>test-jar</type>
         </dependency>
+        -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>

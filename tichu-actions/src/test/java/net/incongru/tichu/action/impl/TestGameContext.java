@@ -91,6 +91,12 @@ class TestGameContext extends AbstractGameContext {
 
     @Override
     public void log(String msg, Object... args) {
-        System.out.println(msg.formatted(args));
+        // Uncomment for good ole console debugging in tests -- meanwhile, shush!
+        // System.out.println(msg.formatted(args));
+    }
+
+    @Override
+    public void debug(String msg, Object... args) {
+        this.log("[debug] " + msg, args);
     }
 }
