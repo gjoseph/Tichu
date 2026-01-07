@@ -79,12 +79,12 @@
         "/^org.openrewrite.recipe:/",
       ],
     },
-    {
-      // Auto-merge OpenRewrite minor updates (this is an attempt to see if one can have automerge rules for a group defined prior)
-      groupName: "OpenRewrite packages",
-      matchUpdateTypes: "minor",
-      automerge: true,
-    },
+    //    {
+    //      // Auto-merge OpenRewrite minor updates (this is an attempt to see if one can have automerge rules for a group defined prior)
+    //      groupName: "OpenRewrite packages",
+    //      matchUpdateTypes: "minor",
+    //      automerge: true,
+    //    },
     {
       groupName: "SLF4J packages",
       matchPackageNames: ["/^org.slf4j/"],
