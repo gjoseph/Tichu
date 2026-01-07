@@ -26,7 +26,7 @@ jobs:
       #      - name: Run prettier check
       #        run: cd tichu-clients; npm run prettier-check-all
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         id: pr
         with:
           token: ${{ secrets.GREG_GITBOT_TOKEN }}
