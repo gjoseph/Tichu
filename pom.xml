@@ -170,6 +170,19 @@
                 <version>4.38.0</version>
             </dependency>
             <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>3.49.4</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker</artifactId>
+                <version>3.49.4</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>6.0.1</version>
@@ -223,6 +236,18 @@
                     <version>3.14.1</version>
                     <configuration>
                         <release>21</release>
+                        <annotationProcessors>
+                            <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+                            <annotationProcessor>org.checkerframework.checker.interning.InterningChecker</annotationProcessor>
+                            <annotationProcessor>org.checkerframework.checker.fenum.FenumChecker</annotationProcessor>
+                            <annotationProcessor>org.checkerframework.checker.formatter.FormatterChecker</annotationProcessor>
+                        </annotationProcessors>
+                        <compilerArguments>
+                            <Xmaxerrs>10000</Xmaxerrs>
+                            <Xmaxwarns>10000</Xmaxwarns>
+                        </compilerArguments>
+                        <showWarnings>true</showWarnings>
+                        <verbose>true</verbose>
                     </configuration>
                 </plugin>
                 <plugin>
