@@ -13,10 +13,10 @@
     "@testing-library/user-event": "14.6.1",
     "@toolpad/core": "0.16.0",
     "@types/node": "24.10.13",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "react": "19.2.3",
-    "react-dom": "19.2.3",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
     "tichu-client-ts-lib": "1.0.0",
     "ts-enum-util": "4.1.0",
     "typescript": "5.9.3"
