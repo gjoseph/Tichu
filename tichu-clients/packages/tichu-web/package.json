@@ -9,7 +9,7 @@
     "@mui/material": "7.3.6",
     "@mui/styles": "6.4.8",
     "@testing-library/jest-dom": "6.9.1",
-    "@testing-library/react": "16.3.1",
+    "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
     "@toolpad/core": "0.16.0",
     "@types/node": "24.10.7",
