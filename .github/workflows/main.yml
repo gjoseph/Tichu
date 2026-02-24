@@ -27,7 +27,7 @@ jobs:
           # Setting experimental outside the main matrix as a little trick to allow matching partial matrix elements below
           - experimental: false
           # Additional job that matches .tool-versions
-          - java-version: "25.0.1+8.0.LTS"
+          - java-version: "25.0.2+10.0.LTS"
             java-distrib: temurin
             experimental: false
           # All graalvm jobs are experimental
