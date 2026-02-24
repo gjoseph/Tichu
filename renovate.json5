@@ -35,6 +35,10 @@
     },
     // Java packages rules:
     {
+      groupName: "JSON Schema generator packages",
+      matchPackageNames: ["/^com.github.victools:jsonschema/"],
+    },
+    {
       allowedVersions: "!/-android$/",
       matchPackageNames: ["/^com.google.guava/"],
     },
