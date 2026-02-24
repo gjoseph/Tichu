@@ -167,7 +167,7 @@
             <dependency>
                 <groupId>com.github.victools</groupId>
                 <artifactId>jsonschema-module-jakarta-validation</artifactId>
-                <version>4.38.0</version>
+                <version>5.0.0</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
