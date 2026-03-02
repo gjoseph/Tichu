@@ -4,6 +4,7 @@ name: net.incongru.tichu.rewrite.RecipeBook
 recipeList:
   - org.openrewrite.java.migrate.UpgradeToJava21
   - org.openrewrite.java.migrate.guava.NoGuavaJava21
+  - org.openrewrite.java.migrate.UpgradeToJava25
 #---
 # type: specs.openrewrite.org/v1beta/recipe
 # name: net.incongru.tichu.rewrite.RemoveJakartaAnnotationDependency
