@@ -89,17 +89,18 @@ public class JacksonSetup {
         return JsonMapper.builder()
             .enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
             .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
-            // TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
+            // TODO should also fail serialisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
             .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
             .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
-            .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
-            .defaultPropertyInclusion(
-                JsonInclude.Value.construct(
-                    JsonInclude.Include.NON_ABSENT,
-                    JsonInclude.Include.NON_ABSENT
-                )
-            )
+            // TODO verify there was no replacement in Jackson 3, is this on by default ?
+            // .enable(MapperFeature.BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES)
+
+            .changeDefaultPropertyInclusion(incl -> {
+                return incl
+                    .withContentInclusion(JsonInclude.Include.NON_ABSENT)
+                    .withValueInclusion(JsonInclude.Include.NON_ABSENT);
+            })
             .addModule(m)
             .build();
     }
