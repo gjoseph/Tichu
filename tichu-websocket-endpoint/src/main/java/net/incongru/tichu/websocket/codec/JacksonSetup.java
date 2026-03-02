@@ -123,6 +123,7 @@ public class JacksonSetup {
         Set<Card> cards;
     }
 
+    @JsonDeserialize(using = UsedIdDeserializer.class)
     abstract static class UserIdJacksonSupport {
 
         @JsonValue
@@ -168,6 +169,21 @@ public class JacksonSetup {
         @Override
         protected Card _deserialize(String value, DeserializationContext ctxt) {
             return DeckConstants.byName(value);
+        }
+    }
+
+    static class UsedIdDeserializer extends FromStringDeserializer<UserId> {
+
+        public UsedIdDeserializer() {
+            super(UserId.class);
+        }
+
+        @Override
+        protected UserId _deserialize(
+            String value,
+            DeserializationContext ctxt
+        ) {
+            return UserId.of(value);
         }
     }
 
