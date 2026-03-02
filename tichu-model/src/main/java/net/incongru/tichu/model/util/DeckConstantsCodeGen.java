@@ -16,7 +16,7 @@ import net.incongru.tichu.model.card.CardComparators;
 public class DeckConstantsCodeGen {
 
     // Generates code for DeckConstants
-    public static void main(String[] args) throws IOException {
+    void main() throws IOException {
         // CardDeck shuffles, so we force order the cards here.
         final Set<Card> cards = new TreeSet<>(CardComparators.BY_SUIT);
         final CardDeck deck = new CardDeck();
@@ -40,7 +40,7 @@ public class DeckConstantsCodeGen {
         String newSourceCode
     ) throws IOException {
         final String oldSourceCode = Files.readString(srcPath);
-        System.out.println(
+        IO.println(
             "Loaded " + srcPath + "(" + oldSourceCode.length() + " chars)"
         );
         final String newSrc = oldSourceCode.replaceFirst(
@@ -48,9 +48,7 @@ public class DeckConstantsCodeGen {
             newSourceCode.trim()
         );
         Files.writeString(srcPath, newSrc, StandardCharsets.UTF_8);
-        System.out.println(
-            "Written " + srcPath + "(" + newSrc.length() + " chars)"
-        );
+        IO.println("Written " + srcPath + "(" + newSrc.length() + " chars)");
     }
 
     private static String generateJavaConstants(Set<Card> cards) {

@@ -180,7 +180,7 @@ public interface PostActionCommandFactory {
             "not ready to start"
         ),
         DONE(
-            game -> {
+            _ -> {
                 throw new IllegalStateException("Not implemented yet");
             },
             "done",

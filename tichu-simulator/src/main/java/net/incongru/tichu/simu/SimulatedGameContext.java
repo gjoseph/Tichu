@@ -21,7 +21,7 @@ public class SimulatedGameContext extends AbstractGameContext {
     @Override
     public void log(String msg, Object... args) {
         if (consoleLog) {
-            System.out.println(msg.formatted(args));
+            IO.println(msg.formatted(args));
         }
     }
 

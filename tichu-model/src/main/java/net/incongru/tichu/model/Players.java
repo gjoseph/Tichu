@@ -39,7 +39,7 @@ public class Players {
         //            throw new IllegalArgumentException("Team " + t + " is not at this table");
         //        }
         optGetPlayer(p.id()).ifPresentOrElse(
-            ignore -> {
+            _ -> {
                 throw new IllegalArgumentException(
                     "Player " + p + " has already joined"
                 );

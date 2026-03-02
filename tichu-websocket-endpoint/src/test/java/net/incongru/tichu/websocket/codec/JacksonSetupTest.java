@@ -112,7 +112,7 @@ class JacksonSetupTest {
             final String s = objectMapper.writeValueAsString(
                 actionParamWrapper
             );
-            System.out.println("s = " + s);
+            IO.println("s = " + s);
         })
             .isInstanceOf(JsonProcessingException.class)
             .hasMessage("...");

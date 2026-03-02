@@ -31,7 +31,7 @@ public class ActionResultAssert
     public ActionResultAssert isErrorPlayResult(
         PlayerPlaysResult expectedResultType
     ) {
-        return isErrorPlayResult(expectedResultType, s -> true);
+        return isErrorPlayResult(expectedResultType, _ -> true);
     }
 
     public ActionResultAssert isErrorPlayResult(

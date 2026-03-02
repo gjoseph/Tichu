@@ -33,7 +33,7 @@ import net.incongru.tichu.websocket.codec.JacksonSetup;
  */
 class SchemaGeneratorWithVictools {
 
-    public static void main(String[] args) throws IOException {
+    void main() throws IOException {
         final ObjectMapper mapper = JacksonSetup.setupJacksonMapper();
         final SchemaGeneratorConfigBuilder configBuilder =
             new SchemaGeneratorConfigBuilder(

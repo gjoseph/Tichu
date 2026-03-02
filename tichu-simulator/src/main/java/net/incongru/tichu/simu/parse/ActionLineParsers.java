@@ -23,7 +23,7 @@ class ActionLineParsers extends AbstractLineParsers<ActionParam.WithActor> {
             Arrays.asList(
                 simpleParser(
                     t -> t.test(0, "init"),
-                    t -> InitialiseGameParam.withActor(UserId.of("dummy"))
+                    _ -> InitialiseGameParam.withActor(UserId.of("dummy"))
                 ), // TODO player id ?
                 simpleParser(
                     t -> t.test(1, "joins") && t.test(1, "team"), // or "table"
@@ -85,7 +85,7 @@ class ActionLineParsers extends AbstractLineParsers<ActionParam.WithActor> {
                 ),
                 simpleParser(
                     t -> t.test(0, "new") && t.test(0, "trick"),
-                    t -> NewTrickParam.withActor(UserId.of("dummy")) // TODO player id ?
+                    _ -> NewTrickParam.withActor(UserId.of("dummy")) // TODO player id ?
                 )
             )
         );
