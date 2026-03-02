@@ -282,6 +282,11 @@
                             <artifactId>rewrite-migrate-java</artifactId>
                             <version>3.28.0</version>
                         </dependency>
+                        <dependency>
+                            <groupId>org.openrewrite.recipe</groupId>
+                            <artifactId>rewrite-jackson</artifactId>
+                            <version>1.17.1</version>
+                        </dependency>
                     </dependencies>
                 </plugin>
             </plugins>
