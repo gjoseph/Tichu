@@ -154,11 +154,6 @@
                 <version>2.0.17</version>
             </dependency>
             <dependency>
-                <groupId>com.kjetland</groupId>
-                <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
-                <version>1.0.39</version>
-            </dependency>
-            <dependency>
                 <groupId>com.github.victools</groupId>
                 <artifactId>jsonschema-generator</artifactId>
                 <version>5.0.0</version>
