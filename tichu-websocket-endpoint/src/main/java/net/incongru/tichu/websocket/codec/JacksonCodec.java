@@ -1,6 +1,5 @@
 package net.incongru.tichu.websocket.codec;
 
-import tools.jackson.databind.ObjectMapper;
 import jakarta.websocket.DecodeException;
 import jakarta.websocket.Decoder;
 import jakarta.websocket.EncodeException;
@@ -9,6 +8,7 @@ import jakarta.websocket.EndpointConfig;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Using technique described at https://dzone.com/articles/using-java-websockets-jsr-356,

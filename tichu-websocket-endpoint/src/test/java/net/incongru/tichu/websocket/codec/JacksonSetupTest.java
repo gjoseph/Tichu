@@ -8,9 +8,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.exc.InvalidFormatException;
-import tools.jackson.databind.exc.InvalidTypeIdException;
 import java.util.Set;
 import java.util.stream.Stream;
 import net.incongru.tichu.action.ActionParam;
@@ -27,6 +24,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.exc.InvalidFormatException;
+import tools.jackson.databind.exc.InvalidTypeIdException;
 
 class JacksonSetupTest {
 

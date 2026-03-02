@@ -1,8 +1,5 @@
 package net.incongru.tichu.websocket.schemagen;
 
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializationFeature;
 import com.kjetland.jackson.jsonSchema.JsonSchemaConfig;
 import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 import java.io.IOException;
@@ -12,6 +9,9 @@ import java.nio.file.Path;
 import net.incongru.tichu.websocket.IncomingMessage;
 import net.incongru.tichu.websocket.OutgoingMessage;
 import net.incongru.tichu.websocket.codec.JacksonSetup;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 
 /**
  * Jackson's own schema generator is unmaintained and doesn't seem to deal well with subtypes, so we're using this third party.

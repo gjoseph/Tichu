@@ -4,19 +4,6 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import tools.jackson.core.JsonGenerator;
-import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.DeserializationFeature;
-import tools.jackson.databind.MapperFeature;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.SerializationFeature;
-import tools.jackson.databind.annotation.JsonDeserialize;
-import tools.jackson.databind.deser.std.FromStringDeserializer;
-import tools.jackson.databind.json.JsonMapper;
-import tools.jackson.databind.jsontype.NamedType;
-import tools.jackson.databind.module.SimpleModule;
-import tools.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
 import java.util.Set;
 import net.incongru.tichu.action.Action;
 import net.incongru.tichu.action.ActionResponse;
@@ -31,7 +18,20 @@ import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 import org.jspecify.annotations.NonNull;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.deser.std.FromStringDeserializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.NamedType;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 public class JacksonSetup {
 
@@ -89,7 +89,7 @@ public class JacksonSetup {
         return JsonMapper.builder()
             .enable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
             .enable(SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS)
-            //TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
+            // TODO should also fail seralisation on unknown subtypes: https://github.com/FasterXML/jackson-databind/issues/436
             .enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // ?? maybe ignore unknown?
             .enable(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE)
             .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)
@@ -181,8 +181,8 @@ public class JacksonSetup {
         public void serialize(
             Enum value,
             JsonGenerator jgen,
-            SerializationContext provider
-        ) throws IOException {
+            SerializationContext context
+        ) throws JacksonException {
             final String kebab = kebab(value);
             jgen.writeString(kebab);
         }
