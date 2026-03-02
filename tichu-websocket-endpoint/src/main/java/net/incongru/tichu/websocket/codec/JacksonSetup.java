@@ -4,20 +4,18 @@ import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.deser.std.FromStringDeserializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.jsontype.NamedType;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.ser.std.StdSerializer;
 import java.io.IOException;
 import java.util.Set;
 import net.incongru.tichu.action.Action;
@@ -33,6 +31,7 @@ import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 import org.jspecify.annotations.NonNull;
+import tools.jackson.databind.SerializationContext;
 
 public class JacksonSetup {
 
@@ -101,7 +100,6 @@ public class JacksonSetup {
                     JsonInclude.Include.NON_ABSENT
                 )
             )
-            .addModule(new Jdk8Module())
             .addModule(m)
             .build();
     }
@@ -183,7 +181,7 @@ public class JacksonSetup {
         public void serialize(
             Enum value,
             JsonGenerator jgen,
-            SerializerProvider provider
+            SerializationContext provider
         ) throws IOException {
             final String kebab = kebab(value);
             jgen.writeString(kebab);

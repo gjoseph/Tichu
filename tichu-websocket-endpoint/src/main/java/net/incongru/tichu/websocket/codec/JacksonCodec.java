@@ -1,15 +1,14 @@
 package net.incongru.tichu.websocket.codec;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import jakarta.websocket.DecodeException;
 import jakarta.websocket.Decoder;
 import jakarta.websocket.EncodeException;
 import jakarta.websocket.Encoder;
 import jakarta.websocket.EndpointConfig;
-import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import tools.jackson.core.JacksonException;
 
 /**
  * Using technique described at https://dzone.com/articles/using-java-websockets-jsr-356,
@@ -46,7 +45,7 @@ public abstract class JacksonCodec<T>
     public String encode(T t) throws EncodeException {
         try {
             return mapper.writeValueAsString(t);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new EncodeException(t, e.getMessage(), e);
         }
     }
@@ -55,7 +54,7 @@ public abstract class JacksonCodec<T>
     public T decode(String s) throws DecodeException {
         try {
             return mapper.readValue(s, type);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new DecodeException(s, e.getMessage(), e);
         }
     }

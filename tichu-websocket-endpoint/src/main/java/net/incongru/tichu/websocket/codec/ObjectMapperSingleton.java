@@ -1,6 +1,6 @@
 package net.incongru.tichu.websocket.codec;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 class ObjectMapperSingleton {
 
