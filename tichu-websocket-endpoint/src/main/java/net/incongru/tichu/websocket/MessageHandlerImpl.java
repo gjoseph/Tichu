@@ -76,7 +76,7 @@ public class MessageHandlerImpl implements MessageHandler {
     ) {
         // TODO proper logs
         final String traceId = UUID.randomUUID().toString();
-        System.out.println("Exception [%s]: %s ".formatted(traceId, throwable));
+        IO.println("Exception [%s]: %s ".formatted(traceId, throwable));
         throwable.printStackTrace();
         final ErrorMessage message = new ErrorMessage(
             clientTxId,
@@ -119,7 +119,7 @@ public class MessageHandlerImpl implements MessageHandler {
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
-        System.out.println("%s => %s".formatted(withActor, res.result()));
+        IO.println("%s => %s".formatted(withActor, res.result()));
 
         final AddressedMessages messageBundle = generateMessages(
             ctx,

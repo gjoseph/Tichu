@@ -8,7 +8,7 @@ public class RoomGameContext extends AbstractGameContext {
     public void log(String msg, Object... args) {
         // TODO some of this could be fed back to users?
         //  https://trello.com/c/YSsooILA/18-action-result-should-have-log
-        System.out.println(msg.formatted(args));
+        IO.println(msg.formatted(args));
     }
 
     @Override

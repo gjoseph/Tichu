@@ -8,10 +8,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import java.util.Set;
 import java.util.stream.Stream;
 import net.incongru.tichu.action.ActionParam;
@@ -27,6 +23,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.exc.InvalidFormatException;
+import tools.jackson.databind.exc.InvalidTypeIdException;
 
 class JacksonSetupTest {
 
@@ -38,7 +38,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerCards() throws JsonProcessingException {
+    void canSerCards() throws JacksonException {
         final Card[] cards = { DeckConstants.Pagoda_4, DeckConstants.MahJong };
 
         assertThatJson(objectMapper.writeValueAsString(cards)).isEqualTo(
@@ -47,7 +47,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canDeserCards() throws JsonProcessingException {
+    void canDeserCards() throws JacksonException {
         final String json = "{\"cards\":[\"jade_ace\", \"*d\"]}";
         final CardArrayWrapper readCards = objectMapper.readValue(
             json,
@@ -60,7 +60,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerUserId() throws JsonProcessingException {
+    void canSerUserId() throws JacksonException {
         final UserId u = UserId.of("test-user");
 
         assertThatJson(objectMapper.writeValueAsString(u)).isEqualTo(
@@ -69,7 +69,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canDeserUserId() throws JsonProcessingException {
+    void canDeserUserId() throws JacksonException {
         final String json = "{\"user\": \"test-user\"}";
         final UserIdWrapper readUserId = objectMapper.readValue(
             json,
@@ -86,7 +86,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerValidActionParam() throws JsonProcessingException {
+    void canSerValidActionParam() throws JacksonException {
         final PlayerPlaysParam play = new PlayerPlaysParam(
             Set.of(DeckConstants.Star_Ace, DeckConstants.B2)
         );
@@ -112,14 +112,14 @@ class JacksonSetupTest {
             final String s = objectMapper.writeValueAsString(
                 actionParamWrapper
             );
-            System.out.println("s = " + s);
+            IO.println("s = " + s);
         })
-            .isInstanceOf(JsonProcessingException.class)
+            .isInstanceOf(JacksonException.class)
             .hasMessage("...");
     }
 
     @Test
-    void canDeserValidActionParam() throws JsonProcessingException {
+    void canDeserValidActionParam() throws JacksonException {
         final String json = "{\"type\": \"play\", \"cards\": [\"RA\", \"B2\"]}";
         assertThat(
             objectMapper.readValue(json, ActionParam.class)

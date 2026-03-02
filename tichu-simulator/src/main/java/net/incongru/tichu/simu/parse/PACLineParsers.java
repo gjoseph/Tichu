@@ -21,7 +21,7 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
             Arrays.asList(
                 simpleParser(
                     t -> expect(t, "success"),
-                    t -> pacFactory.expectSuccess()
+                    _ -> pacFactory.expectSuccess()
                 ),
                 simpleParser(
                     t -> expect(t, "error"), // TODO exactly what are our scenarios, if not invalid plays
@@ -83,7 +83,7 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                 ),
                 simpleParser(
                     t -> t.test(2, "round") && expect(t, "end"),
-                    t -> pacFactory.expectEndOfRound()
+                    _ -> pacFactory.expectEndOfRound()
                 ),
                 simpleParser(
                     // expect round score [to be] 80:20

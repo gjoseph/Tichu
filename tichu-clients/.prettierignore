@@ -1,6 +1,10 @@
 .git
+.idea/
 target/
 node_modules/
 lib/
 build/
 storybook-static/
+
+# not in .gitignore but cbf reformatting intellij files:
+.run/

@@ -2,13 +2,23 @@
 // For some dumb reason, the config file must be where the checked files are (so root),
 // while .prettierignore must be in the working directory (so tichu-clients for now)
 {
-  plugins: ["prettier-plugin-java"],
+  plugins: ["prettier-plugin-java", "@prettier/plugin-xml"],
   useTabs: false,
   overrides: [
     {
       files: ["*.java"],
       options: {
         tabWidth: 4,
+      },
+    },
+    {
+      files: ["*.xml"],
+      options: {
+        xmlWhitespaceSensitivity: "preserve",
+        tabWidth: 4,
+        singleAttributePerLine: false,
+        // It really doesn't need to be 200 but also there's no option to stop it from breaking long lines in shit places
+        printWidth: 200,
       },
     },
   ],

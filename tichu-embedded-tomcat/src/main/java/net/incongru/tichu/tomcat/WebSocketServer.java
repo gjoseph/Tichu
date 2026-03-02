@@ -19,7 +19,7 @@ import org.apache.tomcat.websocket.server.WsSci;
 
 public class WebSocketServer {
 
-    public static void main(String[] args) throws Exception {
+    void main() throws Exception {
         final Tomcat tomcat = new Tomcat();
         tomcat.setSilent(false);
         tomcat.setPort(8080);

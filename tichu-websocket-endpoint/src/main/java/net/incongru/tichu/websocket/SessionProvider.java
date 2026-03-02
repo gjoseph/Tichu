@@ -41,7 +41,7 @@ public class SessionProvider {
         synchronized (session) {
             if (!session.isOpen()) {
                 // TODO
-                System.out.println("SESSION IS CLOSED = " + session);
+                IO.println("SESSION IS CLOSED = " + session);
                 return;
             }
             session

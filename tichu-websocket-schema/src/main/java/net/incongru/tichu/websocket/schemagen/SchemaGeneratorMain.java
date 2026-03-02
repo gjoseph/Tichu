@@ -1,8 +1,5 @@
-package net.incongru.tichu.websocket.schemagen.victools;
+package net.incongru.tichu.websocket.schemagen;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.github.victools.jsonschema.generator.Option;
 import com.github.victools.jsonschema.generator.OptionPreset;
 import com.github.victools.jsonschema.generator.SchemaGenerator;
@@ -10,7 +7,7 @@ import com.github.victools.jsonschema.generator.SchemaGeneratorConfig;
 import com.github.victools.jsonschema.generator.SchemaGeneratorConfigBuilder;
 import com.github.victools.jsonschema.generator.SchemaVersion;
 import com.github.victools.jsonschema.generator.TypeScope;
-import com.github.victools.jsonschema.module.jackson.JacksonModule;
+import com.github.victools.jsonschema.module.jackson.JacksonSchemaModule;
 import com.github.victools.jsonschema.module.jackson.JsonSubTypesResolver;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +16,9 @@ import java.nio.file.Path;
 import net.incongru.tichu.websocket.IncomingMessage;
 import net.incongru.tichu.websocket.OutgoingMessage;
 import net.incongru.tichu.websocket.codec.JacksonSetup;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 
 /**
  * Jackson's own schema generator is unmaintained and doesn't seem to deal well with subtypes.
@@ -31,9 +31,9 @@ import net.incongru.tichu.websocket.codec.JacksonSetup;
  *
  * See shttps://victools.github.io/jsonschema-generator/
  */
-class SchemaGeneratorWithVictools {
+class SchemaGeneratorMain {
 
-    public static void main(String[] args) throws IOException {
+    void main() throws IOException {
         final ObjectMapper mapper = JacksonSetup.setupJacksonMapper();
         final SchemaGeneratorConfigBuilder configBuilder =
             new SchemaGeneratorConfigBuilder(
@@ -43,7 +43,7 @@ class SchemaGeneratorWithVictools {
             )
                 .with(Option.EXTRA_OPEN_API_FORMAT_VALUES)
                 .without(Option.FLATTENED_ENUMS_FROM_TOSTRING)
-                .with(new JacksonModule());
+                .with(new JacksonSchemaModule());
 
         configBuilder
             .forTypesInGeneral()
@@ -57,14 +57,14 @@ class SchemaGeneratorWithVictools {
             gen,
             IncomingMessage.class,
             "Tichu - Incoming Messages",
-            Path.of("victools-tichu-in-schema.json")
+            Path.of("tichu-in-schema.json")
         );
         writeSchema(
             mapper,
             gen,
             OutgoingMessage.class,
             "Tichu - Outgoing Messages",
-            Path.of("victools-tichu-out-schema.json")
+            Path.of("tichu-out-schema.json")
         );
     }
 
