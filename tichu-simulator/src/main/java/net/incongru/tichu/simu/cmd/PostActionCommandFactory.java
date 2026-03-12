@@ -65,9 +65,8 @@ public interface PostActionCommandFactory {
 
         ExpectablePlay(Predicate<Play> predicate, String... altNames) {
             final String name = name();
-            this.predicate = predicate != null
-                ? predicate
-                : new ClassNamePredicate();
+            this.predicate =
+                predicate != null ? predicate : new ClassNamePredicate();
             this.altNames = Arrays.asList(altNames);
         }
 

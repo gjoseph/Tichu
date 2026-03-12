@@ -11,7 +11,8 @@ import net.incongru.tichu.model.Team;
 import net.incongru.tichu.model.TichuRules;
 
 class InitialiseGame
-    implements Action<InitialiseGameParam, InitialiseGameResult> {
+    implements Action<InitialiseGameParam, InitialiseGameResult>
+{
 
     @Override
     public ActionResponse<InitialiseGameResult> exec(

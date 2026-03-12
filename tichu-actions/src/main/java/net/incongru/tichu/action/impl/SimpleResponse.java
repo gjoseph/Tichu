@@ -8,8 +8,9 @@ import net.incongru.tichu.model.UserId;
 /**
  * {@link ActionResponse} for actions that don't require additional params in their response.
  */
-public class SimpleResponse<R extends ActionResponse.Result>
-    implements ActionResponse<R> {
+public class SimpleResponse<
+    R extends ActionResponse.Result
+> implements ActionResponse<R> {
 
     private final UserId actor;
     private final Action.ActionType actionType;

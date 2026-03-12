@@ -15,8 +15,9 @@ import tools.jackson.databind.ObjectMapper;
  * each bean we need will need to subclass this to specify type
  * TODO switch to TextStream or Binary?
  */
-public abstract class JacksonCodec<T>
-    implements Encoder.Text<T>, Decoder.Text<T> {
+public abstract class JacksonCodec<
+    T
+> implements Encoder.Text<T>, Decoder.Text<T> {
 
     private final ObjectMapper mapper = ObjectMapperSingleton.get();
     private final Class<T> type;

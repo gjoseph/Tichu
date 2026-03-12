@@ -37,8 +37,9 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
         return name() + " of " + value + "s";
     }
 
-    public abstract static class NSameValuesFactory<P extends Play<P>>
-        implements PlayFactory<P> {
+    public abstract static class NSameValuesFactory<
+        P extends Play<P>
+    > implements PlayFactory<P> {
 
         @Override
         public P is(Set<Card> cards) {
