@@ -4,8 +4,9 @@ import net.incongru.tichu.action.ActionResponse;
 import net.incongru.tichu.simu.SimulatedGameContext;
 import net.incongru.tichu.simu.Simulation;
 
-abstract class AbstractExpectResult<R extends ActionResponse>
-    implements Simulation.PostActionCommand {
+abstract class AbstractExpectResult<
+    R extends ActionResponse
+> implements Simulation.PostActionCommand {
 
     @Override
     public final void exec(SimulatedGameContext ctx, ActionResponse response) {

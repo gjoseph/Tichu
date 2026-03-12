@@ -8,7 +8,8 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;
 
 public class ActionResultAssert
-    extends AbstractAssert<ActionResultAssert, ActionResponse> {
+    extends AbstractAssert<ActionResultAssert, ActionResponse>
+{
 
     public static ActionResultAssert assertThat(ActionResponse actual) {
         return new ActionResultAssert(actual);

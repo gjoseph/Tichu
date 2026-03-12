@@ -1,7 +1,8 @@
 package net.incongru.tichu.model.card;
 
 public sealed interface CardValue
-    permits CardNumbers, CardSpecials, SubstituteCardValue {
+    permits CardNumbers, CardSpecials, SubstituteCardValue
+{
     boolean isSpecial();
 
     int scoreValue();
