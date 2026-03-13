@@ -92,9 +92,13 @@ class ReactAppHandler implements TichuWebSocketHandler {
 
   // ==== Message handling
 
-  beforeMessageProcessing() {}
+  beforeMessageProcessing() {
+    /* nothing */
+  }
 
-  afterMessageProcessing() {}
+  afterMessageProcessing() {
+    /* nothing */
+  }
 
   handleChatMessage(msg: IncomingChatMessage) {
     this.log.debug(`Chat: ${msg.from}: ${msg.content}`);

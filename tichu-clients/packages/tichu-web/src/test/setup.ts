@@ -2,7 +2,9 @@ import { vi } from "vitest";
 
 vi.mock("nanoid", () => ({
   default: {
-    nanoid: () => {},
+    nanoid: () => {
+      /* fake for tests*/
+    },
   },
 }));
 
