@@ -302,7 +302,7 @@
                                     <version>[25,)</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>[3.9.13]</version>
+                                    <version>[3.9,]</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
