@@ -275,12 +275,12 @@
                         <dependency>
                             <groupId>org.openrewrite.recipe</groupId>
                             <artifactId>rewrite-migrate-java</artifactId>
-                            <version>3.29.0</version>
+                            <version>3.30.0</version>
                         </dependency>
                         <dependency>
                             <groupId>org.openrewrite.recipe</groupId>
                             <artifactId>rewrite-jackson</artifactId>
-                            <version>1.18.0</version>
+                            <version>1.19.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
