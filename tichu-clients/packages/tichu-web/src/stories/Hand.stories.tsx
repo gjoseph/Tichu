@@ -1,8 +1,8 @@
-import { actions } from "@storybook/addon-actions";
+import { actions } from "storybook/actions";
 import React from "react";
 import { cardFromName } from "tichu-client-ts-lib";
 import { Hand } from "../components/Hand";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 import { disableControls, makeStory } from "./stories";
 
 export default {

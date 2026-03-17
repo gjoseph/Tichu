@@ -3,7 +3,7 @@ import {
   ConnectivityColors,
   ConnectivityIndicator,
 } from "../components/ConnectivityIndicator";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 import { disableControls, makeStory } from "./stories";
 
 export default {

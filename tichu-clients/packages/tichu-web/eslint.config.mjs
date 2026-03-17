@@ -1,8 +1,9 @@
 import jsxA11Y from "eslint-plugin-jsx-a11y";
+
 import _import from "eslint-plugin-import";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
-import reactCompiler from "eslint-plugin-react-compiler";
+import storybook from "eslint-plugin-storybook";
 import tsEslint from "typescript-eslint";
 import esLint from "@eslint/js";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -14,14 +15,13 @@ export default tsEslint.config(
   react.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
   eslintPluginPrettierRecommended,
+  storybook.configs["flat/recommended"],
   {
     plugins: {
       "jsx-a11y": jsxA11Y,
       import: _import,
       react,
       "react-hooks": reactHooks,
-      // not entirely sure what this does but bringing it back in just in case
-      "react-compiler": reactCompiler,
     },
 
     languageOptions: {
