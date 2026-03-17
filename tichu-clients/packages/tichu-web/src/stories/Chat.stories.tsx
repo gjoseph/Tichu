@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Chat, ChatMessage } from "../components/Chat";
-import { actions } from "@storybook/addon-actions";
+import { actions } from "storybook/actions";
 import { disableControls, makeStory } from "./stories";
-import { Meta } from "@storybook/react";
+import { Meta } from "@storybook/react-vite";
 
 export default {
   title: "Chat",

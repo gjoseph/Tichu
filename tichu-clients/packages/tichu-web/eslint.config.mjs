@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import jsxA11Y from "eslint-plugin-jsx-a11y";
 import _import from "eslint-plugin-import";
 import react from "eslint-plugin-react";
@@ -52,4 +55,5 @@ export default tsEslint.config(
       "@typescript-eslint/no-unsafe-assignment": "off",
     },
   },
+  storybook.configs["flat/recommended"],
 );
