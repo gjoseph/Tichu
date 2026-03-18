@@ -18,8 +18,9 @@ import {
   TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
 import { Log } from "./log";
-import PromptsRunner from "inquirer/dist/commonjs/ui/prompt";
-import inquirer from "inquirer";
+import { DistinctQuestion } from "inquirer";
+import * as prompts from "@inquirer/prompts";
+
 import { IncomingGameStatusMessage } from "tichu-client-ts-lib/lib";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
@@ -32,7 +33,7 @@ export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
  */
 class TerminalHandler implements TichuWebSocketHandler {
   private nextPrompt: (() => Promise<OutgoingMessage>) | undefined;
-  private currentPromptUi: PromptsRunner<any> | undefined;
+  private controller = new AbortController();
 
   constructor(readonly log: Log) {}
 
@@ -167,27 +168,24 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   // ==== Prompts
-
-  private ask = <T>(question: any): Promise<T> => {
-    // question: DistinctQuestion) => {
+  private ask = <T, K extends PromptFunctionKeys>(
+    type: K,
+    // each prompt fn's first type param is the input/config type
+    question: Parameters<(typeof prompts)[K]>[0],
+  ) => {
+    //: Promise<T> => {
     this.closeCurrentPrompt();
-    const promptPromiseAndUi = inquirer.prompt([question]);
-    // inquirer.prompt() actuall returns Promise<T> & {ui: PromptUI} so we keep track of it to be able to close it
-    this.currentPromptUi = promptPromiseAndUi.ui;
-    return promptPromiseAndUi as Promise<T>;
+    const promptFn = prompts[type] as any;
+    return promptFn(question, { signal: this.controller.signal });
   };
 
-  // not convinced this works -- it doesn't "delete" the list of card prompts from screen at least..
-  // ⤴️ that was with inquirer 9 or older.
-  // with 12, we should really use the new api and use https://github.com/SBoudrias/Inquirer.js/tree/main#canceling-prompt
   private closeCurrentPrompt() {
-    this.currentPromptUi?.close();
+    this.controller.abort();
   }
 
   private promptForJoin = () => {
-    return this.ask({
-      type: "list",
-      name: "teamId",
+    return this.ask("select", {
+      // name: "teamId",
       choices: [
         { name: "No, just observe", value: -1 },
         { name: "Team #1", value: 0 },
@@ -204,9 +202,8 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   private promptForReadiness = () => {
-    return this.ask({
-      type: "confirm",
-      name: "ready",
+    return this.ask("confirm", {
+      // name: "ready",
       message: "Are you ready?",
     }).then((answers: any) => {
       if (answers.ready) {
@@ -218,9 +215,8 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   private promptForNewTrick = () => {
-    return this.ask({
-      type: "confirm",
-      name: "ready",
+    return this.ask("confirm", {
+      // name: "ready",
       message: "Kick-off new trick?",
     }).then((answers: any) => {
       if (answers.ready) {
@@ -235,14 +231,12 @@ class TerminalHandler implements TichuWebSocketHandler {
     const choices = cards.map((c) => {
       return { value: c.shortName, name: c.name };
     });
-    const question = {
+    return this.ask("checkbox", {
+      // name: "cards",
       message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
-      type: "checkbox",
-      name: "cards",
       choices: choices,
       pageSize: 20,
-    };
-    return this.ask(question).then((answers: any) => {
+    }).then((answers: any) => {
       return new OutgoingGameMessage(
         PlayerPlaysParam.fromShortNames(answers.cards),
       );
@@ -266,3 +260,9 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.debug(msgStr);
   };
 }
+
+type PromptFunctionKeys = {
+  [K in keyof typeof prompts]: (typeof prompts)[K] extends (...args: any) => any
+    ? K
+    : never;
+}[keyof typeof prompts];
