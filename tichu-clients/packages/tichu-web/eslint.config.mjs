@@ -1,6 +1,7 @@
 import jsxA11Y from "eslint-plugin-jsx-a11y";
 
-import _import from "eslint-plugin-import";
+// re-add when https://github.com/import-js/eslint-plugin-import/issues/3227 is solved
+// import _import from "eslint-plugin-import";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import storybook from "eslint-plugin-storybook";
@@ -19,7 +20,8 @@ export default tsEslint.config(
   {
     plugins: {
       "jsx-a11y": jsxA11Y,
-      import: _import,
+      // re-add when https://github.com/import-js/eslint-plugin-import/issues/3227 is solved
+      // import: _import,
       react,
       "react-hooks": reactHooks,
     },
