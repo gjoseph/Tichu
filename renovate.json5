@@ -123,10 +123,6 @@
         "pretty-quick",
       ],
     },
-    {
-      groupName: "Vite packages",
-      matchPackageNames: ["@vitejs/*", "vite", "vite-plugin-*"],
-    },
     // Generated @types rules
     {
       groupName: "fs-extra",
