@@ -3,6 +3,7 @@
 
 // re-add when https://github.com/import-js/eslint-plugin-import/issues/3227 is solved
 // import _import from "eslint-plugin-import";
+// https://github.com/jsx-eslint/eslint-plugin-react/issues/3977
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import storybook from "eslint-plugin-storybook";
