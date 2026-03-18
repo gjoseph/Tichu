@@ -60,7 +60,7 @@
     "@storybook/addon-links": "10.2.19",
     "@storybook/react": "10.2.19",
     "@storybook/react-vite": "10.2.19",
-    "@vitejs/plugin-react": "5.2.0",
+    "@vitejs/plugin-react": "6.0.1",
     "eslint": "10.0.3",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
