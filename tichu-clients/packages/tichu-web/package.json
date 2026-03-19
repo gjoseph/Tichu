@@ -69,7 +69,7 @@
     "eslint-plugin-storybook": "10.2.19",
     "jsdom": "29.0.0",
     "storybook": "10.2.19",
-    "typescript-eslint": "8.57.0",
+    "typescript-eslint": "8.57.1",
     "vite": "8.0.0",
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "4.5.0",
