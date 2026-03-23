@@ -67,7 +67,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-storybook": "10.2.19",
-    "jsdom": "29.0.0",
+    "jsdom": "29.0.1",
     "storybook": "10.2.19",
     "typescript-eslint": "8.57.1",
     "vite": "8.0.1",
