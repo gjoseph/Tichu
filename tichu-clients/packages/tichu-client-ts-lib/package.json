@@ -31,7 +31,7 @@
     "@types/node": "24.12.0",
     "@types/ws": "8.18.1",
     "ava": "7.0.0",
-    "typedoc": "0.28.17",
+    "typedoc": "0.28.18",
     "typescript": "5.9.3"
   },
   "dependencies": {
