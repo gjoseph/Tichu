@@ -270,17 +270,17 @@
                 <plugin>
                     <groupId>org.openrewrite.maven</groupId>
                     <artifactId>rewrite-maven-plugin</artifactId>
-                    <version>6.34.0</version>
+                    <version>6.35.0</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.openrewrite.recipe</groupId>
                             <artifactId>rewrite-migrate-java</artifactId>
-                            <version>3.30.1</version>
+                            <version>3.31.0</version>
                         </dependency>
                         <dependency>
                             <groupId>org.openrewrite.recipe</groupId>
                             <artifactId>rewrite-jackson</artifactId>
-                            <version>1.19.3</version>
+                            <version>1.20.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>
