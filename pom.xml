@@ -299,10 +299,10 @@
                         <configuration>
                             <rules>
                                 <requireJavaVersion>
-                                    <version>[25,)</version>
+                                    <version>[25,26)</version>
                                 </requireJavaVersion>
                                 <requireMavenVersion>
-                                    <version>[3.9,]</version>
+                                    <version>[3.9,3.10)</version>
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
