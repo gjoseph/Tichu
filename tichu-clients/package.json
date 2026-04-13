@@ -8,7 +8,7 @@
   "devDependencies": {
     "@prettier/plugin-xml": "3.4.2",
     "husky": "9.1.7",
-    "prettier": "3.8.1",
+    "prettier": "3.8.2",
     "prettier-plugin-java": "2.8.1",
     "pretty-quick": "4.2.2"
   },
