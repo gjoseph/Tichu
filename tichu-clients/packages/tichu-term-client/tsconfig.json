@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2023",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "lib": ["es2023", "dom"],
