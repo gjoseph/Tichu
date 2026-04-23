@@ -70,7 +70,7 @@
     "jsdom": "29.0.2",
     "storybook": "10.3.5",
     "typescript-eslint": "8.58.2",
-    "vite": "8.0.8",
+    "vite": "8.0.9",
     "vite-plugin-eslint": "1.8.1",
     "vite-plugin-svgr": "5.2.0",
     "vitest": "4.1.4"
