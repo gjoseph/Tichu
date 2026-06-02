@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Using bash because GH's ubuntu images don't have zsh, apparently
 set -euo pipefail
-set -x
+
 # ensure pwd = dir of $0
 dir0="$(dirname $0)"
 dir0_resolved="$(readlink -f ${dir0})"
