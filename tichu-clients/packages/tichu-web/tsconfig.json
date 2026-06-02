@@ -3,28 +3,24 @@
     "target": "es2023",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "types": ["vite/client", "vite-plugin-svgr/client"],
-
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
     "allowJs": false,
     "declaration": true,
     "declarationMap": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "strict": true,
-
-    "outDir": "./lib",
-    "rootDir": "./src",
-
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "rootDir": "./src"
   },
   "include": ["src"]
 }
