@@ -19,12 +19,11 @@ jobs:
         uses: actions/checkout@v6
       - name: Mise en place
         uses: jdx/mise-action@v4
+      - name: Install fd
+        # because I can't set it up in mise.toml while it doesn't work on my old intel mac
+        run: mise use fd
       - name: Update node and npm versions in repo
         run: tichu-clients/update-node-npm.sh ${{ inputs.nodeVersion }} ${{ inputs.npmVersion }}
-      - name: Refresh engine in lock file
-        run: cd tichu-clients; npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
-      #      - name: Run prettier check
-      #        run: cd tichu-clients; npm run prettier-check-all
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
         id: pr
