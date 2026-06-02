@@ -5,10 +5,10 @@ on:
     inputs:
       nodeVersion:
         description: Node version
-        required: true
+        required: false
       npmVersion:
         description: NPM version
-        required: true
+        required: false
 
 jobs:
   update-node-npm:
