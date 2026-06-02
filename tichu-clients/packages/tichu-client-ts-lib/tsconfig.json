@@ -3,18 +3,19 @@
     "target": "es2023",
     "module": "nodenext",
     "moduleResolution": "nodenext",
+    "lib": ["es2023"],
+    "types": ["node", "fs-extra"],
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "lib": ["es2023", "dom"],
-    "types": ["node", "fs-extra"],
-
     "allowJs": false,
     "declaration": true,
     "declarationMap": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "strict": true,
-
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
     "outDir": "./lib",
     "rootDir": "./src"
   },
