@@ -27,7 +27,7 @@ fi
 echo "🔸 Setting node to $NODE_VERSION in mise.toml ..."
 mise use node@"${NODE_VERSION}"
 
-PACKAGE_JSON_FILES=(package.json $(fd package.json packages/))
+PACKAGE_JSON_FILES=($(find . -name package.json -not -path '*/node_modules/*'))
 echo Updating .engine in "${PACKAGE_JSON_FILES[@]}" ...
 for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
   echo "  🔹 Updating $PACKAGE_JSON"
