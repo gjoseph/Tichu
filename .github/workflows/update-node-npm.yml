@@ -5,10 +5,10 @@ on:
     inputs:
       nodeVersion:
         description: Node version
-        required: true
+        required: false
       npmVersion:
         description: NPM version
-        required: true
+        required: false
 
 jobs:
   update-node-npm:
@@ -17,8 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-      #      - name: Install asdf & tools
-      #        uses: asdf-vm/actions/install@v4
+      - name: Mise en place
+        uses: jdx/mise-action@v4
       - name: Update node and npm versions in repo
         run: tichu-clients/update-node-npm.sh ${{ inputs.nodeVersion }} ${{ inputs.npmVersion }}
       - name: Refresh engine in lock file

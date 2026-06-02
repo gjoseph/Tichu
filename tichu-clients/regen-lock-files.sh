@@ -9,6 +9,9 @@ rm -rf package-lock.json \
        packages/*/node_modules \
        packages/*/package-lock.json
 
+echo Clearing npm cache ...
+npm cache clean --force
+
 # Install root -- same command as Renovate uses.
 echo Running npm install ...
 # --force may be needed to work around the cra5/sb6 shenanigans

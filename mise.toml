@@ -1,0 +1,6 @@
+[tools]
+java = "temurin-25.0.2+10.0.LTS"
+node = "24.15.0"
+jq = "latest"
+ripgrep = "latest"
+# fd = "latest" # won't work on my old intel mac, but oh well, i've got it via homebrew anyay

@@ -101,7 +101,7 @@
     // Node & npm - both in package.json and .tool-versions
     {
       matchPackageNames: ["node", "npm"],
-      matchManagers: ["asdf", "npm"],
+      matchManagers: ["mise", "npm"],
       groupName: "Node and npm platform",
     },
     // Node packages
