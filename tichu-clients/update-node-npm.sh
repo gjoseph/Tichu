@@ -24,8 +24,11 @@ else
   NPM_VERSION=$(npm view npm version)
 fi
 
-echo "🔸 Setting node to $NODE_VERSION in mise.toml ..."
+echo "🔸 Will update to node ${NODE_VERSION} and npm ${NPM_VERSION} ..."
+
+echo "🔸 Setting node and npm versions in mise.toml ..."
 mise use node@"${NODE_VERSION}"
+mise use npm@"${NPM_VERSION}"
 
 PACKAGE_JSON_FILES=($(find . -name package.json -not -path '*/node_modules/*'))
 echo Updating .engine in "${PACKAGE_JSON_FILES[@]}" ...
@@ -43,11 +46,9 @@ done
 mise exec -- bash -c "
   echo 🔸 Refresh engine in lock file
   mise exec -- npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
+"
 
-  echo 🔸 Updating .packageManager in root package.json
-  corepack enable npm
-  corepack use npm@${NPM_VERSION}
-
+mise exec -- bash -c "
   echo 🔸 Verifying active npm version:
   npm --version
 
@@ -57,3 +58,6 @@ mise exec -- bash -c "
   echo 🔸 Run prettier check
   npm run prettier-check-all
 "
+
+echo 🔸 ... and out of curiosity, outside mise exec:
+npm --version
