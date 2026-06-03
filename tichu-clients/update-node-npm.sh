@@ -54,3 +54,6 @@ npm install
 
 echo 🔸 Run prettier check
 npm run prettier-check-all
+
+echo "nodeVersion=$NODE_VERSION" >> "$GITHUB_OUTPUT"
+echo "npmVersion=$NPM_VERSION" >> "$GITHUB_OUTPUT"
