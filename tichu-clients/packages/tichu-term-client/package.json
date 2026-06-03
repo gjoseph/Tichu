@@ -26,8 +26,8 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "24.15.0",
-    "npm": "11.12.1"
+    "node": "24.16.0",
+    "npm": "11.16.0"
   },
   "devDependencies": {
     "@ava/typescript": "6.0.0",
