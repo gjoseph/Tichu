@@ -20,21 +20,23 @@ jobs:
       - name: Mise en place
         uses: jdx/mise-action@v4
       - name: Update node and npm versions in repo
+        id: apply-update
         run: tichu-clients/update-node-npm.sh ${{ inputs.nodeVersion }} ${{ inputs.npmVersion }}
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
-        id: pr
+        id: create-pr
         with:
           token: ${{ secrets.GREG_GITBOT_TOKEN }}
-          commit-message: "Updating node to ${{ inputs.nodeVersion }} and npm to ${{ inputs.npmVersion }}"
-          title: "Updating node to ${{ inputs.nodeVersion }} and npm to ${{ inputs.npmVersion }}"
+          commit-message: "Updating node to ${{ steps.apply-update.outputs.nodeVersion }} and npm to ${{ steps.apply-update.outputs.npmVersion }}"
+          title: "Updating node to ${{ steps.apply-update.outputs.nodeVersion }} and npm to ${{ steps.apply-update.outputs.npmVersion }}"
           branch: update-node-npm
       - name: Print PR details
-        if: ${{ steps.pr.outputs.pull-request-number }}
+        if: ${{ steps.create-pr.outputs.pull-request-number }}
         run: |
-          echo "Pull request     - #${{ steps.pr.outputs.pull-request-number }}"
-          echo "Pull request URL - ${{ steps.pr.outputs.pull-request-url }}"
-
-#      - name: Enable PR automerge Request Automerge
-#        if: ${{ steps.pr.outputs.pull-request-number }}
-#        run: gh pr merge --merge --auto "${{ steps.pr.outputs.pull-request-number }}"
+          echo "Pull request     - #${{ steps.create-pr.outputs.pull-request-number }}"
+          echo "Pull request URL - ${{ steps.create-pr.outputs.pull-request-url }}"
+      - name: Enable PR automerge
+        if: ${{ steps.create-pr.outputs.pull-request-number }}
+        env:
+          GH_TOKEN: ${{ secrets.GREG_GITBOT_TOKEN }}
+        run: gh pr merge --merge --auto "${{ steps.create-pr.outputs.pull-request-number }}"
