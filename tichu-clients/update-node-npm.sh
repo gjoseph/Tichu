@@ -42,22 +42,15 @@ for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
   unset tmp
 done
 
-# Chain commands in a single 'mise exec' process so the path shim works
-mise exec -- bash -c "
-  echo 🔸 Refresh engine in lock file
-  mise exec -- npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
-"
+echo 🔸 Refresh engine in lock file
+npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
 
-mise exec -- bash -c "
-  echo 🔸 Verifying active npm version:
-  npm --version
-
-  echo 🔸 Sanity check with npm install
-  npm install
-
-  echo 🔸 Run prettier check
-  npm run prettier-check-all
-"
-
-echo 🔸 ... and out of curiosity, outside mise exec:
+echo 🔸 Verifying active node and npm version:
+node --version
 npm --version
+
+echo 🔸 Sanity check with npm install
+npm install
+
+echo 🔸 Run prettier check
+npm run prettier-check-all
