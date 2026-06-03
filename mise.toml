@@ -1,6 +1,6 @@
 [tools]
 java = "temurin-25.0.2+10.0.LTS"
 node = "24.15.0"
-npm = "11.12.1"
+npm = "11.16.0"
 jq = "latest"
 ripgrep = "latest"
