@@ -1,5 +1,7 @@
 package net.incongru.tichu.model;
 
+import static java.util.function.Predicate.not;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicates;
 import java.util.Deque;
@@ -163,13 +165,14 @@ public class Trick {
         return play.getCards().equals(Set.of(DeckConstants.Dog));
     }
 
+    private static final Predicate<Play> NO_PASS = not(Pass.class::isInstance);
+    private static final Predicate<Play> NO_INITIAL = not(
+        Initial.class::isInstance
+    );
     /**
-     * A predicate that checks a play is neither a Pass or an "Initial".
+     * A predicate that checks a play is neither a Pass nor an "Initial".
      */
-    private static final Predicate<Play> NO_PASS_NOR_INITIAL = (
-        (Predicate<Play>) Pass.class::isInstance
-    ).or(Initial.class::isInstance).negate();
-    private static final Predicate<Play> NO_PASS = (
-        (Predicate<Play>) Pass.class::isInstance
-    ).negate();
+    private static final Predicate<Play> NO_PASS_NOR_INITIAL = NO_INITIAL.and(
+        NO_PASS
+    );
 }
