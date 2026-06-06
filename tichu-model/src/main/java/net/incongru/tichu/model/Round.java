@@ -108,12 +108,10 @@ public class Round {
 
         // In reality, these loops would be inverted (per card, per player), but this helps controlling draft for simulations
         // Also, TODO this is drafting in join-order (see Players#players), so not 100% correct wrt rules
-        players
-            .stream()
-            .forEach(player -> {
-                for (int c = 0; c < 14; c++) {
-                    player.deal(cardDeck.take());
-                }
-            });
+        players.stream().forEach(player -> {
+            for (int c = 0; c < 14; c++) {
+                player.deal(cardDeck.take());
+            }
+        });
     }
 }

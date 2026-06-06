@@ -178,7 +178,10 @@ public class MessageHandlerImpl implements MessageHandler {
                 playerStatuses,
                 trick.currentPlayer().id(),
                 // TODO enum?
-                trick.previousNonPass().play().name(),
+                trick
+                    .previousNonPass()
+                    .play()
+                    .name(),
                 // TODO
                 Collections.emptyList()
             );
@@ -186,14 +189,12 @@ public class MessageHandlerImpl implements MessageHandler {
 
             // TODO does this need to be a separate message, or merge it with game state?
             // own hand message for each player
-            players
-                .stream()
-                .forEach(p -> {
-                    final Player.Hand hand = p.hand();
-                    final PlayerHandMessage playerHandMessage =
-                        new PlayerHandMessage(actionMessage.clientTxId(), hand);
-                    messageBundle.userMessage(p.id(), playerHandMessage);
-                });
+            players.stream().forEach(p -> {
+                final Player.Hand hand = p.hand();
+                final PlayerHandMessage playerHandMessage =
+                    new PlayerHandMessage(actionMessage.clientTxId(), hand);
+                messageBundle.userMessage(p.id(), playerHandMessage);
+            });
         }
 
         return messageBundle;
@@ -203,14 +204,12 @@ public class MessageHandlerImpl implements MessageHandler {
         SessionProvider sessions,
         AddressedMessages messageBundle
     ) {
-        messageBundle
-            .getMessages()
-            .forEach(env -> {
-                if (env.recipient() != null) {
-                    sessions.send(env.recipient(), env.message());
-                } else {
-                    sessions.broadcast(env.message());
-                }
-            });
+        messageBundle.getMessages().forEach(env -> {
+            if (env.recipient() != null) {
+                sessions.send(env.recipient(), env.message());
+            } else {
+                sessions.broadcast(env.message());
+            }
+        });
     }
 }

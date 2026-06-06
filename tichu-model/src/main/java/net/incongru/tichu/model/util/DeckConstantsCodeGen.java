@@ -122,7 +122,8 @@ public class DeckConstantsCodeGen {
                   name: "%s",
                   shortName: "%s",
                   scoreValue: %d,
-                """.indent(2)
+                """
+                    .indent(2)
                     .formatted(
                         card.name(),
                         card.shortName(),
@@ -138,7 +139,8 @@ public class DeckConstantsCodeGen {
                     """
                     suit: CardSuit.%s,
                     number: %d,
-                    """.indent(4)
+                    """
+                        .indent(4)
                         .formatted(card.suit().name(), card.val().playOrder())
                 );
             }

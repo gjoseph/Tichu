@@ -25,9 +25,12 @@ class NewTrickTest {
 
     @Test
     void failsIfTrickInProgress() {
-        ctx
-            .withCards(Set.of(B2), Set.of(B3), Set.of(B4), Set.of(MahJong))
-            .allReady();
+        ctx.withCards(
+            Set.of(B2),
+            Set.of(B3),
+            Set.of(B4),
+            Set.of(MahJong)
+        ).allReady();
         // we still have cards to play
         assertThrows(IllegalStateException.class, () ->
             new NewTrick().exec(ctx, NewTrickParam.withActor(UserId.of("alex")))
@@ -36,9 +39,12 @@ class NewTrickTest {
 
     @Test
     void successWhenAllCardsPlayed() {
-        ctx
-            .withCards(Set.of(MahJong), Set.of(B3), Set.of(B2), Set.of(B4))
-            .allReady();
+        ctx.withCards(
+            Set.of(MahJong),
+            Set.of(B3),
+            Set.of(B2),
+            Set.of(B4)
+        ).allReady();
         // play all the cards
         assertThat(
             new PlayerPlays().exec(

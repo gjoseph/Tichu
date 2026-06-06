@@ -32,8 +32,7 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                     t -> {
                         final PostActionCommandFactory.ExpectablePlayResult expectedPlayResult =
                             NameableEnum.byName(
-                                PostActionCommandFactory
-                                    .ExpectablePlayResult.class,
+                                PostActionCommandFactory.ExpectablePlayResult.class,
                                 t.remainder()
                             );
                         return pacFactory.expectPlayResult(expectedPlayResult);
@@ -44,8 +43,7 @@ class PACLineParsers extends AbstractLineParsers<Simulation.PostActionCommand> {
                     t -> {
                         final PostActionCommandFactory.ExpectableGameState expectedGameState =
                             NameableEnum.byName(
-                                PostActionCommandFactory
-                                    .ExpectableGameState.class,
+                                PostActionCommandFactory.ExpectableGameState.class,
                                 t.remainder()
                             );
                         return pacFactory.expectGameState(expectedGameState);
