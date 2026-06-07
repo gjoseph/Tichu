@@ -44,14 +44,12 @@ public class SessionProvider {
                 IO.println("SESSION IS CLOSED = " + session);
                 return;
             }
-            session
-                .getAsyncRemote()
-                .sendObject(message, result -> {
-                    if (!result.isOK()) {
-                        // TODO metrics and logs
-                        result.getException().printStackTrace();
-                    }
-                });
+            session.getAsyncRemote().sendObject(message, result -> {
+                if (!result.isOK()) {
+                    // TODO metrics and logs
+                    result.getException().printStackTrace();
+                }
+            });
         }
     }
 

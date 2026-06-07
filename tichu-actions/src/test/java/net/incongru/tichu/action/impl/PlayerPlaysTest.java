@@ -30,9 +30,12 @@ class PlayerPlaysTest {
         "https://trello.com/c/RuVtOKVf/51-player-who-has-mahjong-should-not-be-able-to-pass-before-playing-the-first-trick"
     )
     void firstPlayerShouldNotBeAbleToPass() {
-        ctx
-            .withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of())
-            .allReady();
+        ctx.withCards(
+            Set.of(),
+            Set.of(),
+            Set.of(MahJong, B2),
+            Set.of()
+        ).allReady();
 
         final PlayerPlays play = new PlayerPlays();
         assertThat(
@@ -48,9 +51,12 @@ class PlayerPlaysTest {
 
     @Test
     void playingWrongCardResultsInError() {
-        ctx
-            .withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of())
-            .allReady();
+        ctx.withCards(
+            Set.of(),
+            Set.of(),
+            Set.of(MahJong, B2),
+            Set.of()
+        ).allReady();
 
         final PlayerPlays play = new PlayerPlays();
         assertThat(
@@ -65,9 +71,12 @@ class PlayerPlaysTest {
 
     @Test
     void playMahjongFirst() {
-        ctx
-            .withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of())
-            .allReady();
+        ctx.withCards(
+            Set.of(),
+            Set.of(),
+            Set.of(MahJong, B2),
+            Set.of()
+        ).allReady();
 
         final PlayerPlays play = new PlayerPlays();
         assertThat(
@@ -80,9 +89,12 @@ class PlayerPlaysTest {
 
     @Test
     void passing() {
-        ctx
-            .withCards(Set.of(), Set.of(), Set.of(MahJong), Set.of(B2))
-            .allReady();
+        ctx.withCards(
+            Set.of(),
+            Set.of(),
+            Set.of(MahJong),
+            Set.of(B2)
+        ).allReady();
 
         final PlayerPlays play1 = new PlayerPlays();
         assertThat(

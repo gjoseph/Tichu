@@ -72,8 +72,7 @@ public class Straight extends AbstractPlay<Straight> {
     @Override
     public String describe() {
         final StringBuilder s = new StringBuilder();
-        s
-            .append(name())
+        s.append(name())
             .append(" of ")
             .append(size())
             .append(", from ")
@@ -81,8 +80,7 @@ public class Straight extends AbstractPlay<Straight> {
             .append(" to ")
             .append(getHigherBound().niceName());
         if (phoenixSubstitute != null) {
-            s
-                .append(" with a ")
+            s.append(" with a ")
                 .append(Phoenix.niceName())
                 .append(" substituting for the ")
                 .append(phoenixSubstitute.niceName());

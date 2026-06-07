@@ -132,7 +132,8 @@ public class Player {
         }
 
         public String toDebugString() {
-            return this.cards.stream()
+            return this.cards
+                .stream()
                 .map(Card::name)
                 .collect(Collectors.joining(", "));
         }
