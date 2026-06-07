@@ -1,5 +1,5 @@
 import { User } from "../model/User";
-import { Avatar, Badge, Theme } from "@mui/material";
+import { Avatar, Badge } from "@mui/material";
 import React, { FC } from "react";
 import styles from "./PlayerAvatar.module.css";
 import { classes, stringToHslColor } from "../util";
