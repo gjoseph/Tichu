@@ -277,6 +277,7 @@
                                 <reflowLongStrings>true</reflowLongStrings>
                                 <formatJavadoc>false</formatJavadoc>
                             </googleJavaFormat>
+                            <forbidWildcardImports/>
                         </java>
                         <pom>
                             <includes>
