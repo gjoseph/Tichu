@@ -36,50 +36,46 @@ class SchemaGeneratorMain {
     void main() throws IOException {
         final ObjectMapper mapper = JacksonSetup.setupJacksonMapper();
         final SchemaGeneratorConfigBuilder configBuilder =
-            new SchemaGeneratorConfigBuilder(
-                mapper,
-                SchemaVersion.DRAFT_6, // DRAFT_2020_12,
-                OptionPreset.PLAIN_JSON
-            )
-                .with(Option.EXTRA_OPEN_API_FORMAT_VALUES)
-                .without(Option.FLATTENED_ENUMS_FROM_TOSTRING)
-                .with(new JacksonSchemaModule());
+                new SchemaGeneratorConfigBuilder(
+                                mapper,
+                                SchemaVersion.DRAFT_6, // DRAFT_2020_12,
+                                OptionPreset.PLAIN_JSON)
+                        .with(Option.EXTRA_OPEN_API_FORMAT_VALUES)
+                        .without(Option.FLATTENED_ENUMS_FROM_TOSTRING)
+                        .with(new JacksonSchemaModule());
 
         configBuilder
-            .forTypesInGeneral()
-            .withTitleResolver(TypeScope::getSimpleTypeDescription)
-            .withSubtypeResolver(new JsonSubTypesResolver());
+                .forTypesInGeneral()
+                .withTitleResolver(TypeScope::getSimpleTypeDescription)
+                .withSubtypeResolver(new JsonSubTypesResolver());
         final SchemaGeneratorConfig config = configBuilder.build();
 
         final SchemaGenerator gen = new SchemaGenerator(config);
         writeSchema(
-            mapper,
-            gen,
-            IncomingMessage.class,
-            "Tichu - Incoming Messages",
-            Path.of("tichu-in-schema.json")
-        );
+                mapper,
+                gen,
+                IncomingMessage.class,
+                "Tichu - Incoming Messages",
+                Path.of("tichu-in-schema.json"));
         writeSchema(
-            mapper,
-            gen,
-            OutgoingMessage.class,
-            "Tichu - Outgoing Messages",
-            Path.of("tichu-out-schema.json")
-        );
+                mapper,
+                gen,
+                OutgoingMessage.class,
+                "Tichu - Outgoing Messages",
+                Path.of("tichu-out-schema.json"));
     }
 
     private static void writeSchema(
-        ObjectMapper mapper,
-        SchemaGenerator jsonSchemaGenerator,
-        Class<?> clazz,
-        String title,
-        Path filePath
-    ) throws IOException {
+            ObjectMapper mapper,
+            SchemaGenerator jsonSchemaGenerator,
+            Class<?> clazz,
+            String title,
+            Path filePath)
+            throws IOException {
         final JsonNode schema = jsonSchemaGenerator.generateSchema(clazz);
         // title, "JSON Schema for " + title);
-        final String schemaStr = mapper
-            .writer(SerializationFeature.INDENT_OUTPUT)
-            .writeValueAsString(schema);
+        final String schemaStr =
+                mapper.writer(SerializationFeature.INDENT_OUTPUT).writeValueAsString(schema);
         Files.writeString(filePath, schemaStr, StandardCharsets.UTF_8);
     }
 }

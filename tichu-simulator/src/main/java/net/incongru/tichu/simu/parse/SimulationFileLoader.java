@@ -12,9 +12,9 @@ class SimulationFileLoader {
 
     static List<String> from(Path p) throws IOException {
         return Files.lines(p)
-            .map(s -> s.replaceFirst("#.*", "")) // Strip comments
-            .map(String::strip) // Trim whitespaces left and right
-            .filter(not(String::isEmpty)) // Remove empty lines
-            .collect(Collectors.toList());
+                .map(s -> s.replaceFirst("#.*", "")) // Strip comments
+                .map(String::strip) // Trim whitespaces left and right
+                .filter(not(String::isEmpty)) // Remove empty lines
+                .collect(Collectors.toList());
     }
 }

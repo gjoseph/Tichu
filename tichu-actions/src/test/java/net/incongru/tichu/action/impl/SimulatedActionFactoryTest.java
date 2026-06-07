@@ -23,29 +23,25 @@ class SimulatedActionFactoryTest {
     @Test
     void throwsOnUnknownActionParam() {
         assertThatThrownBy(() -> actionFactory.actionFor(new FakeActionParam()))
-            .isExactlyInstanceOf(IllegalArgumentException.class)
-            .hasMessage("No action for FakeActionParam");
+                .isExactlyInstanceOf(IllegalArgumentException.class)
+                .hasMessage("No action for FakeActionParam");
     }
 
     @Test
     void initActionIsSimulatedGame() {
         assertThat(
-            actionFactory.actionFor(
-                InitialiseGameParam.withActor(UserId.of("dummy")).param()
-            )
-        )
-            .isInstanceOf(InitialiseGame.class)
-            .isInstanceOf(InitialiseSimulatedGame.class);
+                        actionFactory.actionFor(
+                                InitialiseGameParam.withActor(UserId.of("dummy")).param()))
+                .isInstanceOf(InitialiseGame.class)
+                .isInstanceOf(InitialiseSimulatedGame.class);
     }
 
     @Test
     void newInstancesOnEachCall() {
-        final Action<InitialiseGameParam, ?> first = actionFactory.actionFor(
-            InitialiseGameParam.withActor(UserId.of("dummy")).param()
-        );
-        final Action<InitialiseGameParam, ?> second = actionFactory.actionFor(
-            InitialiseGameParam.withActor(UserId.of("dummy")).param()
-        );
+        final Action<InitialiseGameParam, ?> first =
+                actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
+        final Action<InitialiseGameParam, ?> second =
+                actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
         assertThat(first).isNotSameAs(second);
     }
 

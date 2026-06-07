@@ -13,12 +13,11 @@ public class SimulatedActionFactory extends AbstractActionFactory {
     @Override
     protected Set<Key<?>> build() {
         return Set.of(
-            key(CheatDealParam.class, CheatDeal::new),
-            key(InitialiseGameParam.class, InitialiseSimulatedGame::new),
-            key(JoinTableParam.class, JoinTable::new),
-            key(NewTrickParam.class, NewTrick::new),
-            key(PlayerIsReadyParam.class, PlayerIsReady::new),
-            key(PlayerPlaysParam.class, PlayerPlays::new)
-        );
+                key(CheatDealParam.class, CheatDeal::new),
+                key(InitialiseGameParam.class, InitialiseSimulatedGame::new),
+                key(JoinTableParam.class, JoinTable::new),
+                key(NewTrickParam.class, NewTrick::new),
+                key(PlayerIsReadyParam.class, PlayerIsReady::new),
+                key(PlayerPlaysParam.class, PlayerPlays::new));
     }
 }

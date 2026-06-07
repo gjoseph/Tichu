@@ -30,18 +30,8 @@ class NameableEnumTest {
 
     @Test
     void allNamesLowercasesAllNames() {
-        assertThat(
-            allNamesOf(SampleEnum.class).split("\\s*,\\s*")
-        ).containsExactlyInAnyOrder(
-            "a",
-            "b",
-            "c",
-            "foo",
-            "fu",
-            "bar",
-            "tavern",
-            "pub"
-        );
+        assertThat(allNamesOf(SampleEnum.class).split("\\s*,\\s*"))
+                .containsExactlyInAnyOrder("a", "b", "c", "foo", "fu", "bar", "tavern", "pub");
     }
 
     enum SampleEnum implements NameableEnum {

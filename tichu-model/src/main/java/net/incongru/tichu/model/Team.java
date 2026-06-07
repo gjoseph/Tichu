@@ -44,16 +44,14 @@ public class Team {
 
     @Override
     public String toString() {
-        return (
-            "Team{" +
-            "name='" +
-            name +
-            '\'' +
-            ", player1=" +
-            players[0] +
-            ", player2=" +
-            players[1] +
-            '}'
-        );
+        return ("Team{"
+                + "name='"
+                + name
+                + '\''
+                + ", player1="
+                + players[0]
+                + ", player2="
+                + players[1]
+                + '}');
     }
 }

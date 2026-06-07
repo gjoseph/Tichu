@@ -26,11 +26,7 @@ public class Straight extends AbstractPlay<Straight> {
     private final CardValue phoenixSubstitute;
     private final boolean bombyBomb;
 
-    private Straight(
-        Set<Card> cards,
-        CardValue phoenixSubstitute,
-        boolean bombyBomb
-    ) {
+    private Straight(Set<Card> cards, CardValue phoenixSubstitute, boolean bombyBomb) {
         super(cards);
         this.phoenixSubstitute = phoenixSubstitute;
         this.bombyBomb = bombyBomb;
@@ -51,9 +47,8 @@ public class Straight extends AbstractPlay<Straight> {
     }
 
     private Collection<CardValue> getCardValuesWithPhoenix() {
-        final Collection<CardValue> values = new ArrayList<>(
-            Collections2.transform(getCards(), Card::val)
-        );
+        final Collection<CardValue> values =
+                new ArrayList<>(Collections2.transform(getCards(), Card::val));
         values.removeIf(v -> v == Phoenix);
         if (phoenixSubstitute != null) {
             values.add(phoenixSubstitute);
@@ -63,27 +58,25 @@ public class Straight extends AbstractPlay<Straight> {
 
     @Override
     protected boolean canBePlayedAfterTypeSafe(Straight other) {
-        return (
-            other.size() == this.size() &&
-            this.getLowerBound().playOrder() > other.getLowerBound().playOrder()
-        );
+        return (other.size() == this.size()
+                && this.getLowerBound().playOrder() > other.getLowerBound().playOrder());
     }
 
     @Override
     public String describe() {
         final StringBuilder s = new StringBuilder();
         s.append(name())
-            .append(" of ")
-            .append(size())
-            .append(", from ")
-            .append(getLowerBound().niceName())
-            .append(" to ")
-            .append(getHigherBound().niceName());
+                .append(" of ")
+                .append(size())
+                .append(", from ")
+                .append(getLowerBound().niceName())
+                .append(" to ")
+                .append(getHigherBound().niceName());
         if (phoenixSubstitute != null) {
             s.append(" with a ")
-                .append(Phoenix.niceName())
-                .append(" substituting for the ")
-                .append(phoenixSubstitute.niceName());
+                    .append(Phoenix.niceName())
+                    .append(" substituting for the ")
+                    .append(phoenixSubstitute.niceName());
         }
         return s.toString();
     }
@@ -101,9 +94,8 @@ public class Straight extends AbstractPlay<Straight> {
                 return null;
             }
 
-            final List<CardValue> values = new ArrayList<>(
-                Collections2.transform(cards, Card::val)
-            );
+            final List<CardValue> values =
+                    new ArrayList<>(Collections2.transform(cards, Card::val));
             values.sort(CardComparators.V_BY_PLAY_ORDER);
 
             // Those are illegal in a street
@@ -125,9 +117,7 @@ public class Straight extends AbstractPlay<Straight> {
                     continue;
                 }
                 // If we haven't "used" the phoenix yet, we can try to fit it in a gap
-                if (
-                    phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2
-                ) {
+                if (phoenixIsAvail && curr.playOrder() - prev.playOrder() == 2) {
                     sub = substituteFor(prev.playOrder() + 1);
                     phoenixIsAvail = false;
                     continue;
@@ -153,9 +143,7 @@ public class Straight extends AbstractPlay<Straight> {
 
             Card card1 = cards.iterator().next();
             final CardSuit cardSuitTest = card1.suit();
-            final boolean isBomb = cards
-                .stream()
-                .allMatch(card -> card.suit() == cardSuitTest);
+            final boolean isBomb = cards.stream().allMatch(card -> card.suit() == cardSuitTest);
 
             return new Straight(cards, sub, isBomb);
         }

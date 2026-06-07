@@ -19,10 +19,7 @@ public class Single extends AbstractPlay<Single> {
 
     private Single(Set<Card> cards) {
         super(cards);
-        Preconditions.checkArgument(
-            cards.size() == 1,
-            "Should pass a single Card"
-        );
+        Preconditions.checkArgument(cards.size() == 1, "Should pass a single Card");
         this.card = cards.iterator().next();
     }
 

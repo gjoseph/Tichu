@@ -13,15 +13,10 @@ public class EndpointConfigurator extends ServerEndpointConfig.Configurator {
     public EndpointConfigurator() {}
 
     @Override
-    public <T> T getEndpointInstance(Class<T> endpointClass)
-        throws InstantiationException {
+    public <T> T getEndpointInstance(Class<T> endpointClass) throws InstantiationException {
         if (endpointClass != RoomEndpoint.class) {
-            throw new IllegalStateException(
-                "This can only instantiate RoomEndpoint"
-            );
+            throw new IllegalStateException("This can only instantiate RoomEndpoint");
         }
-        return (T) new RoomEndpoint(
-            new MessageHandlerImpl(sessionProvider, roomProvider)
-        );
+        return (T) new RoomEndpoint(new MessageHandlerImpl(sessionProvider, roomProvider));
     }
 }

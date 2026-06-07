@@ -34,73 +34,42 @@ class CheatDealTest {
     @Test
     void failsInNormalGame() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseGame().exec(
-            ctx,
-            InitialiseGameParam.withActor(UserId.of("alex"))
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("alex"), 0)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("charlie"), 0)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("jules"), 1)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("quinn"), 1)
-        );
+        new InitialiseGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
 
-        assertThatThrownBy(() -> {
-            new CheatDeal().exec(
-                ctx,
-                CheatDealParam.withActor(
-                    UserId.of("jules"),
-                    Set.of(MahJong, B2)
-                )
-            );
-        })
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessageMatching("(?i).*can't cheat.*");
+        assertThatThrownBy(
+                        () -> {
+                            new CheatDeal()
+                                    .exec(
+                                            ctx,
+                                            CheatDealParam.withActor(
+                                                    UserId.of("jules"), Set.of(MahJong, B2)));
+                        })
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageMatching("(?i).*can't cheat.*");
     }
 
     @Test
     void worksInSimulatedGame() {
         final GameContext ctx = new TestGameContext();
-        new InitialiseSimulatedGame().exec(
-            ctx,
-            InitialiseGameParam.withActor(UserId.of("alex"))
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("alex"), 0)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("charlie"), 0)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("jules"), 1)
-        );
-        new JoinTable().exec(
-            ctx,
-            JoinTableParam.withActor(UserId.of("quinn"), 1)
-        );
+        new InitialiseSimulatedGame().exec(ctx, InitialiseGameParam.withActor(UserId.of("alex")));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("alex"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("charlie"), 0));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("jules"), 1));
+        new JoinTable().exec(ctx, JoinTableParam.withActor(UserId.of("quinn"), 1));
 
-        assertThatCode(() -> {
-            new CheatDeal().exec(
-                ctx,
-                CheatDealParam.withActor(
-                    UserId.of("jules"),
-                    Set.of(MahJong, B2)
-                )
-            );
-        }).doesNotThrowAnyException();
+        assertThatCode(
+                        () -> {
+                            new CheatDeal()
+                                    .exec(
+                                            ctx,
+                                            CheatDealParam.withActor(
+                                                    UserId.of("jules"), Set.of(MahJong, B2)));
+                        })
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -108,44 +77,34 @@ class CheatDealTest {
         final CheatDeal action = new CheatDeal();
 
         assertThat(
-            action.exec(
-                ctx,
-                CheatDealParam.withActor(
-                    UserId.of("alex"),
-                    Set.of(MahJong, G2, G5)
-                )
-            )
-        ).isSuccessResult();
-        HandAssert.assertThat(
-            ctx.player(UserId.of("alex")).hand()
-        ).containsOnly(MahJong, G2, G5);
+                        action.exec(
+                                ctx,
+                                CheatDealParam.withActor(
+                                        UserId.of("alex"), Set.of(MahJong, G2, G5))))
+                .isSuccessResult();
+        HandAssert.assertThat(ctx.player(UserId.of("alex")).hand()).containsOnly(MahJong, G2, G5);
     }
 
     @Test
     void tooLateIfGameReady() {
         // pre-deal some cards
-        new CheatDeal().exec(
-            ctx,
-            CheatDealParam.withActor(
-                UserId.of("charlie"),
-                Set.of(MahJong, B2, B3)
-            )
-        );
+        new CheatDeal()
+                .exec(ctx, CheatDealParam.withActor(UserId.of("charlie"), Set.of(MahJong, B2, B3)));
         ctx.allReady();
 
         //
-        assertThrows(IllegalStateException.class, () -> {
-            new CheatDeal().exec(
-                ctx,
-                CheatDealParam.withActor(UserId.of("alex"), Set.of(G2, G5))
-            );
-        });
+        assertThrows(
+                IllegalStateException.class,
+                () -> {
+                    new CheatDeal()
+                            .exec(ctx, CheatDealParam.withActor(UserId.of("alex"), Set.of(G2, G5)));
+                });
     }
 
     @Test
     @Disabled(
-        "we currently can't check for this because PlayerIsReady action auto-starts the game... which is maybe ok. Delete this test if we're happy with that"
-    )
+            "we currently can't check for this because PlayerIsReady action auto-starts the game..."
+                    + " which is maybe ok. Delete this test if we're happy with that")
     void tooLateIfGameStarted() {
         fail();
     }

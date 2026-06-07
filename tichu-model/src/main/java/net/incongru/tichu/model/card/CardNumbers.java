@@ -18,10 +18,7 @@ public enum CardNumbers implements CardValue {
     Ace(0, 14);
 
     public static CardNumbers byPlayOrder(int playOrder) {
-        return Arrays.stream(values())
-            .filter(c -> c.playOrder() == playOrder)
-            .findFirst()
-            .get();
+        return Arrays.stream(values()).filter(c -> c.playOrder() == playOrder).findFirst().get();
     }
 
     private final int scoreValue;
@@ -57,12 +54,8 @@ public enum CardNumbers implements CardValue {
 
     @Override
     public char shortName() {
-        return (
-            playOrder < 10
+        return (playOrder < 10
                 ? (char) (playOrder + '0')
-                : playOrder == 10
-                    ? '0'
-                    : name().charAt(0)
-        );
+                : playOrder == 10 ? '0' : name().charAt(0));
     }
 }

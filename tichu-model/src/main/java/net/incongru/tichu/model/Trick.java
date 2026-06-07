@@ -28,27 +28,25 @@ public class Trick {
     public Trick(TichuRules rules, Iterator<Player> playersCycle) {
         this.rules = rules;
         this.playersCycle = playersCycle;
-        this.currentPlayer = playersCycle.next(); // we could probably get rid of `currentPlayer` and just use playersCycle.peek() ?
+        this.currentPlayer =
+                playersCycle.next(); // we could probably get rid of `currentPlayer` and just use
+        // playersCycle.peek() ?
         this.plays = new LinkedList<>();
         plays.add(new Played(null, Initial.INSTANCE));
     }
 
-    // TODO this should pbly not be public and move up to Round or even Game - so we can control flow?
+    // TODO this should pbly not be public and move up to Round or even Game - so we can control
+    // flow?
     public Play.PlayResult play(Player player, Set<Card> cards) {
         if (isDone()) {
-            return new Play.PlayResult(
-                Play.PlayResult.Result.INVALIDSTATE,
-                "trick is over"
-            );
+            return new Play.PlayResult(Play.PlayResult.Result.INVALIDSTATE, "trick is over");
         }
 
         // Does the player have these cards?
         if (!player.hand().hasAll(cards)) {
             // TODO cheat ?
             return new Play.PlayResult(
-                Play.PlayResult.Result.NOTINHAND,
-                "You don't have those cards!"
-            );
+                    Play.PlayResult.Result.NOTINHAND, "You don't have those cards!");
         }
 
         // Is this a correct combination ?
@@ -57,56 +55,36 @@ public class Trick {
         // Is this a valid play ?
         if (!rules.isValid(play)) {
             return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.INVALIDPLAY,
-                "This is not a valid combination"
-            );
+                    play, Play.PlayResult.Result.INVALIDPLAY, "This is not a valid combination");
         }
 
         // TODO this needs to be moved to TichuRules ?
         // Validate this player can play now - only currentPlayer can play, unless its a bomb
         if (!rules.isBomb(play) && !player.equals(currentPlayer)) {
             // TODO return different PlayResult.Result
-            return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.INVALIDSTATE,
-                "not your turn"
-            );
+            return new Play.PlayResult(play, Play.PlayResult.Result.INVALIDSTATE, "not your turn");
         }
 
         // Validate cards against last play
         final Play prevPlay = previousNonPass().play();
         if (!rules.canPlayAfter(prevPlay, play)) {
             return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.TOOWEAK,
-                "can't play this after " + prevPlay.toString()
-            );
+                    play,
+                    Play.PlayResult.Result.TOOWEAK,
+                    "can't play this after " + prevPlay.toString());
         }
 
         plays.add(new Played(currentPlayer, play));
         player.discard(cards);
         if (isDone()) {
             currentPlayer = null;
-            return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.TRICK_END,
-                "congrats"
-            );
+            return new Play.PlayResult(play, Play.PlayResult.Result.TRICK_END, "congrats");
         } else if (isDog(play)) {
             currentPlayer = teamMateOrNextPlayer();
-            return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.TRICK_END,
-                "woof"
-            );
+            return new Play.PlayResult(play, Play.PlayResult.Result.TRICK_END, "woof");
         } else {
             currentPlayer = playersCycle.next();
-            return new Play.PlayResult(
-                play,
-                Play.PlayResult.Result.NEXTGOES,
-                "next player pls"
-            );
+            return new Play.PlayResult(play, Play.PlayResult.Result.NEXTGOES, "next player pls");
         }
     }
 
@@ -117,14 +95,10 @@ public class Trick {
     }
 
     public Player currentPlayer() {
+        Preconditions.checkState(!isDone(), "Trick is done, there is no current player");
         Preconditions.checkState(
-            !isDone(),
-            "Trick is done, there is no current player"
-        );
-        Preconditions.checkState(
-            currentPlayer != null,
-            "Trick is not done, but there is no current player, this should never happen"
-        );
+                currentPlayer != null,
+                "Trick is not done, but there is no current player, this should never happen");
         return currentPlayer;
     }
 
@@ -138,27 +112,19 @@ public class Trick {
             }
         }
         // At a minimum, we'll have the Initial play
-        throw new IllegalStateException(
-            "There has to be at least one non-pass play in the trick"
-        );
+        throw new IllegalStateException("There has to be at least one non-pass play in the trick");
     }
 
     // TODO move this to Rules?
     public boolean isDone() {
         // Has anything been played at all ?
-        final boolean hasAnyNonPassPlay = plays
-            .stream()
-            .map(Played::play)
-            .anyMatch(NO_PASS_NOR_INITIAL);
-        // Could probably be optimized. For now, we'll just check the last three plays were passes, so we can assume nothing can happen anymore
-        return (
-            hasAnyNonPassPlay &&
-            Functions.lastNMatches(
-                plays,
-                3,
-                Predicates.compose(Pass.class::isInstance, Played::play)
-            )
-        );
+        final boolean hasAnyNonPassPlay =
+                plays.stream().map(Played::play).anyMatch(NO_PASS_NOR_INITIAL);
+        // Could probably be optimized. For now, we'll just check the last three plays were passes,
+        // so we can assume nothing can happen anymore
+        return (hasAnyNonPassPlay
+                && Functions.lastNMatches(
+                        plays, 3, Predicates.compose(Pass.class::isInstance, Played::play)));
     }
 
     private boolean isDog(Play play) {
@@ -166,13 +132,10 @@ public class Trick {
     }
 
     private static final Predicate<Play> NO_PASS = not(Pass.class::isInstance);
-    private static final Predicate<Play> NO_INITIAL = not(
-        Initial.class::isInstance
-    );
+    private static final Predicate<Play> NO_INITIAL = not(Initial.class::isInstance);
+
     /**
      * A predicate that checks a play is neither a Pass nor an "Initial".
      */
-    private static final Predicate<Play> NO_PASS_NOR_INITIAL = NO_INITIAL.and(
-        NO_PASS
-    );
+    private static final Predicate<Play> NO_PASS_NOR_INITIAL = NO_INITIAL.and(NO_PASS);
 }

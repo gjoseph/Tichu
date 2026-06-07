@@ -17,22 +17,17 @@ public interface PostActionCommandFactory {
     Simulation.PostActionCommand expectSuccess();
 
     Simulation.PostActionCommand expectPlayResult(
-        PostActionCommandFactory.ExpectablePlayResult expectedPlayResult
-    );
+            PostActionCommandFactory.ExpectablePlayResult expectedPlayResult);
 
     Simulation.PostActionCommand expectError(String expectedError);
 
-    Simulation.PostActionCommand expectGameState(
-        ExpectableGameState expectedGameState
-    );
+    Simulation.PostActionCommand expectGameState(ExpectableGameState expectedGameState);
 
     Simulation.PostActionCommand expectPlay(ExpectablePlay play);
 
     Simulation.PostActionCommand expectWinTrick(String expectedPlayerName);
 
-    Simulation.PostActionCommand expectNextPlayerToBe(
-        String expectedPlayerName
-    );
+    Simulation.PostActionCommand expectNextPlayerToBe(String expectedPlayerName);
 
     Simulation.PostActionCommand expectEndOfRound();
 
@@ -51,10 +46,7 @@ public interface PostActionCommandFactory {
         ConsecutivePairs("consecutive pairs"),
         BombOf4("bomb of 4", "bomb of four"),
         StraightBomb(
-            play -> play instanceof Straight && play.isBomb(),
-            "straight bomb",
-            "street bomb"
-        );
+                play -> play instanceof Straight && play.isBomb(), "straight bomb", "street bomb");
 
         private Predicate<Play> predicate;
         private final List<String> altNames;
@@ -65,8 +57,7 @@ public interface PostActionCommandFactory {
 
         ExpectablePlay(Predicate<Play> predicate, String... altNames) {
             final String name = name();
-            this.predicate =
-                predicate != null ? predicate : new ClassNamePredicate();
+            this.predicate = predicate != null ? predicate : new ClassNamePredicate();
             this.altNames = Arrays.asList(altNames);
         }
 
@@ -79,15 +70,15 @@ public interface PostActionCommandFactory {
             return altNames;
         }
 
-        // I'm writing all this stuff purely because I don't want to copy class names into the constructors of the enum lol
+        // I'm writing all this stuff purely because I don't want to copy class names into the
+        // constructors of the enum lol
         private class ClassNamePredicate implements Predicate<Play> {
 
             private final Class clazz;
 
             public ClassNamePredicate() {
                 final String className =
-                    "net.incongru.tichu.model.plays." +
-                    ExpectablePlay.this.name();
+                        "net.incongru.tichu.model.plays." + ExpectablePlay.this.name();
                 try {
                     this.clazz = Class.forName(className);
                 } catch (ClassNotFoundException e) {
@@ -104,52 +95,42 @@ public interface PostActionCommandFactory {
 
     enum ExpectablePlayResult implements NameableEnum {
         NextGoes(
-            Play.PlayResult.Result.NEXTGOES,
-            PlayerPlaysResult.NEXT_PLAYER_GOES,
-            "next goes",
-            "next"
-        ),
+                Play.PlayResult.Result.NEXTGOES,
+                PlayerPlaysResult.NEXT_PLAYER_GOES,
+                "next goes",
+                "next"),
         TrickEnd(
-            Play.PlayResult.Result.TRICK_END,
-            PlayerPlaysResult.TRICK_END,
-            "trick end",
-            "take pile",
-            "win trick"
-        ), // TODO is this really win-trick?
+                Play.PlayResult.Result.TRICK_END,
+                PlayerPlaysResult.TRICK_END,
+                "trick end",
+                "take pile",
+                "win trick"), // TODO is this really win-trick?
         NotInHand(
-            Play.PlayResult.Result.NOTINHAND,
-            PlayerPlaysResult.NOT_IN_HAND,
-            "not in hand",
-            "cheat",
-            "stop stealing cards you dingo"
-        ),
-        TooWeak(
-            Play.PlayResult.Result.TOOWEAK,
-            PlayerPlaysResult.TOO_WEAK,
-            "too weak"
-        ),
+                Play.PlayResult.Result.NOTINHAND,
+                PlayerPlaysResult.NOT_IN_HAND,
+                "not in hand",
+                "cheat",
+                "stop stealing cards you dingo"),
+        TooWeak(Play.PlayResult.Result.TOOWEAK, PlayerPlaysResult.TOO_WEAK, "too weak"),
         InvalidPlay(
-            Play.PlayResult.Result.INVALIDPLAY,
-            PlayerPlaysResult.INVALID_PLAY,
-            "invalid play",
-            "invalid combo",
-            "wtf is this even"
-        ),
+                Play.PlayResult.Result.INVALIDPLAY,
+                PlayerPlaysResult.INVALID_PLAY,
+                "invalid play",
+                "invalid combo",
+                "wtf is this even"),
         NotYourTurn(
-            Play.PlayResult.Result.INVALIDSTATE,
-            PlayerPlaysResult.INVALID_STATE,
-            "not your turn"
-        );
+                Play.PlayResult.Result.INVALIDSTATE,
+                PlayerPlaysResult.INVALID_STATE,
+                "not your turn");
 
         private final Play.PlayResult.Result modelEquivalent;
         private final PlayerPlaysResult actionResponseEquivalent;
         private final List<String> altNames;
 
         ExpectablePlayResult(
-            Play.PlayResult.Result modelEquivalent,
-            PlayerPlaysResult actionResponseEquivalent,
-            String... altNames
-        ) {
+                Play.PlayResult.Result modelEquivalent,
+                PlayerPlaysResult actionResponseEquivalent,
+                String... altNames) {
             this.modelEquivalent = modelEquivalent;
             this.actionResponseEquivalent = actionResponseEquivalent;
             this.altNames = Arrays.asList(altNames);
@@ -173,27 +154,16 @@ public interface PostActionCommandFactory {
         STARTED(Game::isStarted),
         NOT_STARTED(not(STARTED.predicate), "not started"),
         READY_TO_START(Game::isReadyToStart, "ready", "ready to start"),
-        NOT_READY_TO_START(
-            not(READY_TO_START.predicate),
-            "not ready",
-            "not ready to start"
-        ),
+        NOT_READY_TO_START(not(READY_TO_START.predicate), "not ready", "not ready to start"),
         DONE(
-            _ -> {
-                throw new IllegalStateException("Not implemented yet");
-            },
-            "done",
-            "over",
-            "end",
-            "ended"
-        ),
-        NOT_DONE(
-            not(READY_TO_START.predicate),
-            "not done",
-            "not over",
-            "not end",
-            "not ended"
-        );
+                _ -> {
+                    throw new IllegalStateException("Not implemented yet");
+                },
+                "done",
+                "over",
+                "end",
+                "ended"),
+        NOT_DONE(not(READY_TO_START.predicate), "not done", "not over", "not end", "not ended");
 
         private final Predicate<Game> predicate;
         private final List<String> altNames;

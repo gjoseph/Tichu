@@ -16,24 +16,17 @@ class ExpectError extends AbstractExpectResult<ActionResponse> {
     protected void doExec(SimulatedGameContext ctx, ActionResponse response) {
         if (response.result().isSuccessful()) {
             throw new Simulation.PostActionCommandException(
-                "Expected '%s' to fail, but it succeeded with: %s",
-                response.forAction(),
-                response.result()
-            );
+                    "Expected '%s' to fail, but it succeeded with: %s",
+                    response.forAction(), response.result());
         }
 
         // TODO match message
         if (expectedError.equals(response.message().toString())) {
-            ctx.log(
-                "Action indeed failed with '%s', as expected",
-                expectedError
-            );
+            ctx.log("Action indeed failed with '%s', as expected", expectedError);
         } else {
             throw new Simulation.PostActionCommandException(
-                "Expected '%s' error, but got unexpected error: %s",
-                expectedError,
-                response.message()
-            );
+                    "Expected '%s' error, but got unexpected error: %s",
+                    expectedError, response.message());
         }
     }
 

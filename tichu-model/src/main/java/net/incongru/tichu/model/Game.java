@@ -25,13 +25,11 @@ public class Game {
     }
 
     public boolean isReadyToStart() {
-        return (
-            !started &&
-            currentRound == null &&
-            finishedRounds.isEmpty() &&
-            players().isComplete() &&
-            players().areAllReady()
-        );
+        return (!started
+                && currentRound == null
+                && finishedRounds.isEmpty()
+                && players().isComplete()
+                && players().areAllReady());
     }
 
     public Round start() {
@@ -51,8 +49,10 @@ public class Game {
         return new Round(this);
     }
 
-    // Originally, we intended for clients to only access current round via start() or next() but that doesn't seem to be convenient
-    // they would need to keep the ref to round themselves, and make sure to update it when calling next()
+    // Originally, we intended for clients to only access current round via start() or next() but
+    // that doesn't seem to be convenient
+    // they would need to keep the ref to round themselves, and make sure to update it when calling
+    // next()
     public Round currentRound() {
         ensureStarted();
         return currentRound;
@@ -94,16 +94,14 @@ public class Game {
     }
 
     public Score globalScore() {
-        return finishedRounds
-            .stream()
-            .map(FinishedRound::getScore)
-            .reduce((score1, score2) ->
-                new Score(
-                    score1.team1() + score2.team1(),
-                    score1.team2() + score2.team2()
-                )
-            )
-            .orElse(new Score(0, 0));
+        return finishedRounds.stream()
+                .map(FinishedRound::getScore)
+                .reduce(
+                        (score1, score2) ->
+                                new Score(
+                                        score1.team1() + score2.team1(),
+                                        score1.team2() + score2.team2()))
+                .orElse(new Score(0, 0));
     }
 
     public static class FinishedRound {
@@ -113,15 +111,11 @@ public class Game {
         private final Player finishingPlayer;
 
         FinishedRound(Round round) {
-            this(round.announces(), round.score(), null); //TODO
+            this(round.announces(), round.score(), null); // TODO
         }
 
         @VisibleForTesting
-        FinishedRound(
-            List<AnnounceResult> announces,
-            Score score,
-            Player finishingPlayer
-        ) {
+        FinishedRound(List<AnnounceResult> announces, Score score, Player finishingPlayer) {
             this.announces = announces;
             this.score = score;
             this.finishingPlayer = finishingPlayer;

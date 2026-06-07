@@ -13,17 +13,21 @@ class PlayersTest {
 
     @Test
     void samePlayerCantJoinMultipleTimes() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            final Players players = new Players();
-            players.join(new Player(of("Quinn")), new Team("t1"));
-            players.join(new Player(of("Quinn")), new Team("t2"));
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            final Players players = new Players();
-            players.join(new Player(of("Quinn")), new Team("t1"));
-            players.join(new Player(of("Jules")), new Team("t2"));
-            players.join(new Player(of("Quinn")), new Team("t2"));
-        });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    final Players players = new Players();
+                    players.join(new Player(of("Quinn")), new Team("t1"));
+                    players.join(new Player(of("Quinn")), new Team("t2"));
+                });
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    final Players players = new Players();
+                    players.join(new Player(of("Quinn")), new Team("t1"));
+                    players.join(new Player(of("Jules")), new Team("t2"));
+                    players.join(new Player(of("Quinn")), new Team("t2"));
+                });
     }
 
     @Test
@@ -47,12 +51,11 @@ class PlayersTest {
         players.join(quinn, t1);
         players.stream().forEach(Player::setReady);
 
-        final Iterator<Player> it = players.cycleFrom(
-            players.getPlayerById(of("Charlie"))
-        );
+        final Iterator<Player> it = players.cycleFrom(players.getPlayerById(of("Charlie")));
         // Start at Charlie, team 2
         assertThat(it.next()).isEqualTo(charlie);
-        // Next up should be a player from other team; which of the 2 will for now be determined by join order (i.e who joined team 1 after charlie joined)
+        // Next up should be a player from other team; which of the 2 will for now be determined by
+        // join order (i.e who joined team 1 after charlie joined)
         assertThat(it.next()).isEqualTo(quinn);
         // Back to team 2
         assertThat(it.next()).isEqualTo(jules);

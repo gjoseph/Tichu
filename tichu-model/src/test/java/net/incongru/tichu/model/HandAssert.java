@@ -22,10 +22,7 @@ public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
         contains(cards);
         if (cards.size() != actual.size()) {
             failWithMessage(
-                "Expected cards to be <%s> but was <%s>",
-                cards,
-                actual.toDebugString()
-            );
+                    "Expected cards to be <%s> but was <%s>", cards, actual.toDebugString());
         }
         return this;
     }
@@ -38,10 +35,7 @@ public class HandAssert extends AbstractAssert<HandAssert, Player.Hand> {
         isNotNull();
         if (!actual.hasAll(cards)) {
             failWithMessage(
-                "Expected cards to contain <%s> but was <%s>",
-                cards,
-                actual.toDebugString()
-            );
+                    "Expected cards to contain <%s> but was <%s>", cards, actual.toDebugString());
         }
         return this;
     }

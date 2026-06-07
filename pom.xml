@@ -1,9 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
->
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.incongru.tichu</groupId>
@@ -22,6 +18,11 @@
         <module>tichu-archunit</module>
     </modules>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- Self dependencies -->
@@ -33,8 +34,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-model</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -44,8 +45,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-actions</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -55,8 +56,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-simulator</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -66,8 +67,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-websocket-endpoint</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -77,8 +78,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-websocket-schema</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -88,8 +89,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-embedded-tomcat</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
@@ -99,8 +100,8 @@
             <dependency>
                 <groupId>net.incongru.tichu</groupId>
                 <artifactId>tichu-archunit</artifactId>
-                <type>test-jar</type>
                 <version>0.1-SNAPSHOT</version>
+                <type>test-jar</type>
             </dependency>
 
             <!-- BOMs -->
@@ -248,6 +249,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.5.0</version>
+                    <configuration>
+                        <!-- We have a couple of modules with no content to jar (e.g. tichu-archunit)
+                             If it happens elsewhere by mistake, we'll figure it out soon enough, but
+                             this shuts a pesky warning off: -->
+                        <skipIfEmpty>true</skipIfEmpty>
+                    </configuration>
                     <executions>
                         <execution>
                             <goals>
@@ -255,11 +262,31 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.diffplug.spotless</groupId>
+                    <artifactId>spotless-maven-plugin</artifactId>
+                    <version>3.6.0</version>
                     <configuration>
-                        <!-- We have a couple of modules with no content to jar (e.g. tichu-archunit)
-                             If it happens elsewhere by mistake, we'll figure it out soon enough, but
-                             this shuts a pesky warning off: -->
-                        <skipIfEmpty>true</skipIfEmpty>
+                        <!-- <ratchetFrom>origin/main</ratchetFrom>-->
+                        <java>
+                            <!-- apply a specific flavor of google-java-format and reflow long strings -->
+                            <googleJavaFormat>
+                                <version>1.35.0</version>
+                                <style>AOSP</style>
+                                <reflowLongStrings>true</reflowLongStrings>
+                                <formatJavadoc>false</formatJavadoc>
+                            </googleJavaFormat>
+                            <forbidWildcardImports/>
+                        </java>
+                        <pom>
+                            <includes>
+                                <include>pom.xml</include>
+                            </includes>
+                            <sortPom>
+                                <nrOfIndentSpace>4</nrOfIndentSpace>
+                            </sortPom>
+                        </pom>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -306,6 +333,17 @@
                                 </requireMavenVersion>
                             </rules>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -362,9 +400,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
 </project>

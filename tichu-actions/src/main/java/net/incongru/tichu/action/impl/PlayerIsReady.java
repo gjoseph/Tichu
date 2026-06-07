@@ -13,25 +13,16 @@ class PlayerIsReady implements Action<PlayerIsReadyParam, PlayerIsReadyResult> {
 
     @Override
     public ActionResponse<PlayerIsReadyResult> exec(
-        GameContext ctx,
-        ActionParam.WithActor<PlayerIsReadyParam> param
-    ) {
+            GameContext ctx, ActionParam.WithActor<PlayerIsReadyParam> param) {
         ctx.player(param.actor()).setReady();
         final Game game = ctx.game();
         if (game.players().areAllReady()) {
             game.start(); // TODO do we want to check isReadyToStart?
             game.currentRound().start(); // TODO see net.incongru.tichu.model.Round.start
             return new SimpleResponse<>(
-                param.actor(),
-                ActionType.READY,
-                PlayerIsReadyResult.OK_STARTED
-            );
+                    param.actor(), ActionType.READY, PlayerIsReadyResult.OK_STARTED);
         } else {
-            return new SimpleResponse<>(
-                param.actor(),
-                ActionType.READY,
-                PlayerIsReadyResult.OK
-            );
+            return new SimpleResponse<>(param.actor(), ActionType.READY, PlayerIsReadyResult.OK);
         }
     }
 }

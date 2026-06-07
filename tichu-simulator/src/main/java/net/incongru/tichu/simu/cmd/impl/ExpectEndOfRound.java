@@ -15,9 +15,7 @@ class ExpectEndOfRound implements Simulation.PostActionCommand {
             ctx.log("Round is done, as expected.");
         } else {
             ctx.log("Round is not done.");
-            throw new Simulation.PostActionCommandException(
-                "Round is not done"
-            );
+            throw new Simulation.PostActionCommandException("Round is not done");
         }
     }
 }

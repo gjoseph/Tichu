@@ -17,39 +17,34 @@ class SimulationFileParserTest {
 
     @Test
     void sampleIsLoadable() {
-        final Simulation simu = assertDoesNotThrow(() ->
-            new SimulationFileParser().parse(
-                PathUtil.resource("/SampleScriptedGame.tichu")
-            )
-        );
-        final List<Simulation.ActionAndCommands> actionAndExpectations =
-            simu.actionAndCommands();
+        final Simulation simu =
+                assertDoesNotThrow(
+                        () ->
+                                new SimulationFileParser()
+                                        .parse(PathUtil.resource("/SampleScriptedGame.tichu")));
+        final List<Simulation.ActionAndCommands> actionAndExpectations = simu.actionAndCommands();
         assertThat(actionAndExpectations).hasSize(33);
-        final ActionParam.WithActor actionParam = actionAndExpectations
-            .getFirst()
-            .actionParam();
+        final ActionParam.WithActor actionParam = actionAndExpectations.getFirst().actionParam();
         assertThat(actionParam).isInstanceOf(ActionParam.WithActor.class);
-        assertThat(actionParam.actor()).isEqualTo(UserId.of("dummy")); // actor id for this action is currently hardcoded in ActionLineParsers
+        assertThat(actionParam.actor())
+                .isEqualTo(
+                        UserId.of("dummy")); // actor id for this action is currently hardcoded in
+        // ActionLineParsers
         assertThat(actionParam.param()).isInstanceOf(InitialiseGameParam.class);
-        final Simulation.ActionAndCommands last = Lists.reverse(
-            actionAndExpectations
-        ).getFirst();
-        assertThat(last.actionParam()).isInstanceOf(
-            ActionParam.WithActor.class
-        );
+        final Simulation.ActionAndCommands last = Lists.reverse(actionAndExpectations).getFirst();
+        assertThat(last.actionParam()).isInstanceOf(ActionParam.WithActor.class);
         assertThat(last.actionParam().actor()).isEqualTo(UserId.of("quinn"));
-        assertThat(last.actionParam().param()).isInstanceOf(
-            PlayerPlaysParam.class
-        );
+        assertThat(last.actionParam().param()).isInstanceOf(PlayerPlaysParam.class);
         assertThat(last.commands())
-            .extracting(pac -> pac.getClass().getSimpleName())
-            .containsExactly(
-                "ExpectPlay",
-                "DebugPlayerHand",
-                "DebugPlayerHand",
-                "DebugPlayerHand",
-                "DebugPlayerHand"
-                // "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore", "ExpectGameState"
-            );
+                .extracting(pac -> pac.getClass().getSimpleName())
+                .containsExactly(
+                        "ExpectPlay",
+                        "DebugPlayerHand",
+                        "DebugPlayerHand",
+                        "DebugPlayerHand",
+                        "DebugPlayerHand"
+                        // "ExpectEndOfRound", "ExpectRoundScore", "ExpectTotalScore",
+                        // "ExpectGameState"
+                        );
     }
 }

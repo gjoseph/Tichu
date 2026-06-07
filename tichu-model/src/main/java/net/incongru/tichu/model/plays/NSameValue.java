@@ -26,10 +26,9 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
 
     @Override
     protected boolean canBePlayedAfterTypeSafe(P other) {
-        return (
-            other.getCards().size() == this.getCards().size() && // Not very useful, since we check the class, but at least explicit
-            other.value.playOrder() < this.value.playOrder()
-        );
+        return (other.getCards().size() == this.getCards().size()
+                && // Not very useful, since we check the class, but at least explicit
+                other.value.playOrder() < this.value.playOrder());
     }
 
     @Override
@@ -37,9 +36,7 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
         return name() + " of " + value + "s";
     }
 
-    public abstract static class NSameValuesFactory<
-        P extends Play<P>
-    > implements PlayFactory<P> {
+    public abstract static class NSameValuesFactory<P extends Play<P>> implements PlayFactory<P> {
 
         @Override
         public P is(Set<Card> cards) {
@@ -47,10 +44,7 @@ public abstract class NSameValue<P extends NSameValue> extends AbstractPlay<P> {
                 return null;
             }
 
-            final Collection<CardValue> values = Collections2.transform(
-                cards,
-                Card::val
-            );
+            final Collection<CardValue> values = Collections2.transform(cards, Card::val);
             final Stream<CardValue> distinct = values.stream().distinct();
             if (distinct.count() != 1) {
                 return null;

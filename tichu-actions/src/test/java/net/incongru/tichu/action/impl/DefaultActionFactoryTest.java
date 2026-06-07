@@ -24,34 +24,30 @@ class DefaultActionFactoryTest {
 
     @Test
     void throwsOnCheatDealActionParam() {
-        assertThatThrownBy(() ->
-            actionFactory.actionFor(
-                new CheatDealParam(Collections.singleton(DeckConstants.MahJong))
-            )
-        )
-            .isExactlyInstanceOf(IllegalArgumentException.class)
-            .hasMessage("No action for CheatDealParam");
+        assertThatThrownBy(
+                        () ->
+                                actionFactory.actionFor(
+                                        new CheatDealParam(
+                                                Collections.singleton(DeckConstants.MahJong))))
+                .isExactlyInstanceOf(IllegalArgumentException.class)
+                .hasMessage("No action for CheatDealParam");
     }
 
     @Test
     void initActionIsRealGame() {
         assertThat(
-            actionFactory.actionFor(
-                InitialiseGameParam.withActor(UserId.of("dummy")).param()
-            )
-        )
-            .isInstanceOf(InitialiseGame.class)
-            .isNotInstanceOf(InitialiseSimulatedGame.class);
+                        actionFactory.actionFor(
+                                InitialiseGameParam.withActor(UserId.of("dummy")).param()))
+                .isInstanceOf(InitialiseGame.class)
+                .isNotInstanceOf(InitialiseSimulatedGame.class);
     }
 
     @Test
     void newInstancesOnEachCall() {
-        final Action<InitialiseGameParam, ?> first = actionFactory.actionFor(
-            InitialiseGameParam.withActor(UserId.of("dummy")).param()
-        );
-        final Action<InitialiseGameParam, ?> second = actionFactory.actionFor(
-            InitialiseGameParam.withActor(UserId.of("dummy")).param()
-        );
+        final Action<InitialiseGameParam, ?> first =
+                actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
+        final Action<InitialiseGameParam, ?> second =
+                actionFactory.actionFor(InitialiseGameParam.withActor(UserId.of("dummy")).param());
         assertThat(first).isNotSameAs(second);
     }
 }

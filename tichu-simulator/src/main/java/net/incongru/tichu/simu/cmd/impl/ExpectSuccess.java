@@ -12,10 +12,8 @@ class ExpectSuccess extends AbstractExpectResult<ActionResponse> {
     protected void doExec(SimulatedGameContext ctx, ActionResponse response) {
         if (!response.result().isSuccessful()) {
             throw new Simulation.PostActionCommandException(
-                "Expected '%s' to succeed, but it failed with: %s",
-                response.forAction(),
-                response.result()
-            );
+                    "Expected '%s' to succeed, but it failed with: %s",
+                    response.forAction(), response.result());
         }
     }
 

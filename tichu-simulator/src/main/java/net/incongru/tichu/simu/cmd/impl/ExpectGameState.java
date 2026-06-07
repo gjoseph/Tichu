@@ -9,9 +9,7 @@ class ExpectGameState implements Simulation.PostActionCommand {
 
     private final PostActionCommandFactory.ExpectableGameState expectedGameState;
 
-    ExpectGameState(
-        PostActionCommandFactory.ExpectableGameState expectedGameState
-    ) {
+    ExpectGameState(PostActionCommandFactory.ExpectableGameState expectedGameState) {
         this.expectedGameState = expectedGameState;
     }
 
@@ -22,9 +20,7 @@ class ExpectGameState implements Simulation.PostActionCommand {
             ctx.log("Game is %s, as expected", expectedGameState);
         } else {
             throw new Simulation.PostActionCommandException(
-                "Game was expected to be %s at this point",
-                expectedGameState
-            );
+                    "Game was expected to be %s at this point", expectedGameState);
         }
     }
 }

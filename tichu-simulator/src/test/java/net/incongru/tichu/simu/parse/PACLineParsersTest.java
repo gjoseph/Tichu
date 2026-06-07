@@ -23,7 +23,8 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 class PACLineParsersTest {
 
-    // We return mocks for everything, all we want to check is that the correct factory method is called
+    // We return mocks for everything, all we want to check is that the correct factory method is
+    // called
     // so we just call verify() which is slightly less verbose
     @Mock(answer = Answers.RETURNS_MOCKS)
     private PostActionCommandFactory pacFactory;
@@ -43,9 +44,9 @@ class PACLineParsersTest {
     @Test
     void throwsOnUnknownPostActionCommand() {
         assertThatThrownBy(() -> parsers.parse(t("ice cream")))
-            .isInstanceOf(LineParserException.class)
-            .hasMessageContaining("[ice cream]")
-            .hasMessageContaining("unrecognised post-action-command");
+                .isInstanceOf(LineParserException.class)
+                .hasMessageContaining("[ice cream]")
+                .hasMessageContaining("unrecognised post-action-command");
     }
 
     @Test
@@ -62,19 +63,15 @@ class PACLineParsersTest {
 
     @Test
     void recognisesExpectInvalidPlay() {
-        assertThat(
-            parsers.parse(t("expect invalid-play too weak"))
-        ).isNotNull();
-        verify(pacFactory).expectPlayResult(
-            PostActionCommandFactory.ExpectablePlayResult.TooWeak
-        );
+        assertThat(parsers.parse(t("expect invalid-play too weak"))).isNotNull();
+        verify(pacFactory).expectPlayResult(PostActionCommandFactory.ExpectablePlayResult.TooWeak);
     }
 
     @Test
     void failsOnInvalidExpectedPlay() {
         assertThatThrownBy(() -> parsers.parse(t("expect invalid-play foo")))
-            .isInstanceOf(IllegalArgumentException.class) // TODO LineParserException ?
-            .hasMessageContaining("foo is not a valid ExpectablePlayResult");
+                .isInstanceOf(IllegalArgumentException.class) // TODO LineParserException ?
+                .hasMessageContaining("foo is not a valid ExpectablePlayResult");
     }
 
     @Test
@@ -86,17 +83,13 @@ class PACLineParsersTest {
     @Test
     void recognisesExpectPlayOfType() {
         assertThat(parsers.parse(t("expect played BombOf4"))).isNotNull();
-        verify(pacFactory).expectPlay(
-            PostActionCommandFactory.ExpectablePlay.BombOf4
-        );
+        verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test
     void recognisesExpectPlayOfTypeWithSpacesAndCaseInsensitive() {
         assertThat(parsers.parse(t("expect played bomb OF 4"))).isNotNull();
-        verify(pacFactory).expectPlay(
-            PostActionCommandFactory.ExpectablePlay.BombOf4
-        );
+        verify(pacFactory).expectPlay(PostActionCommandFactory.ExpectablePlay.BombOf4);
     }
 
     @Test
@@ -114,9 +107,7 @@ class PACLineParsersTest {
     @ParameterizedTest
     @MethodSource
     void recognisesExpectGameStatus(
-        String txt,
-        PostActionCommandFactory.ExpectableGameState expectedGameState
-    ) {
+            String txt, PostActionCommandFactory.ExpectableGameState expectedGameState) {
         // game expectations
         // not negates the following (peek)
         // last word is a boolean predicate
@@ -126,31 +117,22 @@ class PACLineParsersTest {
 
     static Stream<Arguments> recognisesExpectGameStatus() {
         return Stream.of(
-            arguments(
-                "expect game ready",
-                PostActionCommandFactory.ExpectableGameState.READY_TO_START
-            ),
-            arguments(
-                "expect game not ready",
-                PostActionCommandFactory.ExpectableGameState.NOT_READY_TO_START
-            ),
-            arguments(
-                "expect game started",
-                PostActionCommandFactory.ExpectableGameState.STARTED
-            ),
-            arguments(
-                "expect game not started",
-                PostActionCommandFactory.ExpectableGameState.NOT_STARTED
-            ),
-            arguments(
-                "expect game done",
-                PostActionCommandFactory.ExpectableGameState.DONE
-            ),
-            arguments(
-                "expect game not ended",
-                PostActionCommandFactory.ExpectableGameState.NOT_DONE
-            )
-        );
+                arguments(
+                        "expect game ready",
+                        PostActionCommandFactory.ExpectableGameState.READY_TO_START),
+                arguments(
+                        "expect game not ready",
+                        PostActionCommandFactory.ExpectableGameState.NOT_READY_TO_START),
+                arguments(
+                        "expect game started",
+                        PostActionCommandFactory.ExpectableGameState.STARTED),
+                arguments(
+                        "expect game not started",
+                        PostActionCommandFactory.ExpectableGameState.NOT_STARTED),
+                arguments("expect game done", PostActionCommandFactory.ExpectableGameState.DONE),
+                arguments(
+                        "expect game not ended",
+                        PostActionCommandFactory.ExpectableGameState.NOT_DONE));
     }
 
     @ParameterizedTest
@@ -162,9 +144,8 @@ class PACLineParsersTest {
 
     static Stream<Arguments> recognisesExpectRoundTeamScores() {
         return Stream.of(
-            arguments("expect round score to be 80:20", new Score(80, 20)),
-            arguments("expect round score 20:80", new Score(20, 80))
-        );
+                arguments("expect round score to be 80:20", new Score(80, 20)),
+                arguments("expect round score 20:80", new Score(20, 80)));
     }
 
     @ParameterizedTest
@@ -176,9 +157,8 @@ class PACLineParsersTest {
 
     static Stream<Arguments> recognisesExpectTotalTeamScores() {
         return Stream.of(
-            arguments("expect total score to be 100:200", new Score(100, 200)),
-            arguments("expect total score 450:300", new Score(450, 300))
-        );
+                arguments("expect total score to be 100:200", new Score(100, 200)),
+                arguments("expect total score 450:300", new Score(450, 300)));
     }
 
     @Test
