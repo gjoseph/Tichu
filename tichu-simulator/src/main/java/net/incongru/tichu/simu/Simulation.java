@@ -11,9 +11,7 @@ import net.incongru.tichu.action.ActionResponse;
  */
 public record Simulation(List<ActionAndCommands> actionAndCommands) {
     public record ActionAndCommands(
-        ActionParam.WithActor actionParam,
-        List<PostActionCommand> commands
-    ) {
+            ActionParam.WithActor actionParam, List<PostActionCommand> commands) {
         public static Builder builder() {
             return new Builder();
         }
@@ -33,14 +31,10 @@ public record Simulation(List<ActionAndCommands> actionAndCommands) {
                 return this;
             }
 
-            public ActionAndCommands buildWithDefaultCommand(
-                PostActionCommand defaultCommand
-            ) {
+            public ActionAndCommands buildWithDefaultCommand(PostActionCommand defaultCommand) {
                 if (commands.isEmpty()) {
                     return new ActionAndCommands(
-                        actionParam,
-                        Collections.singletonList(defaultCommand)
-                    );
+                            actionParam, Collections.singletonList(defaultCommand));
                 } else {
                     return new ActionAndCommands(actionParam, commands);
                 }
@@ -50,7 +44,7 @@ public record Simulation(List<ActionAndCommands> actionAndCommands) {
 
     public interface PostActionCommand {
         void exec(SimulatedGameContext ctx, ActionResponse response)
-            throws PostActionCommandException;
+                throws PostActionCommandException;
     }
 
     public static class PostActionCommandException extends RuntimeException {

@@ -14,34 +14,21 @@ class CheatDeal implements Action<CheatDealParam, CheatDealResult> {
 
     @Override
     public ActionResponse<CheatDealResult> exec(
-        GameContext ctx,
-        ActionParam.WithActor<CheatDealParam> param
-    ) {
+            GameContext ctx, ActionParam.WithActor<CheatDealParam> param) {
         // TODO This is sloppy...
         if (ctx.game().rules().getClass().equals(TichuRules.class)) {
-            throw new IllegalStateException(
-                "Can't cheat-deal with the regular rules class"
-            );
+            throw new IllegalStateException("Can't cheat-deal with the regular rules class");
         }
 
         if (ctx.game().isStarted()) {
             throw new IllegalStateException("Game is already started");
         }
         if (ctx.game().isReadyToStart()) {
-            throw new IllegalStateException(
-                "Game is ready to start, too late to cheat"
-            );
+            throw new IllegalStateException("Game is ready to start, too late to cheat");
         }
         final Player player = ctx.player(param.actor());
-        param
-            .param()
-            .cards()
-            .forEach(c -> player.deal(c));
+        param.param().cards().forEach(c -> player.deal(c));
 
-        return new SimpleResponse<>(
-            param.actor(),
-            ActionType.CHEAT_DEAL,
-            CheatDealResult.OK
-        );
+        return new SimpleResponse<>(param.actor(), ActionType.CHEAT_DEAL, CheatDealResult.OK);
     }
 }

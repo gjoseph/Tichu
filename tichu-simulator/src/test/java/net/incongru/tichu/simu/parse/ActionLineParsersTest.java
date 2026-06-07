@@ -44,7 +44,8 @@ import org.mockito.quality.Strictness;
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 class ActionLineParsersTest {
 
-    // We return mocks for everything, all we want to check is that the correct factory method is called
+    // We return mocks for everything, all we want to check is that the correct factory method is
+    // called
     // so we just call verify() which is slightly less verbose
     @Mock(answer = Answers.RETURNS_MOCKS)
     private ActionFactory actionFactory;
@@ -64,109 +65,75 @@ class ActionLineParsersTest {
     @Test
     void throwsOnUnknownAction() {
         assertThatThrownBy(() -> parsers.parse(t("ice cream")))
-            .isExactlyInstanceOf(LineParserException.class)
-            .hasMessageContaining("[ice cream]")
-            .hasMessageContaining("unrecognised action");
+                .isExactlyInstanceOf(LineParserException.class)
+                .hasMessageContaining("[ice cream]")
+                .hasMessageContaining("unrecognised action");
     }
 
     @Test
     void recognisesInitAction() {
         assertThat(parsers.parse(t("init")))
-            .isInstanceOf(ActionParam.WithActor.class)
-            .satisfies(withActor -> {
-                assertThat(withActor.param()).isInstanceOf(
-                    InitialiseGameParam.class
-                );
-            });
+                .isInstanceOf(ActionParam.WithActor.class)
+                .satisfies(
+                        withActor -> {
+                            assertThat(withActor.param()).isInstanceOf(InitialiseGameParam.class);
+                        });
     }
 
     @ParameterizedTest
     @MethodSource
-    void joinTeamActionIs0Indexed(
-        String txt,
-        String expectedPlayerName,
-        int expectedTeamIndex
-    ) {
-        assertThat(parsers.parse(t(txt))).isEqualTo(
-            JoinTableParam.withActor(
-                UserId.of(expectedPlayerName),
-                expectedTeamIndex
-            )
-        );
+    void joinTeamActionIs0Indexed(String txt, String expectedPlayerName, int expectedTeamIndex) {
+        assertThat(parsers.parse(t(txt)))
+                .isEqualTo(
+                        JoinTableParam.withActor(UserId.of(expectedPlayerName), expectedTeamIndex));
     }
 
     static Stream<Arguments> joinTeamActionIs0Indexed() {
         return Stream.of(
-            arguments("alex joins team 1", "alex", 0),
-            arguments("charlie joins team 2", "charlie", 1)
-        );
+                arguments("alex joins team 1", "alex", 0),
+                arguments("charlie joins team 2", "charlie", 1));
     }
 
     @Test
     void recognisesPlayerIsReady() {
-        assertThat(parsers.parse(t("jules is ready"))).isEqualTo(
-            PlayerIsReadyParam.withActor(UserId.of("jules"))
-        );
+        assertThat(parsers.parse(t("jules is ready")))
+                .isEqualTo(PlayerIsReadyParam.withActor(UserId.of("jules")));
     }
 
     @Test
     void recognisesCheatDeal() {
         assertThat(
-            parsers.parse(
-                t(
-                    "cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10 ,bk,kk,gk,ra"
-                )
-            )
-        ).isEqualTo(
-            CheatDealParam.withActor(
-                UserId.of("quinn"),
-                Set.of(
-                    MahJong,
-                    R2,
-                    B3,
-                    K4,
-                    G5,
-                    R6,
-                    B7,
-                    K8,
-                    G9,
-                    G10,
-                    BK,
-                    KK,
-                    GK,
-                    RA
-                )
-            )
-        );
+                        parsers.parse(
+                                t(
+                                        "cheat-deal quinn _1, r2, b3,k4, g5,       r6,b7,k8,g9,g10"
+                                                + " ,bk,kk,gk,ra")))
+                .isEqualTo(
+                        CheatDealParam.withActor(
+                                UserId.of("quinn"),
+                                Set.of(
+                                        MahJong, R2, B3, K4, G5, R6, B7, K8, G9, G10, BK, KK, GK,
+                                        RA)));
     }
 
     @Test
     void recognisesPlayerPlays() {
-        assertThat(
-            parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8"))
-        ).isEqualTo(
-            PlayerPlaysParam.withActor(
-                UserId.of("alex"),
-                Set.of(MahJong, R2, B3, K4, G5, R6, B7, K8)
-            )
-        );
+        assertThat(parsers.parse(t("alex plays _1,r2,b3,k4,g5,r6,b7,k8")))
+                .isEqualTo(
+                        PlayerPlaysParam.withActor(
+                                UserId.of("alex"), Set.of(MahJong, R2, B3, K4, G5, R6, B7, K8)));
     }
 
     @Test
     void recognisesPlayerPasses() {
-        assertThat(parsers.parse(t("alex passes"))).isEqualTo(
-            PlayerPlaysParam.withActor(
-                UserId.of("alex"),
-                Collections.emptySet()
-            )
-        );
+        assertThat(parsers.parse(t("alex passes")))
+                .isEqualTo(PlayerPlaysParam.withActor(UserId.of("alex"), Collections.emptySet()));
     }
 
     @Test
     void shouldNotAcceptPlayerPlaysWithNoCard() {
         assertThatThrownBy(() -> parsers.parse(t("alex plays   ")))
-            .isInstanceOf(LineParserException.class)
-            .hasMessageContaining("use the '<player> passes' action instead");
+                .isInstanceOf(LineParserException.class)
+                .hasMessageContaining("use the '<player> passes' action instead");
     }
 
     private TokenisedLine t(String line) {

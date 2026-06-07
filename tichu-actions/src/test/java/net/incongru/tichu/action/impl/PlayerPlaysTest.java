@@ -27,92 +27,51 @@ class PlayerPlaysTest {
 
     @Test
     @Disabled(
-        "https://trello.com/c/RuVtOKVf/51-player-who-has-mahjong-should-not-be-able-to-pass-before-playing-the-first-trick"
-    )
+            "https://trello.com/c/RuVtOKVf/51-player-who-has-mahjong-should-not-be-able-to-pass-before-playing-the-first-trick")
     void firstPlayerShouldNotBeAbleToPass() {
-        ctx.withCards(
-            Set.of(),
-            Set.of(),
-            Set.of(MahJong, B2),
-            Set.of()
-        ).allReady();
+        ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
         assertThat(
-            play.exec(
-                ctx,
-                PlayerPlaysParam.withActor(
-                    UserId.of("jules"),
-                    Collections.emptySet()
-                )
-            )
-        ).isErrorPlayResult(INVALID_PLAY /* TODO is this the right error ??*/);
+                        play.exec(
+                                ctx,
+                                PlayerPlaysParam.withActor(
+                                        UserId.of("jules"), Collections.emptySet())))
+                .isErrorPlayResult(INVALID_PLAY /* TODO is this the right error ??*/);
     }
 
     @Test
     void playingWrongCardResultsInError() {
-        ctx.withCards(
-            Set.of(),
-            Set.of(),
-            Set.of(MahJong, B2),
-            Set.of()
-        ).allReady();
+        ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(
-            play.exec(
-                ctx,
-                PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(G9))
-            )
-        ).isErrorPlayResult(NOT_IN_HAND, s ->
-            s.contains("You don't have those cards")
-        );
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(G9))))
+                .isErrorPlayResult(NOT_IN_HAND, s -> s.contains("You don't have those cards"));
     }
 
     @Test
     void playMahjongFirst() {
-        ctx.withCards(
-            Set.of(),
-            Set.of(),
-            Set.of(MahJong, B2),
-            Set.of()
-        ).allReady();
+        ctx.withCards(Set.of(), Set.of(), Set.of(MahJong, B2), Set.of()).allReady();
 
         final PlayerPlays play = new PlayerPlays();
-        assertThat(
-            play.exec(
-                ctx,
-                PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong))
-            )
-        ).isSuccessPlayResult(NEXT_PLAYER_GOES);
+        assertThat(play.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong))))
+                .isSuccessPlayResult(NEXT_PLAYER_GOES);
     }
 
     @Test
     void passing() {
-        ctx.withCards(
-            Set.of(),
-            Set.of(),
-            Set.of(MahJong),
-            Set.of(B2)
-        ).allReady();
+        ctx.withCards(Set.of(), Set.of(), Set.of(MahJong), Set.of(B2)).allReady();
 
         final PlayerPlays play1 = new PlayerPlays();
-        assertThat(
-            play1.exec(
-                ctx,
-                PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong))
-            )
-        ).isSuccessPlayResult(NEXT_PLAYER_GOES);
+        assertThat(play1.exec(ctx, PlayerPlaysParam.withActor(UserId.of("jules"), Set.of(MahJong))))
+                .isSuccessPlayResult(NEXT_PLAYER_GOES);
 
         final PlayerPlays play2 = new PlayerPlays();
         assertThat(
-            play2.exec(
-                ctx,
-                PlayerPlaysParam.withActor(
-                    UserId.of("charlie"),
-                    Collections.emptySet()
-                )
-            )
-        ).isSuccessPlayResult(NEXT_PLAYER_GOES);
+                        play2.exec(
+                                ctx,
+                                PlayerPlaysParam.withActor(
+                                        UserId.of("charlie"), Collections.emptySet())))
+                .isSuccessPlayResult(NEXT_PLAYER_GOES);
     }
 }

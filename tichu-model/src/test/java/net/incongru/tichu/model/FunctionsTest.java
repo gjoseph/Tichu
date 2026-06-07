@@ -48,11 +48,7 @@ class FunctionsTest {
         assertThat(Functions.lastNMatches(dq, 3, i -> i > 5)).isFalse();
 
         // LinkedList is both Deque and List, so cast
-        assertThat(
-            Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 3)
-        ).isTrue();
-        assertThat(
-            Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 5)
-        ).isFalse();
+        assertThat(Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 3)).isTrue();
+        assertThat(Functions.lastNMatches((List<Integer>) dq, 3, i -> i > 5)).isFalse();
     }
 }

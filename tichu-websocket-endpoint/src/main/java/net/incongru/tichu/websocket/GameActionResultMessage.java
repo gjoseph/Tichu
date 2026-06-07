@@ -11,6 +11,5 @@ import org.jspecify.annotations.NonNull;
  * TODO - another type of OutgoingMessage for game results for non-response messages (i.e broadcasts to other players)
  */
 public record GameActionResultMessage(
-    @NonNull @JsonProperty("txId") String clientTxId,
-    @JsonUnwrapped ActionResponse result
-) implements OutgoingMessage {}
+        @NonNull @JsonProperty("txId") String clientTxId, @JsonUnwrapped ActionResponse result)
+        implements OutgoingMessage {}

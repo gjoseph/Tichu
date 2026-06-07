@@ -38,12 +38,10 @@ public class WebSocketServer {
         ctx.addServletMappingDecoded(RoomEndpoint.PATH + "/*", "ws-only");
 
         ctx.addServletContainerInitializer(
-            new WsSci(),
-            Set.of(
-                // Our "pojo" endpoint
-                RoomEndpoint.class
-            )
-        );
+                new WsSci(),
+                Set.of(
+                        // Our "pojo" endpoint
+                        RoomEndpoint.class));
 
         tomcat.getConnector(); // Triggers the creation of the default connector
         tomcat.start();
@@ -67,21 +65,18 @@ public class WebSocketServer {
 
     private static void setupUserRealm(Context ctx) {
         ctx.setRealm(
-            new RealmBase() {
-                @Override
-                protected String getPassword(String username) {
-                    return username;
-                }
+                new RealmBase() {
+                    @Override
+                    protected String getPassword(String username) {
+                        return username;
+                    }
 
-                @Override
-                protected Principal getPrincipal(String username) {
-                    return new GenericPrincipal(
-                        username,
-                        Collections.singletonList("tichu-player-role")
-                    );
-                }
-            }
-        );
+                    @Override
+                    protected Principal getPrincipal(String username) {
+                        return new GenericPrincipal(
+                                username, Collections.singletonList("tichu-player-role"));
+                    }
+                });
     }
 
     private static Iterable<String> appRoles() {

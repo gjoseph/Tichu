@@ -21,17 +21,11 @@ abstract class AbstractExpectScore implements Simulation.PostActionCommand {
             ctx.log("%s score was %s, as expected", scoreType(), expectedScore);
         } else {
             ctx.log(
-                "%s score was %s, instead of the expected %s",
-                scoreType(),
-                score,
-                expectedScore
-            );
+                    "%s score was %s, instead of the expected %s",
+                    scoreType(), score, expectedScore);
             throw new Simulation.PostActionCommandException(
-                "%s score was %s, instead of the expected %s",
-                scoreType(),
-                score,
-                expectedScore
-            );
+                    "%s score was %s, instead of the expected %s",
+                    scoreType(), score, expectedScore);
         }
     }
 

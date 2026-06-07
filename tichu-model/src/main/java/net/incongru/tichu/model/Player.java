@@ -78,18 +78,16 @@ public class Player {
 
     @Override
     public String toString() {
-        return (
-            "Player{" +
-            "id=" +
-            id +
-            ", ready=" +
-            ready +
-            ", hand=" +
-            hand +
-            ", wonCards=" +
-            wonCards +
-            '}'
-        );
+        return ("Player{"
+                + "id="
+                + id
+                + ", ready="
+                + ready
+                + ", hand="
+                + hand
+                + ", wonCards="
+                + wonCards
+                + '}');
     }
 
     public static class Hand {
@@ -123,19 +121,17 @@ public class Player {
         void discard(Set<Card> cards) {
             if (!hasAll(cards)) {
                 throw new IllegalStateException(
-                    "Could not remove cards " + cards + " from player's hand"
-                );
+                        "Could not remove cards " + cards + " from player's hand");
             }
-            // The boolean returned by removeAll does not indicate success, but rather that the collection was mutated
-            // So it's false if cards is empty, OR if cards contains at least one card in hand, but doesn't validate all were in hand
+            // The boolean returned by removeAll does not indicate success, but rather that the
+            // collection was mutated
+            // So it's false if cards is empty, OR if cards contains at least one card in hand, but
+            // doesn't validate all were in hand
             this.cards.removeAll(cards);
         }
 
         public String toDebugString() {
-            return this.cards
-                .stream()
-                .map(Card::name)
-                .collect(Collectors.joining(", "));
+            return this.cards.stream().map(Card::name).collect(Collectors.joining(", "));
         }
     }
 }

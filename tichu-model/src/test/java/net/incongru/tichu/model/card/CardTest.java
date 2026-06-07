@@ -22,18 +22,9 @@ class CardTest {
 
     @Test
     void cardNamesAreOkay() {
-        assertEquals(
-            "Ace of Sword",
-            Card.of(CardNumbers.Ace, CardSuit.Sword).name()
-        );
-        assertEquals(
-            "Queen of Star",
-            Card.of(CardNumbers.Queen, CardSuit.Star).name()
-        );
-        assertEquals(
-            "7 of Pagoda",
-            Card.of(CardNumbers.Seven, CardSuit.Pagoda).name()
-        );
+        assertEquals("Ace of Sword", Card.of(CardNumbers.Ace, CardSuit.Sword).name());
+        assertEquals("Queen of Star", Card.of(CardNumbers.Queen, CardSuit.Star).name());
+        assertEquals("7 of Pagoda", Card.of(CardNumbers.Seven, CardSuit.Pagoda).name());
         assertEquals("Dragon", Card.of(CardSpecials.Dragon).name());
     }
 
@@ -44,46 +35,26 @@ class CardTest {
 
     @Test
     void suitComparatorDoesNotMessUpSpecialCards() {
-        final Card[] array = { Dog, Dragon, MahJong, Phoenix };
-        // We don't really care about the order that much, we just want to make sure the comparator is consistent with equals, i.e does not equal two cards which are not the same
-        assertThat(
-            FluentIterable.from(array).toSortedList(BY_SUIT)
-        ).containsOnly(array);
-        assertThat(
-            FluentIterable.from(array).toSortedSet(BY_SUIT)
-        ).containsOnly(array);
-        assertThat(
-            FluentIterable.from(new CardDeck().allRemaining()).toSortedList(
-                BY_SUIT
-            )
-        ).hasSize(56);
-        assertThat(
-            FluentIterable.from(new CardDeck().allRemaining()).toSortedSet(
-                BY_SUIT
-            )
-        ).hasSize(56);
+        final Card[] array = {Dog, Dragon, MahJong, Phoenix};
+        // We don't really care about the order that much, we just want to make sure the comparator
+        // is consistent with equals, i.e does not equal two cards which are not the same
+        assertThat(FluentIterable.from(array).toSortedList(BY_SUIT)).containsOnly(array);
+        assertThat(FluentIterable.from(array).toSortedSet(BY_SUIT)).containsOnly(array);
+        assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedList(BY_SUIT))
+                .hasSize(56);
+        assertThat(FluentIterable.from(new CardDeck().allRemaining()).toSortedSet(BY_SUIT))
+                .hasSize(56);
     }
 
     @Test
     void predicates() {
         assertThat(CardPredicates.is(CardSpecials.Dog)).accepts(Dog);
-        assertThat(CardPredicates.is(CardSpecials.Dog)).rejects(
-            Jade_Queen,
-            MahJong,
-            Dragon,
-            Phoenix
-        );
+        assertThat(CardPredicates.is(CardSpecials.Dog))
+                .rejects(Jade_Queen, MahJong, Dragon, Phoenix);
 
-        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade)).accepts(
-            Jade_Queen
-        );
-        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade)).rejects(
-            Sword_7,
-            Dog,
-            MahJong,
-            Dragon,
-            Phoenix
-        );
+        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade)).accepts(Jade_Queen);
+        assertThat(CardPredicates.is(CardNumbers.Queen, CardSuit.Jade))
+                .rejects(Sword_7, Dog, MahJong, Dragon, Phoenix);
 
         assertThat(CardPredicates.is(null)).rejects(Dog, Jade_Queen);
         assertThat(CardPredicates.is(null, null)).rejects(Dog, Jade_Queen);

@@ -12,11 +12,10 @@ public class DefaultActionFactory extends AbstractActionFactory {
     @Override
     protected Set<Key<?>> build() {
         return Set.of(
-            key(InitialiseGameParam.class, InitialiseGame::new),
-            key(JoinTableParam.class, JoinTable::new),
-            key(NewTrickParam.class, NewTrick::new),
-            key(PlayerIsReadyParam.class, PlayerIsReady::new),
-            key(PlayerPlaysParam.class, PlayerPlays::new)
-        );
+                key(InitialiseGameParam.class, InitialiseGame::new),
+                key(JoinTableParam.class, JoinTable::new),
+                key(NewTrickParam.class, NewTrick::new),
+                key(PlayerIsReadyParam.class, PlayerIsReady::new),
+                key(PlayerPlaysParam.class, PlayerPlays::new));
     }
 }

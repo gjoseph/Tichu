@@ -21,11 +21,8 @@ public class SessionProvider {
     // TODO send to particular player _in a room_ (so a player could be in multiple rooms)
     void send(UserId userId, OutgoingMessage message) {
         // TODO not efficient at all obvs
-        final Session session = sessions
-            .stream()
-            .filter(s -> getUser(s).equals(userId))
-            .findFirst()
-            .orElseThrow();
+        final Session session =
+                sessions.stream().filter(s -> getUser(s).equals(userId)).findFirst().orElseThrow();
         sendMessage(session, message);
     }
 
@@ -44,12 +41,15 @@ public class SessionProvider {
                 IO.println("SESSION IS CLOSED = " + session);
                 return;
             }
-            session.getAsyncRemote().sendObject(message, result -> {
-                if (!result.isOK()) {
-                    // TODO metrics and logs
-                    result.getException().printStackTrace();
-                }
-            });
+            session.getAsyncRemote()
+                    .sendObject(
+                            message,
+                            result -> {
+                                if (!result.isOK()) {
+                                    // TODO metrics and logs
+                                    result.getException().printStackTrace();
+                                }
+                            });
         }
     }
 

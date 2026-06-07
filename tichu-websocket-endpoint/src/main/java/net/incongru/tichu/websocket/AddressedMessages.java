@@ -33,8 +33,5 @@ class AddressedMessages {
      * @param recipient The recipient for a particular message, null if the message should be sent to all users in the room.
      *                                   TODO: maybe we want stronger typing for "room message", and maybe a single-user message still needs to be scoped to a room (if they play in multiple rooms)
      */
-    record AddressedMessage(
-        @Nullable UserId recipient,
-        @NonNull OutgoingMessage message
-    ) {}
+    record AddressedMessage(@Nullable UserId recipient, @NonNull OutgoingMessage message) {}
 }

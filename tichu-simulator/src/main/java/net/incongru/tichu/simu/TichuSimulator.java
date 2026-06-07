@@ -28,8 +28,7 @@ public class TichuSimulator {
         final SimulatedGameContext ctx = gameContextFactory.newContext();
 
         for (Simulation.ActionAndCommands actionAndCommands : simu.actionAndCommands()) {
-            final ActionParam.WithActor actionParam =
-                actionAndCommands.actionParam();
+            final ActionParam.WithActor actionParam = actionAndCommands.actionParam();
             ctx.log("Executing action: %s", actionParam);
             final Action action = actionFactory.actionFor(actionParam.param());
             final ActionResponse res = action.exec(ctx, actionParam);

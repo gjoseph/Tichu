@@ -31,10 +31,7 @@ public class Round {
             throw new IllegalStateException("Trick in progress");
         }
         // TODO test!!
-        currentTrick = new Trick(
-            game.rules(),
-            game.players().cycleFrom(whoStarts)
-        );
+        currentTrick = new Trick(game.rules(), game.players().cycleFrom(whoStarts));
         return currentTrick;
     }
 
@@ -62,19 +59,16 @@ public class Round {
 
     public boolean isDone() {
         // If more than a player still have hand cards, the round isn't done
-        return (
-            game.players().stream().filter(Functions.EMPTY_HANDED).count() <= 1
-        );
+        return (game.players().stream().filter(Functions.EMPTY_HANDED).count() <= 1);
     }
 
     public Score score() {
         // We could count score before round is done, but isn't that cheating ?
         if (!isDone()) {
-            throw new IllegalStateException(
-                "Can't count score before the round is done"
-            );
+            throw new IllegalStateException("Can't count score before the round is done");
         }
-        //        final Map<Players.Player, Integer> scoresByPlayer = game.players().stream().collect(
+        //        final Map<Players.Player, Integer> scoresByPlayer =
+        // game.players().stream().collect(
         //                Collectors.groupingBy(
         //                        Function.identity(),
         //                        ));
@@ -83,20 +77,16 @@ public class Round {
 
     List<AnnounceResult> announces() {
         if (!isDone()) {
-            throw new IllegalStateException(
-                "Can't count announces made before the round is done"
-            );
+            throw new IllegalStateException("Can't count announces made before the round is done");
         }
-        return announces
-            .stream()
-            .map(announced ->
-                new AnnounceResult(
-                    announced.player(),
-                    announced.announce(),
-                    true /*TODO everybody wins*/
-                )
-            )
-            .collect(Collectors.toList());
+        return announces.stream()
+                .map(
+                        announced ->
+                                new AnnounceResult(
+                                        announced.player(),
+                                        announced.announce(),
+                                        true /*TODO everybody wins*/))
+                .collect(Collectors.toList());
     }
 
     protected void shuffleAndDeal() {
@@ -106,12 +96,16 @@ public class Round {
 
         final CardDeck cardDeck = game.rules().newShuffledDeck();
 
-        // In reality, these loops would be inverted (per card, per player), but this helps controlling draft for simulations
-        // Also, TODO this is drafting in join-order (see Players#players), so not 100% correct wrt rules
-        players.stream().forEach(player -> {
-            for (int c = 0; c < 14; c++) {
-                player.deal(cardDeck.take());
-            }
-        });
+        // In reality, these loops would be inverted (per card, per player), but this helps
+        // controlling draft for simulations
+        // Also, TODO this is drafting in join-order (see Players#players), so not 100% correct wrt
+        // rules
+        players.stream()
+                .forEach(
+                        player -> {
+                            for (int c = 0; c < 14; c++) {
+                                player.deal(cardDeck.take());
+                            }
+                        });
     }
 }

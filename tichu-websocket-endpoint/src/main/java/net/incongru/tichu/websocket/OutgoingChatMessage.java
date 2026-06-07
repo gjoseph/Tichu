@@ -10,7 +10,5 @@ import org.jspecify.annotations.NonNull;
  * TODO - another type of OutgoingMessage for game results for non-response messages? (i.e broadcasts to other players)
  */
 public record OutgoingChatMessage(
-    UserId from,
-    String content,
-    @NonNull @JsonProperty("txId") String clientTxId
-) implements OutgoingMessage {}
+        UserId from, String content, @NonNull @JsonProperty("txId") String clientTxId)
+        implements OutgoingMessage {}

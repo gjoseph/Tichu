@@ -39,126 +39,103 @@ class JacksonSetupTest {
 
     @Test
     void canSerCards() throws JacksonException {
-        final Card[] cards = { DeckConstants.Pagoda_4, DeckConstants.MahJong };
+        final Card[] cards = {DeckConstants.Pagoda_4, DeckConstants.MahJong};
 
-        assertThatJson(objectMapper.writeValueAsString(cards)).isEqualTo(
-            "['B4', '*1']"
-        );
+        assertThatJson(objectMapper.writeValueAsString(cards)).isEqualTo("['B4', '*1']");
     }
 
     @Test
     void canDeserCards() throws JacksonException {
         final String json = "{\"cards\":[\"jade_ace\", \"*d\"]}";
-        final CardArrayWrapper readCards = objectMapper.readValue(
-            json,
-            CardArrayWrapper.class
-        );
-        assertThat(readCards.cards).containsExactlyInAnyOrder(
-            DeckConstants.Jade_Ace,
-            DeckConstants.Dragon
-        );
+        final CardArrayWrapper readCards = objectMapper.readValue(json, CardArrayWrapper.class);
+        assertThat(readCards.cards)
+                .containsExactlyInAnyOrder(DeckConstants.Jade_Ace, DeckConstants.Dragon);
     }
 
     @Test
     void canSerUserId() throws JacksonException {
         final UserId u = UserId.of("test-user");
 
-        assertThatJson(objectMapper.writeValueAsString(u)).isEqualTo(
-            "test-user"
-        );
+        assertThatJson(objectMapper.writeValueAsString(u)).isEqualTo("test-user");
     }
 
     @Test
     void canDeserUserId() throws JacksonException {
         final String json = "{\"user\": \"test-user\"}";
-        final UserIdWrapper readUserId = objectMapper.readValue(
-            json,
-            UserIdWrapper.class
-        );
+        final UserIdWrapper readUserId = objectMapper.readValue(json, UserIdWrapper.class);
         assertThat(readUserId.user).isEqualTo(UserId.of("test-user"));
     }
 
     @Test
     void deserUnknownCardResultsInJacksonException() {
         assertThatThrownBy(() -> objectMapper.readValue("\"foo\"", Card.class))
-            .isInstanceOf(InvalidFormatException.class)
-            .hasMessageContaining("foo is not a valid card name");
+                .isInstanceOf(InvalidFormatException.class)
+                .hasMessageContaining("foo is not a valid card name");
     }
 
     @Test
     void canSerValidActionParam() throws JacksonException {
-        final PlayerPlaysParam play = new PlayerPlaysParam(
-            Set.of(DeckConstants.Star_Ace, DeckConstants.B2)
-        );
-        final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(
-            play
-        );
+        final PlayerPlaysParam play =
+                new PlayerPlaysParam(Set.of(DeckConstants.Star_Ace, DeckConstants.B2));
+        final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(play);
         assertThatJson(objectMapper.writeValueAsString(actionParamWrapper))
-            .when(Option.IGNORING_ARRAY_ORDER)
-            .isEqualTo("{action: {type: 'play', cards: ['RA', 'B2']}}");
+                .when(Option.IGNORING_ARRAY_ORDER)
+                .isEqualTo("{action: {type: 'play', cards: ['RA', 'B2']}}");
     }
 
     @Test
     @Disabled("https://github.com/FasterXML/jackson-databind/issues/436")
     void rejectSerOfUnregisteredActionParamType() {
-        final ActionParam cheat = new CheatDealParam(
-            Set.of(DeckConstants.Star_Ace, DeckConstants.B2)
-        );
-        final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(
-            cheat
-        );
+        final ActionParam cheat =
+                new CheatDealParam(Set.of(DeckConstants.Star_Ace, DeckConstants.B2));
+        final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(cheat);
 
-        assertThatThrownBy(() -> {
-            final String s = objectMapper.writeValueAsString(
-                actionParamWrapper
-            );
-            IO.println("s = " + s);
-        })
-            .isInstanceOf(JacksonException.class)
-            .hasMessage("...");
+        assertThatThrownBy(
+                        () -> {
+                            final String s = objectMapper.writeValueAsString(actionParamWrapper);
+                            IO.println("s = " + s);
+                        })
+                .isInstanceOf(JacksonException.class)
+                .hasMessage("...");
     }
 
     @Test
     void canDeserValidActionParam() throws JacksonException {
         final String json = "{\"type\": \"play\", \"cards\": [\"RA\", \"B2\"]}";
-        assertThat(
-            objectMapper.readValue(json, ActionParam.class)
-        ).isInstanceOfSatisfying(PlayerPlaysParam.class, play -> {
-            assertThat(play.cards()).containsExactlyInAnyOrder(
-                DeckConstants.RA,
-                DeckConstants.B2
-            );
-        });
+        assertThat(objectMapper.readValue(json, ActionParam.class))
+                .isInstanceOfSatisfying(
+                        PlayerPlaysParam.class,
+                        play -> {
+                            assertThat(play.cards())
+                                    .containsExactlyInAnyOrder(DeckConstants.RA, DeckConstants.B2);
+                        });
     }
 
     @ParameterizedTest
     @MethodSource
     void rejectDeserOfUnregisteredActionParamType(String json) {
-        assertThatThrownBy(() ->
-            objectMapper.readValue(json, ActionParam.class)
-        )
-            .isInstanceOf(InvalidTypeIdException.class)
-            .hasMessageContaining("Could not resolve type id");
+        assertThatThrownBy(() -> objectMapper.readValue(json, ActionParam.class))
+                .isInstanceOf(InvalidTypeIdException.class)
+                .hasMessageContaining("Could not resolve type id");
     }
 
     static Stream<Arguments> rejectDeserOfUnregisteredActionParamType() {
         return Stream.of(
-            arguments(
-                "{\"type\": \"cheatDeal\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"
-            ),
-            arguments(
-                "{\"type\": \"ImmutableCheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"
-            ),
-            arguments(
-                "{\"type\": \"CheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"
-            ),
-            arguments(
-                "{\"type\": \"net.incongru.tichu.action.param.ImmutableCheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"
-            ),
-            arguments(
-                "{\"type\": \"net.incongru.tichu.action.param.CheatDealParam\", \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"
-            )
-        );
+                arguments(
+                        "{\"type\": \"cheatDeal\", \"playerName\": \"charlie\", \"cards\": [\"RA\","
+                                + " \"B2\"]}"),
+                arguments(
+                        "{\"type\": \"ImmutableCheatDealParam\", \"playerName\": \"charlie\","
+                                + " \"cards\": [\"RA\", \"B2\"]}"),
+                arguments(
+                        "{\"type\": \"CheatDealParam\", \"playerName\": \"charlie\", \"cards\":"
+                                + " [\"RA\", \"B2\"]}"),
+                arguments(
+                        "{\"type\": \"net.incongru.tichu.action.param.ImmutableCheatDealParam\","
+                                + " \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"),
+                arguments(
+                        "{\"type\": \"net.incongru.tichu.action.param.CheatDealParam\","
+                                + " \"playerName\": \"charlie\", \"cards\": [\"RA\", \"B2\"]}"));
     }
 
     enum KebabTests {
@@ -186,20 +163,17 @@ class JacksonSetupTest {
 
     static class CardArrayWrapper {
 
-        @JsonProperty
-        Card[] cards;
+        @JsonProperty Card[] cards;
     }
 
     static class UserIdWrapper {
 
-        @JsonProperty
-        UserId user;
+        @JsonProperty UserId user;
     }
 
     static class ActionParamWrapper {
 
-        @JsonProperty
-        final ActionParam action;
+        @JsonProperty final ActionParam action;
 
         @JsonCreator
         ActionParamWrapper(ActionParam action) {

@@ -38,17 +38,16 @@ public class Players {
         //        if (Arrays.binarySearch(teams, t) < 0) { TODO
         //            throw new IllegalArgumentException("Team " + t + " is not at this table");
         //        }
-        optGetPlayer(p.id()).ifPresentOrElse(
-            _ -> {
-                throw new IllegalArgumentException(
-                    "Player " + p + " has already joined"
-                );
-            },
-            () -> {
-                t.join(p);
-                players.add(p);
-            }
-        );
+        optGetPlayer(p.id())
+                .ifPresentOrElse(
+                        _ -> {
+                            throw new IllegalArgumentException(
+                                    "Player " + p + " has already joined");
+                        },
+                        () -> {
+                            t.join(p);
+                            players.add(p);
+                        });
     }
 
     public boolean isComplete() {
@@ -74,20 +73,18 @@ public class Players {
 
     public Iterator<Player> cycleFrom(Player whoStarts) {
         if (!players.contains(whoStarts)) {
-            throw new IllegalStateException(
-                whoStarts + " is not at this table"
-            );
+            throw new IllegalStateException(whoStarts + " is not at this table");
         }
         final List<Player> playersOrder = new ArrayList<>();
-        // ... well this works, sure, but player order will never change across the whole game so this feels silly. And won't work with alternative rules.
+        // ... well this works, sure, but player order will never change across the whole game so
+        // this feels silly. And won't work with alternative rules.
         playersOrder.add(teams[0].player(0));
         playersOrder.add(teams[1].player(0));
         playersOrder.add(teams[0].player(1));
         playersOrder.add(teams[1].player(1));
 
-        final PeekingIterator<Player> cycle = Iterators.peekingIterator(
-            Iterators.cycle(playersOrder)
-        );
+        final PeekingIterator<Player> cycle =
+                Iterators.peekingIterator(Iterators.cycle(playersOrder));
         // Skip until we find the right player
         while (cycle.peek() != whoStarts) {
             cycle.next();
@@ -96,26 +93,19 @@ public class Players {
     }
 
     public Player getPlayerById(UserId id) {
-        return optGetPlayer(id).orElseThrow(() ->
-            new IllegalArgumentException("No player with ID " + id)
-        );
+        return optGetPlayer(id)
+                .orElseThrow(() -> new IllegalArgumentException("No player with ID " + id));
     }
 
     private Optional<Player> optGetPlayer(UserId id) {
-        return stream()
-            .filter(player -> player.id().equals(id))
-            .findAny();
+        return stream().filter(player -> player.id().equals(id)).findAny();
     }
 
     /**
      * 0-indexed.
      */
     public Team getTeam(int i) {
-        Preconditions.checkArgument(
-            0 <= i && i < 2,
-            "Team must be 0 or 1, got %s",
-            i
-        );
+        Preconditions.checkArgument(0 <= i && i < 2, "Team must be 0 or 1, got %s", i);
         return teams[i];
     }
 }

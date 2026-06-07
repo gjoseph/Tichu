@@ -4,11 +4,10 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    // our json shapes will have a "messageType" with values as specified below
-    property = "messageType"
-)
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        // our json shapes will have a "messageType" with values as specified below
+        property = "messageType")
 @JsonSubTypes({
     @JsonSubTypes.Type(value = OutgoingChatMessage.class, name = "chat"),
     @JsonSubTypes.Type(value = GameActionResultMessage.class, name = "game"),

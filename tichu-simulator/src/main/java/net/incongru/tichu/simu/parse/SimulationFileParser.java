@@ -21,30 +21,26 @@ public class SimulationFileParser {
     }
 
     public Simulation parse(Path p) throws IOException {
-        final List<Simulation.ActionAndCommands> actionAndCommands =
-            new ArrayList<>();
+        final List<Simulation.ActionAndCommands> actionAndCommands = new ArrayList<>();
         final List<String> lines = SimulationFileLoader.from(p);
         int i = 0;
         while (i < lines.size()) {
             final TokenisedLine tokens = new TokenisedLine(lines.get(i));
             final ActionParam.WithActor param = actionLineParsers.parse(tokens);
             final Simulation.ActionAndCommands.Builder actionAndCommandsBuilder =
-                Simulation.ActionAndCommands.builder().actionParam(param);
+                    Simulation.ActionAndCommands.builder().actionParam(param);
             while (nextLineIsExpectation(lines, i)) {
                 i++;
                 final TokenisedLine cmdTokens = new TokenisedLine(lines.get(i));
-                cmdTokens.pop(0); // strip leading dash -- TODO this whole loop could be improved, but needs test before refactor
-                final Simulation.PostActionCommand cmd = pacLineParsers.parse(
-                    cmdTokens
-                );
+                cmdTokens.pop(
+                        0); // strip leading dash -- TODO this whole loop could be improved, but
+                // needs test before refactor
+                final Simulation.PostActionCommand cmd = pacLineParsers.parse(cmdTokens);
                 actionAndCommandsBuilder.addCommand(cmd);
             }
 
             actionAndCommands.add(
-                actionAndCommandsBuilder.buildWithDefaultCommand(
-                    defaultPostActionCommand()
-                )
-            );
+                    actionAndCommandsBuilder.buildWithDefaultCommand(defaultPostActionCommand()));
             i++;
         }
         return new Simulation(actionAndCommands);

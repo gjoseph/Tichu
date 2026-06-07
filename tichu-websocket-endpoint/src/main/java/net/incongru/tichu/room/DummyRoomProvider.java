@@ -26,9 +26,7 @@ public class DummyRoomProvider implements RoomProvider {
 
     @Override
     public Room newRoom() {
-        throw new IllegalStateException(
-            "This RoomProvider only supports a single room"
-        );
+        throw new IllegalStateException("This RoomProvider only supports a single room");
     }
 
     @Override

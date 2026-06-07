@@ -13,8 +13,8 @@ import org.jspecify.annotations.NonNull;
  * @param actor The user whose message caused the exception.
  */
 public record ErrorMessage(
-    @NonNull Optional<String> clientTxId,
-    // TODO could exceptions be caused without an actor?
-    @NonNull UserId actor,
-    @NonNull String traceId
-) implements OutgoingMessage {}
+        @NonNull Optional<String> clientTxId,
+        // TODO could exceptions be caused without an actor?
+        @NonNull UserId actor,
+        @NonNull String traceId)
+        implements OutgoingMessage {}

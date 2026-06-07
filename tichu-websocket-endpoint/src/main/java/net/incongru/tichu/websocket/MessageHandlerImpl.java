@@ -31,10 +31,7 @@ public class MessageHandlerImpl implements MessageHandler {
     private final RoomProvider roomProvider;
     private final ActionFactory actionFactory;
 
-    public MessageHandlerImpl(
-        SessionProvider sessions,
-        RoomProvider roomProvider
-    ) {
+    public MessageHandlerImpl(SessionProvider sessions, RoomProvider roomProvider) {
         this.sessions = sessions;
         this.roomProvider = roomProvider;
         this.actionFactory = new DefaultActionFactory();
@@ -48,10 +45,9 @@ public class MessageHandlerImpl implements MessageHandler {
 
         roomProvider.getRoom(roomId).enter(user);
 
-        final OutgoingMessage msg = new RoomActivityMessage(
-            getUser(session),
-            RoomActivityMessage.RoomActivity.CONNECTED
-        );
+        final OutgoingMessage msg =
+                new RoomActivityMessage(
+                        getUser(session), RoomActivityMessage.RoomActivity.CONNECTED);
 
         // sessions.broadcast(roomId, message);
         sessions.broadcast(msg);
@@ -59,73 +55,47 @@ public class MessageHandlerImpl implements MessageHandler {
 
     @Override
     public void closeSession(Session session, String roomId) {
-        final OutgoingMessage msg = new RoomActivityMessage(
-            getUser(session),
-            RoomActivityMessage.RoomActivity.DISCONNECTED
-        );
+        final OutgoingMessage msg =
+                new RoomActivityMessage(
+                        getUser(session), RoomActivityMessage.RoomActivity.DISCONNECTED);
         // roomProvider.getRoom(roomId).leave(user);
         sessions.remove(session);
         sessions.broadcast(msg);
     }
 
     @Override
-    public void handleError(
-        Session session,
-        Optional<String> clientTxId,
-        Throwable throwable
-    ) {
+    public void handleError(Session session, Optional<String> clientTxId, Throwable throwable) {
         // TODO proper logs
         final String traceId = UUID.randomUUID().toString();
         IO.println("Exception [%s]: %s ".formatted(traceId, throwable));
         throwable.printStackTrace();
-        final ErrorMessage message = new ErrorMessage(
-            clientTxId,
-            getUser(session),
-            traceId
-        );
+        final ErrorMessage message = new ErrorMessage(clientTxId, getUser(session), traceId);
         // TODO no need to broadcast to the world. Just to the user, or perhaps to the room.
         sessions.broadcast(message);
     }
 
     @Override
-    public void handle(
-        Session session,
-        String roomId,
-        IncomingChatMessage incomingMessage
-    ) {
-        final OutgoingChatMessage message = new OutgoingChatMessage(
-            getUser(session),
-            incomingMessage.content(),
-            incomingMessage.clientTxId()
-        );
+    public void handle(Session session, String roomId, IncomingChatMessage incomingMessage) {
+        final OutgoingChatMessage message =
+                new OutgoingChatMessage(
+                        getUser(session), incomingMessage.content(), incomingMessage.clientTxId());
         sessions.broadcast(message);
     }
 
     @Override
-    public void handle(
-        Session session,
-        String roomId,
-        GameActionMessage gameActionMessage
-    ) {
+    public void handle(Session session, String roomId, GameActionMessage gameActionMessage) {
         final Room room = roomProvider.getRoom(roomId);
         final RoomGameContext ctx = room.gameContext();
 
         final UserId user = getUser(session);
         final ActionParam actionParam = gameActionMessage.action();
-        final ActionParam.WithActor withActor = new ActionParam.WithActor(
-            user,
-            actionParam
-        );
+        final ActionParam.WithActor withActor = new ActionParam.WithActor(user, actionParam);
         final Action action = actionFactory.actionFor(actionParam);
         final ActionResponse res = action.exec(ctx, withActor);
 
         IO.println("%s => %s".formatted(withActor, res.result()));
 
-        final AddressedMessages messageBundle = generateMessages(
-            ctx,
-            gameActionMessage,
-            res
-        );
+        final AddressedMessages messageBundle = generateMessages(ctx, gameActionMessage, res);
         send(sessions, messageBundle);
     }
 
@@ -133,83 +103,72 @@ public class MessageHandlerImpl implements MessageHandler {
      * Generate different messages based on action and response.
      */
     protected AddressedMessages generateMessages(
-        RoomGameContext ctx,
-        GameActionMessage actionMessage,
-        ActionResponse actionResponse
-    ) {
+            RoomGameContext ctx, GameActionMessage actionMessage, ActionResponse actionResponse) {
         final AddressedMessages messageBundle = new AddressedMessages();
         // Actual result should probably be only sent to actor
         // Other table members just receive a log/view of it?
         messageBundle.roomMessage(
-            new GameActionResultMessage(
-                actionMessage.clientTxId(),
-                actionResponse
-            )
-        );
+                new GameActionResultMessage(actionMessage.clientTxId(), actionResponse));
 
-        if (
-            actionResponse.result() == PlayerIsReadyResult.OK_STARTED ||
-            actionResponse.result() == PlayerPlaysResult.NEXT_PLAYER_GOES ||
-            actionResponse.result() == NewTrickResult.OK
-        ) {
+        if (actionResponse.result() == PlayerIsReadyResult.OK_STARTED
+                || actionResponse.result() == PlayerPlaysResult.NEXT_PLAYER_GOES
+                || actionResponse.result() == NewTrickResult.OK) {
             final Game game = ctx.game();
             final Trick trick = game.currentRound().currentTrick();
             final Players players = game.players();
 
             // every player's status, sent to everyone
             final Collection<GameStatusMessage.PlayerStatus> playerStatuses =
-                players
-                    .stream()
-                    .map(p -> {
-                        final GameStatusMessage.PlayerState playerState =
-                            p.isReady()
-                                ? GameStatusMessage.PlayerState.READY
-                                : GameStatusMessage.PlayerState.NOT_READY;
-                        return new GameStatusMessage.PlayerStatus(
-                            p.id(),
-                            playerState,
-                            -1, // team TODO
-                            p.hand().size(),
-                            p.wonCards().size()
-                        );
-                    })
-                    .collect(Collectors.toList());
-            GameStatusMessage message = new GameStatusMessage(
-                playerStatuses,
-                trick.currentPlayer().id(),
-                // TODO enum?
-                trick
-                    .previousNonPass()
-                    .play()
-                    .name(),
-                // TODO
-                Collections.emptyList()
-            );
+                    players.stream()
+                            .map(
+                                    p -> {
+                                        final GameStatusMessage.PlayerState playerState =
+                                                p.isReady()
+                                                        ? GameStatusMessage.PlayerState.READY
+                                                        : GameStatusMessage.PlayerState.NOT_READY;
+                                        return new GameStatusMessage.PlayerStatus(
+                                                p.id(),
+                                                playerState,
+                                                -1, // team TODO
+                                                p.hand().size(),
+                                                p.wonCards().size());
+                                    })
+                            .collect(Collectors.toList());
+            GameStatusMessage message =
+                    new GameStatusMessage(
+                            playerStatuses,
+                            trick.currentPlayer().id(),
+                            // TODO enum?
+                            trick.previousNonPass().play().name(),
+                            // TODO
+                            Collections.emptyList());
             messageBundle.roomMessage(message);
 
             // TODO does this need to be a separate message, or merge it with game state?
             // own hand message for each player
-            players.stream().forEach(p -> {
-                final Player.Hand hand = p.hand();
-                final PlayerHandMessage playerHandMessage =
-                    new PlayerHandMessage(actionMessage.clientTxId(), hand);
-                messageBundle.userMessage(p.id(), playerHandMessage);
-            });
+            players.stream()
+                    .forEach(
+                            p -> {
+                                final Player.Hand hand = p.hand();
+                                final PlayerHandMessage playerHandMessage =
+                                        new PlayerHandMessage(actionMessage.clientTxId(), hand);
+                                messageBundle.userMessage(p.id(), playerHandMessage);
+                            });
         }
 
         return messageBundle;
     }
 
-    private void send(
-        SessionProvider sessions,
-        AddressedMessages messageBundle
-    ) {
-        messageBundle.getMessages().forEach(env -> {
-            if (env.recipient() != null) {
-                sessions.send(env.recipient(), env.message());
-            } else {
-                sessions.broadcast(env.message());
-            }
-        });
+    private void send(SessionProvider sessions, AddressedMessages messageBundle) {
+        messageBundle
+                .getMessages()
+                .forEach(
+                        env -> {
+                            if (env.recipient() != null) {
+                                sessions.send(env.recipient(), env.message());
+                            } else {
+                                sessions.broadcast(env.message());
+                            }
+                        });
     }
 }

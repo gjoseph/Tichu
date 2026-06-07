@@ -35,33 +35,26 @@ class GameTest {
     @Test
     void testBaseGameFlow(SoftAssertions softly) {
         final Game game = new Game(players, new TichuRules());
-        assertThat(game).is(
-            new Condition<>(Game::isReadyToStart, "ready to start")
-        );
+        assertThat(game).is(new Condition<>(Game::isReadyToStart, "ready to start"));
         final Round round = game.start();
         final Trick trick = round.start();
         assertThat(game)
-            .is(new Condition<>(Game::isStarted, "isStarted"))
-            .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
-            .extracting(
-                Game::finishedRounds,
-                as(InstanceOfAssertFactories.list(Game.FinishedRound.class))
-            )
-            .hasSize(0);
+                .is(new Condition<>(Game::isStarted, "isStarted"))
+                .is(not(new Condition<>(Game::isReadyToStart, "isReadyToStart")))
+                .extracting(
+                        Game::finishedRounds,
+                        as(InstanceOfAssertFactories.list(Game.FinishedRound.class)))
+                .hasSize(0);
 
         // hands have been dealt
-        softly
-            .assertThat(alex.hand())
-            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly
-            .assertThat(charlie.hand())
-            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly
-            .assertThat(jules.hand())
-            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
-        softly
-            .assertThat(quinn.hand())
-            .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(alex.hand())
+                .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(charlie.hand())
+                .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(jules.hand())
+                .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
+        softly.assertThat(quinn.hand())
+                .is(new Condition<>(hand -> hand.size() == 14, "has 14 cards"));
     }
 
     @Test

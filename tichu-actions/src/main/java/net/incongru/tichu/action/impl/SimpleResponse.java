@@ -8,9 +8,7 @@ import net.incongru.tichu.model.UserId;
 /**
  * {@link ActionResponse} for actions that don't require additional params in their response.
  */
-public class SimpleResponse<
-    R extends ActionResponse.Result
-> implements ActionResponse<R> {
+public class SimpleResponse<R extends ActionResponse.Result> implements ActionResponse<R> {
 
     private final UserId actor;
     private final Action.ActionType actionType;
@@ -18,25 +16,11 @@ public class SimpleResponse<
     private final Message message;
 
     @VisibleForTesting
-    public SimpleResponse(
-        UserId actor,
-        Action.ActionType actionType,
-        R result
-    ) {
-        this(
-            actor,
-            actionType,
-            result,
-            new Message(actionType + " was " + result)
-        );
+    public SimpleResponse(UserId actor, Action.ActionType actionType, R result) {
+        this(actor, actionType, result, new Message(actionType + " was " + result));
     }
 
-    SimpleResponse(
-        UserId actor,
-        Action.ActionType actionType,
-        R result,
-        Message message
-    ) {
+    SimpleResponse(UserId actor, Action.ActionType actionType, R result, Message message) {
         this.actor = actor;
         this.actionType = actionType;
         this.result = result;
@@ -65,17 +49,15 @@ public class SimpleResponse<
 
     @Override
     public String toString() {
-        return (
-            "SimpleResponse{" +
-            "actor=" +
-            actor +
-            ", actionType=" +
-            actionType +
-            ", result=" +
-            result +
-            ", message=" +
-            message +
-            '}'
-        );
+        return ("SimpleResponse{"
+                + "actor="
+                + actor
+                + ", actionType="
+                + actionType
+                + ", result="
+                + result
+                + ", message="
+                + message
+                + '}');
     }
 }

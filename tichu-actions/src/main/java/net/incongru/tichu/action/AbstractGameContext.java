@@ -13,9 +13,7 @@ public abstract class AbstractGameContext implements GameContext {
     public void newGame(Game game) {
         synchronized (this.lock) {
             if (this.game != null) {
-                throw new IllegalStateException(
-                    "GameContext has already been initialised"
-                );
+                throw new IllegalStateException("GameContext has already been initialised");
             }
             this.game = game;
         }

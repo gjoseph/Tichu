@@ -10,15 +10,11 @@ import net.incongru.tichu.model.Players;
 import net.incongru.tichu.model.Team;
 import net.incongru.tichu.model.TichuRules;
 
-class InitialiseGame
-    implements Action<InitialiseGameParam, InitialiseGameResult>
-{
+class InitialiseGame implements Action<InitialiseGameParam, InitialiseGameResult> {
 
     @Override
     public ActionResponse<InitialiseGameResult> exec(
-        GameContext ctx,
-        ActionParam.WithActor<InitialiseGameParam> param
-    ) {
+            GameContext ctx, ActionParam.WithActor<InitialiseGameParam> param) {
         final Players players = new Players();
         players.add(new Team("Team 1"));
         players.add(new Team("Team 2"));
@@ -28,11 +24,7 @@ class InitialiseGame
 
         // TODO other possible responses:
         // game already started, perhaps team setup, rules, etc
-        return new SimpleResponse<>(
-            param.actor(),
-            ActionType.INIT,
-            InitialiseGameResult.OK
-        );
+        return new SimpleResponse<>(param.actor(), ActionType.INIT, InitialiseGameResult.OK);
     }
 
     protected Game newGame(Players players) {
