@@ -8,3 +8,6 @@ storybook-static/
 
 # not in .gitignore but cbf reformatting intellij files:
 .run/
+# same for lock files
+pnpm-lock.yaml
+
