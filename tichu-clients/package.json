@@ -3,31 +3,26 @@
   "private": true,
   "engines": {
     "node": "24.16.0",
-    "npm": "11.16.0"
+    "pnpm": "11.5.2"
   },
   "devDependencies": {
-    "@prettier/plugin-xml": "3.4.2",
-    "husky": "9.1.7",
-    "prettier": "3.8.3",
-    "prettier-plugin-java": "2.9.7",
-    "pretty-quick": "4.2.2"
+    "@prettier/plugin-xml": "catalog:",
+    "husky": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-java": "catalog:",
+    "pretty-quick": "catalog:"
   },
   "scripts": {
     "prepare": "cd .. && husky tichu-clients/.husky",
-    "build": "npm run build -ws",
-    "test": "npm run test -ws # ⚠️ tichu-web will run tests in watch mode when not on CI",
-    "lint": "npm run build -ws &&  npm run lint -w tichu-web # ⚠️ eslint not currently setup for other packages ⚠️pre-build as a workaround while we figure out module stuff (See #829)",
-    "term-client": "npm run start -w tichu-term-client",
-    "web": "npm run start -w tichu-web",
-    "web-storybook": "npm run storybook -w tichu-web",
-    "web-build-storybook": "npm run build -w tichu-client-ts-lib && npm run build-storybook -w tichu-web",
+    "build": "pnpm run -r build",
+    "test": "pnpm run -r test # ⚠️ tichu-web will run tests in watch mode when not on CI",
+    "lint": "pnpm run -r build && pnpm --filter tichu-web run lint # ⚠️ eslint not currently setup for other packages ⚠️pre-build as a workaround while we figure out module stuff (See #829)",
+    "term-client": "pnpm --filter tichu-term-client run start",
+    "web": "pnpm --filter tichu-web run start",
+    "web-storybook": "pnpm --filter tichu-web run storybook",
+    "web-build-storybook": "pnpm --filter tichu-client-ts-lib run build && pnpm --filter tichu-web run build-storybook",
     "prettier-staged": "pretty-quick --staged --no-restage --write ..",
     "prettier-check-all": "prettier --check .. # not using --workspaces here so we also check the root",
     "prettier-fix-all": "prettier --write .. # not using --workspaces here so we also check the root"
-  },
-  "workspaces": [
-    "packages/tichu-client-ts-lib",
-    "packages/tichu-term-client",
-    "packages/tichu-web"
-  ]
+  }
 }

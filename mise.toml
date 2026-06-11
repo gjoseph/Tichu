@@ -1,7 +1,8 @@
 [tools]
 java = "temurin-25.0.2+10.0.LTS"
 node = "24.16.0"
-npm = "11.16.0"
+# use pnpm via npm because node thinks it's too cool to support older macs https://github.com/pnpm/pnpm/releases/tag/v11.0.5
+"npm:pnpm" = "11.5.2"
 jq = "latest"
 ripgrep = "latest"
 watchexec = "latest"
