@@ -38,6 +38,7 @@
     "typescript": "catalog:"
   },
   "dependencies": {
+    "@inquirer/prompts": "catalog:",
     "@types/fs-extra": "catalog:",
     "commander": "catalog:",
     "fs-extra": "catalog:",
