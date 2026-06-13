@@ -21,7 +21,7 @@ import { Log } from "./log";
 import { DistinctQuestion } from "inquirer";
 import * as prompts from "@inquirer/prompts";
 
-import { IncomingGameStatusMessage } from "tichu-client-ts-lib/lib";
+import { IncomingGameStatusMessage } from "tichu-client-ts-lib";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
   return new TerminalHandler(new Log());

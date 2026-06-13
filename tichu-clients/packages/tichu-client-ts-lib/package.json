@@ -4,6 +4,13 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "development": "./src/index.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "directories": {
     "lib": "lib"
   },
