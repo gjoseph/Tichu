@@ -3,7 +3,7 @@ packages:
 allowBuilds:
   esbuild: false
 catalog:
-  "@ava/typescript": 6.0.0
+  "@ava/typescript": 7.0.0
   "@chromatic-com/storybook": 5.2.1
   "@emotion/react": 11.14.0
   "@emotion/styled": 11.14.1

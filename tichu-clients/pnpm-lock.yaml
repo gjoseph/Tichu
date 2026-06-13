@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     '@ava/typescript':
-      specifier: 6.0.0
-      version: 6.0.0
+      specifier: 7.0.0
+      version: 7.0.0
     '@chromatic-com/storybook':
       specifier: 5.2.1
       version: 5.2.1
@@ -209,7 +209,7 @@ importers:
     devDependencies:
       '@ava/typescript':
         specifier: 'catalog:'
-        version: 6.0.0
+        version: 7.0.0
       '@types/node':
         specifier: 'catalog:'
         version: 24.13.2
@@ -218,7 +218,7 @@ importers:
         version: 8.18.1
       ava:
         specifier: 'catalog:'
-        version: 7.0.0(@ava/typescript@6.0.0)(rollup@2.80.0)
+        version: 7.0.0(@ava/typescript@7.0.0)(rollup@2.80.0)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@6.0.3)
@@ -265,7 +265,7 @@ importers:
     devDependencies:
       '@ava/typescript':
         specifier: 'catalog:'
-        version: 6.0.0
+        version: 7.0.0
       '@types/node':
         specifier: 'catalog:'
         version: 24.13.2
@@ -274,7 +274,7 @@ importers:
         version: 8.18.1
       ava:
         specifier: 'catalog:'
-        version: 7.0.0(@ava/typescript@6.0.0)(rollup@2.80.0)
+        version: 7.0.0(@ava/typescript@7.0.0)(rollup@2.80.0)
       typedoc:
         specifier: 'catalog:'
         version: 0.28.19(typescript@6.0.3)
@@ -418,9 +418,9 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@ava/typescript@6.0.0':
-    resolution: {integrity: sha512-+8oDYc4J5cCaWZh1VUbyc+cegGplJO9FqHpqR4LVAVx8fRLVRaYlC4yyA6cqHJ1vWP23Ff/ECS5U68Zz6OLZlg==}
-    engines: {node: ^20.8 || ^22 || >=24}
+  '@ava/typescript@7.0.0':
+    resolution: {integrity: sha512-0ktzq4/9ya2QoAuVWzl3McpLV9W//Tj+oMonQ4ucgm5l6tQ46aaju/rJL9kzeY5MkG6wzXvFt/MmaLqf9uNC9w==}
+    engines: {node: ^22.20 || ^24.12 || >=25}
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -4380,7 +4380,7 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@ava/typescript@6.0.0':
+  '@ava/typescript@7.0.0':
     dependencies:
       escape-string-regexp: 5.0.0
       execa: 9.6.1
@@ -6031,7 +6031,7 @@ snapshots:
 
   async-sema@3.1.1: {}
 
-  ava@7.0.0(@ava/typescript@6.0.0)(rollup@2.80.0):
+  ava@7.0.0(@ava/typescript@7.0.0)(rollup@2.80.0):
     dependencies:
       '@vercel/nft': 1.10.2(rollup@2.80.0)
       acorn: 8.16.0
@@ -6073,7 +6073,7 @@ snapshots:
       write-file-atomic: 7.0.1
       yargs: 18.0.0
     optionalDependencies:
-      '@ava/typescript': 6.0.0
+      '@ava/typescript': 7.0.0
     transitivePeerDependencies:
       - encoding
       - rollup
