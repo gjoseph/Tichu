@@ -98,11 +98,17 @@
       groupName: "SLF4J packages",
       matchPackageNames: ["/^org.slf4j/"],
     },
-    // Node & npm - both in package.json and .tool-versions
+    // Node & npm - both in package.json and mise.toml
     {
-      matchPackageNames: ["node", "npm"],
+      matchPackageNames: ["node", "@types/node"],
       matchManagers: ["mise", "npm"],
-      groupName: "Node and npm platform",
+      groupName: "Node",
+    },
+    // pnpm - both in package.json and mise.toml
+    {
+      matchPackageNames: ["pnpm", "npm:pnpm"],
+      matchManagers: ["mise", "npm"],
+      groupName: "pnpm",
     },
     // Node packages
     {
@@ -127,10 +133,6 @@
     {
       groupName: "fs-extra",
       matchPackageNames: ["@types/fs-extra", "fs-extra"],
-    },
-    {
-      groupName: "node",
-      matchPackageNames: ["@types/node", "node"],
     },
     {
       groupName: "ws",
