@@ -27,7 +27,7 @@
   "license": "",
   "engines": {
     "node": "24.16.0",
-    "pnpm": "11.5.2"
+    "pnpm": "11.5.3"
   },
   "devDependencies": {
     "@ava/typescript": "catalog:",
