@@ -4,11 +4,18 @@
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "development": "./src/index.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "build": "pnpm run clean:some && tsc --build && ava",
+    "build": "pnpm run clean:some && tsc --build",
     "clean:some": "rm -rf ./lib ./docs",
     "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
     "refresh": "pnpm run clean:all && pnpm install",
@@ -16,7 +23,7 @@
     "tscov:d": "tscov --details",
     "publish-package": "pnpm run build && pnpm publish",
     "docs": "typedoc --out docs ./src",
-    "test": "pnpm run build",
+    "test": "vitest",
     "lint": "eslint src/"
   },
   "keywords": [],
@@ -27,12 +34,11 @@
     "pnpm": "11.5.3"
   },
   "devDependencies": {
-    "@ava/typescript": "catalog:",
     "@types/node": "catalog:",
     "@types/ws": "catalog:",
-    "ava": "catalog:",
     "typedoc": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "dependencies": {
     "@types/fs-extra": "catalog:",
@@ -43,14 +49,6 @@
   },
   "optionalDependencies": {
     "ws": "catalog:"
-  },
-  "ava": {
-    "typescript": {
-      "rewritePaths": {
-        "src/": "lib/"
-      },
-      "compile": false
-    }
   },
   "eslintConfig": {
     "extends": [

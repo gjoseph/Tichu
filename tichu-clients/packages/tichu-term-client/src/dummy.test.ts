@@ -1,5 +1,5 @@
-import test from "ava";
+import { test, expect } from "vitest";
 
-test("now is not the time to add tests to this mess - but i will, or reconfigure ava", (t) => {
-  t.is("foo", "foo");
+test("now is not the time to add tests to this mess - but i will, or reconfigure vitest", () => {
+  expect("foo").toBe("foo");
 });

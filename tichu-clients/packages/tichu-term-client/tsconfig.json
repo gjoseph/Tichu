@@ -19,5 +19,12 @@
     "outDir": "./lib",
     "rootDir": "./src"
   },
-  "exclude": ["node_modules", "lib", "templates"]
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "templates",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }
