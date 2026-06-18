@@ -3,7 +3,7 @@
   "private": true,
   "engines": {
     "node": "24.16.0",
-    "pnpm": "11.6.0"
+    "pnpm": "11.7.0"
   },
   "devDependencies": {
     "@prettier/plugin-xml": "catalog:",
