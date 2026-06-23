@@ -112,8 +112,8 @@ catalogs:
       specifier: 4.1.5
       version: 4.1.5
     nanoid:
-      specifier: 5.1.14
-      version: 5.1.14
+      specifier: 5.1.15
+      version: 5.1.15
     prettier:
       specifier: 3.8.4
       version: 3.8.4
@@ -193,7 +193,7 @@ importers:
         version: 11.3.5
       nanoid:
         specifier: 'catalog:'
-        version: 5.1.14
+        version: 5.1.15
       ts-enum-util:
         specifier: 'catalog:'
         version: 4.1.0
@@ -3046,8 +3046,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@5.1.14:
-    resolution: {integrity: sha512-5c8l8kVzqpnDPaicbEop/fV0Q1w16FmbWtVhMqugTozAwYdlIQojWH5a/M7UfziFmGdQRrUdV+EPzc9Xng3VAQ==}
+  nanoid@5.1.15:
+    resolution: {integrity: sha512-kBg3RpGtIe+RpTbyXwoI6pk5yD7KUiI3sygUqgeBMRst42KmhB4RZC7eiO9Wa1HIpaCCtpE2DJ6OI4Wi5ebwFw==}
     engines: {node: ^18 || >=20}
     hasBin: true
 
@@ -6522,7 +6522,7 @@ snapshots:
 
   nanoid@3.3.12: {}
 
-  nanoid@5.1.14: {}
+  nanoid@5.1.15: {}
 
   natural-compare@1.4.0: {}
 
