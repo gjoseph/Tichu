@@ -38,7 +38,7 @@ catalog:
   inquirer: 14.0.2
   jsdom: 29.1.1
   kleur: 4.1.5
-  nanoid: 5.1.15
+  nanoid: 5.1.16
   prettier: 3.8.4
   prettier-plugin-java: 2.9.7
   pretty-quick: 4.2.2
