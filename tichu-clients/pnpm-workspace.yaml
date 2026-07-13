@@ -6,7 +6,7 @@ catalog:
   "@chromatic-com/storybook": 5.2.1
   "@emotion/react": 11.14.0
   "@emotion/styled": 11.14.1
-  "@eslint/eslintrc": 3.3.5
+  "@eslint/eslintrc": 3.3.6
   "@eslint/js": 10.0.1
   "@inquirer/prompts": ^8.5.2
   "@mui/icons-material": 9.1.1
