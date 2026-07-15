@@ -3,12 +3,7 @@ import { UserId } from "./model";
 import { nanoid } from "nanoid";
 
 export type MessageType =
-  | "activity"
-  | "game"
-  | "status"
-  | "hand"
-  | "chat"
-  | "error";
+  "activity" | "game" | "status" | "hand" | "chat" | "error";
 
 interface Message {
   readonly messageType: MessageType;
@@ -123,9 +118,7 @@ type ActivityType = "coco" | "disconnected";
 export type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
 export type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
 export type JoinResult =
-  | "can-not-join-full-table"
-  | "ok"
-  | "ok-table-is-now-full";
+  "can-not-join-full-table" | "ok" | "ok-table-is-now-full";
 export type PlayerIsReadyResult = "ok" | "ok-started";
 export type PlayResult =
   | "next-player-goes"

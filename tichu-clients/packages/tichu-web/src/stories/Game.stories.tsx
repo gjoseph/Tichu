@@ -14,7 +14,7 @@ export default {
 
 const events = actions("sendMessage");
 
-export const sample_Game = makeStory(() => {
+export const SampleGame = makeStory(() => {
   const hand = [cardFromName("*P"), cardFromName("GJ"), cardFromName("K6")];
   return (
     <Game
@@ -30,7 +30,7 @@ export const sample_Game = makeStory(() => {
   );
 });
 
-export const simulate_room = makeStory(() => {
+export const SimulateRoom = makeStory(() => {
   return <SimuRoom />;
 });
 

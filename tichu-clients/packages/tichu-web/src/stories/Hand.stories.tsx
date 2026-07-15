@@ -12,7 +12,7 @@ export default {
 } as Meta;
 const events = actions("sendCards");
 
-export const sample_Hand = makeStory(() => {
+export const SampleHand = makeStory(() => {
   const hand = [cardFromName("*P"), cardFromName("GJ"), cardFromName("K6")];
   return <Hand cardsInHand={hand} {...events} />;
 });
