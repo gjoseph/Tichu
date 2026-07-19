@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Card } from "tichu-client-ts-lib";
+import React, { type FC } from "react";
+import type { Card } from "tichu-client-ts-lib";
 import { CardSet } from "./CardSet";
 
 const SendButton: FC<{

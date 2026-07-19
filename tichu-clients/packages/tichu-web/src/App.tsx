@@ -1,9 +1,9 @@
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
-import React, { FC } from "react";
+import React, { type FC } from "react";
 import { Room } from "./components/Room";
 import { User } from "./model/User";
 import { useStoredState } from "./react-utils";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme();
 

@@ -1,9 +1,9 @@
-import { actions } from "storybook/actions";
+import type { Args, Meta } from "@storybook/react-vite";
 import React from "react";
+import { actions } from "storybook/actions";
 import { AllCards, cardFromName } from "tichu-client-ts-lib";
 import { CardBack } from "../components/CardBack";
 import { CardView } from "../components/CardView";
-import { Args, Meta } from "@storybook/react-vite";
 import { makeStory } from "./stories";
 
 export default {

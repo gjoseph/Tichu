@@ -1,4 +1,4 @@
-import { Args, ArgTypes, StoryFn } from "@storybook/react";
+import type { Args, ArgTypes, StoryFn } from "@storybook/react";
 
 export const makeStory = (
   storyFn: StoryFn,

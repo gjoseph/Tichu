@@ -1,7 +1,7 @@
+import type { Meta } from "@storybook/react-vite";
 import React from "react";
 import { ActivityLog } from "../components/ActivityLog";
 import { disableControls, makeStory } from "./stories";
-import { Meta } from "@storybook/react-vite";
 
 export default {
   title: "Activity Log",

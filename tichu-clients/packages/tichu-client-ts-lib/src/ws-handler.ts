@@ -1,4 +1,5 @@
-import {
+import type { EnumValueVisitorCore } from "ts-enum-util";
+import type {
   ActivityMessage,
   ErrorMessage,
   IncomingChatMessage,
@@ -9,8 +10,7 @@ import {
   PlayerIsReadyResult,
   PlayResult,
 } from "./messages";
-import { EnumValueVisitorCore } from "ts-enum-util";
-import { SendFunction } from "./ws-client";
+import type { SendFunction } from "./ws-client";
 
 /**
  * WSTichuClient calls this to get an implementation of TichuWebSocketHandler.

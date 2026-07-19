@@ -24,9 +24,9 @@ const detypify = (typedName) =>
 renovateConfig.packageRules = packages
   .map((p) => path.resolve(__dirname, p, "package.json"))
   .map((path) => require(path))
-  .map((package) =>
-    Object.keys(package.dependencies || {}).concat(
-      ...Object.keys(package.devDependencies || {}),
+  .map((pkg) =>
+    Object.keys(pkg.dependencies || {}).concat(
+      ...Object.keys(pkg.devDependencies || {}),
     ),
   )
   .reduce((acc, cur) => [...acc, ...cur], [])

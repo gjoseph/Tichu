@@ -1,6 +1,6 @@
-import React, { FC } from "react";
-import styles from "./Card.module.css";
+import React, { type FC } from "react";
 import { classes } from "../util";
+import styles from "./Card.module.css";
 
 type CardSize = "small" | "regular";
 export const CardBack: FC<{ size: CardSize }> = ({ size }) => {

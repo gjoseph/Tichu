@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { type FC, useState } from "react";
 import styles from "./ActivityLog.module.css";
 
 // The component's model will likely be different from the actual websocket messages:

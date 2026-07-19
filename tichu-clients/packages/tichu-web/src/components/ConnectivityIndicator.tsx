@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { WSTichuClient } from "tichu-client-ts-lib";
+import React, { type FC } from "react";
+import type { WSTichuClient } from "tichu-client-ts-lib";
 import { useNetworkAvailability } from "../react-utils";
 import styles from "./ConnectivityIndicator.module.css";
 

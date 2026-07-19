@@ -4,7 +4,7 @@
 // - dedupe notifications
 // - understand why toolpad doesn't export UseNotifications interface
 
-import {
+import type {
   CloseNotification,
   ShowNotification,
 } from "@toolpad/core/useNotifications";

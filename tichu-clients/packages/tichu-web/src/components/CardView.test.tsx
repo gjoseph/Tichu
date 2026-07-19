@@ -1,8 +1,8 @@
-import React from "react";
 import { render } from "@testing-library/react";
-import { CardView } from "./CardView";
+import React from "react";
 import { cardFromName } from "tichu-client-ts-lib";
-import { test, expect } from "vitest";
+import { expect, test } from "vitest";
+import { CardView } from "./CardView";
 import "@testing-library/jest-dom/vitest";
 
 test("renders the card name", () => {

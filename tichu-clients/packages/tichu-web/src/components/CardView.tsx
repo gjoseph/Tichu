@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Card, CardSuit, SpecialCards } from "tichu-client-ts-lib";
+import React, { type FC } from "react";
+import { type Card, CardSuit, SpecialCards } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import { classes } from "../util";
 import styles from "./Card.module.css";

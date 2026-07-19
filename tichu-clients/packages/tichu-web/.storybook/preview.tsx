@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import type { Preview } from "@storybook/react-vite";
 import React from "react";
-import { Preview } from "@storybook/react-vite";
 
 // TODO this pbly doesn't work anymore since upgrade to sb7/8
 export const parameters = {

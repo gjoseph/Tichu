@@ -1,27 +1,26 @@
+import * as prompts from "@inquirer/prompts";
+import { DistinctQuestion } from "inquirer";
 import {
-  ActivityMessage,
-  Card,
+  type ActivityMessage,
+  type Card,
   cardFromName,
-  ErrorMessage,
-  IncomingChatMessage,
-  IncomingHandMessage,
-  IncomingPlayerPlaysResponse,
+  type ErrorMessage,
+  type IncomingChatMessage,
+  type IncomingGameStatusMessage,
+  type IncomingHandMessage,
+  type IncomingPlayerPlaysResponse,
   JoinParam,
   NewTrickParam,
   OutgoingChatMessage,
   OutgoingGameMessage,
-  OutgoingMessage,
+  type OutgoingMessage,
   PlayerIsReadyParam,
   PlayerPlaysParam,
-  SendFunction,
-  TichuWebSocketHandler,
-  TichuWebSocketHandlerFactory,
+  type SendFunction,
+  type TichuWebSocketHandler,
+  type TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
 import { Log } from "./log";
-import { DistinctQuestion } from "inquirer";
-import * as prompts from "@inquirer/prompts";
-
-import { IncomingGameStatusMessage } from "tichu-client-ts-lib";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
   return new TerminalHandler(new Log());

@@ -1,10 +1,10 @@
+import type { Meta } from "@storybook/react-vite";
 import React from "react";
-import { Game } from "../components/Game";
 import { actions } from "storybook/actions";
 import { cardFromName } from "tichu-client-ts-lib";
+import { Game } from "../components/Game";
 import { GameState } from "../model/GameState";
 import { disableControls, makeStory } from "./stories";
-import { Meta } from "@storybook/react-vite";
 
 export default {
   title: "Game",

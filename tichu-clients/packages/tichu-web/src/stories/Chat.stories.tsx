@@ -1,8 +1,8 @@
+import type { Meta } from "@storybook/react-vite";
 import React, { useState } from "react";
-import { Chat, ChatMessage } from "../components/Chat";
 import { actions } from "storybook/actions";
+import { Chat, type ChatMessage } from "../components/Chat";
 import { disableControls, makeStory } from "./stories";
-import { Meta } from "@storybook/react-vite";
 
 export default {
   title: "Chat",

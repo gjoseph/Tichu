@@ -1,4 +1,4 @@
-import { UserId } from "tichu-client-ts-lib";
+import type { UserId } from "tichu-client-ts-lib";
 
 // Assuming we'll be using something like Auth0, it'll provide an avatar url
 export class User {

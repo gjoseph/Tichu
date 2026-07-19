@@ -1,9 +1,9 @@
+import type { Meta } from "@storybook/react-vite";
 import React from "react";
 import {
   ConnectivityColors,
   ConnectivityIndicator,
 } from "../components/ConnectivityIndicator";
-import { Meta } from "@storybook/react-vite";
 import { disableControls, makeStory } from "./stories";
 
 export default {

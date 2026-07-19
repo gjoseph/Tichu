@@ -1,5 +1,5 @@
+import { describe, expect, test } from "vitest";
 import { classes } from "./util";
-import { describe, test, expect } from "vitest";
 
 describe("classes()", () => {
   test("concats classnames with spaces", () => {

@@ -1,5 +1,5 @@
-import { IncomingPlayerPlaysResponse } from "./messages";
-import { TichuWebSocketHandler } from "./ws-handler";
+import type { IncomingPlayerPlaysResponse } from "./messages";
+import type { TichuWebSocketHandler } from "./ws-handler";
 
 const NOOP = () => {};
 

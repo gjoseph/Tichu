@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import type React from "react";
+import type { FC } from "react";
 import { visitEnumValue } from "ts-enum-util";
 import { classes } from "../util";
 import styles from "./Card.module.css";
 import { CardBack } from "./CardBack";
-import { CardView, OnCardClick } from "./CardView";
-import { SelectableCard } from "./Hand";
+import { CardView, type OnCardClick } from "./CardView";
+import type { SelectableCard } from "./Hand";
 
 type CardSize = "small" | "regular";
 type CardSetLayout = "flat" | "fanned" | "stacked";
