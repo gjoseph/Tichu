@@ -248,7 +248,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.5.0</version>
+                    <version>3.5.1</version>
                     <configuration>
                         <!-- We have a couple of modules with no content to jar (e.g. tichu-archunit)
                              If it happens elsewhere by mistake, we'll figure it out soon enough, but
