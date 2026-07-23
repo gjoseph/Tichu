@@ -94,8 +94,8 @@ catalogs:
       specifier: 7.1.1
       version: 7.1.1
     eslint-plugin-storybook:
-      specifier: 10.5.2
-      version: 10.5.2
+      specifier: 10.5.3
+      version: 10.5.3
     fs-extra:
       specifier: 11.3.6
       version: 11.3.6
@@ -359,7 +359,7 @@ importers:
         version: 7.1.1(eslint@10.7.0)
       eslint-plugin-storybook:
         specifier: 'catalog:'
-        version: 10.5.2(eslint@10.7.0)(storybook@10.5.2(@types/react@19.2.17)(prettier@3.9.5)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
+        version: 10.5.3(eslint@10.7.0)(storybook@10.5.2(@types/react@19.2.17)(prettier@3.9.5)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3)
       jsdom:
         specifier: 'catalog:'
         version: 29.1.1
@@ -2457,11 +2457,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@10.5.2:
-    resolution: {integrity: sha512-BPTbb8OKNAlQ2XubEQ6H1TeHG9nMygLrHC8cSVTfdIat65qbS568WYgNg//zlJWtZ9ZamyVkCp/na+LBbFPseA==}
+  eslint-plugin-storybook@10.5.3:
+    resolution: {integrity: sha512-dreVGgQvTTOvPTrnn71uogs3E7skbODW3Ya1cHxupznzuIofLCzy+7zWJ4ObsEZ1MsOcofQlSaQuV9oJBszLoA==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.5.2
+      storybook: ^10.5.3
 
   eslint-scope@9.1.2:
     resolution: {integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==}
@@ -6014,7 +6014,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@10.5.2(eslint@10.7.0)(storybook@10.5.2(@types/react@19.2.17)(prettier@3.9.5)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3):
+  eslint-plugin-storybook@10.5.3(eslint@10.7.0)(storybook@10.5.2(@types/react@19.2.17)(prettier@3.9.5)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/types': 8.63.0
       '@typescript-eslint/utils': 8.63.0(eslint@10.7.0)(typescript@6.0.3)
