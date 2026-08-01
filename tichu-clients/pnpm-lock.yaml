@@ -97,8 +97,8 @@ catalogs:
       specifier: 10.5.5
       version: 10.5.5
     fs-extra:
-      specifier: 11.3.6
-      version: 11.3.6
+      specifier: 11.4.0
+      version: 11.4.0
     husky:
       specifier: 9.1.7
       version: 9.1.7
@@ -190,7 +190,7 @@ importers:
         version: 11.0.4
       fs-extra:
         specifier: 'catalog:'
-        version: 11.3.6
+        version: 11.4.0
       nanoid:
         specifier: 'catalog:'
         version: 6.0.0
@@ -234,7 +234,7 @@ importers:
         version: 15.0.0
       fs-extra:
         specifier: 'catalog:'
-        version: 11.3.6
+        version: 11.4.0
       inquirer:
         specifier: 'catalog:'
         version: 14.0.2(@types/node@24.13.3)
@@ -2587,8 +2587,8 @@ packages:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
 
-  fs-extra@11.3.6:
-    resolution: {integrity: sha512-w8ZNZr2mKIc7qeNaQ9AVPT1+iFaI+Avd4xudVOvdDJ8VytREi1Ft5Ih7hd9jjehod8vAM5GMsfQ/TpPf4EyoEA==}
+  fs-extra@11.4.0:
+    resolution: {integrity: sha512-EQsFzMUJkCKGr1ePqlYADkIUmHW1s3ZXr5Yqy6wbGrfUCphpl2maM/kyOIRA2HpP3AaFQTZXD4ldjek+nccddA==}
     engines: {node: '>=14.14'}
 
   fsevents@2.3.3:
@@ -6172,7 +6172,7 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
-  fs-extra@11.3.6:
+  fs-extra@11.4.0:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.2.1
