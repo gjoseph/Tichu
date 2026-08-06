@@ -18,7 +18,7 @@ catalog:
   "@storybook/react-vite": 10.5.5
   "@testing-library/jest-dom": 7.0.0
   "@testing-library/react": 16.3.2
-  "@testing-library/user-event": 14.6.1
+  "@testing-library/user-event": 14.6.3
   "@toolpad/core": 0.16.0
   "@types/fs-extra": 11.0.4
   "@types/node": 24.13.3
