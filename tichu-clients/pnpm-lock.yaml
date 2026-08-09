@@ -94,8 +94,8 @@ catalogs:
       specifier: 7.1.1
       version: 7.1.1
     eslint-plugin-storybook:
-      specifier: 10.5.6
-      version: 10.5.6
+      specifier: 10.5.7
+      version: 10.5.7
     fs-extra:
       specifier: 11.4.0
       version: 11.4.0
@@ -359,7 +359,7 @@ importers:
         version: 7.1.1(eslint@10.8.0(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-storybook:
         specifier: 'catalog:'
-        version: 10.5.6(eslint@10.8.0(supports-color@7.2.0))(storybook@10.5.5(@types/react@19.2.18)(prettier@3.9.6)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@7.2.0)(typescript@6.0.3)
+        version: 10.5.7(eslint@10.8.0(supports-color@7.2.0))(storybook@10.5.5(@types/react@19.2.18)(prettier@3.9.6)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@7.2.0)(typescript@6.0.3)
       jsdom:
         specifier: 'catalog:'
         version: 30.0.1
@@ -2456,11 +2456,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@10.5.6:
-    resolution: {integrity: sha512-uOXhNkIH+iTdyViSmWnCrwtapasL57M3nq5yfST1H7y9djRLyuAIfNcf9cPBedc2G1oqI8jn3up/VHdN3y3Btw==}
+  eslint-plugin-storybook@10.5.7:
+    resolution: {integrity: sha512-mLpamG1Rsica2jYbUzIZOEuy7Fm1IMtVLMvvxGTpjTVKUMxTXJsANx3MBpH2VSbGQB8Yzlt5399WL/O07K97Ig==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.5.6
+      storybook: ^10.5.7
 
   eslint-scope@9.1.2:
     resolution: {integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==}
@@ -6024,7 +6024,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@10.5.6(eslint@10.8.0(supports-color@7.2.0))(storybook@10.5.5(@types/react@19.2.18)(prettier@3.9.6)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@7.2.0)(typescript@6.0.3):
+  eslint-plugin-storybook@10.5.7(eslint@10.8.0(supports-color@7.2.0))(storybook@10.5.5(@types/react@19.2.18)(prettier@3.9.6)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/types': 8.65.0
       '@typescript-eslint/utils': 8.65.0(eslint@10.8.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
