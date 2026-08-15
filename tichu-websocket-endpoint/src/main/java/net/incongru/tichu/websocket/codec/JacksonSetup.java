@@ -18,7 +18,6 @@ import net.incongru.tichu.model.UserId;
 import net.incongru.tichu.model.card.Card;
 import net.incongru.tichu.model.util.DeckConstants;
 import org.jspecify.annotations.NonNull;
-import tools.jackson.core.JacksonException;
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.DeserializationFeature;
@@ -171,8 +170,7 @@ public class JacksonSetup {
         }
 
         @Override
-        public void serialize(Enum value, JsonGenerator jgen, SerializationContext context)
-                throws JacksonException {
+        public void serialize(Enum value, JsonGenerator jgen, SerializationContext context) {
             final String kebab = kebab(value);
             jgen.writeString(kebab);
         }

@@ -38,14 +38,14 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerCards() throws JacksonException {
+    void canSerCards() {
         final Card[] cards = {DeckConstants.Pagoda_4, DeckConstants.MahJong};
 
         assertThatJson(objectMapper.writeValueAsString(cards)).isEqualTo("['B4', '*1']");
     }
 
     @Test
-    void canDeserCards() throws JacksonException {
+    void canDeserCards() {
         final String json = "{\"cards\":[\"jade_ace\", \"*d\"]}";
         final CardArrayWrapper readCards = objectMapper.readValue(json, CardArrayWrapper.class);
         assertThat(readCards.cards)
@@ -53,14 +53,14 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerUserId() throws JacksonException {
+    void canSerUserId() {
         final UserId u = UserId.of("test-user");
 
         assertThatJson(objectMapper.writeValueAsString(u)).isEqualTo("test-user");
     }
 
     @Test
-    void canDeserUserId() throws JacksonException {
+    void canDeserUserId() {
         final String json = "{\"user\": \"test-user\"}";
         final UserIdWrapper readUserId = objectMapper.readValue(json, UserIdWrapper.class);
         assertThat(readUserId.user).isEqualTo(UserId.of("test-user"));
@@ -74,7 +74,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canSerValidActionParam() throws JacksonException {
+    void canSerValidActionParam() {
         final PlayerPlaysParam play =
                 new PlayerPlaysParam(Set.of(DeckConstants.Star_Ace, DeckConstants.B2));
         final ActionParamWrapper actionParamWrapper = new ActionParamWrapper(play);
@@ -100,7 +100,7 @@ class JacksonSetupTest {
     }
 
     @Test
-    void canDeserValidActionParam() throws JacksonException {
+    void canDeserValidActionParam() {
         final String json = "{\"type\": \"play\", \"cards\": [\"RA\", \"B2\"]}";
         assertThat(objectMapper.readValue(json, ActionParam.class))
                 .isInstanceOfSatisfying(
