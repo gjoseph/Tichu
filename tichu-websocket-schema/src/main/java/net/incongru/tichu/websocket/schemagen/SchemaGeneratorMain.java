@@ -10,7 +10,6 @@ import com.github.victools.jsonschema.generator.TypeScope;
 import com.github.victools.jsonschema.module.jackson.JacksonSchemaModule;
 import com.github.victools.jsonschema.module.jackson.JsonSubTypesResolver;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import net.incongru.tichu.websocket.IncomingMessage;
@@ -76,6 +75,6 @@ class SchemaGeneratorMain {
         // title, "JSON Schema for " + title);
         final String schemaStr =
                 mapper.writer(SerializationFeature.INDENT_OUTPUT).writeValueAsString(schema);
-        Files.writeString(filePath, schemaStr, StandardCharsets.UTF_8);
+        Files.writeString(filePath, schemaStr);
     }
 }

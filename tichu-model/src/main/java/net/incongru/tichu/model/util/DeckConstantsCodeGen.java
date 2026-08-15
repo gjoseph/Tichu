@@ -3,7 +3,6 @@ package net.incongru.tichu.model.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
@@ -40,7 +39,7 @@ public class DeckConstantsCodeGen {
                 oldSourceCode.replaceFirst(
                         "(?s)(?m)// ==== Start CodeGen(.*)// ==== End CodeGen",
                         newSourceCode.trim());
-        Files.writeString(srcPath, newSrc, StandardCharsets.UTF_8);
+        Files.writeString(srcPath, newSrc);
         IO.println("Written " + srcPath + "(" + newSrc.length() + " chars)");
     }
 
