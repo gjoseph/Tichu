@@ -3,7 +3,7 @@ packages:
 allowBuilds:
   esbuild: false
 catalog:
-  "@chromatic-com/storybook": 5.2.1
+  "@chromatic-com/storybook": 5.3.0
   "@emotion/react": 11.14.0
   "@emotion/styled": 11.14.1
   "@eslint/eslintrc": 3.3.6
