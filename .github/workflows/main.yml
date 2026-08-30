@@ -21,30 +21,25 @@ jobs:
     strategy:
       fail-fast: true # cancel other jobs if one in matrix fails
       matrix:
-        java-version: ["25"]
-        java-distrib: ["temurin", "graalvm"]
         include:
-          # Setting experimental outside the main matrix as a little trick to allow matching partial matrix elements below
-          - experimental: false
-          # Additional job that matches .tool-versions
-          - java-version: "25.0.2+10.0.LTS"
-            java-distrib: temurin
+          # Default job that matches mise.toml
+          - java-version: ""
+            experimental: false
+          - java-version: "temurin-25"
             experimental: false
           # All graalvm jobs are experimental
-          - java-distrib: graalvm
+          - java-version: "graalvm-community-25"
             experimental: true
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-java@v5
-        name: Set up Java environment
+      - uses: jdx/mise-action@v4
+        name: Set up Mise environment
         with:
-          java-version: "${{ matrix.java-version }}"
-          distribution: "${{ matrix.java-distrib }}"
-          cache: "maven"
+          cache: true
       - name: Backend Build
-        run: ./mvnw clean verify -B -V -Darchunit.freeze.store.default.allowStoreUpdate=false
+        run: mise x java@${{ matrix.java-version }} -- ./mvnw clean verify -B -V -Darchunit.freeze.store.default.allowStoreUpdate=false
       - name: OpenRewriteCheck
-        run: ./mvnw rewrite:dryRun -DfailOnDryRunResults=true # Ensure no OpenRewrite rule/change hasn't been committed
+        run: mise x java@${{ matrix.java-version }} -- ./mvnw rewrite:dryRun -DfailOnDryRunResults=true # Ensure no OpenRewrite rule/change hasn't been committed
 
   build-frontend:
     name: Frontend ${{ matrix.npm-command }} 📍
