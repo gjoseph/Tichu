@@ -30,8 +30,8 @@
   "author": "",
   "license": "",
   "engines": {
-    "node": "24.18.1",
-    "pnpm": "11.17.0"
+    "node": "24.20.0",
+    "pnpm": "11.24.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
