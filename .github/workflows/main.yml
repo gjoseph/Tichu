@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-backend:
-    name: Backend w/ Java ${{ matrix.java-version }} ${{ matrix.java-distrib }} ${{ matrix.experimental && '🧪' || '📍' }}
+    name: Backend w/ Java ${{ matrix.java-version-label }} ${{ matrix.experimental && '🧪' || '📍' }}
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }} # if experimental, don't fail the whole job
     strategy:
@@ -24,11 +24,14 @@ jobs:
         include:
           # Default job that matches mise.toml
           - java-version: ""
+            java-version-label: "(default)"
             experimental: false
           - java-version: "temurin-25"
+            java-version-label: "Temurin 25"
             experimental: false
           # All graalvm jobs are experimental
           - java-version: "graalvm-community-25"
+            java-version-label: "GraalVM 25"
             experimental: true
     steps:
       - uses: actions/checkout@v7
