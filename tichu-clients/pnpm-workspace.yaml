@@ -39,7 +39,7 @@ catalog:
   jsdom: 30.0.1
   kleur: 4.1.5
   nanoid: 6.0.1
-  prettier: 3.9.7
+  prettier: 3.9.8
   prettier-plugin-java: 2.10.3
   pretty-quick: 4.2.2
   react: 19.2.8
