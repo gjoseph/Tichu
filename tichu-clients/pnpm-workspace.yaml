@@ -24,7 +24,7 @@ catalog:
   "@types/node": 24.13.6
   "@types/react": 19.2.18
   "@types/react-dom": 19.2.7
-  "@types/ws": 8.18.1
+  "@types/ws": 8.18.2
   "@vitejs/plugin-react": 6.1.1
   commander: 15.0.0
   eslint: 10.10.0
