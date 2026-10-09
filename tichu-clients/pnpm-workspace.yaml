@@ -54,6 +54,6 @@ catalog:
   vite-plugin-eslint: 1.8.1
   vite-plugin-svgr: 5.2.0
   vitest: 5.0.3
-  ws: 8.21.3
+  ws: 8.22.0
 
 cleanupUnusedCatalogs: true
