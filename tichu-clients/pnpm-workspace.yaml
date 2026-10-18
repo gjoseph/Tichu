@@ -9,8 +9,8 @@ catalog:
   "@eslint/eslintrc": 3.3.7
   "@eslint/js": 10.0.1
   "@inquirer/prompts": ^8.5.2
-  "@mui/icons-material": 9.4.0
-  "@mui/material": 9.4.0
+  "@mui/icons-material": 9.5.0
+  "@mui/material": 9.5.0
   "@prettier/plugin-xml": 3.4.2
   "@storybook/addon-docs": 10.6.2
   "@storybook/addon-links": 10.6.2
