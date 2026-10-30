@@ -94,8 +94,8 @@ catalogs:
       specifier: 7.1.1
       version: 7.1.1
     eslint-plugin-storybook:
-      specifier: 10.6.4
-      version: 10.6.4
+      specifier: 10.6.5
+      version: 10.6.5
     fs-extra:
       specifier: 11.4.1
       version: 11.4.1
@@ -359,7 +359,7 @@ importers:
         version: 7.1.1(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)
       eslint-plugin-storybook:
         specifier: 'catalog:'
-        version: 10.6.4(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
+        version: 10.6.5(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       jsdom:
         specifier: 'catalog:'
         version: 30.0.1
@@ -2444,8 +2444,8 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@10.6.4:
-    resolution: {integrity: sha512-gV2/9WDrnYqrHXxIHjH3IEoB6YmbyoguNBP0sO0kQeFOrxNv0e/J9+wER9U6sKLXWJYV9AdraDGCmXYdFaPKXw==}
+  eslint-plugin-storybook@10.6.5:
+    resolution: {integrity: sha512-sQSRwmbqcyGVtjVGUSOPTM5TFjopoit3blQxMcsHeqmmR1PJsciLH/WjgG7CT+u2/F0HMJFsQa+TqJSFDxXwWQ==}
     peerDependencies:
       eslint: '>=8'
 
@@ -5966,7 +5966,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@10.6.4(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
+  eslint-plugin-storybook@10.6.5(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/types': 8.69.0
       '@typescript-eslint/utils': 8.69.0(eslint@10.10.0(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
