@@ -35,7 +35,7 @@ catalog:
   eslint-plugin-storybook: 10.6.7
   fs-extra: 11.4.1
   husky: 9.1.7
-  inquirer: 14.2.5
+  inquirer: 14.3.0
   jsdom: 30.0.1
   kleur: 4.1.5
   nanoid: 6.0.2
