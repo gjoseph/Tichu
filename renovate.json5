@@ -1,6 +1,8 @@
 {
   extends: ["config:recommended"],
-  dependencyDashboard: true,
+  dependencyDashboard: {
+    enabled: true,
+  },
   separateMinorPatch: true,
   separateMultipleMajor: true,
   automerge: false,
@@ -18,22 +20,18 @@
     "renovate-{{datasource}}",
   ],
   packageRules: [
-    // Auto-merge all patch and minor updates
     {
       matchUpdateTypes: ["patch", "minor"],
       automerge: true,
     },
     {
-      // Don't try to update/lookup self:
       enabled: false,
       matchPackageNames: ["/^net.incongru.tichu/"],
     },
-    // Group Maven and Maven-Wrapper upgrades
     {
       matchManagers: ["maven-wrapper"],
       groupName: "Maven",
     },
-    // Java packages rules:
     {
       groupName: "JSON Schema generator packages",
       matchPackageNames: ["/^com.github.victools:jsonschema/"],
@@ -87,19 +85,16 @@
       groupName: "SLF4J packages",
       matchPackageNames: ["/^org.slf4j/"],
     },
-    // Node & npm - both in package.json and mise.toml
     {
       matchPackageNames: ["node", "@types/node"],
       matchManagers: ["mise", "npm"],
       groupName: "Node",
     },
-    // pnpm - both in package.json and mise.toml
     {
       matchPackageNames: ["pnpm", "npm:pnpm"],
       matchManagers: ["mise", "npm"],
       groupName: "pnpm",
     },
-    // Node packages
     {
       groupName: "Material UI packages",
       matchPackageNames: ["/^@material-ui//", "/^@mui//"],
@@ -118,7 +113,6 @@
         "pretty-quick",
       ],
     },
-    // Generated @types rules
     {
       groupName: "fs-extra",
       matchPackageNames: ["@types/fs-extra", "fs-extra"],
