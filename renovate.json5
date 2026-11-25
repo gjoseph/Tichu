@@ -18,9 +18,9 @@
     "renovate-{{datasource}}",
   ],
   packageRules: [
-    // Auto-merge all patch updates
+    // Auto-merge all patch and minor updates
     {
-      matchUpdateTypes: ["patch"],
+      matchUpdateTypes: ["patch", "minor"],
       automerge: true,
     },
     {
@@ -82,17 +82,6 @@
         "/^org.openrewrite.rewrite:/",
         "/^org.openrewrite.recipe:/",
       ],
-    },
-    {
-      groupName: "OpenRewrite packages (auto-merge minor updates)",
-      matchPackageNames: [
-        "/^org.openrewrite:/",
-        "/^org.openrewrite.maven:/",
-        "/^org.openrewrite.rewrite:/",
-        "/^org.openrewrite.recipe:/",
-      ],
-      matchUpdateTypes: "minor",
-      automerge: true,
     },
     {
       groupName: "SLF4J packages",
