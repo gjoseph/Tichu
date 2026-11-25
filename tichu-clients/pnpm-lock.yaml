@@ -160,8 +160,8 @@ catalogs:
       specifier: 5.0.5
       version: 5.0.5
     ws:
-      specifier: 8.21.3
-      version: 8.21.3
+      specifier: 8.23.0
+      version: 8.23.0
 
 importers:
 
@@ -219,7 +219,7 @@ importers:
     optionalDependencies:
       ws:
         specifier: 'catalog:'
-        version: 8.21.3
+        version: 8.23.0
 
   packages/tichu-term-client:
     dependencies:
@@ -252,7 +252,7 @@ importers:
         version: 2.9.1
       ws:
         specifier: 'catalog:'
-        version: 8.21.3
+        version: 8.23.0
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -4058,8 +4058,8 @@ packages:
     resolution: {integrity: sha512-BN22B5eaMMI9UMtjrGd5g5eCYPpCPDUy0FJXbYsaT5zYxjFOckS53SQDE3pWkVoWpHXVb3BrYcEN4Twa55B5cA==}
     engines: {node: '>=0.10.0'}
 
-  ws@8.21.3:
-    resolution: {integrity: sha512-201TZ/kPWxoPr/OKWjquZR1SWKXcvxdH+e1xrx89b3YbmzLMFCLfnaG1HFIgWzJOEWZ7MvpK++odZufgYR50Rw==}
+  ws@8.23.0:
+    resolution: {integrity: sha512-wCkmX8QMOrKjgO8HW2WyDbTSGeqkocxgDzS9iR79rEAexty6/2qzilx3Ag8Tqf9ykop3irLKle0MtVn5qjVnoQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -7523,7 +7523,7 @@ snapshots:
       recast: 0.23.11
       semver: 7.8.2
       use-sync-external-store: 1.6.0(react@19.2.9)
-      ws: 8.21.3
+      ws: 8.23.0
     optionalDependencies:
       '@types/react': 19.2.18
       prettier: 3.10.1
@@ -7893,7 +7893,7 @@ snapshots:
 
   word-wrap@1.2.5: {}
 
-  ws@8.21.3: {}
+  ws@8.23.0: {}
 
   wsl-utils@0.1.0:
     dependencies:
