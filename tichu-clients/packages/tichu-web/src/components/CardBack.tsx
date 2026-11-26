@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import type { FC } from "react";
 import { classes } from "../util";
 import styles from "./Card.module.css";
 

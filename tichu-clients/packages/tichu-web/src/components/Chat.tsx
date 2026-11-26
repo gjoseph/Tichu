@@ -1,5 +1,5 @@
 import { LinearProgress } from "@mui/material";
-import React, { type FC, type FormEvent, useState } from "react";
+import { type FC, type FormEvent, useState } from "react";
 import type { IncomingChatMessage, OnResponse } from "tichu-client-ts-lib";
 // import styles from "./Chat.module.css";
 

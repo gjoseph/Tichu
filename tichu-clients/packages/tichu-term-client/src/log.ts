@@ -8,27 +8,27 @@ export class Log {
   }
 
   control(msg: string) {
-    this.log(kleur.blue("* " + msg));
+    this.log(kleur.blue(`* ${msg}`));
   }
 
   chat(msg: string) {
-    this.log(kleur.green("> " + msg));
+    this.log(kleur.green(`> ${msg}`));
   }
 
   activity(msg: string) {
-    this.log(kleur.magenta("> " + msg));
+    this.log(kleur.magenta(`> ${msg}`));
   }
 
   error(msg: string) {
-    this.log(kleur.red("Error: " + msg));
+    this.log(kleur.red(`Error: ${msg}`));
   }
 
   debug(msg: string) {
     // Check for a debug flag
-    this.log(kleur.yellow("Debug: " + msg));
+    this.log(kleur.yellow(`Debug: ${msg}`));
   }
 
   private log(msg: string) {
-    this.stdout.write(msg + "\n");
+    this.stdout.write(`${msg}\n`);
   }
 }

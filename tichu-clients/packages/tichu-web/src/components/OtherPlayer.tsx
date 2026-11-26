@@ -1,5 +1,5 @@
 import { Paper } from "@mui/material";
-import React, { type FC } from "react";
+import type { FC } from "react";
 import type { User } from "../model/User";
 import { CardBacks } from "./CardSet";
 import styles from "./Game.module.css";

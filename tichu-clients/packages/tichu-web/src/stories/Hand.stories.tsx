@@ -1,5 +1,4 @@
 import type { Meta } from "@storybook/react-vite";
-import React from "react";
 import { actions } from "storybook/actions";
 import { cardFromName } from "tichu-client-ts-lib";
 import { Hand } from "../components/Hand";

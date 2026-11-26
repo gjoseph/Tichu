@@ -20,7 +20,7 @@ export type EventType =
   // for each actionType, we have more possible results:
   | IncomingResult;
 
-export type EventParam<T extends EventType> = {};
+export type EventParam<_T extends EventType> = {};
 
 // Events params are the common properties of browser websocket and the ws package's corresponding events,
 

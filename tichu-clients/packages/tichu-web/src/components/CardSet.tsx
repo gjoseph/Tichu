@@ -121,7 +121,7 @@ export const CardBacks: FC<{
 }> = ({ count, cardSize = "small", layout }) => {
   return (
     <CardSetContainer cardSize={cardSize}>
-      {Array.from(new Array(count), (ignoreNull, idx) => (
+      {Array.from(new Array(count), (_ignoreNull, idx) => (
         <PositionedCardBack
           key={idx}
           idx={idx}

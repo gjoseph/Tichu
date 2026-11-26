@@ -184,7 +184,7 @@ export class WSTichuClient {
         this.waitingForResponse.keys(),
       );
       // Invoke callback
-      this.waitingForResponse.get(msg.txId)!();
+      this.waitingForResponse.get(msg.txId)?.();
       // Remove entry from queue
       this.waitingForResponse.delete(msg.txId);
       this.debug(

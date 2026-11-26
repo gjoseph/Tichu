@@ -3,8 +3,8 @@
 // Generates renovate config to fix @types and package running out of sync
 // See https://github.com/renovatebot/renovate/issues/4893
 
-const path = require("path");
-const fs = require("fs");
+const path = require("node:path");
+const fs = require("node:fs");
 const j5 = require("json5");
 
 // This script lies under scripts/update-renovate.js, therefore the ..
@@ -29,7 +29,7 @@ renovateConfig.packageRules = packages
       ...Object.keys(pkg.devDependencies || {}),
     ),
   )
-  .reduce((acc, cur) => [...acc, ...cur], [])
+  .reduce((acc, cur) => acc.push(cur), [])
   .filter((value, index, self) => self.indexOf(value) === index)
   .filter((dep) => dep.includes("@types/"))
   .map((typesPackage) => ({

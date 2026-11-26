@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import React from "react";
 import { cardFromName } from "tichu-client-ts-lib";
 import { expect, test } from "vitest";
 import { CardView } from "./CardView";

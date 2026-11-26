@@ -4,8 +4,6 @@ import type { TichuWebSocketHandler } from "./ws-handler";
 const NOOP = () => {};
 
 export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
-  constructor() {}
-
   debug = NOOP;
 
   onConnect = NOOP;
@@ -24,7 +22,7 @@ export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
   handleHandMessage = NOOP;
 
   // ==== Game message visitors
-  handleJoin = (isResponse: boolean) => {
+  handleJoin = (_isResponse: boolean) => {
     return {
       "can-not-join-full-table": NOOP,
       ok: NOOP,
@@ -32,7 +30,7 @@ export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
     };
   };
 
-  handleReady = (isResponse: boolean) => {
+  handleReady = (_isResponse: boolean) => {
     return {
       ok: NOOP,
       "ok-started": NOOP,
@@ -40,8 +38,8 @@ export class DummyTichuWebSocketHandler implements TichuWebSocketHandler {
   };
 
   handlePlayResult = (
-    isResponse: boolean,
-    msg: IncomingPlayerPlaysResponse,
+    _isResponse: boolean,
+    _msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
       "next-player-goes": NOOP,

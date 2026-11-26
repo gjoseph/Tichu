@@ -185,7 +185,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
   };
 
   handlePlayResult = (
-    isResponse: boolean,
+    _isResponse: boolean,
     msg: IncomingPlayerPlaysResponse,
   ) => {
     return {

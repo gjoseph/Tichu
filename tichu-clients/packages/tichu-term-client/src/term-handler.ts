@@ -1,5 +1,4 @@
 import * as prompts from "@inquirer/prompts";
-import { DistinctQuestion } from "inquirer";
 import {
   type ActivityMessage,
   type Card,
@@ -52,8 +51,8 @@ class TerminalHandler implements TichuWebSocketHandler {
     process.exit();
   };
 
-  onWebsocketError = (message?: string, error?: any) => {
-    this.log.error("Websocket error: " + message);
+  onWebsocketError = (message?: string, _error?: any) => {
+    this.log.error(`Websocket error: ${message}`);
     process.exit(-1);
   };
 
@@ -96,14 +95,14 @@ class TerminalHandler implements TichuWebSocketHandler {
   }
 
   handleStatusMessage(msg: IncomingGameStatusMessage) {
-    this.log.debug("Received status: " + msg);
+    this.log.debug(`Received status: ${msg}`);
   }
 
   handleHandMessage(msg: IncomingHandMessage) {
     // msg has a txId but we don't really care while "fetching hand" isn't its own action
     // for the originating client, the txId will have been removed from queue with the game message
     // for the other 3 clients, it will be unknown
-    this.log.debug("Received cards: " + msg.hand.cards);
+    this.log.debug(`Received cards: ${msg.hand.cards}`);
     // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
     const cards: Card[] = msg.hand.cards.map(cardFromName);
     this.nextPrompt = this.promptForCards(cards);
@@ -146,7 +145,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   handlePlayResult = (
-    isResponse: boolean,
+    _isResponse: boolean,
     msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
@@ -167,7 +166,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   // ==== Prompts
-  private ask = <T, K extends PromptFunctionKeys>(
+  private ask = <_T, K extends PromptFunctionKeys>(
     type: K,
     // each prompt fn's first type param is the input/config type
     question: Parameters<(typeof prompts)[K]>[0],

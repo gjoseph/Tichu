@@ -1,5 +1,4 @@
 import type { Args, Meta, StoryFn } from "@storybook/react-vite";
-import React from "react";
 import { actions } from "storybook/actions";
 import { AllCards } from "tichu-client-ts-lib";
 import { CardBacks, CardSet } from "../components/CardSet";

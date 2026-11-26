@@ -1,5 +1,4 @@
 import type { Meta } from "@storybook/react-vite";
-import React from "react";
 import { PlayerAvatar } from "../components/PlayerAvatar";
 import { User } from "../model/User";
 import { disableControls, makeStory } from "./stories";
@@ -60,12 +59,12 @@ export const NameDependentBackgroundColor = makeStory(() => (
       <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
     </div>
     <div>
-      Arnold Quartzenegger // same initials but different name, should be
+      Arnold Quartzenegger {/* same initials but different name, should be */}
       different color:
       <PlayerAvatar user={new User("abc-def", "Arnold Quartzenegger")} />
     </div>
     <div>
-      Charlie Jules // is consistent if same name
+      Charlie Jules {/* is consistent if same name */}
       <PlayerAvatar user={new User("abc-def", "Charlie Jules")} />
     </div>
     <div>
