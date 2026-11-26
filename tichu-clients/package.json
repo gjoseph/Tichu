@@ -6,23 +6,18 @@
     "pnpm": "12.23.0"
   },
   "devDependencies": {
-    "@prettier/plugin-xml": "catalog:",
-    "husky": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-java": "catalog:",
-    "pretty-quick": "catalog:"
+    "@biomejs/biome": "catalog:",
+    "husky": "catalog:"
   },
   "scripts": {
     "prepare": "cd .. && husky tichu-clients/.husky",
     "build": "pnpm run -r build",
     "test": "pnpm run -r test # ⚠️ tichu-web will run tests in watch mode when not on CI",
-    "lint": "pnpm run -r build && pnpm --filter tichu-web run lint # ⚠️ eslint not currently setup for other packages ⚠️pre-build as a workaround while we figure out module stuff (See #829)",
+    "lint": "biome check .",
+    "format": "biome format . --write",
     "term-client": "pnpm --filter tichu-term-client run start",
     "web": "pnpm --filter tichu-web run start",
     "web-storybook": "pnpm --filter tichu-web run storybook",
-    "web-build-storybook": "pnpm --filter tichu-client-ts-lib run build && pnpm --filter tichu-web run build-storybook",
-    "prettier-staged": "pretty-quick --staged --no-restage --write ..",
-    "prettier-check-all": "prettier --check .. # not using --workspaces here so we also check the root",
-    "prettier-fix-all": "prettier --write .. # not using --workspaces here so we also check the root"
+    "web-build-storybook": "pnpm --filter tichu-client-ts-lib run build && pnpm --filter tichu-web run build-storybook"
   }
 }
