@@ -9,7 +9,7 @@ cd "${dir0_resolved}"
 
 if [ "$#" -eq 2 ]; then
   NODE_VERSION=$1
-  NPM_VERSION=$2
+  PNPM_VERSION=$2
 else
   echo "🔸 Working out latest versions..."
   CURRENT=$(mise tool node --json | jq -r '.active_versions[0]')
@@ -21,14 +21,15 @@ else
   echo "  ➔ Latest nodejs: $LATEST"
 
   NODE_VERSION=$LATEST_ON_CURRENT_MAJOR
-  NPM_VERSION=$(npm view npm version)
+  # NPM_VERSION=$(npm view npm version)
+  PNPM_VERSION=$(mise latest pnpm)
 fi
 
-echo "🔸 Will update to node ${NODE_VERSION} and npm ${NPM_VERSION} ..."
+echo "🔸 Will update to node ${NODE_VERSION} and pnpm ${PNPM_VERSION} ..."
 
-echo "🔸 Setting node and npm versions in mise.toml ..."
+echo "🔸 Setting node and pnpm versions in mise.toml ..."
 mise use node@"${NODE_VERSION}"
-mise use npm@"${NPM_VERSION}"
+mise use pnpm@"${PNPM_VERSION}"
 
 PACKAGE_JSON_FILES=($(find . -name package.json -not -path '*/node_modules/*'))
 echo Updating .engine in "${PACKAGE_JSON_FILES[@]}" ...
@@ -37,23 +38,23 @@ for PACKAGE_JSON in  "${PACKAGE_JSON_FILES[@]}"; do
   tmp=$(mktemp)
   cat $PACKAGE_JSON | jq ".engines = {
   \"node\" : \"${NODE_VERSION}\",
-  \"npm\" : \"${NPM_VERSION}\"
+  \"pnpm\" : \"${PNPM_VERSION}\"
   }" > "$tmp" && mv "$tmp" $PACKAGE_JSON
   unset tmp
 done
 
 echo 🔸 Refresh engine in lock file
-npm install --ignore-scripts --no-audit --package-lock-only --no-engine-strict
+pnpm install --ignore-scripts --package-lock-only --no-engine-strict #  --no-audit
 
-echo 🔸 Verifying active node and npm version:
+echo 🔸 Verifying active node and pnpm version:
 node --version
-npm --version
+pnpm --version
 
-echo 🔸 Sanity check with npm install
-npm install
+echo 🔸 Sanity check with pnpm install
+pnpm install
 
-echo 🔸 Run prettier check
-npm run prettier-check-all
+echo 🔸 Run lint check
+pnpm run lint
 
 echo "nodeVersion=$NODE_VERSION" >> "$GITHUB_OUTPUT"
 echo "npmVersion=$NPM_VERSION" >> "$GITHUB_OUTPUT"
