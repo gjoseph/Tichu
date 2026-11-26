@@ -1,6 +1,9 @@
 {
-  extends: ["config:recommended"],
-  dependencyDashboard: true,
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:best-practices"],
+  dependencyDashboard: {
+    enabled: true,
+  },
   separateMinorPatch: true,
   separateMultipleMajor: true,
   automerge: false,
