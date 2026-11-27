@@ -1,9 +1,15 @@
-import { Card, CardShortName } from "./cards";
-import { UserId } from "./model";
 import { nanoid } from "nanoid";
 
+import type { Card, CardShortName } from "./cards";
+import type { UserId } from "./model";
+
 export type MessageType =
-  "activity" | "game" | "status" | "hand" | "chat" | "error";
+  | "activity"
+  | "game"
+  | "status"
+  | "hand"
+  | "chat"
+  | "error";
 
 interface Message {
   readonly messageType: MessageType;
@@ -118,7 +124,9 @@ type ActivityType = "coco" | "disconnected";
 export type ActionType = "init" | "join" | "new-trick" | "ready" | "play";
 export type IncomingResult = JoinResult | PlayerIsReadyResult | PlayResult;
 export type JoinResult =
-  "can-not-join-full-table" | "ok" | "ok-table-is-now-full";
+  | "can-not-join-full-table"
+  | "ok"
+  | "ok-table-is-now-full";
 export type PlayerIsReadyResult = "ok" | "ok-started";
 export type PlayResult =
   | "next-player-goes"
@@ -136,8 +144,6 @@ interface GameParam {
 
 export class InitParam implements GameParam {
   readonly type = "init";
-
-  constructor() {}
 }
 
 // join
@@ -150,15 +156,11 @@ export class JoinParam implements GameParam {
 // newTrick
 export class NewTrickParam implements GameParam {
   readonly type = "new-trick";
-
-  constructor() {}
 }
 
 // isReady
 export class PlayerIsReadyParam implements GameParam {
   readonly type = "ready";
-
-  constructor() {}
 }
 
 export class PlayerPlaysParam implements GameParam {

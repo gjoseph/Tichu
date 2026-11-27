@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
@@ -23,7 +23,7 @@ const config: StorybookConfig = {
 
   docs: {},
 
-  async viteFinal(config, options) {
+  async viteFinal(config, _options) {
     //  we'll likely need a way to exclude websocket ("ws") like we did with webpack/craco!?
     return config;
   },
@@ -31,6 +31,6 @@ const config: StorybookConfig = {
 
 export default config;
 
-function getAbsolutePath(value: string): any {
+function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }

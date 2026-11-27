@@ -28,7 +28,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "test": "vitest",
-    "lint": "eslint src/",
+    "lint": "biome check src/",
     "storybook": "storybook dev -p 9009",
     "build-storybook": "storybook build"
   },
@@ -53,24 +53,14 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "catalog:",
-    "@eslint/eslintrc": "catalog:",
-    "@eslint/js": "catalog:",
     "@storybook/addon-docs": "catalog:",
     "@storybook/addon-links": "catalog:",
     "@storybook/react": "catalog:",
     "@storybook/react-vite": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "eslint": "catalog:",
-    "eslint-config-prettier": "catalog:",
-    "eslint-plugin-prettier": "catalog:",
-    "eslint-plugin-react": "catalog:",
-    "eslint-plugin-react-hooks": "catalog:",
-    "eslint-plugin-storybook": "catalog:",
     "jsdom": "catalog:",
     "storybook": "catalog:",
-    "typescript-eslint": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-eslint": "catalog:",
     "vite-plugin-svgr": "catalog:",
     "vitest": "catalog:"
   }

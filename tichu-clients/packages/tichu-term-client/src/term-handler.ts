@@ -1,27 +1,25 @@
+import * as prompts from "@inquirer/prompts";
 import {
-  ActivityMessage,
-  Card,
+  type ActivityMessage,
+  type Card,
   cardFromName,
-  ErrorMessage,
-  IncomingChatMessage,
-  IncomingHandMessage,
-  IncomingPlayerPlaysResponse,
+  type ErrorMessage,
+  type IncomingChatMessage,
+  type IncomingGameStatusMessage,
+  type IncomingHandMessage,
+  type IncomingPlayerPlaysResponse,
   JoinParam,
   NewTrickParam,
   OutgoingChatMessage,
   OutgoingGameMessage,
-  OutgoingMessage,
+  type OutgoingMessage,
   PlayerIsReadyParam,
   PlayerPlaysParam,
-  SendFunction,
-  TichuWebSocketHandler,
-  TichuWebSocketHandlerFactory,
+  type SendFunction,
+  type TichuWebSocketHandler,
+  type TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
 import { Log } from "./log";
-import { DistinctQuestion } from "inquirer";
-import * as prompts from "@inquirer/prompts";
-
-import { IncomingGameStatusMessage } from "tichu-client-ts-lib";
 
 export const newTerminalHandler: TichuWebSocketHandlerFactory = () => {
   return new TerminalHandler(new Log());
@@ -53,8 +51,8 @@ class TerminalHandler implements TichuWebSocketHandler {
     process.exit();
   };
 
-  onWebsocketError = (message?: string, error?: any) => {
-    this.log.error("Websocket error: " + message);
+  onWebsocketError = (message?: string, _error?: unknown) => {
+    this.log.error(`Websocket error: ${message}`);
     process.exit(-1);
   };
 
@@ -97,14 +95,14 @@ class TerminalHandler implements TichuWebSocketHandler {
   }
 
   handleStatusMessage(msg: IncomingGameStatusMessage) {
-    this.log.debug("Received status: " + msg);
+    this.log.debug(`Received status: ${msg}`);
   }
 
   handleHandMessage(msg: IncomingHandMessage) {
     // msg has a txId but we don't really care while "fetching hand" isn't its own action
     // for the originating client, the txId will have been removed from queue with the game message
     // for the other 3 clients, it will be unknown
-    this.log.debug("Received cards: " + msg.hand.cards);
+    this.log.debug(`Received cards: ${msg.hand.cards}`);
     // TODO typing should be in IncomingHandMessage, if we bothered copying the object props into instance rather than cast json
     const cards: Card[] = msg.hand.cards.map(cardFromName);
     this.nextPrompt = this.promptForCards(cards);
@@ -147,7 +145,7 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   handlePlayResult = (
-    isResponse: boolean,
+    _isResponse: boolean,
     msg: IncomingPlayerPlaysResponse,
   ) => {
     return {
@@ -168,13 +166,15 @@ class TerminalHandler implements TichuWebSocketHandler {
   };
 
   // ==== Prompts
-  private ask = <T, K extends PromptFunctionKeys>(
+  private ask = <_T, K extends PromptFunctionKeys>(
     type: K,
     // each prompt fn's first type param is the input/config type
     question: Parameters<(typeof prompts)[K]>[0],
   ) => {
     //: Promise<T> => {
     this.closeCurrentPrompt();
+    // biome-ignore lint/performance/noDynamicNamespaceImportAccess: intentional generic dispatch over prompt types
+    // biome-ignore lint/suspicious/noExplicitAny: cast needed for dynamic dispatch
     const promptFn = prompts[type] as any;
     return promptFn(question, { signal: this.controller.signal });
   };
@@ -192,6 +192,7 @@ class TerminalHandler implements TichuWebSocketHandler {
         { name: "Team #2", value: 1 },
       ],
       message: "Join a team?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.teamId >= 0) {
         return new OutgoingGameMessage(new JoinParam(answers.teamId));
@@ -205,6 +206,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return this.ask("confirm", {
       // name: "ready",
       message: "Are you ready?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.ready) {
         return new OutgoingGameMessage(new PlayerIsReadyParam());
@@ -218,6 +220,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return this.ask("confirm", {
       // name: "ready",
       message: "Kick-off new trick?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.ready) {
         return new OutgoingGameMessage(new NewTrickParam());
@@ -236,6 +239,7 @@ class TerminalHandler implements TichuWebSocketHandler {
       message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
       choices: choices,
       pageSize: 20,
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       return new OutgoingGameMessage(
         PlayerPlaysParam.fromShortNames(answers.cards),
@@ -247,9 +251,9 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = (...msg: any[]) => {
+  debug = (...msg: unknown[]) => {
     const msgStr = msg
-      .map((m: any) => {
+      .map((m: unknown) => {
         if (typeof m !== "string") {
           return JSON.stringify(m, null, 2);
         } else {
@@ -262,6 +266,7 @@ class TerminalHandler implements TichuWebSocketHandler {
 }
 
 type PromptFunctionKeys = {
+  // biome-ignore lint/suspicious/noExplicitAny: utility type to filter function-valued keys
   [K in keyof typeof prompts]: (typeof prompts)[K] extends (...args: any) => any
     ? K
     : never;

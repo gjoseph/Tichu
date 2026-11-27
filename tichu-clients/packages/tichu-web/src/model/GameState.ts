@@ -1,4 +1,4 @@
-import { Card, UserId } from "tichu-client-ts-lib";
+import type { Card, UserId } from "tichu-client-ts-lib";
 
 enum GameStatus {
   WHAT,

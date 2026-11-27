@@ -1,12 +1,20 @@
+[settings]
+lockfile = true
+
 [tools]
 java = "temurin-25.0.3+9.0.LTS"
 node = "24.22.3"
-# use pnpm via npm because node thinks it's too cool to support older macs https://github.com/pnpm/pnpm/releases/tag/v11.0.5
-"npm:pnpm" = "12.23.0"
+pnpm = "12.23.0"
 jq = "latest"
 ripgrep = "latest"
 watchexec = "latest"
 
 [tasks.lint]
+depends = "lint:*"
+
+[tasks."lint:clients"]
 run = "npm run lint"
 dir = "tichu-clients/"
+
+[tasks."lint:backend"]
+run = "./mvnw spotless:check"

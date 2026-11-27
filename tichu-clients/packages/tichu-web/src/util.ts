@@ -14,7 +14,7 @@ export const stringToHslColor = (
   }
 
   const h = hash % 360;
-  return "hsl(" + h + ", " + saturation + "%, " + lightness + "%)";
+  return `hsl(${h}, ${saturation}%, ${lightness}%)`;
 };
 
 export const classes = (...classNames: (string | null | undefined)[]) => {

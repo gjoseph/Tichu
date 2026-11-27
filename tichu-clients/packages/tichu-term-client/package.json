@@ -20,7 +20,7 @@
     "publish-package": "pnpm run build && pnpm publish",
     "docs": "typedoc --out docs ./src",
     "test": "vitest",
-    "lint": "eslint src/"
+    "lint": "biome check src/"
   },
   "keywords": [],
   "author": "",
@@ -47,10 +47,5 @@
     "ts-enum-util": "catalog:",
     "tslib": "catalog:",
     "ws": "catalog:"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended"
-    ]
   }
 }

@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { PlayerAvatar } from "./PlayerAvatar";
-import { User } from "../model/User";
 import { Paper } from "@mui/material";
+import type { FC } from "react";
+import type { User } from "../model/User";
 import { CardBacks } from "./CardSet";
 import styles from "./Game.module.css";
+import { PlayerAvatar } from "./PlayerAvatar";
 
 /**
  * Represents another player at the table - hidden cards, etc.

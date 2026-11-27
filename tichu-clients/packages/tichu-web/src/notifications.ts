@@ -4,7 +4,7 @@
 // - dedupe notifications
 // - understand why toolpad doesn't export UseNotifications interface
 
-import {
+import type {
   CloseNotification,
   ShowNotification,
 } from "@toolpad/core/useNotifications";
@@ -17,10 +17,10 @@ interface NotificationOptions {
   autoHideDuration?: number;
 }
 
-export interface Notifier {
-  // eslint-disable-next-line @typescript-eslint/prefer-function-type
-  (message: string, options?: NotificationOptions): NotificationKey;
-}
+export type Notifier = (
+  message: string,
+  options?: NotificationOptions,
+) => NotificationKey;
 
 export const withToolpad =
   (notifications: UseNotifications): Notifier =>

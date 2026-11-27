@@ -1,8 +1,9 @@
 import { useNotifications } from "@toolpad/core/useNotifications";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import type React from "react";
+import { type FC, useCallback, useEffect, useState } from "react";
 import {
   JoinParam,
-  OnResponse,
+  type OnResponse,
   OutgoingChatMessage,
   OutgoingGameMessage,
   PlayerIsReadyParam,
@@ -11,14 +12,14 @@ import {
 import { visitEnumValue } from "ts-enum-util";
 import { GameState } from "../model/GameState";
 import { RoomState, RoomStatus } from "../model/RoomState";
-import { User } from "../model/User";
+import type { User } from "../model/User";
+import { withToolpad } from "../notifications";
 import { newReactHandler } from "../tichu-ws-handler";
-import { ActivityLog, ActivityLogMessage } from "./ActivityLog";
+import { ActivityLog, type ActivityLogMessage } from "./ActivityLog";
 import { Button } from "./Button";
-import { Chat, ChatMessage } from "./Chat";
+import { Chat, type ChatMessage } from "./Chat";
 import { ConnectivityIndicatorConnected } from "./ConnectivityIndicator";
 import { Game } from "./Game";
-import { withToolpad } from "../notifications";
 
 type PossibleWSTichuClient = WSTichuClient | undefined;
 export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
@@ -30,7 +31,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
     new GameState(undefined, [], []),
   );
 
-  const [chatMessages, setChatMessages] = useState(new Array<ChatMessage>());
+  const [chatMessages, setChatMessages] = useState([] as ChatMessage[]);
   const newChatMessage = (newMessage: ChatMessage) => {
     setChatMessages((currentMessages) => [...currentMessages, newMessage]);
   };
@@ -38,9 +39,7 @@ export const Room: FC<{ user: User; websocketUrl: string }> = (props) => {
     wsClient?.send(new OutgoingChatMessage(text), onResponse);
   };
 
-  const [activityLog, setActivityLog] = useState(
-    new Array<ActivityLogMessage>(),
-  );
+  const [activityLog, setActivityLog] = useState([] as ActivityLogMessage[]);
   const newActivity = (newAct: ActivityLogMessage) => {
     setActivityLog((current) => [...current, newAct]);
   };

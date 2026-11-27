@@ -1,2 +1,2 @@
 cd tichu-clients
-npx --no-install pretty-quick --staged --check
+pnpm exec biome check --staged

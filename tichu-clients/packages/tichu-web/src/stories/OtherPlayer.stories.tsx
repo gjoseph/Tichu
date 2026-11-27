@@ -1,7 +1,6 @@
-import React from "react";
+import type { Meta } from "@storybook/react-vite";
 import { OtherPlayer } from "../components/OtherPlayer";
 import { User } from "../model/User";
-import { Meta } from "@storybook/react-vite";
 import { disableControls, makeStory } from "./stories";
 
 export default {

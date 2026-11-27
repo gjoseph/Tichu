@@ -1,20 +1,20 @@
 import {
-  ActivityMessage,
-  Card,
+  type ActivityMessage,
+  type Card,
   cardFromName,
-  ErrorMessage,
-  IncomingChatMessage,
-  IncomingGameStatusMessage,
-  IncomingHandMessage,
-  IncomingPlayerPlaysResponse,
-  TichuWebSocketHandler,
-  TichuWebSocketHandlerFactory,
+  type ErrorMessage,
+  type IncomingChatMessage,
+  type IncomingGameStatusMessage,
+  type IncomingHandMessage,
+  type IncomingPlayerPlaysResponse,
+  type TichuWebSocketHandler,
+  type TichuWebSocketHandlerFactory,
 } from "tichu-client-ts-lib";
-import { ActivityLogMessage } from "./components/ActivityLog";
+import type { ActivityLogMessage } from "./components/ActivityLog";
 import { Log } from "./Log";
 import { GameState } from "./model/GameState";
 import { RoomState, RoomStatus } from "./model/RoomState";
-import { Notifier } from "./notifications";
+import type { Notifier } from "./notifications";
 
 // Callbacks given by Room/Game
 type SetRoomState = (fn: (oldState: RoomState) => RoomState) => void; //SetRoomStateNewOnly & SetRoomStateOldToNew;
@@ -185,7 +185,7 @@ class ReactAppHandler implements TichuWebSocketHandler {
   };
 
   handlePlayResult = (
-    isResponse: boolean,
+    _isResponse: boolean,
     msg: IncomingPlayerPlaysResponse,
   ) => {
     return {

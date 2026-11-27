@@ -1,7 +1,7 @@
-import { defineConfig } from "vitest/config";
 import reactRefresh from "@vitejs/plugin-react";
 // import eslint from "vite-plugin-eslint";
 import svgrPlugin from "vite-plugin-svgr";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [

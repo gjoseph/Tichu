@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Card, CardSuit, SpecialCards } from "tichu-client-ts-lib";
+import type { FC } from "react";
+import { type Card, CardSuit, SpecialCards } from "tichu-client-ts-lib";
 import { mapEnumValue } from "ts-enum-util";
 import { classes } from "../util";
 import styles from "./Card.module.css";
@@ -62,11 +62,11 @@ export const CardView: FC<CardViewProps> = ({
     styles[size],
   );
   return (
-    <div className={cssClass} onClick={handleClick}>
+    <button type="button" className={cssClass} onClick={handleClick}>
       <div className={styles.cardShortName} style={{ color: color }}>
         {symbol}
       </div>
       <div className={styles.cardName}>{card.name}</div>
-    </div>
+    </button>
   );
 };

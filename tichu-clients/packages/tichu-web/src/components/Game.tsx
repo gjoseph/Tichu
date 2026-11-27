@@ -1,14 +1,15 @@
-import React, { FC } from "react";
-import styles from "./Game.module.css";
-import { Hand } from "./Hand";
+import type React from "react";
+import type { FC } from "react";
 import {
-  Card,
+  type Card,
   OutgoingGameMessage,
   PlayerPlaysParam,
-  SendFunction,
+  type SendFunction,
 } from "tichu-client-ts-lib";
-import { GameState } from "../model/GameState";
+import type { GameState } from "../model/GameState";
 import { User } from "../model/User";
+import styles from "./Game.module.css";
+import { Hand } from "./Hand";
 import { OtherPlayer } from "./OtherPlayer";
 
 /**

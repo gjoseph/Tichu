@@ -1,4 +1,4 @@
-import { ActivityLogMessage } from "./components/ActivityLog";
+import type { ActivityLogMessage } from "./components/ActivityLog";
 
 export class Log {
   constructor(

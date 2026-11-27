@@ -1,4 +1,16 @@
+import { visitEnumValue } from "ts-enum-util";
 import {
+  type Callback,
+  EventDispatcher,
+  type EventParam,
+  type EventType,
+  type OnCloseParams,
+  type OnErrorParams,
+  type OnOpenParams,
+  type OnReceiveParams,
+  type OnSendParams,
+} from "./events";
+import type {
   ActivityMessage,
   ErrorMessage,
   IncomingChatMessage,
@@ -12,23 +24,11 @@ import {
   PlayerIsReadyResult,
   PlayResult,
 } from "./messages";
-import { visitEnumValue } from "ts-enum-util";
-import {
+import type {
   TichuWebSocketHandler,
   TichuWebSocketHandlerFactory,
 } from "./ws-handler";
-import {
-  Callback,
-  EventDispatcher,
-  EventParam,
-  EventType,
-  OnCloseParams,
-  OnErrorParams,
-  OnOpenParams,
-  OnReceiveParams,
-  OnSendParams,
-} from "./events";
-import { newWebsocket, WebSocketTypes } from "./ws-impl-wrapper";
+import { newWebsocket, type WebSocketTypes } from "./ws-impl-wrapper";
 
 export type SendFunction = (msg: OutgoingMessage) => void;
 
@@ -184,7 +184,7 @@ export class WSTichuClient {
         this.waitingForResponse.keys(),
       );
       // Invoke callback
-      this.waitingForResponse.get(msg.txId)!();
+      this.waitingForResponse.get(msg.txId)?.();
       // Remove entry from queue
       this.waitingForResponse.delete(msg.txId);
       this.debug(
@@ -227,7 +227,7 @@ export class WSTichuClient {
     return ws;
   }
 
-  private debug = (...msg: any) => {
+  private debug = (...msg: unknown[]) => {
     this.handler.debug(msg);
   };
 }

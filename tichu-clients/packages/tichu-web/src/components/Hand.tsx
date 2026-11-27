@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { Card } from "tichu-client-ts-lib";
+import React, { type FC } from "react";
+import type { Card } from "tichu-client-ts-lib";
 import { CardSet } from "./CardSet";
 
 const SendButton: FC<{
@@ -9,7 +9,7 @@ const SendButton: FC<{
 }> = ({ enabled, cardCount, handleClick }) => {
   const text = cardCount > 0 ? "Send" : "Pass!";
   return (
-    <button disabled={!enabled} onClick={handleClick}>
+    <button type="button" disabled={!enabled} onClick={handleClick}>
       {text}
     </button>
   );

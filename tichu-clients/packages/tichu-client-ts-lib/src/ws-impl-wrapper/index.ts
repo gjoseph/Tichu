@@ -1,4 +1,4 @@
-import {
+import type {
   EventParam,
   EventType,
   OnCloseParams,
@@ -53,12 +53,14 @@ class WSLibWrapper {
 
   onclose = (e: OnCloseParams) => {
     // browser and ws onclose are incompatible because the latter's WebSocket.CloseEvent.target doesn't allow null
-    const extendEvent: OnCloseParams & { target: any } = this.extendEvent(e);
+    const extendEvent: OnCloseParams & { target: unknown } =
+      this.extendEvent(e);
     this.wsLibWS.onclose(extendEvent);
   };
 
   onerror = (e: OnErrorParams) => {
-    const extendEvent: OnErrorParams & { target: any } = this.extendEvent(e);
+    const extendEvent: OnErrorParams & { target: unknown } =
+      this.extendEvent(e);
     // error and message are not optional in wsLib ErrorEvent
     // TODO should we revisit and make them non-optional in OnErrorParams instead?
     const e2 = {

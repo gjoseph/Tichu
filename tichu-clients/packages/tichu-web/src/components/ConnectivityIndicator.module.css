@@ -1,5 +1,5 @@
 .connectivityIndicator {
-  font-family: "Pixel";
+  font-family: "Pixel", monospace;
   font-size: 8px;
 }
 .up,

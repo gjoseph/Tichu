@@ -1,8 +1,8 @@
-import { User } from "../model/User";
 import { Avatar, Badge } from "@mui/material";
-import React, { FC } from "react";
-import styles from "./PlayerAvatar.module.css";
+import type { FC } from "react";
+import type { User } from "../model/User";
 import { classes, stringToHslColor } from "../util";
+import styles from "./PlayerAvatar.module.css";
 
 export const PlayerAvatar: FC<{
   user: User;

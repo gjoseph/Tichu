@@ -1,6 +1,6 @@
 import { program } from "commander";
-import { newTerminalHandler } from "./term-handler";
 import { WSTichuClient } from "tichu-client-ts-lib";
+import { newTerminalHandler } from "./term-handler";
 
 const url = "ws://localhost:8080/room/some-room-id";
 
