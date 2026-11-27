@@ -51,7 +51,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     process.exit();
   };
 
-  onWebsocketError = (message?: string, _error?: any) => {
+  onWebsocketError = (message?: string, _error?: unknown) => {
     this.log.error(`Websocket error: ${message}`);
     process.exit(-1);
   };
@@ -173,6 +173,8 @@ class TerminalHandler implements TichuWebSocketHandler {
   ) => {
     //: Promise<T> => {
     this.closeCurrentPrompt();
+    // biome-ignore lint/performance/noDynamicNamespaceImportAccess: intentional generic dispatch over prompt types
+    // biome-ignore lint/suspicious/noExplicitAny: cast needed for dynamic dispatch
     const promptFn = prompts[type] as any;
     return promptFn(question, { signal: this.controller.signal });
   };
@@ -190,6 +192,7 @@ class TerminalHandler implements TichuWebSocketHandler {
         { name: "Team #2", value: 1 },
       ],
       message: "Join a team?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.teamId >= 0) {
         return new OutgoingGameMessage(new JoinParam(answers.teamId));
@@ -203,6 +206,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return this.ask("confirm", {
       // name: "ready",
       message: "Are you ready?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.ready) {
         return new OutgoingGameMessage(new PlayerIsReadyParam());
@@ -216,6 +220,7 @@ class TerminalHandler implements TichuWebSocketHandler {
     return this.ask("confirm", {
       // name: "ready",
       message: "Kick-off new trick?",
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       if (answers.ready) {
         return new OutgoingGameMessage(new NewTrickParam());
@@ -234,6 +239,7 @@ class TerminalHandler implements TichuWebSocketHandler {
       message: "Pick cards", // with space, hit enter to play them. Just hit enter to pass.",
       choices: choices,
       pageSize: 20,
+      // biome-ignore lint/suspicious/noExplicitAny: inquirer returns untyped answers object
     }).then((answers: any) => {
       return new OutgoingGameMessage(
         PlayerPlaysParam.fromShortNames(answers.cards),
@@ -245,9 +251,9 @@ class TerminalHandler implements TichuWebSocketHandler {
     this.log.error(`Yeah nah ${s}`);
   };
 
-  debug = (...msg: any[]) => {
+  debug = (...msg: unknown[]) => {
     const msgStr = msg
-      .map((m: any) => {
+      .map((m: unknown) => {
         if (typeof m !== "string") {
           return JSON.stringify(m, null, 2);
         } else {
@@ -260,6 +266,7 @@ class TerminalHandler implements TichuWebSocketHandler {
 }
 
 type PromptFunctionKeys = {
+  // biome-ignore lint/suspicious/noExplicitAny: utility type to filter function-valued keys
   [K in keyof typeof prompts]: (typeof prompts)[K] extends (...args: any) => any
     ? K
     : never;

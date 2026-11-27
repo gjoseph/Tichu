@@ -35,7 +35,7 @@ export enum SpecialCards {
   Dragon,
 }
 
-function _isSpecialCard(object: any): object is SpecialCard {
+function _isSpecialCard(object: unknown): object is SpecialCard {
   return "member" in object;
 }
 

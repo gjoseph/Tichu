@@ -227,7 +227,7 @@ export class WSTichuClient {
     return ws;
   }
 
-  private debug = (...msg: any) => {
+  private debug = (...msg: unknown[]) => {
     this.handler.debug(msg);
   };
 }

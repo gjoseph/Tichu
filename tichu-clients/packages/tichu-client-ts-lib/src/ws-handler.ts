@@ -28,7 +28,7 @@ export interface TichuWebSocketHandler {
   /**
    * Browser websocket error events don't have a message or error object
    */
-  onWebsocketError: (message?: string, error?: any) => void;
+  onWebsocketError: (message?: string, error?: unknown) => void;
   onPing: () => void;
   onPong: () => void;
 

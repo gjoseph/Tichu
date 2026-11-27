@@ -62,11 +62,11 @@ export const CardView: FC<CardViewProps> = ({
     styles[size],
   );
   return (
-    <div className={cssClass} onClick={handleClick} role="button">
+    <button type="button" className={cssClass} onClick={handleClick}>
       <div className={styles.cardShortName} style={{ color: color }}>
         {symbol}
       </div>
       <div className={styles.cardName}>{card.name}</div>
-    </div>
+    </button>
   );
 };

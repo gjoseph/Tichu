@@ -9,7 +9,7 @@ const SendButton: FC<{
 }> = ({ enabled, cardCount, handleClick }) => {
   const text = cardCount > 0 ? "Send" : "Pass!";
   return (
-    <button disabled={!enabled} onClick={handleClick}>
+    <button type="button" disabled={!enabled} onClick={handleClick}>
       {text}
     </button>
   );

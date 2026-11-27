@@ -57,7 +57,9 @@ const SimuRoom: React.FC = () => {
   return (
     <>
       <Game gameState={gameState} {...events} />
-      <button onClick={handleClick}>SIMULATE RECEIVE HAND</button>
+      <button type="button" onClick={handleClick}>
+        SIMULATE RECEIVE HAND
+      </button>
     </>
   );
 };

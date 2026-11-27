@@ -20,7 +20,7 @@ export type EventType =
   // for each actionType, we have more possible results:
   | IncomingResult;
 
-export type EventParam<_T extends EventType> = {};
+export type EventParam<_T extends EventType> = object;
 
 // Events params are the common properties of browser websocket and the ws package's corresponding events,
 
@@ -34,7 +34,7 @@ export interface OnCloseParams extends EventParam<"disconnect"> {
 // browser Websocket does not have an ErrorEvent type; it's a generic Event with type "error", no message or error object.
 export interface OnErrorParams extends EventParam<"error"> {
   message?: string;
-  error?: any;
+  error?: unknown;
 }
 
 // browser Websocket as `lastEventId` and `origin` properties in addition for MessageEvent, not sure what they're for

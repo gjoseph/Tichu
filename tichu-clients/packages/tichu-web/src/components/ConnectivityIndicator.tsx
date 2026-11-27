@@ -37,6 +37,7 @@ export const ConnectivityIndicator: FC<{
   return (
     <div className={styles.connectivityIndicator}>
       <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg">
+        <title>Connectivity indicator</title>
         <rect fill="#333" x="0" y="0" height="50" width="100" rx="10" />
         <rect fill="#000" x="2" y="2" height="46" width="96" rx="8" />
         <path fill={up} d="m25.568 45h-15l20-40 20 40h-15z" />
