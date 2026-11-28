@@ -34,8 +34,8 @@ jobs:
             java-version-label: "GraalVM 25"
             experimental: true
     steps:
-      - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
         name: Set up Mise environment
         with:
           cache: true
@@ -61,7 +61,7 @@ jobs:
       run:
         working-directory: ./tichu-clients
     steps:
-      - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: jdx/mise-action@924e7c586e33d7d4bae9c14e26c5d22e2beb6e78 # v5
       - run: pnpm install
       - run: pnpm run ${{ matrix.npm-command }}
